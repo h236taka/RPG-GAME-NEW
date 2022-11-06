@@ -1629,9 +1629,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else{
           display_player_turn(&st, player_turn);
-          printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE\n");
+          printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
           printf("\n");
-          printf("1~5を入力してください\n");
+          printf("1~6を入力してください\n");
           command =  _getch();
           if ( command == '1' ){   //攻撃コマンド
             if ( encount_pattern == 1 ){   //敵１体
@@ -2492,6 +2492,11 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
               move_finish = 1;
             }
           }
+          else if ( command ==  '6' ){
+            turn_decrease = 0.1;
+            player_turn = calculate_player_turn(player_turn, turn_decrease);
+            move_finish = 1;
+          }
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
             if ( encount_pattern == 1 ){
@@ -2571,9 +2576,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         else{
           printf("%f\n", player_turn);
           display_player_turn(&st2, player_turn);
-          printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE\n");
+          printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
           printf("\n");
-          printf("1~5を入力してください\n");
+          printf("1~6を入力してください\n");
           command =  _getch();
           if ( command == '1' ){   //攻撃コマンド
             if ( encount_pattern == 1 ){   //敵１体
@@ -3382,6 +3387,11 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
               player_turn = 0;
             }
           }
+          else if ( command == '6' ){
+            turn_decrease = 0.1;
+            player_turn = calculate_player_turn(player_turn, turn_decrease);
+            move_finish = 1;
+          }
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
             if ( encount_pattern == 1 ){
@@ -3458,9 +3468,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         else{
           printf("%f\n", player_turn);
           display_player_turn(&st3, player_turn);
-          printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE\n");
+          printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
           printf("\n");
-          printf("1~5を入力してください\n");
+          printf("1~6を入力してください\n");
           command =  _getch();
           if ( command == '1' ){   //攻撃コマンド
             if ( encount_pattern == 1 ){   //敵１体
@@ -4264,6 +4274,11 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
               move_finish = 1;
               player_turn = 0;
             }
+          }
+          else if ( command == '6' ){
+            turn_decrease = 0.1;
+            player_turn = calculate_player_turn(player_turn, turn_decrease);
+            move_finish = 1;
           }
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
