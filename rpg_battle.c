@@ -2492,10 +2492,11 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
               move_finish = 1;
             }
           }
-          else if ( command ==  '6' ){
+          else if ( command == '6' ){
             turn_decrease = 0.1;
             player_turn = calculate_player_turn(player_turn, turn_decrease);
             move_finish = 1;
+            player_guard = 0;
           }
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
@@ -3391,6 +3392,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             turn_decrease = 0.1;
             player_turn = calculate_player_turn(player_turn, turn_decrease);
             move_finish = 1;
+            player_guard2 = 0;
           }
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
@@ -4279,6 +4281,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             turn_decrease = 0.1;
             player_turn = calculate_player_turn(player_turn, turn_decrease);
             move_finish = 1;
+            player_guard3 = 0;
           }
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
