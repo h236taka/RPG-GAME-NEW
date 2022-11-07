@@ -339,6 +339,12 @@ void display_enemy_copy_turn(Enemy *enemy_copy1, double enemy_turn);
 
 //rpg_battle_display.c (To show graphycal battle)
 
+int player_normal_attack_target2(Enemy ****enemy, Enemy *enemy_copy1);
+
+int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2);
+
+int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3);
+
 //display about players
 void hp_graphycal_display(Player ****st, Player ****st2, Player ****st3);
 
@@ -353,7 +359,9 @@ void encount_pattern1_layout(Enemy ****enemy, int encount_pattern);
 //(同じ敵２体)
 void encount_pattern2_layout(Enemy ****enemy, Enemy *enemy_copy1, int encount_pattern);
 //(同じ敵3体)
-void encount_pattern3_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy * enemy_copy2, int encount_pattern);
+void encount_pattern3_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, int encount_pattern);
+
+void encount_pattern4_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3, int encount_pattern);
 
 //battle_skill.c ( about players and enemies skills function and to decide enemies move pattern)
 int player_ability(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user);

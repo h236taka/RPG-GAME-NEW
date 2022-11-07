@@ -1591,6 +1591,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     else if ( encount_pattern == 3 ){
       encount_pattern3_layout(&enemy, &enemy_copy1, &enemy_copy2, encount_pattern);
     }
+    else if ( encount_pattern == 4 ){
+      encount_pattern4_layout(&enemy, &enemy_copy1, &enemy_copy2, &enemy_copy3, encount_pattern);
+    }
     printf("\n");
 
     printf("       %2s                  %2s                   %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
@@ -1667,7 +1670,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 sleep(1);
                 turn_decrease = -2;
                 player_turn = calculate_player_turn(player_turn, turn_decrease);
-                printf("Block!\n");
+                printf("BLOCK!\n");
               }
               else if ( player_damage == -2 ){
                 //処理なし
@@ -1698,34 +1701,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 2 ){    //敵2体
               do{
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == GOOD ){
-                  printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                  printf("1.%s 2.%s\n", (**enemy) -> name, enemy_copy1.name);
-                  printf("\n");
-                  command =  _getch();
-                }
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == DEAD ){
-                  do {
-                    printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                    printf("1.%s\n", (**enemy) -> name);
-                    printf("\n");
-                    command =  _getch();
-                    if ( command == 'c' ){
-                      break;
-                    }
-                  } while ( command != '1' );
-                }
-                if ( (**enemy) -> badstatus == DEAD && enemy_copy1.badstatus == GOOD ){
-                  do {
-                    printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                    printf("2.%s\n", enemy_copy1.name);
-                    printf("\n");
-                    command =  _getch();
-                    if ( command == 'c' ){
-                      break;
-                    }
-                  } while ( command != '2' );
-                }
+                //どちらの敵に攻撃するかチェック
+                command = player_normal_attack_target2(&enemy,&enemy_copy1);
+
                 if ( command == '1' ){
                   player_damage = player_attack(&st, &enemy, &enemy_deadcount);
                   if ( player_damage > 0 ){
@@ -1756,7 +1734,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -1815,7 +1793,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -1855,73 +1833,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 3 ){   //敵３体
               do{
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == GOOD && enemy_copy2.badstatus == GOOD ){
-                  printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                  printf("1.%s 2.%s 3.%s\n", (**enemy) -> name, enemy_copy1.name, enemy_copy2.name);
-                  printf("\n");
-                  command =  _getch();
-                }
-                if ( (**enemy) -> badstatus == GOOD ){
-                  if ( enemy_copy1.badstatus == GOOD && enemy_copy2.badstatus == DEAD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("1.%s 2.%s\n", (**enemy) -> name, enemy_copy1.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' && command != '2' );
-                  }
-                  if ( enemy_copy1.badstatus == DEAD && enemy_copy2.badstatus == GOOD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("1.%s 3.%s\n", (**enemy) -> name, enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' && command != '3' );
-                  }
-                }
-                if ( enemy_copy1.badstatus == GOOD ){
-                  if ( (**enemy) -> badstatus == DEAD && enemy_copy2.badstatus == GOOD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("2.%s 3.%s\n", enemy_copy1.name, enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '2' && command != '3' );
-                  }
-                  if ( (**enemy) -> badstatus == DEAD && enemy_copy2.badstatus == DEAD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("2.%s\n", enemy_copy1.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '2' );
-                  }
-                }
-                if ( enemy_copy2.badstatus == GOOD ){
-                  if ( (**enemy) -> badstatus == DEAD && enemy_copy1.badstatus == DEAD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("3.%s\n", enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '3' );
-                  }
-                }
+
+                command = player_normal_attack_target3(&enemy,&enemy_copy1,&enemy_copy2);
+
                 if ( command == '1' ){
                   player_damage = player_attack(&st, &enemy, &enemy_deadcount);
                   if ( player_damage > 0 ){
@@ -1952,7 +1866,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -2011,7 +1925,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -2070,7 +1984,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -2109,59 +2023,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 4 ){   //敵４体
               do{
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == GOOD && enemy_copy2.badstatus == GOOD && enemy_copy3.badstatus == GOOD ){
-                  printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                  printf("1.%s 2.%s 3.%s 4.%s\n", (**enemy) -> name, enemy_copy1.name, enemy_copy2.name, enemy_copy3.name);
-                  printf("\n");
-                  command =  _getch();
-                }
 
-                if ( (**enemy) -> badstatus == GOOD ){
-                  if ( enemy_copy1.badstatus == GOOD && enemy_copy2.badstatus == GOOD && enemy_copy3.badstatus == DEAD ){
-                    do{
-                      printf("攻撃する対象を選んでください(戻る場合は9を入力してください)\n");
-                      printf("1.%s 2.%s 3.%s\n", (**enemy) -> name, enemy_copy1.name, enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' && command != '2' && command != '3' );
-                  }
-                  if ( enemy_copy1.badstatus == GOOD && enemy_copy2.badstatus == DEAD && enemy_copy3.badstatus == GOOD ){
-                    do{
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("1.%s 2.%s 4.%s\n", (**enemy) -> name, enemy_copy1.name, enemy_copy3.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' && command != '2' && command != '4' );
-                  }
-                  if ( enemy_copy1.badstatus == DEAD && enemy_copy2.badstatus == GOOD && enemy_copy3.badstatus == GOOD ){
-                    do{
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("1.%s 3.%s 4.%s\n", (**enemy) -> name, enemy_copy2.name, enemy_copy3.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' && command != '3' && command != '4' );
-                  }
-                  if ( enemy_copy1.badstatus == DEAD && enemy_copy2.badstatus == DEAD && enemy_copy3.badstatus == DEAD ){
-                    do{
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("1.%s\n", (**enemy) -> name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' );
-                  }
-                }
+                command = player_normal_attack_target4(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+
                 if ( command == '1' ){
                   player_damage = player_attack(&st, &enemy, &enemy_deadcount);
                   if ( player_damage > 0 ){
@@ -2310,7 +2174,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -2369,7 +2233,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -2612,7 +2476,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 sleep(1);
                 turn_decrease = -2;
                 player_turn = calculate_player_turn(player_turn, turn_decrease);
-                printf("Block!\n");
+                printf("BLOCK!\n");
               }
               else if ( player_damage == -2 ){
                 //処理なし
@@ -2643,34 +2507,10 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 2 ){    //敵2体
               do{
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == GOOD ){
-                  printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                  printf("1.%s 2.%s\n", (**enemy) -> name, enemy_copy1.name);
-                  printf("\n");
-                  command =  _getch();
-                }
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == DEAD ){
-                  do {
-                    printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                    printf("1.%s\n", (**enemy) -> name);
-                    printf("\n");
-                    command =  _getch();
-                    if ( command == 'c' ){
-                      break;
-                    }
-                  } while ( command != '1' );
-                }
-                if ( (**enemy) -> badstatus == DEAD && enemy_copy1.badstatus == GOOD ){
-                  do {
-                    printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                    printf("2.%s\n", enemy_copy1.name);
-                    printf("\n");
-                    command =  _getch();
-                    if ( command == 'c' ){
-                      break;
-                    }
-                  } while ( command != '2' );
-                }
+
+                //どちらの敵に攻撃するかチェック
+                command = player_normal_attack_target2(&enemy,&enemy_copy1);
+
                 if ( command == '1' ){
                   player_damage = player_attack(&st2, &enemy, &enemy_deadcount);
                   if ( player_damage > 0 ){
@@ -2701,7 +2541,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -2759,7 +2599,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -2799,73 +2639,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 3 ){   //敵３体
               do{
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == GOOD && enemy_copy2.badstatus == GOOD ){
-                  printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                  printf("1.%s 2.%s 3.%s\n", (**enemy) -> name, enemy_copy1.name, enemy_copy2.name);
-                  printf("\n");
-                  command =  _getch();
-                }
-                if ( (**enemy) -> badstatus == GOOD ){
-                  if ( enemy_copy1.badstatus == GOOD && enemy_copy2.badstatus == DEAD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("1.%s 2.%s\n", (**enemy) -> name, enemy_copy1.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' && command != '2' );
-                  }
-                  if ( enemy_copy1.badstatus == DEAD && enemy_copy2.badstatus == GOOD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("1.%s 3.%s\n", (**enemy) -> name, enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' && command != '3' );
-                  }
-                }
-                if ( enemy_copy1.badstatus == GOOD ){
-                  if ( (**enemy) -> badstatus == DEAD && enemy_copy2.badstatus == GOOD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("2.%s 3.%s\n", enemy_copy1.name, enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '2' && command != '3' );
-                  }
-                  if ( (**enemy) -> badstatus == DEAD && enemy_copy2.badstatus == DEAD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("2.%s\n", enemy_copy1.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '2' );
-                  }
-                }
-                if ( enemy_copy2.badstatus == GOOD ){
-                  if ( (**enemy) -> badstatus == DEAD && enemy_copy1.badstatus == DEAD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("3.%s\n", enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '3' );
-                  }
-                }
+
+                command = player_normal_attack_target3(&enemy,&enemy_copy1,&enemy_copy2);
+
                 if ( command == '1' ){
                   player_damage = player_attack(&st2, &enemy, &enemy_deadcount);
                   if ( player_damage > 0 ){
@@ -2896,7 +2672,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -2956,7 +2732,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3015,7 +2791,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3054,10 +2830,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 4 ){   //敵４体
               do{
-                printf("攻撃する対象を選んでください\n");
-                printf("1.%s 2.%s 3.%s 4.%s\n", (**enemy) -> name, enemy_copy1.name, enemy_copy2.name, enemy_copy3.name);
-                printf("\n");
-                command =  _getch();
+
+                command = player_normal_attack_target4(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+
                 if ( command == '1' ){
                   player_damage = player_attack(&st2, &enemy, &enemy_deadcount);
                   if ( player_damage > 0 ){
@@ -3088,7 +2863,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3147,7 +2922,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3206,7 +2981,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3265,7 +3040,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3505,7 +3280,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 sleep(1);
                 turn_decrease = -2;
                 player_turn = calculate_player_turn(player_turn, turn_decrease);
-                printf("Block!\n");
+                printf("BLOCK!\n");
               }
               else if ( player_damage == -2 ){
                 //処理なし
@@ -3536,34 +3311,10 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 2 ){    //敵2体
               do{
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == GOOD ){
-                  printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                  printf("1.%s 2.%s\n", (**enemy) -> name, enemy_copy1.name);
-                  printf("\n");
-                  command =  _getch();
-                }
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == DEAD ){
-                  do {
-                    printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                    printf("1.%s\n", (**enemy) -> name);
-                    printf("\n");
-                    command =  _getch();
-                    if ( command == 'c' ){
-                      break;
-                    }
-                  } while ( command != '1' );
-                }
-                if ( (**enemy) -> badstatus == DEAD && enemy_copy1.badstatus == GOOD ){
-                  do {
-                    printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                    printf("2.%s\n", enemy_copy1.name);
-                    printf("\n");
-                    command =  _getch();
-                    if ( command == 'c' ){
-                      break;
-                    }
-                  } while ( command != '2' );
-                }
+
+                //どちらの敵に攻撃するかチェック
+                command = player_normal_attack_target2(&enemy,&enemy_copy1);
+
                 if ( command == '1' ){
                   player_damage = player_attack(&st3, &enemy, &enemy_deadcount);
                   if ( player_damage > 0 ){
@@ -3653,7 +3404,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3693,73 +3444,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 3 ){   //敵３体
               do{
-                if ( (**enemy) -> badstatus == GOOD && enemy_copy1.badstatus == GOOD && enemy_copy2.badstatus == GOOD ){
-                  printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                  printf("1.%s 2.%s 3.%s\n", (**enemy) -> name, enemy_copy1.name, enemy_copy2.name);
-                  printf("\n");
-                  command =  _getch();
-                }
-                if ( (**enemy) -> badstatus == GOOD ){
-                  if ( enemy_copy1.badstatus == GOOD && enemy_copy2.badstatus == DEAD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("1.%s 2.%s\n", (**enemy) -> name, enemy_copy1.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' && command != '2' );
-                  }
-                  if ( enemy_copy1.badstatus == DEAD && enemy_copy2.badstatus == GOOD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("1.%s 3.%s\n", (**enemy) -> name, enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '1' && command != '3' );
-                  }
-                }
-                if ( enemy_copy1.badstatus == GOOD ){
-                  if ( (**enemy) -> badstatus == DEAD && enemy_copy2.badstatus == GOOD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("2.%s 3.%s\n", enemy_copy1.name, enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '2' && command != '3' );
-                  }
-                  if ( (**enemy) -> badstatus == DEAD && enemy_copy2.badstatus == DEAD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("2.%s\n", enemy_copy1.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while ( command != '2' );
-                  }
-                }
-                if ( enemy_copy2.badstatus == GOOD ){
-                  if ( (**enemy) -> badstatus == DEAD && enemy_copy1.badstatus == DEAD ){
-                    do {
-                      printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-                      printf("3.%s\n", enemy_copy2.name);
-                      printf("\n");
-                      command =  _getch();
-                      if ( command == 'c' ){
-                        break;
-                      }
-                    } while (  command != '3' );
-                  }
-                }
+
+                command = player_normal_attack_target3(&enemy,&enemy_copy1,&enemy_copy2);
+
                 if ( command == '1' ){
                   player_damage = player_attack(&st3, &enemy, &enemy_deadcount);
                   if ( player_damage > 0 ){
@@ -3790,7 +3477,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3849,7 +3536,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3908,7 +3595,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -3947,10 +3634,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 4 ){   //敵４体
               do{
-                printf("攻撃する対象を選んでください\n");
-                printf("1.%s 2.%s 3.%s 4.%s\n", (**enemy) -> name, enemy_copy1.name, enemy_copy2.name, enemy_copy3.name);
-                printf("\n");
-                command =  _getch();
+
+                command = player_normal_attack_target4(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+
                 if ( command == '1' ){
                   player_damage = player_attack(&st3, &enemy, &enemy_deadcount);
                   if ( player_damage > 0 ){
@@ -3981,7 +3667,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -4040,7 +3726,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -4099,7 +3785,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
@@ -4158,7 +3844,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     sleep(1);
                     turn_decrease = -2;
                     player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Block!\n");
+                    printf("BLOCK!\n");
                   }
                   else if ( player_damage == -2 ){
                     //処理なし
