@@ -19,12 +19,6 @@ void prologue(void){
   sleep(1);
   printf("しかし・・・\n");
   sleep(1);
-  printf("突如として学園生活は一変する\n");
-  sleep(1);
-  printf("元町学園は魔界に引きずり込まれる・・・\n");
-  sleep(1);
-  printf("学生達は魔界から脱出出来るのか・・・!\n");
-  sleep(1);
 }
 
 int check_player_name(Player **st){

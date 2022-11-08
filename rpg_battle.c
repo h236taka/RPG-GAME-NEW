@@ -881,6 +881,9 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
       if ( eva >= 1 && eva <= i ){   //回避率eva_base%
         damage = 0;
         eva_count++;
+        turn_decrease = -2;
+        enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        return enemy_turn;
       }
     }
   }
@@ -4074,7 +4077,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         printf("\n");
         //printf("enemy's badstatus:%d\n", (**enemy) -> badstatus);
         //printf("enemy_copy1's badstatus:%d\n", enemy_copy1.badstatus);
-        if ( (**enemy) -> badstatus == GOOD ){
+        if ( (**enemy) -> badstatus != DEAD ){
           display_enemy_turn(&enemy, enemy_turn);
           //enemyの攻撃
           printf("%f\n", enemy_turn);
@@ -4092,7 +4095,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           break;
         }
 
-        if ( enemy_copy1.badstatus == GOOD ){
+        if ( enemy_copy1.badstatus != DEAD ){
           sleep(1);
           display_enemy_copy_turn(&enemy_copy1, enemy_turn);
           //enemyの攻撃
@@ -4146,7 +4149,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         printf("\n");
         //printf("enemy's badstatus:%d\n", (**enemy) -> badstatus);
         //printf("enemy_copy1's badstatus:%d\n", enemy_copy1.badstatus);
-        if ( (**enemy) -> badstatus == GOOD ){
+        if ( (**enemy) -> badstatus != DEAD ){
           display_enemy_turn(&enemy, enemy_turn);
           //enemyの攻撃
           printf("%f\n", enemy_turn);
@@ -4164,7 +4167,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           break;
         }
 
-        if ( enemy_copy1.badstatus == GOOD ){
+        if ( enemy_copy1.badstatus != DEAD ){
           sleep(1);
           display_enemy_copy_turn(&enemy_copy1, enemy_turn);
           //enemyの攻撃
@@ -4181,13 +4184,116 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           break;
         }
 
-        if ( enemy_copy2.badstatus == GOOD ){
+        if ( enemy_copy2.badstatus != DEAD ){
           sleep(1);
           display_enemy_copy_turn(&enemy_copy2, enemy_turn);
           //enemyの攻撃
           printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy2, player_guard, player_guard2, player_guard3, enemy_turn);
+          sleep(1);
+          printf("%f\n", enemy_turn);
+        }
+
+      }
+      else if ( encount_pattern == 4 ){
+        enemy_turn = 4;
+        if ( (**enemy) -> badstatus == DEAD ){
+          enemy_turn--;
+        }
+        if ( enemy_copy1.badstatus == DEAD ){
+          enemy_turn--;
+        }
+        if ( enemy_copy2.badstatus == DEAD ){
+          enemy_turn--;
+        }
+        if ( enemy_copy3.badstatus == DEAD ){
+          enemy_turn--;
+        }
+
+        if ( enemy_turn != enemy_turn_temp && enemy_turn_temp != -2 ){
+          enemy_turn = enemy_turn_temp;
+        }
+        //printf("enemy_turn:%f\n", enemy_turn);
+        printf("                 <<<<<<<ENEMY TURN>>>>>>>\n");
+        printf("\n");
+        encount_pattern4_layout(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3,encount_pattern);
+        printf("\n");
+        sleep(1);
+
+        printf("       %3s                   %3s                    %3s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+        printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d          HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+        battle_display_condition_count = 0;
+        hp_graphycal_display(&st,&st2,&st3);
+        mp_graphycal_display(&st,&st2,&st3);
+        battle_display_condition(&st, battle_display_condition_count);
+        battle_display_condition_count++;
+        battle_display_condition(&st2, battle_display_condition_count);
+        battle_display_condition_count++;
+        battle_display_condition(&st3, battle_display_condition_count);
+        printf("\n");
+        //printf("enemy's badstatus:%d\n", (**enemy) -> badstatus);
+        //printf("enemy_copy1's badstatus:%d\n", enemy_copy1.badstatus);
+        if ( (**enemy) -> badstatus != DEAD ){
+          display_enemy_turn(&enemy, enemy_turn);
+          //enemyの攻撃
+          printf("%f\n", enemy_turn);
+          sleep(1);
+          enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
+          sleep(1);
+          printf("%f\n", enemy_turn);
+          printf("\n");
+        }
+
+        if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
+          display_gameover();
+        }
+        if ( enemy_turn == 0 ){
+          break;
+        }
+
+        if ( enemy_copy1.badstatus !=DEAD ){
+          sleep(1);
+          display_enemy_copy_turn(&enemy_copy1, enemy_turn);
+          //enemyの攻撃
+          printf("%f\n", enemy_turn);
+          sleep(1);
+          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
+          sleep(1);
+          printf("%f\n", enemy_turn);
+        }
+        if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
+          display_gameover();
+        }
+        if ( enemy_turn == 0 ){
+          break;
+        }
+
+        if ( enemy_copy2.badstatus != DEAD ){
+          sleep(1);
+          display_enemy_copy_turn(&enemy_copy2, enemy_turn);
+          //enemyの攻撃
+          printf("%f\n", enemy_turn);
+          sleep(1);
+          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy2, player_guard, player_guard2, player_guard3, enemy_turn);
+          sleep(1);
+          printf("%f\n", enemy_turn);
+        }
+
+        if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
+          display_gameover();
+        }
+        if ( enemy_turn == 0 ){
+          break;
+        }
+
+        if ( enemy_copy3.badstatus != DEAD ){
+          sleep(1);
+          display_enemy_copy_turn(&enemy_copy3, enemy_turn);
+          //enemyの攻撃
+          printf("%f\n", enemy_turn);
+          sleep(1);
+          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy3, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           printf("%f\n", enemy_turn);
         }
@@ -4208,21 +4314,23 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   (**enemy) -> hp = (**enemy) -> maxhp;
   (**enemy) -> mp = (**enemy) -> maxmp;
 
+  result_exp = 0;
+  result_gold = 0;
   if ( encount_pattern == 1 ){
     result_exp = (**enemy) -> exp;
     result_gold = (**enemy) -> gold;
   }
   else if ( encount_pattern == 2 ){
-    result_exp = 0;
-    result_gold = 0;
     result_exp = (**enemy) -> exp + enemy_copy1.exp;
     result_gold = (**enemy) -> gold + enemy_copy1.gold;
   }
   else if ( encount_pattern == 3 ){
-    result_exp = 0;
-    result_gold = 0;
     result_exp = (**enemy) -> exp + enemy_copy1.exp + enemy_copy2.exp;
     result_gold = (**enemy) -> gold + enemy_copy1.gold + enemy_copy2.gold;
+  }
+  else if ( encount_pattern == 4 ){
+    result_exp = (**enemy) -> exp + enemy_copy1.exp + enemy_copy2.exp + enemy_copy3.exp;
+    result_gold = (**enemy) -> gold + enemy_copy1.gold + enemy_copy2.gold + enemy_copy3.gold;
   }
 
   printf("\a");

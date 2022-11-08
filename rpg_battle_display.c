@@ -894,34 +894,34 @@ void encount_pattern4_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_c
   }
 
   if ( enemy_copy3 -> badstatus == GOOD ){
-    printf("          %s(GOOD)\n", enemy_copy2 -> name);
+    printf("          %s(GOOD)\n", enemy_copy3 -> name);
   }
   else if ( enemy_copy3 -> badstatus == DEAD ){
     printf("                  ");
   }
   else if ( enemy_copy3 -> badstatus == POISON ){
-    printf("          %s(POISON)\n", enemy_copy2 -> name);
+    printf("          %s(POISON)\n", enemy_copy3 -> name);
   }
   else if ( enemy_copy3 -> badstatus == PALYZE ){
-    printf("          %s(PALYZE)\n", enemy_copy2 -> name);
+    printf("          %s(PALYZE)\n", enemy_copy3 -> name);
   }
   else if ( enemy_copy3 -> badstatus == CHARM ){
-    printf("          %s(CHARM)\n", enemy_copy2 -> name);
+    printf("          %s(CHARM)\n", enemy_copy3 -> name);
   }
   else if ( enemy_copy3 -> badstatus == CLOSE ){
-    printf("          %s(CLOSE)\n", enemy_copy2 -> name);
+    printf("          %s(CLOSE)\n", enemy_copy3 -> name);
   }
   else if ( enemy_copy3 -> badstatus == STONE ){
-    printf("          %s(STONE)\n", enemy_copy2 -> name);
+    printf("          %s(STONE)\n", enemy_copy3 -> name);
   }
   else if ( enemy_copy3 -> badstatus == PANIC ){
-    printf("          %s(PANIC)\n", enemy_copy2 -> name);
+    printf("          %s(PANIC)\n", enemy_copy3 -> name);
   }
   else if ( enemy_copy3 -> badstatus == SLEEP ){
-    printf("          %s(SLEEP)\n", enemy_copy2 -> name);
+    printf("          %s(SLEEP)\n", enemy_copy3 -> name);
   }
   else if ( enemy_copy3 -> badstatus == CURSE ){
-    printf("          %s(CURSE)\n", enemy_copy2 -> name);
+    printf("          %s(CURSE)\n", enemy_copy3 -> name);
   }
 
   printf("\n");

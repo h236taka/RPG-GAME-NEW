@@ -852,7 +852,7 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
     //event処理
     if ( map.x == 1 && map.y == 12 && (*area1) -> event1 == 1 ){
       printf("event!\n");
-      encount_pattern = 2;
+      encount_pattern = 4;
       (*enemy) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
 
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy, encount_pattern);
