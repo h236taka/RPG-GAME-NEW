@@ -180,12 +180,16 @@ void level_up(Player ****st, P_skill ****player_skill){
       }
 
       (***st) -> exp = 0;
+
+      //次のレベルまでの必要経験値
+      (***st) -> nextexp = exp_function - (***st) -> exp;
     }
     else{
+      //次のレベルまでの必要経験値
+      (***st) -> nextexp = exp_function - (***st) -> exp;
+      printf("%s LV:%d NEXTEXP:%d\n", (***st) -> name, (***st) -> lv, (***st) -> nextexp);
       finish_count++;
     }
-    //次のレベルまでの必要経験値
-    (***st) -> nextexp = exp_function - (***st) -> exp;
 
   }while( finish_count == 0 );
 

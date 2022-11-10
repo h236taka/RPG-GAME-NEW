@@ -404,30 +404,46 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
 void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items){
   int input;
-  printf("\n");
-  printf("%sは冒険を続けている・・・\n", st -> name);
-  printf("\a");
-  printf("---STAGE2---\n");
 
-  //display_status(&st);
+  printf("%s達は渡り廊下での戦いを終えて教室に戻ってきた。\n", st -> name);
+  sleep(2);
+  printf("クラスメイト「何が何だか分からないけど、凄かったよ!」\n");
+  sleep(2);
+  printf("クラスメイト「そういえば、校長先生が%s達を呼んでいたよ。」\n", st -> name);
+  sleep(2);
+  printf("%s「校長室に行ってみよう!」\n", st2 -> name);
+  sleep(2);
 
-  sleep(1);
-  printf("目の前に回復の泉がある!\n");
-  sleep(1);
+  printf("校長室...\n");
+  sleep(2);
+  printf("校長先生「来てくれたか！」\n");
+  sleep(2);
+  printf("校長「単刀直入に言おう、君たちに何とかしてほしいんだ。」\n");
+  sleep(2);
+  printf("校長「学校からも出られないし、インターネットも使えないから連絡も取れない。」\n");
+  sleep(2);
+  printf("校長「電気や水道は使えるが、不便極まりない事には変わりない。」\n");
+  sleep(2);
+  printf("校長「どうやら君たちは凄い力を手に入れて、悪魔どもと戦う術を持っているそうだね」\n");
+  sleep(2);
+  printf("校長「その力で我々を元の世界に戻してくれ！ 引き受けてくれるね？」\n");
 
-  printf("回復しますか?(全回復:20GOLD)\n");
-  printf("%sのGOLD:%d\n",st -> name, st -> gold);
-  printf("1:yes 2:no\n");
-  printf("1か2を入力してください!\n");
-  input = getch();
-  if ( input == '1' ){
-    recover_event(&st);
-    st -> gold -= 20;
-    printf("%sのGOLD:%d -> %d\n", st -> name, st -> gold + 20, st -> gold);
-  }
-  if ( input == '2' ){
-    printf("%sは回復の泉を後にして先を急いだ・・・\n", st -> name);
-  }
+  do{
+    printf("校長のお願いを引き受けますか？\n");
+    printf("1. YES 2. NO\n");
+    input = _getch();
+
+    if ( input == '1' ){
+      //OK
+    }
+    else if ( input == '2' ){
+      printf("校長「君たちしかいないんだ！」\n");
+      printf("\n");
+    }
+
+  }while ( input != '1' );
+
+
 
   printf("\a");
   printf("---STAGE2 CLEARED!!---\n");

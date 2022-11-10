@@ -47,14 +47,13 @@ int main(void){
 
   do{
     printf("MAIN MENU\n");
-    printf("1:<<<Load Game>>>\n");
-    printf("2:<<<New Game>>>\n");
+    printf("1:<<<LOAD GAME>>>\n");
+    printf("2:<<<NEW  GAME>>>\n");
     printf("1か2を入力してください(ゲームを起動しない場合はcを入力してください)\n");
     input = _getch();
     if ( input == '1' ){
       load = 1;
       save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, load);
-      start_time = time(NULL);
     }
     else if ( input == '2' ){
       //new gameでは、player.stage_clearは0
@@ -74,8 +73,9 @@ int main(void){
       printf("ゲームを終了します・・・\n");
       exit(EXIT_SUCCESS);
     }
-  }while ( input != '1' && input != '2');
+  }while ( input != '1' && input != '2' );
 
+  //printf("%d\n", player.stage_clear);
   load = 0;
   if ( player.stage_clear == 1 ){
     game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items);

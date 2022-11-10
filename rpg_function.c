@@ -129,8 +129,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
           strcpy(savedata_name1, save_data_players.name);
           savedata_lv1 = save_data_players.lv;
 
+          printf("playtime:%d\n", save_data_players.playtime);
           temp = save_data_players.playtime;
-          temp -= 1000;
+          //temp -= 1000;
           if ( temp >= 3600 ){
             hours = temp / 3600;
             minutes = temp % 3600 / 60;

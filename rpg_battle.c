@@ -4091,7 +4091,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn == 0 ){
+        if ( enemy_turn < 0 ){
           break;
         }
 
@@ -4109,7 +4109,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn == 0 ){
+        if ( enemy_turn < 0 ){
           break;
         }
 
@@ -4163,7 +4163,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn == 0 ){
+        if ( enemy_turn < 0 ){
           break;
         }
 
@@ -4180,7 +4180,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn == 0 ){
+        if ( enemy_turn < 0 ){
           break;
         }
 
@@ -4248,7 +4248,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn == 0 ){
+        if ( enemy_turn < 0 ){
           break;
         }
 
@@ -4265,7 +4265,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn == 0 ){
+        if ( enemy_turn < 0 ){
           break;
         }
 
@@ -4283,7 +4283,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn == 0 ){
+        if ( enemy_turn < 0 ){
           break;
         }
 
@@ -4296,6 +4296,13 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy3, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           printf("%f\n", enemy_turn);
+        }
+
+        if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
+          display_gameover();
+        }
+        if ( enemy_turn < 0 ){
+          break;
         }
 
       }
@@ -4336,12 +4343,12 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   printf("\a");
   sleep(1);
   printf("%s達は戦闘に勝利した!\n", (**st) -> name);
-  printf("------Result------\n");
+  printf("------RESULT------\n");
   printf("  EXP:%d GOLD:%d\n", result_exp, result_gold);
   printf("\n");
 
   //アイテムドロップ
-  if ( encount_pattern == 1 || encount_pattern == 2 ){
+  if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
     item_drop(&st,&st2,&st3,&enemy,&items,encount_pattern);
   }
 
