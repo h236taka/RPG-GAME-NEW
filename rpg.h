@@ -124,14 +124,16 @@ typedef struct map {
   int walk_step;  //歩数
 } Map;
 
-typedef struct area1 {
-  int event1;
-  int event2;
-  int event3;
-  int event4;
-  int boss;
+typedef struct area {
+  double dangeonId;  //ダンジョン識別ID
+  int event1a;
+  int event1b;
+  int event1c;
+  int event1d;
+  int boss1;
   int encount; //敵とエンカウントするか否か 0ならばエンカウントしない 1ならばエンカウント
-} Area1;
+} Area;
+
 
 //パーティのセーブデータ
 typedef struct save_data_players{
@@ -268,19 +270,21 @@ int check_player_name(Player **st);
 void game_start(Player *player, Player *player2, Player *player3);
 
 //rpg.c -> rpg_story.c
-void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area1 *area1, Enemy *enemy, Enemy *enemy1, Enemy *enemy2);
+void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *enemy, Enemy *enemy1, Enemy *enemy2);
 
 void map_tutorial(void);
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items);
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area);
 
 //map.c
-void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **enemy, Enemy **enemy1, Enemy **enemy2);
+void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **enemy, Enemy **enemy1, Enemy **enemy2);
 
-void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Map *map, Area1 ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]);
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items);
+
+void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Map *map, Area ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]);
 
 //about menu function in map.c
-void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Map **map, Area1 ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
+void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
 
 void menu_hp_graphycal_display(Player *****st, Player *****st2, Player *****st3);
 
@@ -302,7 +306,7 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
 
 void status_menu(Player *****st, Player *****st2, Player *****st3);
 
-void map_menu(Map ***map, Area1 *****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
+void map_menu(Map ***map, Area *****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
 
 //map.c -> rpg_battle.c
 void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, int encount_pattern);
@@ -371,6 +375,8 @@ int skill_target_select(Player ****st, Player ****st2, Player ****st3, int use_s
 int battle_player_skill_list(P_skill ****player_skill);
 
 double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number);
+
+int enemy_skill_target(void);
 
 double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
 

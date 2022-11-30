@@ -225,7 +225,7 @@ void map_tutorial(void){
   printf("\n");
 }
 
-void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area1 *area1, Enemy *enemy, Enemy *enemy1, Enemy *enemy2){
+void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *enemy, Enemy *enemy1, Enemy *enemy2){
 
   st -> hp = 30;
   st -> maxhp = 30;
@@ -381,7 +381,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
   //map_tutorial();
   sleep(1);
-  area1_map(&area1, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy, &enemy1, &enemy2);
+  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy, &enemy1, &enemy2);
 
   sleep(2);
 
@@ -402,10 +402,10 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
 }
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items){
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area){
   int input;
 
-  printf("%s達は渡り廊下での戦いを終えて教室に戻ってきた。\n", st -> name);
+  /*printf("%s達は渡り廊下での戦いを終えて教室に戻ってきた。\n", st -> name);
   sleep(2);
   printf("クラスメイト「何が何だか分からないけど、凄かったよ!」\n");
   sleep(2);
@@ -443,6 +443,15 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
 
   }while ( input != '1' );
 
+  sleep(2);
+  printf("校長「ありがとう！」\n");
+  sleep(2);
+  printf("校長「早速だが、君たちには図書館の解放を行ってほしい！」\n");
+  sleep(2);
+  printf("校長「宜しく頼むよ。」\n");
+  sleep(2);*/
+
+  area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items);
 
 
   printf("\a");

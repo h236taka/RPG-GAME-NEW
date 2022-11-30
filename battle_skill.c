@@ -432,6 +432,14 @@ double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, 
   return attack_skill_count;
 }
 
+int enemy_skill_target(void){
+  int target_base;
+
+  target_base = (rand() % ( 3 - 1 + 1 ) + 1); //スキルを使用するターゲットを決定
+
+  return target_base;
+}
+
 //enemyのskillに関わる関数 skill_reaction = 1ならダメージに関係するskill skill_reactionが0ならダメージに関係しないskill
 double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
   int enemy_move, badstatus_per, badstatus_count, recover_point;
@@ -468,31 +476,7 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
   }
   //グール
   else if ( (****enemy) -> enemy_id == 5 ){
-    target_base = (rand() % ( 3 - 1 + 1 ) + 1); //スキルを使用するターゲットを決定
-    if ( target_base == 1 && ( (****st) -> badstatus == DEAD || (****st) -> badstatus == POISON ) ){  //targetが毒状態のときtarget変更
-      if ( (****st2) -> badstatus == GOOD ){
-        target_base = 3;
-      }
-      else{
-        target_base = 2;
-      }
-    }
-    if ( target_base == 2 && ( (****st) -> badstatus == DEAD || (****st) -> badstatus == POISON ) ){
-      if ( (****st3) -> badstatus == GOOD ){
-        target_base = 1;
-      }
-      else{
-        target_base = 3;
-      }
-    }
-    if ( target_base == 3 && ( (****st) -> badstatus == DEAD || (****st) -> badstatus == POISON ) ){
-      if ( (****st) -> badstatus == GOOD ){
-        target_base = 2;
-      }
-      else{
-        target_base = 1;
-      }
-    }
+    target_base = enemy_skill_target();
 
     badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
     printf("badstatus_per:%d\n", badstatus_per);
@@ -541,6 +525,57 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
     turn_decrease = -1;
     enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
+  //ゾンビ
+  else if ( (****enemy) -> enemy_id == 6 ){
+    target_base = enemy_skill_target();
+
+    badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
+    printf("badstatus_per:%d\n", badstatus_per);
+    printf("%s>>パララズ\n", (****enemy) -> name);
+    if ( badstatus_per >= 1 && badstatus_per <= 35 ){
+      if ( target_base == 1 ){
+        if ( (****st) -> badstatus == PALYZE ){
+          printf("%sは既にPALYZEになっている\n", (****st) -> name);
+        }
+        else{
+          (****st) -> badstatus = PALYZE;
+          printf("%sはPALYZEになった\n", (****st) -> name);
+        }
+      }
+      else if ( target_base == 2 ){
+        if ( (****st2) -> badstatus == PALYZE ){
+          printf("%sは既にPALYZEになっている\n", (****st2) -> name);
+        }
+        else{
+          (****st2) -> badstatus = PALYZE;
+          printf("%sはPALYZEになった\n", (****st2) -> name);
+        }
+      }
+      else if ( target_base == 3 ){
+        if ( (****st3) -> badstatus == PALYZE ){
+          printf("%sは既にPALYZEになっている\n", (****st3) -> name);
+        }
+        else{
+          (****st3) -> badstatus = PALYZE;
+          printf("%sはPALYZEになった\n", (****st3) -> name);
+        }
+      }
+    }
+    else{
+      if ( target_base == 1 ){
+        printf("%s<<MISS!!\n", (****st) -> name);
+      }
+      else if ( target_base == 2 ){
+        printf("%s<<MISS!!\n", (****st2) -> name);
+      }
+      else if ( target_base == 3 ){
+        printf("%s<<MISS!!\n", (****st3) -> name);
+      }
+    }
+
+    turn_decrease = -1;
+    enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+  }
   else if ( (****enemy) -> enemy_id == 101 ){    //回復:LV1
     recover_point = (rand() % ( 20 + (****enemy) -> magic * 3 - 20 + 1) ) + 20; //回復量20 ~ 20 + (***enemy) -> magic * 3
     printf("%s:SKILL---回復:LV1---\n", (****enemy) -> name);
@@ -564,31 +599,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
 
   //グールの毒スキル
   if ( (*enemy_copy1) -> enemy_id == 5 ){
-    target_base = (rand() % ( 3 - 1 + 1 ) + 1); //スキルを使用するターゲットを決定
-    if ( target_base == 1 && (****st) -> badstatus == DEAD ){  //targetが毒状態のときtarget変更
-      if ( (****st2) -> badstatus == DEAD ){
-        target_base = 3;
-      }
-      else{
-        target_base = 2;
-      }
-    }
-    if ( target_base == 2 && (****st2) -> badstatus == DEAD ){
-      if ( (****st3) -> badstatus == DEAD ){
-        target_base = 1;
-      }
-      else{
-        target_base = 3;
-      }
-    }
-    if ( target_base == 3 && (****st3) -> badstatus == DEAD ){
-      if ( (****st) -> badstatus == DEAD ){
-        target_base = 2;
-      }
-      else{
-        target_base = 1;
-      }
-    }
+    target_base = enemy_skill_target();
 
     badstatus_per = ( rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
     printf("badstatus_per:%d\n", badstatus_per);
@@ -637,6 +648,56 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
     turn_decrease = -1;
     enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
+  else if ( (*enemy_copy1) -> enemy_id == 6 ){
+    target_base = enemy_skill_target();
+
+    badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
+    printf("badstatus_per:%d\n", badstatus_per);
+    printf("%s>>パララズ\n", (*enemy_copy1) -> name);
+    if ( badstatus_per >= 1 && badstatus_per <= 35 ){
+      if ( target_base == 1 ){
+        if ( (****st) -> badstatus == PALYZE ){
+          printf("%sは既にPALYZEになっている\n", (****st) -> name);
+        }
+        else{
+          (****st) -> badstatus = PALYZE;
+          printf("%sはPALYZEになった\n", (****st) -> name);
+        }
+      }
+      else if ( target_base == 2 ){
+        if ( (****st2) -> badstatus == PALYZE ){
+          printf("%sは既にPALYZEになっている\n", (****st2) -> name);
+        }
+        else{
+          (****st2) -> badstatus = PALYZE;
+          printf("%sはPALYZEになった\n", (****st2) -> name);
+        }
+      }
+      else if ( target_base == 3 ){
+        if ( (****st3) -> badstatus == PALYZE ){
+          printf("%sは既にPALYZEになっている\n", (****st3) -> name);
+        }
+        else{
+          (****st3) -> badstatus = PALYZE;
+          printf("%sはPALYZEになった\n", (****st3) -> name);
+        }
+      }
+    }
+    else{
+      if ( target_base == 1 ){
+        printf("%s<<MISS!!\n", (****st) -> name);
+      }
+      else if ( target_base == 2 ){
+        printf("%s<<MISS!!\n", (****st2) -> name);
+      }
+      else if ( target_base == 3 ){
+        printf("%s<<MISS!!\n", (****st3) -> name);
+      }
+    }
+
+    turn_decrease = -1;
+    enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+  }
   else if ( (*enemy_copy1) -> enemy_id == 101 ){    //回復:LV1
     recover_point = (rand() % (20 + (*enemy_copy1) -> magic * 3 - 20 + 1) ) + 20; //回復量20 ~ 20 + (***enemy) -> magic * 3
     printf("%s:SKILL---回復:LV1---\n", (*enemy_copy1) -> name);
@@ -655,10 +716,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
 double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy ****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
   int enemy_move;
 
-  if ( (***enemy) -> enemy_id == 1 || (***enemy) -> enemy_id == 2 || (***enemy) -> enemy_id == 4 ){
-    enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
-  }
-  else if ( (***enemy) -> enemy_id == 3 ){  //bossゴブリン
+  if ( (***enemy) -> enemy_id == 3 ){  //bossゴブリン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
     if ( enemy_move >= 1 && enemy_move <= 50 ){
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);
@@ -678,6 +736,16 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
+  else if ( (***enemy) -> enemy_id == 6 ){
+    enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
+    //printf("%d\n", enemy_move);
+    if ( enemy_move >= 1 && enemy_move <= 30 ){  //毒攻撃を使用する行動
+      enemy_turn = use_enemy_skill(&st,&st2,&st3,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
+    }
+    else{
+      enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
+    }
+  }
   else if ( (***enemy) -> enemy_id == 101 ){    //skill(回復:LV1)を持つ敵の攻撃パターン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
@@ -690,6 +758,9 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
+  else{
+    enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
+  }
 
   return enemy_turn;
 }
@@ -697,14 +768,20 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy
 double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy *enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
   int enemy_move;
 
-  if ( enemy_copy1 -> enemy_id == 1 || enemy_copy1 -> enemy_id == 2 || enemy_copy1 -> enemy_id == 3 || enemy_copy1 -> enemy_id == 4 ){
-    enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
-    printf("enemy_copy_attack_pattern's enemy_turn:%f\n", enemy_turn);
-  }
-  else if ( enemy_copy1 -> enemy_id == 100 ){    //skill(POISON)を持つ敵の攻撃パターン
+  if ( enemy_copy1 -> enemy_id == 5 ){    //skill(POISON)を持つ敵の攻撃パターン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 35 ){  //毒攻撃を使用する行動
+      enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
+    }
+    else{
+      enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
+    }
+  }
+  else if ( enemy_copy1 -> enemy_id == 6 ){
+    enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
+    //printf("%d\n", enemy_move);
+    if ( enemy_move >= 1 && enemy_move <= 30 ){  //毒攻撃を使用する行動
       enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
     }
     else{
@@ -722,6 +799,9 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
     else{
       enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
     }
+  }
+  else{
+    enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
   }
 
   return enemy_turn;

@@ -19,7 +19,8 @@ int main(void){
   Player player3;
   Items items = {0};
 
-  Area1 area1 = {1,1,1,1,1,0};
+  Area area = {0};
+
 
   //boss_count = １ならばボス扱い
   //boss_count = 2ならば強制戦闘
@@ -34,8 +35,9 @@ int main(void){
   Enemy kobalt = {"コボルト", 20, 20, 0, 0, 2, 1, 2, 1, 1, 2, 10, 20, 0, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 2};
   //boss
   Enemy goblin = {"ゴブリン", 65, 65, 0, 0, 3, 1, 2, 2, 1, 3, 25, 30, 0, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1, 3};
-  Enemy zombiedog = {"ゾンビドッグ", 30, 30, 0, 0, 2, 1, 1, 5, 1, 3, 25, 15, 0, 100, 100, 200, 200, 100, 100, 100, 100, 200, 100, 100, 100, 100, 100, 100, 100, 100, 0, 4};
+  Enemy zombiedog = {"ゾンビドッグ", 30, 30, 0, 0, 2, 1, 1, 5, 1, 3, 25, 15, 0, 100, 100, 200, 200, 100, 100, 100, -1, 200, 100, 100, 100, 100, 100, 100, 100, 100, 0, 4};
   Enemy ghoul = {"グール", 30, 30, 10, 10, 1, 1, 1, 1, 1, 2, 30, 50, 0, 100, 100, 150, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 5};
+  Enemy zombie = {"ゾンビ", 32, 32, 12, 12, 2, 1, 2, 2, 1, 2, 12, 30, 0, 100, 100, 200, 100, 200, 100, 100, -1, 200, 100, 100, 100, 100, 100, 100, 100, -1, 0, 6};
   Enemy pixie = {"ピクシー", 55, 55, 15, 15, 1, 3, 1, 5, 5, 3, 25, 40, 0, 100, 150, 100, 100, 50, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 101};
   Enemy angel = {"エンジェル", 108, 108, 30, 30, 2, 5, 3, 5, 2, 4, 50, 100, 0, 100, 100, 100, 100, 150, 100, 100, 200, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1, 101};
 
@@ -62,7 +64,7 @@ int main(void){
       printf("start_time:%d\n", start_time);
       game_start(&player, &player2, &player3);
       load = 0;
-      game_story1(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &area1, &slime, &kobalt, &goblin);
+      game_story1(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &area, &slime, &zombie, &goblin);
       save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, load);
     }
     else if ( input == '' ){
@@ -78,7 +80,7 @@ int main(void){
   //printf("%d\n", player.stage_clear);
   load = 0;
   if ( player.stage_clear == 1 ){
-    game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items);
+    game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items,&area);//図書館ステージ
     save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, load);
   }
   else if ( player.stage_clear == 2 ){

@@ -26,6 +26,24 @@ static int battle_to_map;
 //eventからmap画面に戻る判定(1なら該当)
 static int event_to_map;
 
+static int automap_area1[16][3] = {
+  {-1, 0, -1},   //event2
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},
+  {-1, 0, -1},   //event1
+  {-1, 0, -1},
+  {-1, 0, -1},     //start
+  {-1, 0, -1} };  //15
+
 void display_3dmap(int area_data_number, int direction, Map ***map){
 
   if ( area_data_number == 100 ){
@@ -377,7 +395,7 @@ void enemy_encount(Map **map){
   }
 }
 
-void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Map *map, Area1 ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]){
+void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Map *map, Area ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]){
   int input, dummy, area_data_number;   //direction = 1; ↑ direction = 2; ↓ direction = 3; ← direction = 4; →
   static int direction;
   static int first_move_count;  //初期値0  スタート時点でメニュー画面を開いた時の処理のためのstatic変数
@@ -411,6 +429,14 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
   if( _kbhit() ){
     dummy = _getch();
+
+    if ( (**area) -> dangeonId == 1 ){
+      printf("---1F廊下---\n");
+    }
+
+    if ( (**area) -> dangeonId == 2 ){
+      printf("---1F図書館---\n");
+    }
 
     if ( (**area) -> encount == 1 ){
       printf("ENEMY ENCOUNT --YES--\n");
@@ -603,6 +629,15 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
           display_2dmap(area_data_number, direction, &map);
         }
+        else if ( area_data_number == 4 ){
+          printf("Move:West\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 3;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
         else if ( area_data_number == 5 ){
           printf("Move:West\n");
           printf("area_data_number:%d\n", area_data_number);
@@ -672,6 +707,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
           display_2dmap(area_data_number, direction, &map);
         }
+        
         else if ( area_data_number == 5 ){
           printf("Move:East\n");
           printf("area_data_number:%d\n", area_data_number);
@@ -709,7 +745,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 }
 
 
-void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **enemy, Enemy **enemy1, Enemy **enemy2){
+void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **enemy, Enemy **enemy1, Enemy **enemy2){
   int area_data_len, area_data_line, enemy_count, encount_pattern, clear_count;
 
   Map map;
@@ -733,7 +769,7 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
     {-1, 4, -1} };  //15
     //   exit
 
-  int automap_area1[16][3] = {
+  /*int automap_area1[16][3] = {
     {-1, 0, -1},   //event2
     {-1, 0, -1},
     {-1, 0, -1},
@@ -749,13 +785,15 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
     {-1, 0, -1},   //event1
     {-1, 0, -1},
     {-1, 0, -1},     //start
-    {-1, 0, -1} };  //15
+    {-1, 0, -1} };  //15*/
 
   //start地点の設定
   map.y = 14;
   map.x = 1;
   automap_area1[map.y][map.x] = 1;
   map.walk_step = 0;
+
+  (*area) -> encount = 0;
 
   /*printf("---1F廊下---\n");
   sleep(1);
@@ -807,9 +845,11 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
   sleep(2);
   printf("%s「悪魔と戦うしか魔界から出る方法はないみたいだね」\n", (*st2) -> name);
   sleep(2);*/
+  (*area) -> dangeonId = 1; //1F廊下
+
   printf("---1F廊下---\n");
 
-  if ( (*area1) -> encount == 1 ){
+  if ( (*area) -> encount == 1 ){
     printf("ENEMY ENCOUNT --YES--\n");
   }
   else{
@@ -848,9 +888,9 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
   //encount_pattern = 10; 敵３体(同じ敵２体と違う敵１体)
   clear_count = 0;
   do{
-    player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area1, area_data_line, area_data_len, area_data, automap_area1);  //playerの移動に関する関数
+    player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);  //playerの移動に関する関数
     //event処理
-    if ( map.x == 1 && map.y == 12 && (*area1) -> event1 == 1 ){
+    if ( map.x == 1 && map.y == 12 && (*area) -> event1a == 0 ){
       printf("event!\n");
       encount_pattern = 2;
       (*enemy) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
@@ -858,7 +898,7 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy, encount_pattern);
 
       (*enemy) -> boss_count = 0;  //元に戻す
-      (*area1) -> event1 = 0;
+      (*area) -> event1a = 1;
 
       sleep(1);
       printf("足元に何か落ちている・・・\n");
@@ -867,10 +907,10 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
       (*items) -> medicine += 5;
 
       battle_to_map = 1;
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area1, area_data_line, area_data_len, area_data, automap_area1);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
-    if ( map.x == 1 && map.y == 9 && (*area1) -> event2 == 1 ){
+    if ( map.x == 1 && map.y == 9 && (*area) -> event1b == 0 ){
       printf("event!\n");
       encount_pattern = 3;
       (*enemy) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
@@ -878,13 +918,13 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy, encount_pattern);
 
       (*enemy) -> boss_count = 0;  //元に戻す
-      (*area1) -> event2 = 0;
+      (*area) -> event1b = 1;
 
       battle_to_map = 1;
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area1, area_data_line, area_data_len, area_data, automap_area1);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
-    if ( map.x == 1 && map.y == 5 && (*area1) -> event3 == 1 ){
+    if ( map.x == 1 && map.y == 5 && (*area) -> event1c == 0 ){
       printf("event!\n");
       encount_pattern = 1;
       (*enemy1) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
@@ -892,28 +932,28 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy1, encount_pattern);
 
       (*enemy1) -> boss_count = 0;  //元に戻す
-      (*area1) -> event3 = 0;
+      (*area) -> event1c = 1;
 
       battle_to_map = 1;
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area1, area_data_line, area_data_len, area_data, automap_area1);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
-    if ( map.x == 1 && map.y == 1 && (*area1) -> event4 == 1 ){
+    if ( map.x == 1 && map.y == 1 && (*area) -> event1d == 0 ){
       printf("この先から強力な気配を感じる・・・\n");
       sleep(1);
       printf("%s「この先にヤバそうな悪魔がいるから気を付けよう！」\n", (*st2) -> name);
-      (*area1) -> event4 = 0;
+      (*area) -> event1d = 1;
 
       event_to_map = 1;
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area1, area_data_line, area_data_len, area_data, automap_area1);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
     }
-    if ( map.x == 1 && map.y == 0 && (*area1) -> boss == 1 ){
+    if ( map.x == 1 && map.y == 0 && (*area) -> boss1 == 0 ){
       printf("BOSS!\n");
 
       encount_pattern = 1;
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy2, encount_pattern);
 
-      (*area1) -> boss = 0;
+      (*area) -> boss1 = 1;
       printf("BOSSを倒した!\n");
       clear_count = 1;
     }
@@ -922,5 +962,88 @@ void area1_map(Area1 **area1, Player **st, Player **st2, Player **st3, P_skill *
 
   printf("ダンジョンから出た!\n");
 
+
+}
+
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items){
+  int area_data_len, area_data_line, enemy_count, encount_pattern, clear_count;
+
+  Map map;
+
+  int area_data[27][10] = {
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {4, 0, 0, 0, 1, 0, 0, 0, 0, 4},
+    {-1, -1, -1, -1, 0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, 0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, 100, -1, -1, -1, -1, -1},     //start
+    {-1, -1, -1, -1, 101, -1, -1, -1, -1, -1} };  //26
+
+  //start地点の設定
+  map.y = 25;
+  map.x = 4;
+  //automap_area2[map.y][map.x] = 1;
+  map.walk_step = 0;
+
+  (*area) -> encount = 1;
+
+  (*area) -> dangeonId = 2; //図書館
+
+  printf("---1F図書館---\n");
+
+  if ( (*area) -> encount == 1 ){
+    printf("ENEMY ENCOUNT --YES--\n");
+  }
+  else{
+    printf("ENEMY ENCOUNT --NO--\n");
+  }
+
+  printf(" ---------------------------- \n");
+  printf(" |＼                     ／ | \n");
+  printf(" |  ＼                 ／   | \n");
+  printf(" |    ＼_____________／     | \n");
+  printf(" |   　|             |      | \n");
+  printf(" |     |             |      | \n");
+  printf(" |     |             |      | \n");
+  printf(" |     |_____________|      | \n");
+  printf(" |    ／              ＼    | \n");
+  printf(" |  ／                  ＼  | \n");
+  printf(" |／______________________＼| \n");
+  printf("\n");
+
+  printf("---MAP---\n");
+  printf("| ↑  |\n");
+  printf("|____ |\n");
+
+  area_data_len = 10;
+  area_data_line = sizeof(area_data) / sizeof(int) / area_data_len;
+
+  clear_count = 0;
+  do{
+    player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);  //playerの移動に関する関数
+    //event処理
+
+
+  }while ( clear_count == 0 );
 
 }

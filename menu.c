@@ -984,7 +984,7 @@ void status_menu(Player *****st, Player *****st2, Player *****st3){
 
 }
 
-void map_menu(Map ***map, Area1 *****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
+void map_menu(Map ***map, Area *****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
   int i, j, input;
 
   printf("<<<<<<<MAP>>>>>>\n");
@@ -1015,7 +1015,7 @@ void map_menu(Map ***map, Area1 *****area, int area_data_line, int area_data_len
 
 }
 
-void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Map **map, Area1 ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
+void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
   int menu_end, input, battle_display_condition_count;
 
   do{
