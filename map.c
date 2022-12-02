@@ -42,7 +42,7 @@ static int automap_area1[16][3] = {
   {-1, 0, -1},   //event1
   {-1, 0, -1},
   {-1, 0, -1},     //start
-  {-1, 0, -1} };  //15
+  {-1, 0, -1} };
 
 void display_3dmap(int area_data_number, int direction, Map ***map){
 
@@ -105,18 +105,92 @@ void display_3dmap(int area_data_number, int direction, Map ***map){
     printf("\n");
   }
   else if ( area_data_number == 2 ){
-    printf(" ---------------------------- \n");
-    printf(" |＼                        | \n");
-    printf(" |  ＼ _____________________| \n");
-    printf(" |    |             |       | \n");
-    printf(" |    |             |       | \n");
-    printf(" |    |             |       | \n");
-    printf(" |    |             |       | \n");
-    printf(" |    |_____________|_______| \n");
-    printf(" |   ／              ＼     | \n");
-    printf(" | ／                  ＼   | \n");
-    printf(" ／______________________＼_| \n");
-    printf("\n");
+    if ( direction == 1 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                        | \n");
+      printf(" |  ＼ _____________________| \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |_____________|_______| \n");
+      printf(" |   ／              ＼     | \n");
+      printf(" | ／                  ＼   | \n");
+      printf(" ／______________________＼_| \n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      printf(" ---------------------------- \n");
+      printf(" |                       ／ | \n");
+      printf(" |                     ／   | \n");
+      printf(" |___________________／     | \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |_____|_____________|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 3 || direction == 4 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                     ／ | \n");
+      printf(" |  ＼                 ／   | \n");
+      printf(" |    ＼_____________／     | \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |_____________|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 3 ){
+    if ( direction == 1 ){
+      printf(" ---------------------------- \n");
+      printf(" |                       ／ | \n");
+      printf(" |                     ／   | \n");
+      printf(" |___________________／     | \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |_____|_____________|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 2 || direction == 3 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                     ／ | \n");
+      printf(" |  ＼                 ／   | \n");
+      printf(" |    ＼_____________／     | \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |_____________|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                        | \n");
+      printf(" |  ＼ _____________________| \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |_____________|_______| \n");
+      printf(" |   ／              ＼     | \n");
+      printf(" | ／                  ＼   | \n");
+      printf(" ／______________________＼_| \n");
+      printf("\n");
+    }
   }
   else if ( area_data_number == 4 ){
     printf(" ---------------------------- \n");
@@ -131,6 +205,240 @@ void display_3dmap(int area_data_number, int direction, Map ***map){
     printf(" |  ／                  ＼  | \n");
     printf(" |／______________________＼| \n");
     printf("\n");
+  }
+  else if ( area_data_number == 5 ){
+    printf(" ---------------------------- \n");
+    printf(" |＼                     ／ | \n");
+    printf(" |  ＼                 ／   | \n");
+    printf(" |    ＼_____________／     | \n");
+    printf(" |   　|             |      | \n");
+    printf(" |     |    STOP     |      | \n");
+    printf(" |     |             |      | \n");
+    printf(" |     |_____________|      | \n");
+    printf(" |    ／              ＼    | \n");
+    printf(" |  ／                  ＼  | \n");
+    printf(" |／______________________＼| \n");
+    printf("\n");
+  }
+  else if ( area_data_number == 6 ){
+    if ( direction == 2 ){
+      printf(" ---------------------------- \n");
+      printf(" |                       ／ | \n");
+      printf(" |                     ／   | \n");
+      printf(" |___________________／     | \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |_____|_____________|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 3 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                        | \n");
+      printf(" |  ＼ _____________________| \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |_____________|_______| \n");
+      printf(" |   ／              ＼     | \n");
+      printf(" | ／                  ＼   | \n");
+      printf(" ／______________________＼_| \n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 7 ){
+    if ( direction == 1 ){
+      printf(" ---------------------------- \n");
+      printf(" |                          | \n");
+      printf(" |                          | \n");
+      printf(" |__________________________| \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |_____|_____________|______| \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                     ／ | \n");
+      printf(" |  ＼                 ／   | \n");
+      printf(" |    ＼_____________／     | \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |_____________|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 3 ){
+      printf(" ---------------------------- \n");
+      printf(" |                       ／ | \n");
+      printf(" |                     ／   | \n");
+      printf(" |___________________／     | \n");
+      printf(" |   　|＼_________／|      | \n");
+      printf(" |     | |        |  |      | \n");
+      printf(" |     | |________|  |      | \n");
+      printf(" |_____|／_________＼|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                        | \n");
+      printf(" |  ＼ _____________________| \n");
+      printf(" |    |＼_________／|       | \n");
+      printf(" |    | |         | |       | \n");
+      printf(" |    | |         | |       | \n");
+      printf(" |    | |_________| |       | \n");
+      printf(" |    |／_________＼|_______| \n");
+      printf(" |   ／              ＼     | \n");
+      printf(" | ／                  ＼   | \n");
+      printf(" ／______________________＼_| \n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 8 ){
+    if ( direction == 2 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                        | \n");
+      printf(" |  ＼ _____________________| \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |             |       | \n");
+      printf(" |    |_____________|_______| \n");
+      printf(" |   ／              ＼     | \n");
+      printf(" | ／                  ＼   | \n");
+      printf(" ／______________________＼_| \n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      printf(" ---------------------------- \n");
+      printf(" |                       ／ | \n");
+      printf(" |                     ／   | \n");
+      printf(" |___________________／     | \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |_____|_____________|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 9 ){
+    printf(" ---------------------------- \n");
+    printf(" |＼                     ／ | \n");
+    printf(" |  ＼                 ／   | \n");
+    printf(" |    ＼_____________／     | \n");
+    printf(" |   　|  _________  |      | \n");
+    printf(" |     | |         | |      | \n");
+    printf(" |     | |         | |      | \n");
+    printf(" |     |_|_________|_|      | \n");
+    printf(" |    ／              ＼    | \n");
+    printf(" |  ／                  ＼  | \n");
+    printf(" |／______________________＼| \n");
+    printf("\n");
+  }
+  else if ( area_data_number == 10 ){
+    if ( direction == 1 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                        | \n");
+      printf(" |  ＼                      | \n");
+      printf(" |    |＼                   | \n");
+      printf(" |    |  ＼                 | \n");
+      printf(" |    |   |                 | \n");
+      printf(" |    |  ／                 | \n");
+      printf(" |    |／                   | \n");
+      printf(" |   ／                     | \n");
+      printf(" | ／                       | \n");
+      printf(" ／_________________________| \n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      printf(" ---------------------------- \n");
+      printf(" |                        ／| \n");
+      printf(" |                      ／  | \n");
+      printf(" |                   ／|    | \n");
+      printf(" |   　            ／  |    | \n");
+      printf(" |                |    |    | \n");
+      printf(" |                |    |    | \n");
+      printf(" |                 ＼  |    | \n");
+      printf(" |                   ＼|    | \n");
+      printf(" |                      ＼  | \n");
+      printf(" |________________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 3 ){
+      printf(" ---------------------------- \n");
+      printf(" |                          | \n");
+      printf(" |                          | \n");
+      printf(" |__________________________| \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |_____|_____________|______| \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 11 ){
+    if ( direction == 1 ){
+      printf(" ---------------------------- \n");
+      printf(" |                        ／| \n");
+      printf(" |                      ／  | \n");
+      printf(" |                   ／|    | \n");
+      printf(" |   　            ／  |    | \n");
+      printf(" |                |    |    | \n");
+      printf(" |                |    |    | \n");
+      printf(" |                 ＼  |    | \n");
+      printf(" |                   ＼|    | \n");
+      printf(" |                      ＼  | \n");
+      printf(" |________________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                        | \n");
+      printf(" |  ＼                      | \n");
+      printf(" |    |＼                   | \n");
+      printf(" |    |  ＼                 | \n");
+      printf(" |    |   |                 | \n");
+      printf(" |    |  ／                 | \n");
+      printf(" |    |／                   | \n");
+      printf(" |   ／                     | \n");
+      printf(" | ／                       | \n");
+      printf(" ／_________________________| \n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      printf(" ---------------------------- \n");
+      printf(" |                          | \n");
+      printf(" |                          | \n");
+      printf(" |__________________________| \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |_____|_____________|______| \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
   }
   else if ( area_data_number == 99 ){
     printf(" ____________________________ \n");
@@ -247,12 +555,30 @@ void display_2dmap(int area_data_number, int direction, Map **map){
       printf("|    |\n");
       printf("\n");
     }
+    else if ( direction == 2 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("______\n");
+      printf("|     \n");
+      printf("| ↓  _\n");
+      printf("|    |\n");
+      printf("\n");
+    }
     else if ( direction == 3 ){  //west
       display_3dmap(area_data_number, direction, &map);
       printf("---MAP---\n");
       printf("______\n");
       printf("|     \n");
       printf("|  ← _\n");
+      printf("|    |\n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("______\n");
+      printf("|     \n");
+      printf("|  → _\n");
       printf("|    |\n");
       printf("\n");
     }
@@ -264,6 +590,24 @@ void display_2dmap(int area_data_number, int direction, Map **map){
       printf("______\n");
       printf("      | \n");
       printf("_  ↑ |\n");
+      printf(" |    |\n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("______\n");
+      printf("      | \n");
+      printf("_  ↓ |\n");
+      printf(" |    |\n");
+      printf("\n");
+    }
+    else if ( direction == 3 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("______\n");
+      printf("      | \n");
+      printf("_  ← |\n");
       printf(" |    |\n");
       printf("\n");
     }
@@ -305,7 +649,7 @@ void display_2dmap(int area_data_number, int direction, Map **map){
       display_3dmap(area_data_number, direction, &map);
       printf("---MAP---\n");
       printf("____\n");
-      printf(" →  |\n");
+      printf(" → |\n");
       printf("____|\n");
       printf("\n");
     }
@@ -348,7 +692,14 @@ void display_2dmap(int area_data_number, int direction, Map **map){
   }
   else if ( area_data_number == 6 ){
     display_3dmap(area_data_number, direction, &map);
-    if ( direction == 2 ){
+    if ( direction == 1 ){
+      printf("---MAP---\n");
+      printf("|    |_\n");
+      printf("|  ↑  \n");
+      printf("|_______\n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
       printf("---MAP---\n");
       printf("|    |_\n");
       printf("|  ↓  \n");
@@ -360,6 +711,151 @@ void display_2dmap(int area_data_number, int direction, Map **map){
       printf("|    |_\n");
       printf("|   ← \n");
       printf("|_______\n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 7 ){
+    if ( direction == 1 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("________\n");
+      printf("       \n");
+      printf("_  ↑  _\n");
+      printf(" |    |\n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("________\n");
+      printf("       \n");
+      printf("_  ↓  _\n");
+      printf(" |    |\n");
+      printf("\n");
+    }
+    else if ( direction == 3 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("________\n");
+      printf("       \n");
+      printf("_  ←  _\n");
+      printf(" |    |\n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("________\n");
+      printf("       \n");
+      printf("_  →  _\n");
+      printf(" |    |\n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 8 ){
+    if ( direction == 1 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("| ↑  |\n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("_|    |\n");
+      printf("   ↓ | \n");
+      printf("______|\n");
+      printf("\n");
+    }
+    else if ( direction == 3 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("_____\n");
+      printf(" ←   \n");
+      printf("_____ \n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("_|    |\n");
+      printf("   → | \n");
+      printf("______|\n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 9 ){
+    if ( direction == 1 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("| ↑ |\n");
+      printf("|    |\n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("|    |\n");
+      printf("| ↓ |\n");
+      printf("\n");
+    }
+    else if ( direction == 3 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("_____\n");
+      printf(" ←   \n");
+      printf("_____ \n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("____\n");
+      printf(" →  \n");
+      printf("____\n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 10 ){
+    if ( direction == 1 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("| ↑ \n");
+      printf("|   \n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("|    \n");
+      printf("| ↓  \n");
+      printf("\n");
+    }
+    else if ( direction == 3 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("| ← \n");
+      printf("|   \n");
+      printf("\n");
+    }
+  }
+  else if ( area_data_number == 11 ){
+    if ( direction == 1 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("   ↑ |\n");
+      printf("\n");
+    }
+    else if ( direction == 2 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("   ↓ |\n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      display_3dmap(area_data_number, direction, &map);
+      printf("---MAP---\n");
+      printf("   → |\n");
       printf("\n");
     }
   }
@@ -397,6 +893,7 @@ void enemy_encount(Map **map){
 
 void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Map *map, Area ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]){
   int input, dummy, area_data_number;   //direction = 1; ↑ direction = 2; ↓ direction = 3; ← direction = 4; →
+  int is_move;
   static int direction;
   static int first_move_count;  //初期値0  スタート時点でメニュー画面を開いた時の処理のためのstatic変数
 
@@ -408,6 +905,11 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   //area_data = 4; -> 行き止まり
   //area_data = 5; -> 小部屋
   //area_data = 6; -> 南方向の右折路
+  //area_data = 7; -> T字路
+  //area_data = 8; -> 南方向の左折路
+  //area_data = 9; -> 小部屋行き止まり手前
+  //area_data = 10; -> 2列通路左側
+  //area_data = 11; -> 2列通路右側
   //area_data_number = 99; -> ダークゾーン
   //area_data = 100; ->ダンジョンの初期位置
   //area_data = 101; EXIT
@@ -455,6 +957,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     }
 
     if( dummy == 0 || dummy == 224 ){
+      is_move = 1;
       input = _getch();
 
       if ( input == 0x48 ){   //上キー入力
@@ -522,6 +1025,54 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
           display_2dmap(area_data_number, direction, &map);
         }
+        else if ( area_data_number == 6 ){
+          printf("Move:North\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 1;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 7 ){
+          printf("Move:North\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 1;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 8 ){
+          printf("Move:North\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 1;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 9 ){
+          printf("Move:North\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 1;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 10 ){
+          printf("Move:North\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 1;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 11 ){
+          printf("Move:North\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 1;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
         else if ( area_data_number == 99 ){
           printf("Move:North\n");
           printf("area_data_number:%d\n", area_data_number);
@@ -532,6 +1083,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else{
           printf("ドン!\n");
+          is_move = 0;
           map -> y++;    //移動出来ないのでyの値を元に戻す
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
         }
@@ -577,6 +1129,51 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
           display_2dmap(area_data_number, direction, &map);
         }
+        else if ( area_data_number == 7 ){
+          printf("Move:South\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 2;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 8 ){
+          printf("Move:South\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 2;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 9 ){
+          printf("Move:South\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 2;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 10 ){
+          printf("Move:South\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 2;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 11 ){
+          printf("Move:South\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 2;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
         else if ( area_data_number == 99 ){
           printf("Move:South\n");
           printf("area_data_number:%d\n", area_data_number);
@@ -588,6 +1185,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else{
           printf("ドン!\n");
+          is_move = 0;
           map -> y--;   //移動出来ないのでyの値を元に戻す
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
         }
@@ -656,6 +1254,42 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
           display_2dmap(area_data_number, direction, &map);
         }
+        else if ( area_data_number == 7 ){
+          printf("Move:West\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 3;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 8 ){
+          printf("Move:West\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 3;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 9 ){
+          printf("Move:West\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 3;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 10 ){
+          printf("Move:West\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 3;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
         else if ( area_data_number == 99 ){
           printf("Move:West\n");
           printf("area_data_number:%d\n", area_data_number);
@@ -707,8 +1341,61 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
           display_2dmap(area_data_number, direction, &map);
         }
-        
+        else if ( area_data_number == 4 ){
+          printf("Move:East\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 4;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
         else if ( area_data_number == 5 ){
+          printf("Move:East\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 4;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 6 ){
+          printf("Move:East\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 4;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 7 ){
+          printf("Move:East\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 4;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 8 ){
+          printf("Move:East\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 4;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 9 ){
+          printf("Move:East\n");
+          printf("area_data_number:%d\n", area_data_number);
+          automap_area[map -> y][map -> x] = 1;
+          direction = 4;
+          map -> walk_step++;
+          printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
+        }
+        else if ( area_data_number == 11 ){
           printf("Move:East\n");
           printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
@@ -729,6 +1416,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         else{
           printf("ドン!\n");
           map -> x--;
+          is_move = 0;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
         }
       }
@@ -738,9 +1426,12 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
       }
     }
 
-    if ( map -> walk_step >= 1 && (**area) -> encount == 1 ){
-      enemy_encount(&map);
+    if ( is_move = 1 ){
+      if ( map -> walk_step >= 1 && (**area) -> encount == 1 ){
+        enemy_encount(&map);
+      }
     }
+
   }
 }
 
@@ -971,32 +1662,32 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   Map map;
 
   int area_data[27][10] = {
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {4, 0, 0, 0, 1, 0, 0, 0, 0, 4},
-    {-1, -1, -1, -1, 0, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, 0, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, 100, -1, -1, -1, -1, -1},     //start
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1,  4,  0,  3, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {4,   0,  0,  0,  7,  0,  0,  0,  0,  4},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, 100, -1,-1, -1, -1, -1},     //start
     {-1, -1, -1, -1, 101, -1, -1, -1, -1, -1} };  //26
 
   //start地点の設定
