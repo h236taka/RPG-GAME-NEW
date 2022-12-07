@@ -13,6 +13,7 @@ int player_ability(Player ****st, Player ****st2, Player ****st3, P_skill ****pl
 
   if ( use_skill_count == 1 ){
 
+    //skill使用者
     if ( skill_user == 1 ){
       printf("%s>>ケディア\n", (***st) -> name);
       sleep(1);
