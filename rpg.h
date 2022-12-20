@@ -326,6 +326,8 @@ int battle_escape(Player ****st);
 
 void poison_effect(Player ****st);
 
+void player_badstatus_recover(Player ****st);
+
 void display_gameover(void);
 
 //rpg_battle_encount_pattern5.c
@@ -339,6 +341,12 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
 
 void enemy_full_recover6(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2);
 
+//rpg_battle_encount_pattern7.c
+
+void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, Enemy ***enemy1, Enemy ***enemy2, Enemy ***enemy3, int encount_pattern);
+
+void enemy_full_recover7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3);
+
 //to check enemy_deadcount
 int battle_error_enemydeadcount1(Enemy ****enemy);
 
@@ -351,6 +359,8 @@ int battle_error_enemydeadcount4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
 int battle_error_enemydeadcount5(Enemy ****enemy, Enemy ****enemy1);
 
 int battle_error_enemydeadcount6(Enemy ****enemy, Enemy ****enemy1, Enemy****enemy2);
+
+int battle_error_enemydeadcount7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3);
 
 //about battle turns in rpg_battle.c (playerの行動ごとに消費するターン数を計算)
 double calculate_player_turn(double player_turn, double turn_decrease);
@@ -375,6 +385,8 @@ int player_normal_attack_target5(Enemy ****enemy, Enemy ****enemy1);
 
 int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2);
 
+int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3);
+
 //display about players
 void hp_graphycal_display(Player ****st, Player ****st2, Player ****st3);
 
@@ -396,6 +408,9 @@ void encount_pattern4_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_c
 void encount_pattern5_layout(Enemy ****enemy, Enemy ****enemy1, int encount_pattern);
 
 void encount_pattern6_layout(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, int encount_pattern);
+
+void encount_pattern7_layout(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3, int encount_pattern);
+
 //battle_skill.c ( about players and enemies skills function and to decide enemies move pattern)
 int player_ability(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user);
 

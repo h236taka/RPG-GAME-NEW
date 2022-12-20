@@ -1128,4 +1128,8 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
 
   (**st) -> gold += result_gold;
 
+  player_badstatus_recover(&st);
+  player_badstatus_recover(&st2);
+  player_badstatus_recover(&st3);
+
 }

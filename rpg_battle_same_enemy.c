@@ -1550,6 +1550,17 @@ int battle_error_enemydeadcount4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
   return enemy_deadcount;
 }
 
+void player_badstatus_recover(Player ****st){
+
+  if ( (***st) -> badstatus == GOOD || (***st) -> badstatus == POISON || (***st) -> badstatus == DEAD || (***st) -> badstatus == CLOSE || (***st) -> badstatus == CURSE ){
+    //ステータスはそのまま
+  }
+  else{
+    (***st) -> badstatus = GOOD;
+  }
+
+}
+
 //敵１種類の戦闘関数
 void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, int encount_pattern){  //構造体のポインタを引数にまたポインタ指定（ダブルポインタ)
   int player_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
@@ -4464,4 +4475,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
   (**st) -> gold += result_gold;
 
+  player_badstatus_recover(&st);
+  player_badstatus_recover(&st2);
+  player_badstatus_recover(&st3);
 }
