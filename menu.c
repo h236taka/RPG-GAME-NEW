@@ -11,8 +11,8 @@
 
 void menu_hp_graphycal_display(Player *****st, Player *****st2, Player *****st3){
   printf(" ------------");
-  printf("          ------------");
-  printf("             ------------\n");
+  printf("           ------------");
+  printf("              ------------\n");
 
   if ( (****st) -> hp == (****st) -> maxhp ){
     printf(" |//////////|");
@@ -49,84 +49,84 @@ void menu_hp_graphycal_display(Player *****st, Player *****st2, Player *****st3)
   }
 
   if ( (****st2) -> hp == (****st2) -> maxhp ){
-    printf("          |//////////|");
+    printf("           |//////////|");
   }
   else if ( (****st2) -> hp >= (****st2) -> maxhp * 0.9 ){
-    printf("          |/////////||");
+    printf("           |/////////||");
   }
   else if ( (****st2) -> hp >= (****st2) -> maxhp * 0.8 ){
-    printf("          |////////| |");
+    printf("           |////////| |");
   }
   else if ( (****st2) -> hp >= (****st2) -> maxhp * 0.7 ){
-    printf("          |///////|  |");
+    printf("           |///////|  |");
   }
   else if ( (****st2) -> hp >= (****st2) -> maxhp * 0.6 ){
-    printf("          |//////|   |");
+    printf("           |//////|   |");
   }
   else if ( (****st2) -> hp >= (****st2) -> maxhp * 0.5 ){
-    printf("          |/////|    |");
+    printf("           |/////|    |");
   }
   else if ( (****st2) -> hp >= (****st2) -> maxhp * 0.4 ){
-    printf("          |////|     |");
+    printf("           |////|     |");
   }
   else if ( (****st2) -> hp >= (****st2) -> maxhp * 0.3 ){
-    printf("          |///|      |");
+    printf("           |///|      |");
   }
   else if ( (****st2) -> hp >= (****st2) -> maxhp * 0.2 ){
-    printf("          |//|       |");
+    printf("           |//|       |");
   }
   else if ( (****st2) -> hp > 0 ){
-    printf("          |/|        |");
+    printf("           |/|        |");
   }
   else if ( (****st2) -> hp == 0 ){
-    printf("          ||         |");
+    printf("           ||         |");
   }
 
   if ( (****st3) -> hp == (****st3) -> maxhp ){
-    printf("             |//////////|\n");
+    printf("              |//////////|\n");
   }
   else if ( (****st3) -> hp >= (****st3) -> maxhp * 0.9 ){
-    printf("             |/////////||\n");
+    printf("              |/////////||\n");
   }
   else if ( (****st3) -> hp >= (****st3) -> maxhp * 0.8 ){
-    printf("             |////////| |\n");
+    printf("              |////////| |\n");
   }
   else if ( (****st3) -> hp >= (****st3) -> maxhp * 0.7 ){
-    printf("             |///////|  |\n");
+    printf("              |///////|  |\n");
   }
   else if ( (****st3) -> hp >= (****st3) -> maxhp * 0.6 ){
-    printf("             |//////|   |\n");
+    printf("              |//////|   |\n");
   }
   else if ( (****st3) -> hp >= (****st3) -> maxhp * 0.5 ){
-    printf("             |/////|    |\n");
+    printf("              |/////|    |\n");
   }
   else if ( (****st3) -> hp >= (****st3) -> maxhp * 0.4 ){
-    printf("             |////|     |\n");
+    printf("              |////|     |\n");
   }
   else if ( (****st3) -> hp >= (****st3) -> maxhp * 0.3 ){
-    printf("             |///|      |\n");
+    printf("              |///|      |\n");
   }
   else if ( (****st3) -> hp >= (****st3) -> maxhp * 0.2 ){
-    printf("             |//|       |\n");
+    printf("              |//|       |\n");
   }
   else if ( (****st3) -> hp > 0 ){
-    printf("             |/|        |\n");
+    printf("              |/|        |\n");
   }
   else if ( (****st3) -> hp == 0 ){
-    printf("             ||         |\n");
+    printf("              ||         |\n");
   }
 
   printf(" ------------");
-  printf("          ------------");
-  printf("             ------------\n");
+  printf("           ------------");
+  printf("              ------------\n");
 
 }
 
 void menu_mp_graphycal_display(Player *****st, Player *****st2, Player *****st3){
 
   printf(" ------------");
-  printf("          ------------");
-  printf("             ------------\n");
+  printf("           ------------");
+  printf("              ------------\n");
 
   if ( (****st) -> mp == (****st) -> maxmp ){
     printf(" |//////////|");
@@ -163,76 +163,76 @@ void menu_mp_graphycal_display(Player *****st, Player *****st2, Player *****st3)
   }
 
   if ( (****st2) -> mp == (****st2) -> maxmp ){
-    printf("          |//////////|");
+    printf("           |//////////|");
   }
   else if ( (****st2) -> mp >= (****st2) -> maxmp * 0.9 ){
-    printf("          |/////////||");
+    printf("           |/////////||");
   }
   else if ( (****st2) -> mp >= (****st2) -> maxmp * 0.8 ){
-    printf("          |////////| |");
+    printf("           |////////| |");
   }
   else if ( (****st2) -> mp >= (****st2) -> maxmp * 0.7 ){
-    printf("          |///////|  |");
+    printf("           |///////|  |");
   }
   else if ( (****st2) -> mp >= (****st2) -> maxmp * 0.6 ){
-    printf("          |//////|   |");
+    printf("           |//////|   |");
   }
   else if ( (****st2) -> mp >= (****st2) -> maxmp * 0.5 ){
-    printf("          |/////|    |");
+    printf("           |/////|    |");
   }
   else if ( (****st2) -> mp >= (****st2) -> maxmp * 0.4 ){
-    printf("          |////|     |");
+    printf("           |////|     |");
   }
   else if ( (****st2) -> mp >= (****st2) -> maxmp * 0.3 ){
-    printf("          |///|      |");
+    printf("           |///|      |");
   }
   else if ( (****st2) -> mp >= (****st2) -> maxmp * 0.2 ){
-    printf("          |//|       |");
+    printf("           |//|       |");
   }
   else if ( (****st2) -> mp >= (****st2) -> maxmp * 0.1 ){
-    printf("          |/|        |");
+    printf("           |/|        |");
   }
   else{
       //死亡時はHPゲージ表示なし
   }
 
   if ( (****st3) -> mp == (****st3) -> maxmp ){
-    printf("             |//////////|\n");
+    printf("              |//////////|\n");
   }
   else if ( (****st3) -> mp >= (****st3) -> maxmp * 0.9 ){
-    printf("             |/////////||\n");
+    printf("              |/////////||\n");
   }
   else if ( (****st3) -> mp >= (****st3) -> maxmp * 0.8 ){
-    printf("             |////////| |\n");
+    printf("              |////////| |\n");
   }
   else if ( (****st3) -> mp >= (****st3) -> maxmp * 0.7 ){
-    printf("             |///////|  |\n");
+    printf("              |///////|  |\n");
   }
   else if ( (****st3) -> mp >= (****st3) -> maxmp * 0.6 ){
-    printf("             |//////|   |\n");
+    printf("              |//////|   |\n");
   }
   else if ( (****st3) -> mp >= (****st3) -> maxmp * 0.5 ){
-    printf("             |/////|    |\n");
+    printf("              |/////|    |\n");
   }
   else if ( (****st3) -> mp >= (****st3) -> maxmp * 0.4 ){
-    printf("             |////|     |\n");
+    printf("              |////|     |\n");
   }
   else if ( (****st3) -> mp >= (****st3) -> maxmp * 0.3 ){
-    printf("             |///|      |\n");
+    printf("              |///|      |\n");
   }
   else if ( (****st3) -> mp >= (****st3) -> maxmp * 0.2 ){
-    printf("             |//|       |\n");
+    printf("              |//|       |\n");
   }
   else if ( (****st3) -> mp >= (****st3) -> maxmp * 0.1 ){
-    printf("             |/|        |\n");
+    printf("              |/|        |\n");
   }
   else{
       //死亡時はHPゲージ表示なし
   }
 
   printf(" ------------");
-  printf("          ------------");
-  printf("             ------------\n");
+  printf("           ------------");
+  printf("              ------------\n");
 }
 
 //Playerの状態を表示
@@ -987,15 +987,17 @@ void status_menu(Player *****st, Player *****st2, Player *****st3){
 void map_menu(Map ***map, Area *****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
   int i, j, input;
 
+  printf("P:現在地 *:歩いた場所\n");
   printf("<<<<<<<MAP>>>>>>\n");
   for ( j = 0; j < area_data_line; j++ ){
+    printf("   ");
     for ( i = 0; i < area_data_len; i++ ){
-      if ( automap_area[j][i] == -1 ){
-        printf("       ");
+      if ( automap_area[j][i] == -1 || automap_area[j][i] == 0 ){
+        printf(" ");
       }
-
-      if ( j == (**map) -> y && i == (**map) -> x ){
+      else if ( j == (**map) -> y && i == (**map) -> x ){
         printf("P");
+        //automap_area[j][i] = 'P';
       }
       else if ( automap_area[j][i] == 1 ){
         printf("*");

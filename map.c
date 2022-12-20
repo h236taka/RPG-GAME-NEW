@@ -26,6 +26,8 @@ static int battle_to_map;
 //eventからmap画面に戻る判定(1なら該当)
 static int event_to_map;
 
+int battle_mode;
+
 static int automap_area1[16][3] = {
   {-1, 0, -1},   //event2
   {-1, 0, -1},
@@ -43,6 +45,37 @@ static int automap_area1[16][3] = {
   {-1, 0, -1},
   {-1, 0, -1},     //start
   {-1, 0, -1} };
+
+  static int automap_area2[27][10] = {
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+    { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+    {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},     //start
+    {-1, -1, -1, -1, 101, -1, -1, -1, -1, -1} };  //26
+
+
 
 void display_3dmap(int area_data_number, int direction, Map ***map){
 
@@ -867,7 +900,7 @@ void display_2dmap(int area_data_number, int direction, Map **map){
   }
 }
 
-void enemy_encount(Map **map){
+int enemy_encount(Map **map){
   int encounter;
 
   encounter = (rand() % ( 10 - 1 + 1)) + 1;  //1~10の乱数
@@ -875,25 +908,32 @@ void enemy_encount(Map **map){
     if ( encounter == 1 ){
       printf("エンカウント！\n");
       (*map) -> walk_step = 0;
+      return 1;
     }
   }
   else if ( (*map) -> walk_step < 7 ){
     if ( encounter >= 1 && encounter <= 3 ){
       printf("エンカウント！\n");
       (*map) -> walk_step = 0;
+      return 1;
     }
   }
   else{
     if ( encounter >= 1 && encounter <= 7 ){
       printf("エンカウント!\n");
       (*map) -> walk_step = 0;
+      return 1;
+
     }
   }
+
+  return 0;
 }
 
 void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Map *map, Area ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]){
   int input, dummy, area_data_number;   //direction = 1; ↑ direction = 2; ↓ direction = 3; ← direction = 4; →
   int is_move;
+  int encount_enemy_pattern;
   static int direction;
   static int first_move_count;  //初期値0  スタート時点でメニュー画面を開いた時の処理のためのstatic変数
 
@@ -913,6 +953,8 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   //area_data_number = 99; -> ダークゾーン
   //area_data = 100; ->ダンジョンの初期位置
   //area_data = 101; EXIT
+
+  battle_mode = 0;
 
   //battleからmap画面に戻ったとき
   if ( battle_to_map == 1 ){
@@ -1428,7 +1470,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
     if ( is_move = 1 ){
       if ( map -> walk_step >= 1 && (**area) -> encount == 1 ){
-        enemy_encount(&map);
+        battle_mode = enemy_encount(&map);
       }
     }
 
@@ -1436,7 +1478,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 }
 
 
-void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **enemy, Enemy **enemy1, Enemy **enemy2){
+void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **slime, Enemy **kobalt, Enemy **goblin){
   int area_data_len, area_data_line, enemy_count, encount_pattern, clear_count;
 
   Map map;
@@ -1584,11 +1626,11 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     if ( map.x == 1 && map.y == 12 && (*area) -> event1a == 0 ){
       printf("event!\n");
       encount_pattern = 2;
-      (*enemy) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
+      (*slime) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
 
-      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy, encount_pattern);
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, encount_pattern);
 
-      (*enemy) -> boss_count = 0;  //元に戻す
+      (*slime) -> boss_count = 0;  //元に戻す
       (*area) -> event1a = 1;
 
       sleep(1);
@@ -1604,11 +1646,11 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     if ( map.x == 1 && map.y == 9 && (*area) -> event1b == 0 ){
       printf("event!\n");
       encount_pattern = 3;
-      (*enemy) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
+      (*slime) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
 
-      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy, encount_pattern);
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, encount_pattern);
 
-      (*enemy) -> boss_count = 0;  //元に戻す
+      (*slime) -> boss_count = 0;  //元に戻す
       (*area) -> event1b = 1;
 
       battle_to_map = 1;
@@ -1618,11 +1660,11 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     if ( map.x == 1 && map.y == 5 && (*area) -> event1c == 0 ){
       printf("event!\n");
       encount_pattern = 1;
-      (*enemy1) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
+      (*kobalt) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
 
-      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy1, encount_pattern);
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &kobalt, encount_pattern);
 
-      (*enemy1) -> boss_count = 0;  //元に戻す
+      (*kobalt) -> boss_count = 0;  //元に戻す
       (*area) -> event1c = 1;
 
       battle_to_map = 1;
@@ -1642,7 +1684,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       printf("BOSS!\n");
 
       encount_pattern = 1;
-      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy2, encount_pattern);
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &goblin, encount_pattern);
 
       (*area) -> boss1 = 1;
       printf("BOSSを倒した!\n");
@@ -1656,9 +1698,9 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
 }
 
-void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items){
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog){
   int area_data_len, area_data_line, enemy_count, encount_pattern, clear_count;
-
+  int enemy_appearance_per;
   Map map;
 
   int area_data[27][10] = {
@@ -1693,7 +1735,7 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   //start地点の設定
   map.y = 25;
   map.x = 4;
-  //automap_area2[map.y][map.x] = 1;
+  automap_area2[map.y][map.x] = 1;
   map.walk_step = 0;
 
   (*area) -> encount = 1;
@@ -1731,9 +1773,43 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
   clear_count = 0;
   do{
-    player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);  //playerの移動に関する関数
+    player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area2);  //playerの移動に関する関数
     //event処理
 
+
+    //敵とエンカウント
+    if ( battle_mode == 1 ){
+      enemy_appearance_per = (rand() % ( 100 - 1 + 1 ) + 1);
+      if ( enemy_appearance_per >= 1 && enemy_appearance_per <= 10 ){
+        encount_pattern = 1;
+        //zombie1体
+        game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombie, encount_pattern);
+      }
+      else if ( enemy_appearance_per <= 25 ){  //スライム4体
+        encount_pattern = 6;
+        game_battle_encount_pattern6(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombiedog, &slime, &kobalt, encount_pattern);
+      }
+      else if ( enemy_appearance_per <= 40 ){  //スライム1体+ゾンビ1体
+        encount_pattern = 5;
+        game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, &zombie, encount_pattern);
+      }
+      else if ( enemy_appearance_per <= 60 ){  //コボルト1体+ゴブリン1体
+        encount_pattern = 5;
+        game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &goblin_normal, &kobalt, encount_pattern);
+      }
+      else if ( enemy_appearance_per <= 75 ){ //ゴブリン2体
+        encount_pattern = 2;
+        game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &goblin_normal, encount_pattern);
+      }
+      else{
+
+      }
+
+      battle_mode = 0;
+
+      battle_to_map = 1;
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
+    }
 
   }while ( clear_count == 0 );
 

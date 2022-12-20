@@ -225,7 +225,20 @@ void map_tutorial(void){
   printf("\n");
 }
 
-void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *enemy, Enemy *enemy1, Enemy *enemy2){
+void full_recover(Player **st, Player **st2, Player **st3){
+  (*st) -> badstatus = GOOD;
+  (*st2) -> badstatus = GOOD;
+  (*st3) -> badstatus = GOOD;
+
+  (*st) -> hp = (*st) -> maxhp;
+  (*st) -> mp = (*st) -> maxmp;
+  (*st2) -> hp = (*st2) -> maxhp;
+  (*st2) -> mp = (*st2) -> maxmp;
+  (*st3) -> hp = (*st3) -> maxhp;
+  (*st3) -> mp = (*st3) -> maxmp;
+}
+
+void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *slime, Enemy *kobalt, Enemy *goblin){
 
   st -> hp = 30;
   st -> maxhp = 30;
@@ -381,7 +394,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
   //map_tutorial();
   sleep(1);
-  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &enemy, &enemy1, &enemy2);
+  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, &kobalt, &goblin);
 
   sleep(2);
 
@@ -389,21 +402,17 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
   //printf("---STAGE1 CLEARED!!---\n");
   st -> stage_clear = 1;
 
-  st -> badstatus = GOOD;
-  st2 -> badstatus = GOOD;
-  st3 -> badstatus = GOOD;
+  full_recover(&st,&st2,&st3);
 
-  st -> hp = st -> maxhp;
-  st -> mp = st -> maxmp;
-  st2 -> hp = st2 -> maxhp;
-  st2 -> hp = st2 -> maxmp;
-  st3 -> hp = st3 -> maxhp;
-  st3 -> hp = st3 -> maxmp;
+  printf("st:HP:%d\n", st -> hp);
+  printf("st2:HP:%d\n", st2 -> hp);
+  printf("st3:HP:%d\n", st3 -> hp);
 
 }
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area){
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog){
   int input;
+  int tmp;
 
   /*printf("%s達は渡り廊下での戦いを終えて教室に戻ってきた。\n", st -> name);
   sleep(2);
@@ -451,7 +460,12 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
   printf("校長「宜しく頼むよ。」\n");
   sleep(2);*/
 
-  area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items);
+  full_recover(&st,&st2,&st3);
+
+  printf("st2:HP:%d\n", st2 -> hp);
+  printf("st3:HP:%d\n", st3 -> hp);
+
+  area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog);
 
 
   printf("\a");

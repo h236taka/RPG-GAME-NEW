@@ -1219,6 +1219,8 @@ void enemy_data_copy(Enemy ****enemy, Enemy *enemy_copy){
 //encount_pattern = 6; 違う敵３体
 //encount_pattern = 7; 違う敵４体
 //encount_pattern = 8; 敵４体(敵２体を１グループとして２グループ)
+
+//未実装
 //encount_pattern = 9; 敵４体(同じ敵３体と違う敵１体)
 //encount_pattern = 10; 敵３体(同じ敵２体と違う敵１体)
 
@@ -1476,6 +1478,69 @@ int battle_error_enemydeadcount2(Enemy ****enemy, Enemy *enemy_copy1){
   }
 
   if ( enemy_copy1 -> badstatus == DEAD ){
+    //nothing
+  }
+  else{
+    enemy_deadcount--;
+  }
+
+  return enemy_deadcount;
+}
+
+int battle_error_enemydeadcount3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2){
+  int enemy_deadcount;
+
+  enemy_deadcount = 3;
+  if ( (***enemy) -> badstatus == DEAD ){
+    //nothing
+  }
+  else{
+    enemy_deadcount--;
+  }
+
+  if ( enemy_copy1 -> badstatus == DEAD ){
+    //nothing
+  }
+  else{
+    enemy_deadcount--;
+  }
+
+  if ( enemy_copy2 -> badstatus == DEAD ){
+    //nothing
+  }
+  else{
+    enemy_deadcount--;
+  }
+
+  return enemy_deadcount;
+}
+
+int battle_error_enemydeadcount4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3){
+  int enemy_deadcount;
+
+  enemy_deadcount = 4;
+  if ( (***enemy) -> badstatus == DEAD ){
+    //nothing
+  }
+  else{
+    enemy_deadcount--;
+  }
+
+  if ( enemy_copy1 -> badstatus == DEAD ){
+    //nothing
+  }
+  else{
+    enemy_deadcount--;
+  }
+
+  if ( enemy_copy2 -> badstatus == DEAD ){
+    //nothing
+  }
+  else{
+    enemy_deadcount--;
+  }
+
+  if ( enemy_copy3 -> badstatus == DEAD ){
     //nothing
   }
   else{
@@ -2380,6 +2445,12 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 2 ){
               enemy_deadcount = battle_error_enemydeadcount2(&enemy,&enemy_copy1);
+            }
+            else if ( encount_pattern == 3 ){
+              enemy_deadcount = battle_error_enemydeadcount3(&enemy,&enemy_copy1,&enemy_copy2);
+            }
+            else if ( encount_pattern == 4 ){
+              enemy_deadcount = battle_error_enemydeadcount4(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
             }
 
             printf("コマンドを正しく入力してください\n");
@@ -3987,6 +4058,12 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
             else if ( encount_pattern == 2 ){
               enemy_deadcount = battle_error_enemydeadcount2(&enemy,&enemy_copy1);
+            }
+            else if ( encount_pattern == 3 ){
+              enemy_deadcount = battle_error_enemydeadcount3(&enemy,&enemy_copy1,&enemy_copy2);
+            }
+            else if ( encount_pattern == 4 ){
+              enemy_deadcount = battle_error_enemydeadcount4(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
             }
 
             printf("コマンドを正しく入力してください\n");

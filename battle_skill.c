@@ -7,7 +7,6 @@
 #include <wchar.h>
 #include "rpg.h"
 
-//playerのskillに関する関数(abilityと書いたのはplayer_skillというものが既にあるため)
 int player_ability(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user){
   int recover_point, base, beforehp;
 
@@ -450,8 +449,8 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
 
   badstatus_count = 0; //badstatusになったか判定 1はbadstatusになったということ
 
-  //boss ゴブリン
-  if ( (****enemy) -> enemy_id == 3 ){
+  //ゴブリン
+  if ( (****enemy) -> enemy_id == 3 || (****enemy) -> enemy_id == 7 ){
     printf("%s>>クエイク\n", (****enemy) -> name);
     sleep(1);
     printf("%sは地面を大きく揺らした!\n", (****enemy) -> name);
@@ -717,7 +716,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
 double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy ****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
   int enemy_move;
 
-  if ( (***enemy) -> enemy_id == 3 ){  //bossゴブリン
+  if ( (***enemy) -> enemy_id == 3 || (***enemy) -> enemy_id == 7 ){  //bossゴブリン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
     if ( enemy_move >= 1 && enemy_move <= 50 ){
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);

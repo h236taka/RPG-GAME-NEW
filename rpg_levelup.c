@@ -22,7 +22,7 @@ void player_skill_check(Player ******st, P_skill ******player_skill){
 
 void status_lvup(Player *****st, P_skill *****player_skill){
   int hp, mp, status_count;
-  char point[COMMAND];
+  int input;
 
   status_count = 0; //statusUPがなされたかcheck
   hp = (rand() % ( 5 - 3 + 1) ) + 3; //Lvup時のHP増加率 3~5
@@ -32,38 +32,38 @@ void status_lvup(Player *****st, P_skill *****player_skill){
 
   player_skill_check(&st, &player_skill);
 
-  printf("%sの上昇させたい能力を選んで下さい!\n", (****st) -> name);
-  printf("1.力:%d\n", (****st) -> atk);
-  printf("2.魔:%d\n", (****st) -> magic);
-  printf("3.体:%d\n", (****st) -> str);
-  printf("4.速:%d\n", (****st) -> agi);
-  printf("5.運:%d\n", (****st) -> luk);
   do {
+    printf("%sの上昇させたい能力を選んで下さい!\n", (****st) -> name);
+    printf("1.力:%d\n", (****st) -> atk);
+    printf("2.魔:%d\n", (****st) -> magic);
+    printf("3.体:%d\n", (****st) -> str);
+    printf("4.速:%d\n", (****st) -> agi);
+    printf("5.運:%d\n", (****st) -> luk);
     printf("1~5の内数字を1つ入力してください!\n");
-    scanf("%s", point);
-    if ( strcmp(point, "1") == 0 ){
+    input = _getch();
+    if ( input == '1' ){
       (****st) -> atk++;
       printf("力:%d -> 力:%d\n", (****st) -> atk - 1, (****st) -> atk);
       status_count++;
     }
-    else if ( strcmp(point, "2") == 0 ){
+    else if ( input == '2' ){
       (****st) -> magic++;
       printf("魔:%d -> 魔:%d\n", (****st) -> magic - 1, (****st) -> magic);
       (****st) -> maxmp += 3;
       status_count++;
     }
-    else if ( strcmp(point, "3") == 0 ){
+    else if ( input == '3' ){
       (****st) -> str++;
       printf("体:%d -> 体:%d\n", (****st) -> str - 1, (****st) -> str);
       (****st) -> maxhp += 5;
       status_count++;
     }
-    else if ( strcmp(point, "4") == 0 ){
+    else if ( input == '4' ){
       (****st) -> agi++;
       printf("速:%d -> 速:%d\n", (****st) -> agi - 1, (****st) -> agi);
       status_count++;
     }
-    else if ( strcmp(point, "5") == 0 ){
+    else if ( input == '5' ){
       (****st) -> luk++;
       printf("運:%d -> 運:%d\n", (****st) -> luk - 1, (****st) -> luk);
       status_count++;
@@ -127,12 +127,11 @@ void special_status_lvup(Player *****st){
 
 void level_up(Player ****st, P_skill ****player_skill){
   int exp_function;  //LVup必要経験値 LVUPごとに1.4倍
-  int i, finish_count, level_up_point, per;
+  int i, finish_count, per, exp_temp;
 
-  level_up_point = 1;
+  finish_count = 0;
   do{
     exp_function = 10;
-    finish_count = 0;
     for ( i = 1; i <= (***st) -> lv; i++ ){
       if ( (***st) -> lv == 1 ){
         exp_function = 10;
@@ -145,21 +144,7 @@ void level_up(Player ****st, P_skill ****player_skill){
 
     printf("exp_function:%d\n", exp_function);
 
-    if ( level_up_point != 1 ){
-      (***st) -> lv++;
-      printf("%sはLVUP!!\n", (***st) -> name);
-      printf("%s LV:%d -> LV:%d\n", (***st) -> name, (***st) -> lv - 1, (***st) -> lv);
-
-      status_lvup(&st, &player_skill);
-
-      level_up_point--;
-
-      if ( level_up_point == 1 ){
-        break;
-      }
-    }
-
-    if ( (***st) -> exp >= exp_function && level_up_point == 1 ){
+    if ( (***st) -> exp >= exp_function ){
       (***st) -> lv++;
       printf("%sはLVUP!!\n", (***st) -> name);
       printf("%s LV:%d -> LV:%d\n", (***st) -> name, (***st) -> lv - 1, (***st) -> lv);
@@ -172,25 +157,30 @@ void level_up(Player ****st, P_skill ****player_skill){
         special_status_lvup(&st);
       }
 
-      //同時に複数レベル上昇時の判断(15レベル同時上昇まで)
-      for ( i = 2; i <= 15; i++ ){
-        if ( (***st) -> exp >= exp_function * i ){
-          level_up_point = i;
-        }
-      }
-
-      (***st) -> exp = 0;
+      exp_temp = (***st) -> exp - exp_function;  //残存経験値
 
       //次のレベルまでの必要経験値
-      (***st) -> nextexp = exp_function - (***st) -> exp;
+      exp_function = 10;
+      for ( i = 1; i <= (***st) -> lv; i++ ){
+        exp_function *= 1.4;
+      }
+
+      if ( exp_temp >= exp_function ){
+        (***st) -> exp = exp_temp;
+        //再びループ処理の最初でレベルアップ判定
+      }
+      else{
+        (***st) -> nextexp = exp_function - exp_temp;
+        printf("%s LV:%d NEXTEXP:%d\n", (***st) -> name, (***st) -> lv, (***st) -> nextexp);
+        finish_count = 1;
+      }
     }
     else{
       //次のレベルまでの必要経験値
       (***st) -> nextexp = exp_function - (***st) -> exp;
       printf("%s LV:%d NEXTEXP:%d\n", (***st) -> name, (***st) -> lv, (***st) -> nextexp);
-      finish_count++;
+      finish_count = 1;
     }
-
   }while( finish_count == 0 );
 
 }

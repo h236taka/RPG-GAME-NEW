@@ -274,12 +274,15 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
 void map_tutorial(void);
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area);
+//HP,MP,STATUS全回復
+void full_recover(Player **st, Player **st2, Player **st3);
+
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog);
 
 //map.c
-void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **enemy, Enemy **enemy1, Enemy **enemy2);
+void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **slime, Enemy **kobalt, Enemy **goblin);
 
-void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items);
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog);
 
 void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Map *map, Area ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]);
 
@@ -308,7 +311,7 @@ void status_menu(Player *****st, Player *****st2, Player *****st3);
 
 void map_menu(Map ***map, Area *****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
 
-//map.c -> rpg_battle.c
+//map.c -> rpg_battle_same_enemy.c
 void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, int encount_pattern);
 
 int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount);
@@ -325,10 +328,29 @@ void poison_effect(Player ****st);
 
 void display_gameover(void);
 
+//rpg_battle_encount_pattern5.c
+void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, Enemy ***enemy1, int encount_pattern);
+
+void enemy_full_recover5(Enemy ****enemy, Enemy ****enemy1);
+
+//rpg_battle_encount_pattern6.c
+
+void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, Enemy ***enemy1, Enemy ***enemy2, int encount_pattern);
+
+void enemy_full_recover6(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2);
+
 //to check enemy_deadcount
 int battle_error_enemydeadcount1(Enemy ****enemy);
 
 int battle_error_enemydeadcount2(Enemy ****enemy, Enemy *enemy_copy1);
+
+int battle_error_enemydeadcount3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2);
+
+int battle_error_enemydeadcount4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3);
+
+int battle_error_enemydeadcount5(Enemy ****enemy, Enemy ****enemy1);
+
+int battle_error_enemydeadcount6(Enemy ****enemy, Enemy ****enemy1, Enemy****enemy2);
 
 //about battle turns in rpg_battle.c (playerの行動ごとに消費するターン数を計算)
 double calculate_player_turn(double player_turn, double turn_decrease);
@@ -342,12 +364,16 @@ void display_enemy_turn(Enemy ****enemy, double enemy_turn);
 void display_enemy_copy_turn(Enemy *enemy_copy1, double enemy_turn);
 
 //rpg_battle_display.c (To show graphycal battle)
-
+//select target to attack enemies
 int player_normal_attack_target2(Enemy ****enemy, Enemy *enemy_copy1);
 
 int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2);
 
 int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3);
+
+int player_normal_attack_target5(Enemy ****enemy, Enemy ****enemy1);
+
+int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2);
 
 //display about players
 void hp_graphycal_display(Player ****st, Player ****st2, Player ****st3);
@@ -367,6 +393,9 @@ void encount_pattern3_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_c
 
 void encount_pattern4_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3, int encount_pattern);
 
+void encount_pattern5_layout(Enemy ****enemy, Enemy ****enemy1, int encount_pattern);
+
+void encount_pattern6_layout(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, int encount_pattern);
 //battle_skill.c ( about players and enemies skills function and to decide enemies move pattern)
 int player_ability(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user);
 
