@@ -127,7 +127,7 @@ void special_status_lvup(Player *****st){
 
 void level_up(Player ****st, P_skill ****player_skill){
   int exp_function;  //LVup必要経験値 LVUPごとに1.4倍
-  int i, finish_count, per, exp_temp;
+  int i, finish_count, per;
 
   finish_count = 0;
   do{
@@ -142,9 +142,9 @@ void level_up(Player ****st, P_skill ****player_skill){
       }
     }
 
-    printf("exp_function:%d\n", exp_function);
+    //printf("exp_function:%d\n", exp_function);
 
-    if ( (***st) -> exp >= exp_function ){
+    if ( (***st) -> exp >= (***st) -> nextexp ){
       (***st) -> lv++;
       printf("%sはLVUP!!\n", (***st) -> name);
       printf("%s LV:%d -> LV:%d\n", (***st) -> name, (***st) -> lv - 1, (***st) -> lv);
@@ -157,7 +157,12 @@ void level_up(Player ****st, P_skill ****player_skill){
         special_status_lvup(&st);
       }
 
-      exp_temp = (***st) -> exp - exp_function;  //残存経験値
+      if ( (***st) -> exp - (***st) -> nextexp > 0 ){
+        (***st) -> leftoverexp = (***st) -> exp - (***st) -> nextexp;  //残存経験値
+      }
+      else{
+        (***st) -> leftoverexp = 0;
+      }
 
       //次のレベルまでの必要経験値
       exp_function = 10;
@@ -165,22 +170,25 @@ void level_up(Player ****st, P_skill ****player_skill){
         exp_function *= 1.4;
       }
 
-      if ( exp_temp >= exp_function ){
-        (***st) -> exp = exp_temp;
+      if ( (***st) -> leftoverexp >= exp_function ){
+        (***st) -> nextexp = (***st) -> leftoverexp;
+        (***st) -> leftoverexp = 0;
         //再びループ処理の最初でレベルアップ判定
       }
       else{
-        (***st) -> nextexp = exp_function - exp_temp;
+        (***st) -> nextexp = exp_function - (***st) -> leftoverexp;
         printf("%s LV:%d NEXTEXP:%d\n", (***st) -> name, (***st) -> lv, (***st) -> nextexp);
         finish_count = 1;
       }
     }
     else{
       //次のレベルまでの必要経験値
-      (***st) -> nextexp = exp_function - (***st) -> exp;
+      (***st) -> nextexp -= (***st) -> exp;
       printf("%s LV:%d NEXTEXP:%d\n", (***st) -> name, (***st) -> lv, (***st) -> nextexp);
       finish_count = 1;
     }
   }while( finish_count == 0 );
+
+  (***st) -> exp = 0;
 
 }

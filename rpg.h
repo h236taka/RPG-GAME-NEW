@@ -93,6 +93,7 @@ typedef struct player {
   int exp;
   int sumexp;
   int nextexp;
+  int leftoverexp;
   int gold;
   int badstatus;
   int physical_attack; //物理攻撃
@@ -131,9 +132,9 @@ typedef struct area {
   int event1c;
   int event1d;
   int boss1;
+  int event2a;
   int encount; //敵とエンカウントするか否か 0ならばエンカウントしない 1ならばエンカウント
 } Area;
-
 
 //パーティのセーブデータ
 typedef struct save_data_players{
@@ -151,6 +152,7 @@ typedef struct save_data_players{
   int exp;
   int sumexp;
   int nextexp;
+  int leftoverexp;
   int gold;
   int badstatus;
   int physical_attack; //物理攻撃
@@ -189,6 +191,7 @@ typedef struct save_data_players{
   int exp2;
   int sumexp2;
   int nextexp2;
+  int leftoverexp2;
   int badstatus2;
   int physical_attack2; //物理攻撃
   int gun_attack2; //銃攻撃
@@ -225,6 +228,7 @@ typedef struct save_data_players{
   int exp3;
   int sumexp3;
   int nextexp3;
+  int leftoverexp3;
   int badstatus3;
   int physical_attack3; //物理攻撃
   int gun_attack3; //銃攻撃
@@ -253,6 +257,12 @@ typedef struct items {
   int lifestone;
   int antipoison;
 } Items;
+
+typedef struct save_data_items {
+  int medicine;
+  int lifestone;
+  int antipoison;
+} Save_data_items;
 
 //rpg_function.c
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, int load);

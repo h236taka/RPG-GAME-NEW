@@ -76,6 +76,17 @@ int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
         }
       } while ( command != '1' && command != '3' );
     }
+    if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
+      do {
+        printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
+        printf("1.%s\n", (***enemy) -> name);
+        printf("\n");
+        command =  _getch();
+        if ( command == 'c' ){
+          break;
+        }
+      } while ( command != '1' );
+    }
   }
   if ( enemy_copy1 -> badstatus != DEAD ){
     if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD ){
@@ -340,6 +351,17 @@ int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
           break;
         }
       } while ( command != '1' && command != '3' );
+    }
+    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD ){
+      do {
+        printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
+        printf("1.%s\n", (***enemy) -> name);
+        printf("\n");
+        command =  _getch();
+        if ( command == 'c' ){
+          break;
+        }
+      } while ( command != '1' );
     }
   }
   if ( (***enemy1) -> badstatus != DEAD ){
@@ -687,7 +709,7 @@ void mp_graphycal_display(Player ****st, Player ****st2, Player ****st3){
   else if ( (***st) -> mp >= (***st) -> maxmp * 0.1 ){
     printf(" |/|        |");
   }
-  else if ( (***st) -> mp == 0 ){
+  else{
     printf(" ||         |");
   }
 
@@ -721,7 +743,7 @@ void mp_graphycal_display(Player ****st, Player ****st2, Player ****st3){
   else if ( (***st2) -> mp >= (***st2) -> maxmp * 0.1 ){
     printf("          |/|        |");
   }
-  else if ( (***st2) -> mp == 0 ){
+  else{
     printf("          ||         |");
   }
 
@@ -755,7 +777,7 @@ void mp_graphycal_display(Player ****st, Player ****st2, Player ****st3){
   else if ( (***st3) -> mp >= (***st3) -> maxmp * 0.1 ){
     printf("             |/|        |\n");
   }
-  else if ( (***st3) -> mp == 0 ){
+  else{
     printf("             ||         |\n");
   }
 

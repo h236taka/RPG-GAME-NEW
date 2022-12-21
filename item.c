@@ -214,8 +214,8 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //傷薬はアイテムナンバー1
       item_number = 1;
       item_target = battle_item_useselect(&items,&st,&st2,&st3);
-      printf("item_number:%d\n", item_number);
-      printf("item_target:%d\n", item_target);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
 
       if ( item_target == 0 ){
         //nothing
@@ -245,8 +245,8 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //魔石はアイテムナンバー2
       item_number = 2;
       item_target = battle_item_useselect(&items,&st,&st2,&st3);
-      printf("item_number:%d\n", item_number);
-      printf("item_target:%d\n", item_target);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
 
       if ( item_target == 0 ){
         //nothing
@@ -276,8 +276,8 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //魔石はアイテムナンバー2
       item_number = 3;
       item_target = battle_item_useselect(&items,&st,&st2,&st3);
-      printf("item_number:%d\n", item_number);
-      printf("item_target:%d\n", item_target);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
 
       if ( item_target == 0 ){
         //nothing

@@ -20,15 +20,7 @@ typedef struct area1 {
   int encount; //敵とエンカウントするか否か 0ならばエンカウントしない 1ならばエンカウント
 } Area1;*/
 
-//battleからmap画面に戻る判定(1なら該当)
-static int battle_to_map;
-
-//eventからmap画面に戻る判定(1なら該当)
-static int event_to_map;
-
-int battle_mode;
-
-static int automap_area1[16][3] = {
+int automap_area1[16][3] = {
   {-1, 0, -1},   //event2
   {-1, 0, -1},
   {-1, 0, -1},
@@ -46,36 +38,42 @@ static int automap_area1[16][3] = {
   {-1, 0, -1},     //start
   {-1, 0, -1} };
 
-  static int automap_area2[27][10] = {
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
-    {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
-    {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
-    {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},     //start
-    {-1, -1, -1, -1, 101, -1, -1, -1, -1, -1} };  //26
+int automap_area2[27][10] = {
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+  {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},     //start
+  {-1, -1, -1, -1, 101, -1, -1, -1, -1, -1} };  //26
 
+//battleからmap画面に戻る判定(1なら該当)
+static int battle_to_map;
 
+//eventからmap画面に戻る判定(1なら該当)
+static int event_to_map;
+
+int battle_mode;
 
 void display_3dmap(int area_data_number, int direction, Map ***map){
 
@@ -977,8 +975,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     if ( (**area) -> dangeonId == 1 ){
       printf("---1F廊下---\n");
     }
-
-    if ( (**area) -> dangeonId == 2 ){
+    else if ( (**area) -> dangeonId == 2 ){
       printf("---1F図書館---\n");
     }
 
@@ -1009,7 +1006,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         area_data_number = area_data[map -> y][map -> x];
         if ( area_data_number == 0 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           map -> walk_step++;
@@ -1018,7 +1015,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 1 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           map -> walk_step++;
@@ -1027,7 +1024,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 100 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           //automap_area1[map -> y][map -> x] = 10000;
@@ -1037,7 +1034,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 2 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1045,7 +1042,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 3 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1053,7 +1050,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 4 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1061,7 +1058,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 5 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1069,7 +1066,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 6 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1077,7 +1074,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 7 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1085,7 +1082,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 8 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1093,7 +1090,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 9 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1101,7 +1098,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 10 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1109,7 +1106,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 11 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1117,7 +1114,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 99 ){
           printf("Move:North\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 1;
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
@@ -1134,10 +1131,10 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         first_move_count++;
         map -> y++;
         area_data_number = area_data[map -> y][map -> x];
-        printf("area_data_number:%d\n", area_data_number);
+        //printf("area_data_number:%d\n", area_data_number);
         if ( area_data_number == 0 || area_data_number == 1 || area_data_number == 100 || area_data_number == 101 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1146,7 +1143,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 4 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1155,7 +1152,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 5 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1164,7 +1161,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 6 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1173,7 +1170,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 7 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1182,7 +1179,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 8 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1191,7 +1188,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 9 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1200,7 +1197,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 10 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1209,7 +1206,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 11 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1218,7 +1215,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 99 ){
           printf("Move:South\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 2;
           map -> walk_step++;
@@ -1238,7 +1235,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         area_data_number = area_data[map -> y][map -> x];
         if ( area_data_number == 0 ){
           printf("Move:West\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 3;
           map -> walk_step++;
@@ -1271,7 +1268,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 4 ){
           printf("Move:West\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 3;
           map -> walk_step++;
@@ -1280,7 +1277,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 5 ){
           printf("Move:West\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 3;
           map -> walk_step++;
@@ -1289,7 +1286,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 6 ){
           printf("Move:West\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 3;
           map -> walk_step++;
@@ -1298,7 +1295,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 7 ){
           printf("Move:West\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 3;
           map -> walk_step++;
@@ -1307,7 +1304,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 8 ){
           printf("Move:West\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 3;
           map -> walk_step++;
@@ -1316,7 +1313,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 9 ){
           printf("Move:West\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 3;
           map -> walk_step++;
@@ -1325,7 +1322,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 10 ){
           printf("Move:West\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 3;
           map -> walk_step++;
@@ -1334,7 +1331,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 99 ){
           printf("Move:West\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 3;
           map -> walk_step++;
@@ -1385,7 +1382,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 4 ){
           printf("Move:East\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 4;
           map -> walk_step++;
@@ -1394,7 +1391,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 5 ){
           printf("Move:East\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 4;
           map -> walk_step++;
@@ -1403,7 +1400,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 6 ){
           printf("Move:East\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 4;
           map -> walk_step++;
@@ -1412,7 +1409,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 7 ){
           printf("Move:East\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 4;
           map -> walk_step++;
@@ -1421,7 +1418,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 8 ){
           printf("Move:East\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 4;
           map -> walk_step++;
@@ -1430,7 +1427,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 9 ){
           printf("Move:East\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 4;
           map -> walk_step++;
@@ -1439,7 +1436,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 11 ){
           printf("Move:East\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 4;
           map -> walk_step++;
@@ -1448,7 +1445,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         }
         else if ( area_data_number == 99 ){
           printf("Move:East\n");
-          printf("area_data_number:%d\n", area_data_number);
+          //printf("area_data_number:%d\n", area_data_number);
           automap_area[map -> y][map -> x] = 1;
           direction = 4;
           map -> walk_step++;
@@ -1501,24 +1498,6 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     {-1, 0, -1},     //start
     {-1, 4, -1} };  //15
     //   exit
-
-  /*int automap_area1[16][3] = {
-    {-1, 0, -1},   //event2
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},
-    {-1, 0, -1},   //event1
-    {-1, 0, -1},
-    {-1, 0, -1},     //start
-    {-1, 0, -1} };  //15*/
 
   //start地点の設定
   map.y = 14;
@@ -1624,7 +1603,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);  //playerの移動に関する関数
     //event処理
     if ( map.x == 1 && map.y == 12 && (*area) -> event1a == 0 ){
-      printf("event!\n");
+      printf("突然目の前に敵が現れた!\n");
       encount_pattern = 2;
       (*slime) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
 
@@ -1644,7 +1623,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
     }
     if ( map.x == 1 && map.y == 9 && (*area) -> event1b == 0 ){
-      printf("event!\n");
+      printf("突然目の前に敵が現れた!\n");
       encount_pattern = 3;
       (*slime) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
 
@@ -1658,7 +1637,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
     }
     if ( map.x == 1 && map.y == 5 && (*area) -> event1c == 0 ){
-      printf("event!\n");
+      printf("突然目の前に敵が現れた!\n");
       encount_pattern = 1;
       (*kobalt) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
 
@@ -1681,7 +1660,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
     }
     if ( map.x == 1 && map.y == 0 && (*area) -> boss1 == 0 ){
-      printf("BOSS!\n");
+      printf("BOSSが現れた!\n");
 
       encount_pattern = 1;
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &goblin, encount_pattern);
@@ -1707,30 +1686,30 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1,  4,  0,  3, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {4,   7,  0,  0,  7,  0,  0,  0,  0,  4},
+    {-1, -1, -1, -1,  2,  0,  0,  9,  5, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    { 5,  9,  0,  0,  1,  0,  0,  4, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    { 4,  0,  0,  0,  1,  0,  0,  7,  0,  4},
+    {-1, -1, -1, -1,  0, -1, -1,  0, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1,  6,  0,  4},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    { 4,  0,  0,  0,  1,  0,  0,  0,  0,  4},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {4,   7,  0,  0,  1,  0,  0,  0,  0,  4},
     {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
     {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
     {-1,  4, -1, -1, 100, -1,-1, -1, -1, -1},     //start
-    {-1, -1, -1, -1, 101, -1, -1, -1, -1, -1} };  //26
+    {-1, -1, -1, -1, 4, -1, -1, -1, -1, -1} };  //26
 
   //start地点の設定
   map.y = 25;
@@ -1775,41 +1754,50 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   do{
     player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area2);  //playerの移動に関する関数
     //event処理
+    if ( map.x == 8 && map.y == 3 && (*area) -> event2a == 0 ){
+      printf("GOAL!!\n");
+      printf("デモプレイを終了します...\n");
+      exit(EXIT_SUCCESS);
+    }
+    else{
+      //敵とエンカウント
+      if ( battle_mode == 1 ){
+        enemy_appearance_per = (rand() % ( 100 - 1 + 1 ) + 1);
+        if ( enemy_appearance_per >= 1 && enemy_appearance_per <= 10 ){
+          encount_pattern = 1;
+          //zombie1体
+          game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombie, encount_pattern);
+        }
+        else if ( enemy_appearance_per <= 25 ){  //スライム１体+ゾンビドッグ1体+コボルト1体
+          encount_pattern = 6;
+          game_battle_encount_pattern6(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombiedog, &slime, &kobalt, encount_pattern);
+        }
+        else if ( enemy_appearance_per <= 40 ){  //スライム1体+ゾンビ1体
+          encount_pattern = 5;
+          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, &zombie, encount_pattern);
+        }
+        else if ( enemy_appearance_per <= 60 ){  //コボルト1体+ゴブリン1体
+          encount_pattern = 5;
+          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &goblin_normal, &kobalt, encount_pattern);
+        }
+        else if ( enemy_appearance_per <= 75 ){ //ゴブリン2体
+          encount_pattern = 2;
+          game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &goblin_normal, encount_pattern);
+        }
+        else if ( enemy_appearance_per <= 85 ){  //スライム1体+ゾンビドッグ1体+コボルト1体+ゾンビ1体
+          encount_pattern = 7;
+          game_battle_encount_pattern7(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, &kobalt, &zombiedog, &zombie,encount_pattern);
+        }
+        else{
+          encount_pattern = 2;
+          game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombie, encount_pattern);
+        }
 
+        battle_mode = 0;
 
-    //敵とエンカウント
-    if ( battle_mode == 1 ){
-      enemy_appearance_per = (rand() % ( 100 - 1 + 1 ) + 1);
-      if ( enemy_appearance_per >= 1 && enemy_appearance_per <= 10 ){
-        encount_pattern = 1;
-        //zombie1体
-        game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombie, encount_pattern);
+        battle_to_map = 1;
+        player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
       }
-      else if ( enemy_appearance_per <= 25 ){  //スライム１体+ゾンビドッグ1体+コボルト1体
-        encount_pattern = 6;
-        game_battle_encount_pattern6(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombiedog, &slime, &kobalt, encount_pattern);
-      }
-      else if ( enemy_appearance_per <= 40 ){  //スライム1体+ゾンビ1体
-        encount_pattern = 5;
-        game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, &zombie, encount_pattern);
-      }
-      else if ( enemy_appearance_per <= 60 ){  //コボルト1体+ゴブリン1体
-        encount_pattern = 5;
-        game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &goblin_normal, &kobalt, encount_pattern);
-      }
-      else if ( enemy_appearance_per <= 75 ){ //ゴブリン2体
-        encount_pattern = 2;
-        game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &goblin_normal, encount_pattern);
-      }
-      else{  //スライム1体+ゾンビドッグ1体+コボルト1体+ゾンビ1体
-        encount_pattern = 7;
-        game_battle_encount_pattern7(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, &kobalt, &zombiedog, &zombie,encount_pattern);
-      }
-
-      battle_mode = 0;
-
-      battle_to_map = 1;
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
     }
 
   }while ( clear_count == 0 );

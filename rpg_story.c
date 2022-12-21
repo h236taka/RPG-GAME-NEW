@@ -92,7 +92,7 @@ int check_player_name(Player **st){
     }
     //ネイティブスケールをデフォルトに戻す
     setlocale( LC_CTYPE, "C" );
-    printf("len:%d\n", char_count);
+    //printf("len:%d\n", char_count);
   }
 
   return char_count;
@@ -106,7 +106,7 @@ void game_start(Player *st, Player *st2, Player *st3){
 
   //主人公
   do {
-    printf("あなたの名前を入力してください(6文字以内かつ半角英数字)\n");
+    printf("あなたの名前を入力してください(5文字以内かつ半角英数字)\n");
     scanf("%s", st -> name);
     /*len = (int)strlen( st -> name);
     //printf("len:%d\n", len);
@@ -114,7 +114,7 @@ void game_start(Player *st, Player *st2, Player *st3){
       printf("名前の文字数がオーバーしています!\n");
     }*/
     char_count = check_player_name(&st);
-  }while ( char_count > 6 );
+  }while ( char_count > 5 );
 
   printf("名前は%sでよろしいですか？\n", st -> name);
   printf("1:yes 2:no\n");
@@ -123,11 +123,11 @@ void game_start(Player *st, Player *st2, Player *st3){
     input = _getch();
     if ( input == '2' ){
       do{
-        printf("あなたの名前を入力してください(6文字以内かつ半角英数字)\n");
+        printf("あなたの名前を入力してください(5文字以内かつ半角英数字)\n");
         scanf("%s", st -> name);
 
         char_count = check_player_name(&st);
-      } while ( char_count > 6 );
+      } while ( char_count > 5 );
       setlocale( LC_CTYPE, "C" );
       printf("名前は%sでよろしいですか？\n", st -> name);
       printf("1:yes 2:no\n");
@@ -139,10 +139,10 @@ void game_start(Player *st, Player *st2, Player *st3){
   sleep(1);
   //2人目
   do {
-    printf("２人目の名前を入力してください(6文字以内かつ半角英数字)\n");
+    printf("２人目の名前を入力してください(5文字以内かつ半角英数字)\n");
     scanf("%s", st2 -> name);
     char_count = check_player_name(&st2);
-  } while ( char_count > 6 );
+  } while ( char_count > 5 );
 
   printf("名前は%sでよろしいですか？\n", st2 -> name);
   printf("1:yes 2:no\n");
@@ -151,11 +151,11 @@ void game_start(Player *st, Player *st2, Player *st3){
     input = _getch();
     if ( input == '2' ){
       do{
-        printf("２人目の名前を入力してください(6文字以内かつ半角英数字)\n");
+        printf("２人目の名前を入力してください(5文字以内かつ半角英数字)\n");
         scanf("%s", st2 -> name);
 
         char_count = check_player_name(&st2);
-      } while ( char_count > 6 );
+      } while ( char_count > 5 );
       setlocale( LC_CTYPE, "C" );
       printf("名前は%sでよろしいですか？\n", st2 -> name);
       printf("1:yes 2:no\n");
@@ -167,10 +167,10 @@ void game_start(Player *st, Player *st2, Player *st3){
   sleep(1);
 
   do {
-    printf("３人目の名前を入力してください(6文字以内かつ半角英数字)\n");
+    printf("３人目の名前を入力してください(5文字以内かつ半角英数字)\n");
     scanf("%s", st3 -> name);
     char_count = check_player_name(&st3);
-  } while ( char_count > 6 );
+  } while ( char_count > 5 );
 
   printf("名前は%sでよろしいですか？\n", st3 -> name);
   printf("1:yes 2:no\n");
@@ -179,11 +179,11 @@ void game_start(Player *st, Player *st2, Player *st3){
     input = _getch();
     if ( input == '2' ){
       do{
-        printf("３人目の名前を入力してください(6文字以内かつ半角英数字)\n");
+        printf("３人目の名前を入力してください(5文字以内かつ半角英数字)\n");
         scanf("%s", st3 -> name);
 
         char_count = check_player_name(&st3);
-      } while ( char_count > 6 );
+      } while ( char_count > 5 );
       setlocale( LC_CTYPE, "C" );
       printf("名前は%sでよろしいですか？\n", st3 -> name);
       printf("1:yes 2:no\n");
@@ -253,6 +253,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
   st -> exp = 0;
   st -> sumexp = 0;
   st -> nextexp = 10;
+  st -> leftoverexp = 0;
   st -> gold = 0;
   //badstatus = 0:正常
   //badstatus = 1:死亡
@@ -298,6 +299,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
   st2 -> exp = 0;
   st2 -> sumexp = 0;
   st2 -> nextexp = 10;
+  st2 -> leftoverexp = 0;
   st2 -> gold = 0;
   st2 -> badstatus = GOOD;
   //攻撃耐性
@@ -333,6 +335,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
   st3 -> exp = 0;
   st3 -> sumexp = 0;
   st3 -> nextexp = 10;
+  st3 -> leftoverexp = 0;
   st3 -> gold = 0;
   //badstatus = 0:正常
   //badstatus = 1:死亡
@@ -392,7 +395,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
   printf("\n");
   sleep(2);
 
-  //map_tutorial();
+  map_tutorial();
   sleep(1);
   area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, &kobalt, &goblin);
 
@@ -404,9 +407,9 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
   full_recover(&st,&st2,&st3);
 
-  printf("st:HP:%d\n", st -> hp);
-  printf("st2:HP:%d\n", st2 -> hp);
-  printf("st3:HP:%d\n", st3 -> hp);
+  //printf("st:HP:%d\n", st -> hp);
+  //printf("st2:HP:%d\n", st2 -> hp);
+  //printf("st3:HP:%d\n", st3 -> hp);
 
 }
 
@@ -462,8 +465,8 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
 
   full_recover(&st,&st2,&st3);
 
-  printf("st2:HP:%d\n", st2 -> hp);
-  printf("st3:HP:%d\n", st3 -> hp);
+  //printf("st2:HP:%d\n", st2 -> hp);
+  //printf("st3:HP:%d\n", st3 -> hp);
 
   area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog);
 

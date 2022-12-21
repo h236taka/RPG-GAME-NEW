@@ -257,7 +257,7 @@ int battle_player_skill_list(P_skill ****player_skill){
     skill_count++;
   }
   if ( (***player_skill) -> cure_poison == 1 ){
-    printf("2:CURE-POISON 消費MP:4MP (POISON状態を回復)\n");
+    printf("2:キュアポ 消費MP:4MP (POISON状態を回復)\n");
     skill_count++;
   }
   if ( (***player_skill) -> recover2 == 1 ){
@@ -369,7 +369,7 @@ double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, 
       max_damage = damage_base * 1.3;
       if ( critical_count == 0 ){
         damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
-        printf("damage:%d\n", damage);
+        //printf("damage:%d\n", damage);
         //味方の耐性判断
         if ( (*****st) -> physical_attack == 100 ){
           damage = damage;
@@ -479,7 +479,7 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
     target_base = enemy_skill_target();
 
     badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
-    printf("badstatus_per:%d\n", badstatus_per);
+    //printf("badstatus_per:%d\n", badstatus_per);
     printf("%s>>ポイゾガ\n", (****enemy) -> name);
     if ( badstatus_per >= 1 && badstatus_per <= 35 ){
       if ( target_base == 1 ){
@@ -530,7 +530,7 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
     target_base = enemy_skill_target();
 
     badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
-    printf("badstatus_per:%d\n", badstatus_per);
+    //printf("badstatus_per:%d\n", badstatus_per);
     printf("%s>>パララズ\n", (****enemy) -> name);
     if ( badstatus_per >= 1 && badstatus_per <= 35 ){
       if ( target_base == 1 ){
@@ -578,7 +578,7 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
   }
   else if ( (****enemy) -> enemy_id == 101 ){    //回復:LV1
     recover_point = (rand() % ( 20 + (****enemy) -> magic * 3 - 20 + 1) ) + 20; //回復量20 ~ 20 + (***enemy) -> magic * 3
-    printf("%s:SKILL---回復:LV1---\n", (****enemy) -> name);
+    printf("%s>>ケディア\n", (****enemy) -> name);
     (****enemy) -> hp +=  recover_point;
     if ( (****enemy) -> hp >= (****enemy) -> maxhp ){
       (****enemy) -> hp = (****enemy) -> maxhp;
@@ -602,7 +602,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
     target_base = enemy_skill_target();
 
     badstatus_per = ( rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
-    printf("badstatus_per:%d\n", badstatus_per);
+    //printf("badstatus_per:%d\n", badstatus_per);
     printf("%s>>ポイゾガ\n", (*enemy_copy1) -> name);
     if ( badstatus_per >= 1 && badstatus_per <= 20 ){
       if ( target_base == 1 ){
@@ -652,7 +652,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
     target_base = enemy_skill_target();
 
     badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
-    printf("badstatus_per:%d\n", badstatus_per);
+    //printf("badstatus_per:%d\n", badstatus_per);
     printf("%s>>パララズ\n", (*enemy_copy1) -> name);
     if ( badstatus_per >= 1 && badstatus_per <= 35 ){
       if ( target_base == 1 ){
@@ -700,7 +700,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
   }
   else if ( (*enemy_copy1) -> enemy_id == 101 ){    //回復:LV1
     recover_point = (rand() % (20 + (*enemy_copy1) -> magic * 3 - 20 + 1) ) + 20; //回復量20 ~ 20 + (***enemy) -> magic * 3
-    printf("%s:SKILL---回復:LV1---\n", (*enemy_copy1) -> name);
+    printf("%s:SKILL>>ケディア\n", (*enemy_copy1) -> name);
     (*enemy_copy1) -> hp +=  recover_point;
     if ( (*enemy_copy1) -> hp >= (*enemy_copy1) -> maxhp ){
       (*enemy_copy1) -> hp = (*enemy_copy1) -> maxhp;
@@ -762,6 +762,10 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy
     enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
   }
 
+  if ( enemy_turn < 0 ){
+    enemy_turn = 0;
+  }
+
   return enemy_turn;
 }
 
@@ -802,6 +806,10 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
   }
   else{
     enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
+  }
+
+  if ( enemy_turn < 0 ){
+    enemy_turn = 0;
   }
 
   return enemy_turn;

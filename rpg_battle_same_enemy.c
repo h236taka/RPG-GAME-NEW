@@ -30,16 +30,16 @@ int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
     }
   }
 
-  printf("before eva_base = %f\n", eva_base);
+  //printf("before eva_base = %f\n", eva_base);
   eva_base = round(eva_base);
-  printf("after eva_base = %f\n", eva_base);
+  //printf("after eva_base = %f\n", eva_base);
 
   if ( eva_base < 3 ){
     eva_base = 3;     //回避率最小値3%
   }
 
   eva = (rand() % ( 100 - 1 + 1 ) + 1);  //回避率の乱数
-  printf("eva number = %d\n", eva);
+  //printf("eva number = %d\n", eva);
 
   for ( i = 3; i <= eva_base; i++ ){
     if ( eva_base == i ){
@@ -55,12 +55,12 @@ int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
     if ( critical_base < 1 ){
       critical_base = 1;       //critical最小値1%
     }
-    printf("before critical_base = %f\n", critical_base);
+    //printf("before critical_base = %f\n", critical_base);
     critical_base = round(critical_base);
-    printf("after critical_base = %f\n", critical_base);
+    //printf("after critical_base = %f\n", critical_base);
 
     critical = (rand() % ( 100 - 1 + 1 ) + 1);   //critical率の乱数
-    printf("critical number = %d\n", critical);
+    //printf("critical number = %d\n", critical);
 
     //critical_base = 100;
     for ( i = 1; i <= critical_base; i++ ){
@@ -210,9 +210,9 @@ double calculate_enemy_turn(double enemy_turn, double turn_decrease){
   //turn増加
   else if ( turn_decrease == 0.1 ){
     if ( enemy_turn == 4 || enemy_turn == 3 || enemy_turn == 2 || enemy_turn == 1 ){
-      printf("here\n");
+      //printf("here\n");
       enemy_turn += turn_decrease;
-      printf("enemy_turn:%f\n", enemy_turn);
+      //printf("enemy_turn:%f\n", enemy_turn);
     }
     else if ( enemy_turn == 4.4 ){
       enemy_turn = 3.3;
@@ -448,22 +448,23 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
     }
   }
 
-  printf("target:%d\n", target);
+  //printf("target:%d\n", target);
 
-  printf("before eva_base = %f\n", eva_base);
+  //printf("before eva_base = %f\n", eva_base);
   eva_base = round(eva_base);
-  printf("after eva_base = %f\n", eva_base);
+  //printf("after eva_base = %f\n", eva_base);
 
   if ( eva_base < 3 ){
     eva_base = 3;     //回避率最小値3%
   }
 
   eva = (rand() % ( 100 - 1 + 1 ) + 1);  //回避率の乱数
-  printf("eva number = %d\n", eva);
+  //printf("eva number = %d\n", eva);
   for ( i = 3; i <= eva_base; i++ ){
     if ( eva_base == i ){
       if ( eva >= 1 && eva <= i ){   //回避率eva_base%
         damage = 0;
+        printf("MISS!\n");
         turn_decrease = -2;
         enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
         eva_count++;
@@ -490,12 +491,12 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
         critical_base = 1;       //critical最小値1%
       }
     }
-    printf("before critical_base = %f\n", critical_base);
+    //printf("before critical_base = %f\n", critical_base);
     critical_base = round(critical_base);
-    printf("after critical_base = %f\n", critical_base);
+    //printf("after critical_base = %f\n", critical_base);
 
     critical = (rand() % ( 100 - 1 + 1 ) + 1);   //critical率の乱数
-    printf("critical number = %d\n", critical);
+    //printf("critical number = %d\n", critical);
 
     for ( i = 1; i <= critical_base; i++ ){
       if ( critical_base == i ){
@@ -710,7 +711,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
   player_guard2 = 0;
   player_guard3 = 0;
 
-  printf("enemy_attack's enemy_turn:%f\n", enemy_turn);
+  //printf("enemy_attack's enemy_turn:%f\n", enemy_turn);
 
   return enemy_turn;
 }
@@ -871,23 +872,24 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
     }
   }
 
-  printf("target:%d\n", target);
+  //printf("target:%d\n", target);
 
-  printf("before eva_base = %f\n", eva_base);
+  //printf("before eva_base = %f\n", eva_base);
   eva_base = round(eva_base);
-  printf("after eva_base = %f\n", eva_base);
+  //printf("after eva_base = %f\n", eva_base);
 
   if ( eva_base < 3 ){
     eva_base = 3;     //回避率最小値3%
   }
 
   eva = (rand() % ( 100 - 1 + 1 ) + 1);  //回避率の乱数
-  printf("eva number = %d\n", eva);
+  //printf("eva number = %d\n", eva);
 
   for ( i = 3; i <= eva_base; i++ ){
     if ( eva_base == i ){
       if ( eva >= 1 && eva <= i ){   //回避率eva_base%
         damage = 0;
+        printf("MISS!\n");
         eva_count++;
         turn_decrease = -2;
         enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -915,12 +917,12 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
         critical_base = 1;       //critical最小値1%
       }
     }
-    printf("before critical_base = %f\n", critical_base);
+    //printf("before critical_base = %f\n", critical_base);
     critical_base = round(critical_base);
-    printf("after critical_base = %f\n", critical_base);
+    //printf("after critical_base = %f\n", critical_base);
 
     critical = (rand() % ( 100 - 1 + 1 ) + 1);   //critical率の乱数
-    printf("critical number = %d\n", critical);
+    //printf("critical number = %d\n", critical);
 
     for ( i = 1; i <= critical_base; i++ ){
       if ( critical_base == i ){
@@ -1232,9 +1234,9 @@ int battle_escape(Player ****st){
   if ( escape_count == 0 ){  //逃走試行回数
     escape_base = 35 + ( (***st) -> agi * 0.2 + (***st) -> luk * 0.2);   //逃走確率の最小値35% + 逃走を選択したキャラの速と運の値
     escape_base = round(escape_base);
-    printf("escape_base = %f\n", escape_base);
+    //printf("escape_base = %f\n", escape_base);
     escape = (rand() % ( 100 - 1 + 1 ) + 1);
-    printf("escape number = %d\n", escape);
+    //printf("escape number = %d\n", escape);
     for ( i = 35; i <= escape_base; i++ ){
       if ( escape_base == i ){
         if ( escape >= 1 && escape <= i ){
@@ -1278,7 +1280,7 @@ double calculate_player_turn(double player_turn, double turn_decrease){
   else if ( turn_decrease == -2 ){
     if ( player_turn == 3 || player_turn == 2 || player_turn == 1 ){
       player_turn += turn_decrease;
-      printf("%f\n", player_turn);
+      //printf("%f\n", player_turn);
       if ( player_turn < 0 ){
         player_turn = 0;
       }
@@ -1298,7 +1300,7 @@ double calculate_player_turn(double player_turn, double turn_decrease){
   }
   //プレスターン増加
   else if ( turn_decrease == 0.1 ){
-    printf("here\n");
+    //printf("here\n");
     if ( player_turn == 3 || player_turn == 2 || player_turn == 1 ){
       player_turn += turn_decrease;
     }
@@ -1665,7 +1667,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   use_skill_count = 0; //skillの使用に関する判定
   do {
     skill_reaction = 1;
-    printf("enemy_deadcount:%d\n", enemy_deadcount);
+    //printf("enemy_deadcount:%d\n", enemy_deadcount);
     printf("                 <<<<<<<PLAYER TURN>>>>>>>\n");
     printf("\n");
     //戦闘画面のレイアウト
@@ -1683,9 +1685,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     }
     printf("\n");
 
-    printf("       %2s                  %2s                   %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+    printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
 
-    printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d          HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+    printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
 
     //HPをグラフィックに表現
     hp_graphycal_display(&st,&st2,&st3);
@@ -2413,7 +2415,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           }
           else if ( command == '4' ){  //item使用
             turn_decrease = battle_item_use(&items,&st,&st2,&st3);
-            printf("turn_decrease:%f\n", turn_decrease);
+            //printf("turn_decrease:%f\n", turn_decrease);
             if ( turn_decrease == 0 ){
               player_turn = calculate_player_turn(player_turn, turn_decrease);
               move_finish = 0;
@@ -2498,9 +2500,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         encount_pattern3_layout(&enemy,&enemy_copy1,&enemy_copy2,encount_pattern);
       }
 
-      printf("       %2s                  %2s                   %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+      printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
 
-      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d          HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
 
       //HPをグラフィックに表現
       hp_graphycal_display(&st,&st2,&st3);
@@ -2532,7 +2534,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           move_finish++;
         }
         else{
-          printf("%f\n", player_turn);
+          //printf("%f\n", player_turn);
           display_player_turn(&st2, player_turn);
           printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
           printf("\n");
@@ -2589,7 +2591,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 printf("%sを倒した!\n", (**enemy) -> name);
                 enemy_deadcount++;
                 (**enemy) -> badstatus = DEAD;
-                printf("enemy_deadcount:%d\n", enemy_deadcount);
+                //printf("enemy_deadcount:%d\n", enemy_deadcount);
               }
               else{
                 if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
@@ -3303,9 +3305,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         encount_pattern3_layout(&enemy,&enemy_copy1,&enemy_copy2,encount_pattern);
       }
 
-      printf("       %2s                  %2s                   %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+      printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
 
-      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d          HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
 
       //HPをグラフィックに表現
       hp_graphycal_display(&st,&st2,&st3);
@@ -3336,7 +3338,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           move_finish++;
         }
         else{
-          printf("%f\n", player_turn);
+          //printf("%f\n", player_turn);
           display_player_turn(&st3, player_turn);
           printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
           printf("\n");
@@ -4131,11 +4133,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
         display_enemy_turn(&enemy, enemy_turn);
         //enemyの攻撃
-        printf("%f\n", enemy_turn);
+        //printf("%f\n", enemy_turn);
         sleep(1);
         enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
         sleep(1);
-        printf("%f\n", enemy_turn);
+        //printf("%f\n", enemy_turn);
+
+        if ( enemy_turn <= 0 ){
+          break;
+        }
       }
       else if ( encount_pattern == 2 ){
         enemy_turn = 2;
@@ -4176,18 +4182,18 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**enemy) -> badstatus != DEAD ){
           display_enemy_turn(&enemy, enemy_turn);
           //enemyの攻撃
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           printf("\n");
         }
 
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn < 0 ){
+        if ( enemy_turn <= 0 ){
           break;
         }
 
@@ -4195,17 +4201,17 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           sleep(1);
           display_enemy_copy_turn(&enemy_copy1, enemy_turn);
           //enemyの攻撃
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
         }
 
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn < 0 ){
+        if ( enemy_turn <= 0 ){
           break;
         }
 
@@ -4248,18 +4254,18 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**enemy) -> badstatus != DEAD ){
           display_enemy_turn(&enemy, enemy_turn);
           //enemyの攻撃
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           printf("\n");
         }
 
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn < 0 ){
+        if ( enemy_turn <= 0 ){
           break;
         }
 
@@ -4267,11 +4273,11 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           sleep(1);
           display_enemy_copy_turn(&enemy_copy1, enemy_turn);
           //enemyの攻撃
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
-          printf("%f\n", enemy_turn);
+          //rintf("%f\n", enemy_turn);
         }
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
@@ -4284,11 +4290,11 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           sleep(1);
           display_enemy_copy_turn(&enemy_copy2, enemy_turn);
           //enemyの攻撃
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy2, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
         }
 
       }
@@ -4333,18 +4339,18 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**enemy) -> badstatus != DEAD ){
           display_enemy_turn(&enemy, enemy_turn);
           //enemyの攻撃
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           printf("\n");
         }
 
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn < 0 ){
+        if ( enemy_turn <= 0 ){
           break;
         }
 
@@ -4352,16 +4358,16 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           sleep(1);
           display_enemy_copy_turn(&enemy_copy1, enemy_turn);
           //enemyの攻撃
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
         }
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn < 0 ){
+        if ( enemy_turn <= 0 ){
           break;
         }
 
@@ -4369,17 +4375,17 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           sleep(1);
           display_enemy_copy_turn(&enemy_copy2, enemy_turn);
           //enemyの攻撃
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy2, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
         }
 
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn < 0 ){
+        if ( enemy_turn <= 0 ){
           break;
         }
 
@@ -4387,17 +4393,17 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           sleep(1);
           display_enemy_copy_turn(&enemy_copy3, enemy_turn);
           //enemyの攻撃
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy3, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
-          printf("%f\n", enemy_turn);
+          //printf("%f\n", enemy_turn);
         }
 
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn < 0 ){
+        if ( enemy_turn <= 0 ){
           break;
         }
 
@@ -4408,7 +4414,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
       enemy_turn_temp = enemy_turn;
 
-    } while ( enemy_turn != 0 );
+    } while ( enemy_turn > 0 );
 
   }while( enemy_deadcount != enemy_temp || ( (**st) -> badstatus != DEAD && (**st2) -> badstatus != DEAD && (**st3) -> badstatus != DEAD ) );
 

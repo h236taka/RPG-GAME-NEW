@@ -304,34 +304,34 @@ void menu_display_condition(Player *****st, int battle_display_condition_count){
   }
   else{
     if ( (****st) -> badstatus == GOOD ){
-      printf("              STATUS:GOOD");
+      printf("               STATUS:GOOD");
     }
     else if ( (****st) -> badstatus == DEAD ){
-      printf("              STATUS:DEAD");
+      printf("               STATUS:DEAD");
     }
     else if ( (****st) -> badstatus == POISON ){
-      printf("              STATUS:POISON");
+      printf("               STATUS:POISON");
     }
     else if ( (****st) -> badstatus == PALYZE ){
-      printf("              STATUS:PALYZE");
+      printf("               STATUS:PALYZE");
     }
     else if ( (****st) -> badstatus == CHARM ){
-      printf("              STATUS:CHARM");
+      printf("               STATUS:CHARM");
     }
     else if ( (****st) -> badstatus == CLOSE ){
-      printf("              STATUS:CLOSE");
+      printf("               STATUS:CLOSE");
     }
     else if ( (****st) -> badstatus == STONE ){
-      printf("              STATUS:STONE");
+      printf("               STATUS:STONE");
     }
     else if ( (****st) -> badstatus == PANIC ){
-      printf("              STATUS:PANIC");
+      printf("               STATUS:PANIC");
     }
     else if ( (****st) -> badstatus == SLEEP ){
-      printf("              STATUS:SLEEP");
+      printf("               STATUS:SLEEP");
     }
     else if ( (****st) -> badstatus == CURSE ){
-      printf("              STATUS:CURSE");
+      printf("               STATUS:CURSE");
     }
   }
 }
@@ -797,8 +797,8 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
   if ( command == '1' ){
     item_number = 1;
     item_target = menu_item_useselect(&st,&st2,&st3,&items);
-    printf("item_number:%d\n", item_number);
-    printf("item_target:%d\n", item_target);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
 
     if ( item_target == 0 ){
       //nothing
@@ -827,8 +827,8 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
   else if ( command == '2' ){
     item_number = 2;
     item_target = menu_item_useselect(&st,&st2,&st3,&items);
-    printf("item_number:%d\n", item_number);
-    printf("item_target:%d\n", item_target);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
 
     if ( item_target == 0 ){
       //nothing
@@ -857,8 +857,8 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
   else if ( command == '3' ){
     item_number = 3;
     item_target = menu_item_useselect(&st,&st2,&st3,&items);
-    printf("item_number:%d\n", item_number);
-    printf("item_target:%d\n", item_target);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
 
     if ( item_target == 0 ){
       //nothing
