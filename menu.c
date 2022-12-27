@@ -759,6 +759,23 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
   }
   else if ( item_number == 3 ){
     if ( item_target == 1 ){
+      beforehp = (******st) -> hp;
+      (******st) -> hp = (******st) -> maxhp;
+      printf("%s HP:%d/%d >> HP:%d/%d\n", (******st) -> name, beforehp, (******st) -> maxhp, (******st) -> hp, (******st) -> maxhp);
+    }
+    else if ( item_target == 2 ){
+      beforehp = (******st2) -> hp;
+      (******st) -> hp = (******st2) -> maxhp;
+      printf("%s HP:%d/%d >> HP:%d/%d\n", (******st2) -> name, beforehp, (******st2) -> maxhp, (******st2) -> hp, (******st2) -> maxhp);
+    }
+    else if ( item_target == 3 ){
+      beforehp = (******st3) -> hp;
+      (******st) -> hp = (******st3) -> maxhp;
+      printf("%s HP:%d/%d >> HP:%d/%d\n", (******st3) -> name, beforehp, (******st3) -> maxhp, (******st3) -> hp, (******st3) -> maxhp);
+    }
+  }
+  else if ( item_number == 4 ){
+    if ( item_target == 1 ){
       if ( (******st) -> badstatus == POISON ){
         (******st) -> badstatus = GOOD;
         printf("%s(POISON) >> %s(GOOD)\n", (******st) -> name, (******st) -> name);
@@ -865,6 +882,36 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
       return;
     }
     else if ( item_target == 1 ){
+      (*****items) -> bead--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    else if ( item_target == 2 ){
+      (*****items) -> bead--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    //item_target = 3
+    else if ( item_target == 3 ){
+      (*****items) -> bead--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+  }
+  else if ( command == '4' ){
+    item_number = 4;
+    item_target = menu_item_useselect(&st,&st2,&st3,&items);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
+
+    if ( item_target == 0 ){
+      //nothing
+      return;
+    }
+    else if ( item_target == 1 ){
       (*****items) -> antipoison--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
@@ -906,8 +953,12 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
       printf("2.魔石%d個(味方１人のHPを最大体力の25%%回復)\n", (****items) -> lifestone);
       items_count = 1;
     }
+    if ( (****items) -> bead > 0 ){
+      printf("3.宝玉%d個(味方1人の体力を全回復)\n", (****items) -> bead);
+      items_count = 1;
+    }
     if ( (****items) -> antipoison > 0 ){
-      printf("3.アンタイポイズン%d個(味方1人のPOISONを回復)\n", (****items) -> antipoison);
+      printf("4.アンタイポイズン%d個(味方1人のPOISONを回復)\n", (****items) -> antipoison);
       items_count = 1;
     }
 
@@ -926,8 +977,11 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
     else if ( command == '2' && (****items) -> lifestone > 0 ){
       menu_item_use(&st,&st2,&st3,&items, command);
     }
-    else if ( command == '3' && (****items) -> antipoison > 0 ){
+    else if ( command == '3' && (****items) -> bead > 0 ){
       menu_item_use(&st,&st2,&st3,&items, command);
+    }
+    else if ( command == '4' && (****items) -> antipoison > 0 ){
+      menu_item_use(&st,&st2,&st3,&items,command);
     }
     else if ( command == '' ){
       printf("強制終了\n");

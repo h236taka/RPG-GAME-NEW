@@ -106,6 +106,7 @@ void use_items_effect(Player *****st, Player *****st2, Player *****st3, int item
       printf("%s HP:%d/%d >> HP:%d/%d\n", (****st3) -> name, beforehp, (****st3) -> maxhp, (****st3) -> hp, (****st3) -> maxhp);
     }
   }
+  //魔石
   else if ( item_number == 2 ){
 
     if ( item_target == 1 ){
@@ -136,8 +137,25 @@ void use_items_effect(Player *****st, Player *****st2, Player *****st3, int item
       printf("%s HP:%d/%d >> HP:%d/%d\n", (****st3) -> name, beforehp, (****st3) -> maxhp, (****st3) -> hp, (****st3) -> maxhp);
     }
   }
-  //antipoison
   else if ( item_number == 3 ){
+    if ( item_target == 1 ){
+      beforehp = (****st) -> hp;
+      (****st) -> hp = (****st) -> maxhp;
+      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st) -> name, beforehp, (****st) -> maxhp, (****st) -> hp, (****st) -> maxhp);
+    }
+    else if ( item_target == 2 ){
+      beforehp = (****st2) -> hp;
+      (****st2) -> hp = (****st2) -> maxhp;
+      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st2) -> name, beforehp, (****st2) -> maxhp, (****st2) -> hp, (****st2) -> maxhp);
+    }
+    else if ( item_target == 3 ){
+      beforehp = (****st3) -> hp;
+      (****st3) -> hp = (****st3) -> maxhp;
+      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st3) -> name, beforehp, (****st3) -> maxhp, (****st3) -> hp, (****st3) -> maxhp);
+    }
+  }
+  //antipoison
+  else if ( item_number == 4 ){
     if ( item_target == 1 ){
       if ( (****st) -> badstatus == POISON ){
         (****st) -> badstatus = GOOD;
@@ -178,7 +196,7 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
   items_count = 0;
   //(***items) -> medicine = 10;
   //(***items) -> lifestone = 10;
-  (***items) -> antipoison = 2;
+  (***items) -> bead = 2;
 
   loop_count = 0;
   do {
@@ -193,8 +211,13 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       printf("\n");
       items_count++;
     }
+    if ( (***items) -> bead > 0 ){
+      printf("3.宝玉%d個(味方1人のHPを全回復)\n", (***items) -> bead);
+      printf("\n");
+      items_count++;
+    }
     if ( (***items) -> antipoison > 0 ){
-      printf("3.アンタイポイズン%d個(味方1人のPOISONを回復)\n", (***items) -> antipoison);
+      printf("4.アンタイポイズン%d個(味方1人のPOISONを回復)\n", (***items) -> antipoison);
       printf("\n");
       items_count++;
     }
@@ -272,9 +295,38 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
         loop_count++;
       }
     }
-    else if ( command == '3' && (***items) -> antipoison > 0 ){
-      //魔石はアイテムナンバー2
+    else if ( command == '3' && (***items) -> bead > 0 ){
       item_number = 3;
+      item_target = battle_item_useselect(&items,&st,&st2,&st3);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
+
+      if ( item_target == 0 ){
+        //nothing
+        turn_decrease = 0.0;
+      }
+      else if ( item_target == 1 ){
+        (***items) -> bead--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      else if ( item_target == 2 ){
+        (***items) -> bead--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      //item_target = 3
+      else if ( item_target == 3 ){
+        (***items) -> bead--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+    }
+    else if ( command == '4' && (***items) -> antipoison > 0 ){
+      item_number = 4;
       item_target = battle_item_useselect(&items,&st,&st2,&st3);
       //printf("item_number:%d\n", item_number);
       //printf("item_target:%d\n", item_target);

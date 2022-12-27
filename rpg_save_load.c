@@ -362,6 +362,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
     items -> medicine = save_data_items.medicine;
     items -> lifestone = save_data_items.lifestone;
     items -> antipoison = save_data_items.antipoison;
+    items -> bead = save_data_items.bead;
 
     automap_area1[16][3] = save_automap_area1[16][3];
     automap_area2[27][10] = save_automap_area2[27][10];
@@ -519,6 +520,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       save_data_items.medicine = items -> medicine;
       save_data_items.lifestone = items -> lifestone;
       save_data_items.antipoison = items -> antipoison;
+      save_data_items.bead = items -> bead;
 
       save_automap_area1[16][3] = automap_area1[16][3];
       save_automap_area2[27][10] = automap_area2[27][10];

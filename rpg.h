@@ -253,15 +253,17 @@ typedef struct save_data_players{
 } Save_data_players;
 
 typedef struct items {
-  int medicine;
-  int lifestone;
-  int antipoison;
+  int medicine;      //傷薬
+  int lifestone;     //魔石
+  int antipoison;    //アンタイポイズン
+  int bead;          //宝玉
 } Items;
 
 typedef struct save_data_items {
   int medicine;
   int lifestone;
   int antipoison;
+  int bead;
 } Save_data_items;
 
 //rpg_function.c

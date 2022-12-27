@@ -1381,6 +1381,9 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
       if ( (**enemy2) -> badstatus == DEAD ){
         enemy_turn--;
       }
+      if ( (**enemy3) -> badstatus == DEAD ){
+        enemy_turn--;
+      }
       //printf("enemy_turn:%f\n", enemy_turn);
       //printf("enemy_turn_temp:%f\n", enemy_turn_temp);
 
