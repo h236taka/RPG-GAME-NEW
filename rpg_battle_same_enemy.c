@@ -1264,6 +1264,12 @@ double calculate_player_turn(double player_turn, double turn_decrease){
     else if ( player_turn == 3.3 ){
       player_turn = 2.2;
     }
+    else if ( player_turn == 3.2 ){
+      player_turn = 2.1;
+    }
+    else if ( player_turn == 3.1 ){
+      player_turn = 2.0;
+    }
     else if ( player_turn == 2.2 ){
       player_turn = 1.1;
     }
@@ -1272,9 +1278,6 @@ double calculate_player_turn(double player_turn, double turn_decrease){
     }
     else if ( player_turn == 2.1 ){
       player_turn = 1;
-    }
-    else if ( player_turn == 3.2 ){
-      player_turn = 2.1;
     }
   }
   else if ( turn_decrease == -2 ){
@@ -4282,7 +4285,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
           display_gameover();
         }
-        if ( enemy_turn < 0 ){
+        if ( enemy_turn <= 0 ){
           break;
         }
 

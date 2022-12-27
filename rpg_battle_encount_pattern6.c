@@ -1239,7 +1239,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
       if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
         display_gameover();
       }
-      if ( enemy_turn < 0 ){
+      if ( enemy_turn <= 0 ){
         break;
       }
 
@@ -1257,7 +1257,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
       if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
         display_gameover();
       }
-      if ( enemy_turn < 0 ){
+      if ( enemy_turn <= 0 ){
         break;
       }
 
@@ -1274,7 +1274,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
 
       enemy_turn_temp = enemy_turn;
 
-    }while ( enemy_turn != 0 );
+    }while ( enemy_turn > 0 );
 
   }while( enemy_deadcount != enemy_temp || ( (**st) -> badstatus != DEAD && (**st2) -> badstatus != DEAD && (**st3) -> badstatus != DEAD ) );
 
