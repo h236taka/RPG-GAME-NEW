@@ -413,7 +413,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
 }
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog){
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki){
   int input;
   int tmp;
 
@@ -468,7 +468,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
   //printf("st2:HP:%d\n", st2 -> hp);
   //printf("st3:HP:%d\n", st3 -> hp);
 
-  area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog);
+  area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);
 
 
   printf("\a");

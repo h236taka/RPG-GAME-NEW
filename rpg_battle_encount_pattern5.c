@@ -267,7 +267,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                   }
 
                   if ( player_damage >= (**enemy1) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                    printf("%sを倒した!\n", (**enemy1) -> name);
                     enemy_deadcount++;
                     (**enemy1) -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
@@ -360,6 +360,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st) == 1 ){
+                enemy_full_recover5(&enemy,&enemy1);
                 return;
               }
               else{
@@ -566,7 +567,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                   }
 
                   if ( player_damage >= (**enemy1) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                    printf("%sを倒した!\n", (**enemy1) -> name);
                     enemy_deadcount++;
                     (**enemy1) -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
@@ -658,6 +659,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st2) == 1 ){
+                enemy_full_recover5(&enemy,&enemy1);
                 return;
               }
               else{
@@ -861,7 +863,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                   }
 
                   if ( player_damage >= (**enemy1) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                    printf("%sを倒した!\n", (**enemy1) -> name);
                     enemy_deadcount++;
                     (**enemy1) -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
@@ -949,6 +951,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st3) == 1 ){
+                enemy_full_recover5(&enemy,&enemy1);
                 return;
               }
               else{

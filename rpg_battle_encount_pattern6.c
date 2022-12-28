@@ -280,7 +280,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
                 if ( player_damage >= (**enemy1) -> hp ){
                   printf("%sを倒した!\n", (**enemy1) -> name);
                   enemy_deadcount++;
-                  (**enemy) -> badstatus = DEAD;
+                  (**enemy1) -> badstatus = DEAD;
                   //printf("enemy_deadcount:%d", enemy_deadcount);
                 }
                 else{
@@ -429,6 +429,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st) == 1 ){
+                enemy_full_recover6(&enemy,&enemy1,&enemy2);
                 return;
               }
               else{
@@ -635,7 +636,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
                 if ( player_damage >= (**enemy1) -> hp ){
                   printf("%sを倒した!\n", (**enemy1) -> name);
                   enemy_deadcount++;
-                  (**enemy) -> badstatus = DEAD;
+                  (**enemy1) -> badstatus = DEAD;
                   //printf("enemy_deadcount:%d", enemy_deadcount);
                 }
                 else{
@@ -783,6 +784,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st2) == 1 ){
+                enemy_full_recover6(&enemy,&enemy1,&enemy2);
                 return;
               }
               else{
@@ -1061,9 +1063,9 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
                   break;
                 }
                 else{
-                  printf("1か２を入力してください\n");
+                  printf("1か２か3を入力してください\n");
                 }
-              }while ( command != '1' && command != '2' );
+              }while ( command != '1' && command != '2' && command != '3' );
             }
           }
           else if ( command == '2' ){ //skillコマンド
@@ -1133,6 +1135,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st3) == 1 ){
+                enemy_full_recover6(&enemy,&enemy1,&enemy2);
                 return;
               }
               else{
@@ -1278,7 +1281,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
 
   }while( enemy_deadcount != enemy_temp || ( (**st) -> badstatus != DEAD && (**st2) -> badstatus != DEAD && (**st3) -> badstatus != DEAD ) );
 
-  //encount_pattern = 5;
+  //encount_pattern = 6;
   enemy_full_recover6(&enemy,&enemy1,&enemy2);
 
   result_exp = 0;

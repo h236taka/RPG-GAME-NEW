@@ -38,8 +38,9 @@ int main(void){
   Enemy ghoul = {"グール", 30, 30, 10, 10, 1, 1, 1, 1, 1, 2, 10, 20, 0, 100, 100, 150, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 5};
   Enemy zombie = {"ゾンビ", 55, 55, 12, 12, 2, 1, 3, 2, 1, 2, 6, 30, 0, 100, 100, 200, 100, 200, 100, 100, -1, 200, 100, 100, 100, 100, 100, 100, 100, -1, 0, 6};
   Enemy goblin_normal = {"ゴブリン", 70, 70, 0, 0, 3, 1, 3, 2, 1, 3, 15, 30, 0, 100, 150, 100, 100, 100, 200, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 7};  //通常敵
-  Enemy pixie = {"ピクシー", 55, 55, 15, 15, 1, 3, 1, 5, 5, 3, 25, 40, 0, 100, 150, 100, 100, 50, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 101};
-  Enemy angel = {"エンジェル", 108, 108, 30, 30, 2, 5, 3, 5, 2, 4, 50, 100, 0, 100, 100, 100, 100, 150, 100, 100, 200, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1, 101};
+  Enemy onmoraki = {"オンモラキ", 50, 50, 15, 15, 2, 3, 2, 3, 2, 4, 12, 25, 0, 80, 100, -1, 200, 100, 100, 100, -1, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 8};
+  //Enemy pixie = {"ピクシー", 55, 55, 15, 15, 1, 3, 1, 5, 5, 3, 25, 40, 0, 100, 150, 100, 100, 50, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 101};
+  //Enemy angel = {"エンジェル", 108, 108, 30, 30, 2, 5, 3, 5, 2, 4, 50, 100, 0, 100, 100, 100, 100, 150, 100, 100, 200, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1, 101};
 
   srand((unsigned int)time(NULL));
 
@@ -80,7 +81,7 @@ int main(void){
   //printf("%d\n", player.stage_clear);
   load = 0;
   if ( player.stage_clear == 1 ){
-    game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items,&area,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog);//図書館ステージ
+    game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items,&area,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);//図書館ステージ
     save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, load);
   }
   else if ( player.stage_clear == 2 ){

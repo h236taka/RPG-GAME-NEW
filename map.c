@@ -1677,7 +1677,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
 }
 
-void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog){
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki){
   int area_data_len, area_data_line, enemy_count, encount_pattern, clear_count;
   int enemy_appearance_per;
   Map map;
@@ -1768,9 +1768,9 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
           //zombie1体
           game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombie, encount_pattern);
         }
-        else if ( enemy_appearance_per <= 25 ){  //スライム１体+ゾンビドッグ1体+コボルト1体
+        else if ( enemy_appearance_per <= 25 ){  //オンモラキ１体+ゾンビドッグ1体+コボルト1体
           encount_pattern = 6;
-          game_battle_encount_pattern6(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombiedog, &slime, &kobalt, encount_pattern);
+          game_battle_encount_pattern6(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombiedog, &onmoraki, &kobalt, encount_pattern);
         }
         else if ( enemy_appearance_per <= 40 ){  //スライム1体+ゾンビ1体
           encount_pattern = 5;
@@ -1789,8 +1789,8 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
           game_battle_encount_pattern7(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, &kobalt, &zombiedog, &zombie,encount_pattern);
         }
         else{
-          encount_pattern = 2;
-          game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombie, encount_pattern);
+          encount_pattern = 5;   //ゾンビ1体+オンモラキ1体
+          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &zombie, &onmoraki, encount_pattern);
         }
 
         battle_mode = 0;

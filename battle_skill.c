@@ -277,9 +277,10 @@ int battle_player_skill_list(P_skill ****player_skill){
 }
 
 double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number){
-  int attack_skill_count;
+  double attack_skill_count;
   int damage_base, damage, eva, critical, eva_count, critical_count, i, max_damage, temp;
   double eva_base, critical_base;
+  int magic_power;
 
   //クエイク(全体攻撃)
   if ( attack_skill_number == 1 ){
@@ -406,6 +407,128 @@ double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, 
           damage /= 1.6;
           attack_skill_count = -1;
         }
+      }
+
+      if ( damage >= (*****st) -> hp ){
+        sleep(1);
+        printf("%s<<%dダメージ\n", (*****st) -> name, damage);
+        sleep(1);
+        printf("%sは死んでしまった!\n", (*****st) -> name);
+        (*****st) -> hp = 0;
+        (*****st) -> badstatus = DEAD;
+      }
+      else{
+        printf("%s<<%dダメージ\n", (*****st) -> name, damage);
+        (*****st) -> hp -= damage;
+        if ( (*****st) -> hp <= 0 ){
+          (*****st) -> hp = 0;
+          (*****st) -> badstatus = DEAD;
+        }
+      }
+
+    }
+  }
+  else if ( attack_skill_number == 2 ){  //エンファ
+    eva_count = 0;
+    magic_power = 10;
+
+    if ( (*****st) -> fire == -1 ){  //火炎攻撃無効
+      sleep(1);
+      printf("%s<<BLOCK!\n", (*****st) -> name);
+
+      attack_skill_count = -2;
+    }
+    else if ( (*****st) -> fire == -2 ){  //火炎攻撃吸収
+      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      if ( damage_base < 0 ){
+        damage_base = 1;
+      }
+      max_damage = damage_base * 1.3;
+      damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+      temp = damage;
+      damage = -2;
+      (*****st) -> hp += temp;
+      if ( (*****st) -> hp > (*****st) -> maxhp ){
+        (*****st) -> hp = (*****st) -> maxhp;
+      }
+      printf("Absorb!\n");
+      sleep(1);
+      printf("%s<<%dダメージ吸収\n", (*****st) -> name, temp);
+      attack_skill_count = -2;
+    }
+    else if ( (*****st) -> fire == -3 ){  //火炎攻撃反射
+      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      if ( damage_base < 0 ){
+        damage_base = 1;
+      }
+      max_damage = damage_base * 1.3;
+      temp = damage;
+      damage = -3;
+      (*****enemy) -> hp -= temp;
+      printf("Reflect!\n");
+      sleep(1);
+      printf("%s<<%dダメージ\n", (*****enemy) -> name, temp);
+      if ( (*****enemy) -> hp <= 0 ){
+        (*****enemy) -> hp = 0;
+        (*****enemy) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (*****enemy) -> name);
+      }
+      attack_skill_count = -2;
+    }
+    else{
+      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      printf("damage_base:%d\n", damage_base);
+      if ( damage_base < 0 ){
+        damage_base = 1;
+      }
+      //回避率5%
+      eva_base = 5 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (*****enemy) -> agi * 0.1) - ( (*****enemy) -> luk * 0.1);   //回避率計算
+
+      eva_base = round(eva_base);
+
+      if ( eva_base < 5 ){
+        eva_base = 5;     //回避率最小値5%
+      }
+
+      max_damage = damage_base * 1.3;
+      damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
+      printf("damage:%d\n", damage);
+      //printf("damage:%d\n", damage);
+      //味方の耐性判断
+      if ( (*****st) -> fire == 100 ){
+        damage = damage;
+        attack_skill_count = -1;
+      }
+      else if ( (*****st) -> fire == 150 ){     //火炎攻撃1.5倍
+        damage *= 1.5;
+        attack_skill_count = -1;
+      }
+      else if ( (*****st) -> fire == 200 ){
+        sleep(1);
+        printf("WEAKNESS!!\n");
+        damage *= 1.7;
+        attack_skill_count = 0.1;
+      }
+      else if ( (*****st) -> fire == 80 ){  //火炎攻撃ダメージ80%
+        damage *= 0.8;
+        attack_skill_count = -1;
+      }
+      else if ( (*****st) -> fire == 50 ){  //火炎攻撃半減
+        sleep(1);
+        printf("RESIST!\n");
+        damage *= 0.5;
+        attack_skill_count = -1;
+      }
+      else if ( (*****st) -> fire == 25 ){  //火炎攻撃ダメージ25%
+        sleep(1);
+        printf("RESIST!\n");
+        damage *= 0.25;
+        attack_skill_count = -1;
+      }
+
+      if ( player_guard == 1 ){
+        damage /= 1.6;
+        attack_skill_count = -1;
       }
 
       if ( damage >= (*****st) -> hp ){
@@ -576,6 +699,41 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
     turn_decrease = -1;
     enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
+  else if ( (****enemy) -> enemy_id == 8 ){  //オンモラキ
+    target_base = enemy_skill_target();
+    printf("%s>>エンファ\n", (****enemy) -> name);
+    sleep(1);
+    printf("%sは小さな火球を飛ばした!\n", (****enemy) -> name);
+    sleep(1);
+
+    attack_skill_number = 2;
+
+    if ( target_base == 1 ){
+      attack_skill_count = enemy_attack_skill(&st, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
+    }
+    else if ( target_base == 2 ){
+      attack_skill_count2 = enemy_attack_skill(&st2, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
+    }
+    else if ( target_base == 3 ){
+      attack_skill_count3 = enemy_attack_skill(&st3, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
+    }
+
+    if ( attack_skill_count == -2 || attack_skill_count2 == -2 || attack_skill_count3 == -2 ){
+      turn_decrease = -2;
+      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+    }
+
+    if ( attack_skill_count == 0.1 || attack_skill_count2 == 0.1 || attack_skill_count3 == 0.1 ){
+      turn_decrease = 0.1;
+      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+    }
+
+    if ( attack_skill_count == -1 || attack_skill_count2 == -1 || attack_skill_count3 == -1 ){
+      turn_decrease = -1;
+      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+    }
+
+  }
   else if ( (****enemy) -> enemy_id == 101 ){    //回復:LV1
     recover_point = (rand() % ( 20 + (****enemy) -> magic * 3 - 20 + 1) ) + 20; //回復量20 ~ 20 + (***enemy) -> magic * 3
     printf("%s>>ケディア\n", (****enemy) -> name);
@@ -594,6 +752,7 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
 double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Enemy **enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
   int enemy_move, badstatus_per, badstatus_count, recover_point;
   int target_base, turn_decrease;
+  int magic_damage;
 
   badstatus_count = 0; //badstatusになったか判定
 
@@ -698,6 +857,9 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
     turn_decrease = -1;
     enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
+  else if ( (*enemy_copy1) -> enemy_id == 7 ){
+    target_base = enemy_skill_target();
+  }
   else if ( (*enemy_copy1) -> enemy_id == 101 ){    //回復:LV1
     recover_point = (rand() % (20 + (*enemy_copy1) -> magic * 3 - 20 + 1) ) + 20; //回復量20 ~ 20 + (***enemy) -> magic * 3
     printf("%s:SKILL>>ケディア\n", (*enemy_copy1) -> name);
@@ -736,10 +898,20 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( (***enemy) -> enemy_id == 6 ){
+  else if ( (***enemy) -> enemy_id == 6 ){  //ゾンビ
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
-    if ( enemy_move >= 1 && enemy_move <= 30 ){  //毒攻撃を使用する行動
+    if ( enemy_move >= 1 && enemy_move <= 35 ){  //麻痺攻撃を使用する行動
+      enemy_turn = use_enemy_skill(&st,&st2,&st3,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
+    }
+    else{
+      enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
+    }
+  }
+  else if ( (***enemy) -> enemy_id == 8 ){
+    enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
+    //printf("%d\n", enemy_move);
+    if ( enemy_move >= 1 && enemy_move <= 80 ){  //火炎攻撃を使用する行動
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
     }
     else{
@@ -786,6 +958,16 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 30 ){  //毒攻撃を使用する行動
+      enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
+    }
+    else{
+      enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
+    }
+  }
+  else if ( enemy_copy1 -> enemy_id == 7 ){
+    enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
+    //printf("%d\n", enemy_move);
+    if ( enemy_move >= 1 && enemy_move <= 45 ){  //毒攻撃を使用する行動
       enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
     }
     else{
