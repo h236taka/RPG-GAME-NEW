@@ -1,0 +1,72 @@
+        -:    0:Source:rpg_function.c
+        -:    1:#include <stdio.h>
+        -:    2:#include <string.h>
+        -:    3:#include <unistd.h>
+        -:    4:#include <stdlib.h>
+        -:    5:#include <time.h>
+        -:    6:#include <sys/stat.h>
+        -:    7:#include <conio.h>
+        -:    8:#include <wchar.h>
+        -:    9:#include "rpg.h"
+        -:   10:
+        -:   11://badstatus表示
+    #####:   12:void display_condition(Player ***st){
+        -:   13:
+    #####:   14:  if ( (**st) -> badstatus == GOOD ){
+    #####:   15:    printf("STATUS:GOOD\n");
+        -:   16:  }
+    #####:   17:  else if ( (**st) -> badstatus == DEAD ){
+    #####:   18:    printf("STATUS:DEAD\n");
+        -:   19:  }
+    #####:   20:  else if ( (**st) -> badstatus == POISON ){
+    #####:   21:    printf("STATUS:POISON\n");
+        -:   22:  }
+    #####:   23:}
+        -:   24:
+    #####:   25:void display_status(Player **st, Player **st2, Player **st3){
+        -:   26:
+    #####:   27:  printf("パーティの能力を表示します\n");
+    #####:   28:  printf("\n");
+        -:   29:
+        -:   30:  //主人公
+    #####:   31:  printf("%sの能力は・・・\n", (*st) -> name);
+    #####:   32:  printf("%s LV:%d EXP:%d NEXT EXP:%d\n", (*st) -> name, (*st) -> lv, (*st) -> sumexp, (*st) -> nextexp);
+    #####:   33:  printf("HP:%d/%d MP:%d/%d\n", (*st) -> hp, (*st) -> maxhp, (*st) -> mp, (*st) -> maxmp);
+        -:   34:
+    #####:   35:  display_condition(&st);
+        -:   36:
+    #####:   37:  printf("力:%d\n", (*st) -> atk);
+    #####:   38:  printf("魔:%d\n", (*st) -> magic);
+    #####:   39:  printf("体:%d\n", (*st) -> str);
+    #####:   40:  printf("速:%d\n", (*st) -> agi);
+    #####:   41:  printf("運:%d\n", (*st) -> luk);
+    #####:   42:  printf("GOLD:%d\n", (*st) -> gold);
+        -:   43:
+        -:   44:  //２人目
+    #####:   45:  printf("%sの能力は・・・\n", (*st2) -> name);
+    #####:   46:  printf("%s LV:%d EXP:%d NEXT EXP:%d\n", (*st2) -> name, (*st2) -> lv, (*st2) -> sumexp, (*st2) -> nextexp);
+    #####:   47:  printf("HP:%d/%d MP:%d/%d\n", (*st2) -> hp, (*st2) -> maxhp, (*st2) -> mp, (*st2) -> maxmp);
+        -:   48:
+    #####:   49:  display_condition(&st2);
+        -:   50:
+    #####:   51:  printf("力:%d\n", (*st2) -> atk);
+    #####:   52:  printf("魔:%d\n", (*st2) -> magic);
+    #####:   53:  printf("体:%d\n", (*st2) -> str);
+    #####:   54:  printf("速:%d\n", (*st2) -> agi);
+    #####:   55:  printf("運:%d\n", (*st2) -> luk);
+        -:   56:
+        -:   57:  //３人目
+    #####:   58:  printf("%sの能力は・・・\n", (*st3) -> name);
+    #####:   59:  printf("%s LV:%d EXP:%d NEXT EXP:%d\n", (*st3) -> name, (*st3) -> lv, (*st3) -> sumexp, (*st3) -> nextexp);
+    #####:   60:  printf("HP:%d/%d MP:%d/%d\n", (*st3) -> hp, (*st3) -> maxhp, (*st3) -> mp, (*st3) -> maxmp);
+        -:   61:
+    #####:   62:  display_condition(&st3);
+        -:   63:
+    #####:   64:  printf("力:%d\n", (*st3) -> atk);
+    #####:   65:  printf("魔:%d\n", (*st3) -> magic);
+    #####:   66:  printf("体:%d\n", (*st3) -> str);
+    #####:   67:  printf("速:%d\n", (*st3) -> agi);
+    #####:   68:  printf("運:%d\n", (*st3) -> luk);
+        -:   69:
+    #####:   70:  printf("\n");
+    #####:   71:}

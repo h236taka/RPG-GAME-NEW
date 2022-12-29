@@ -1,0 +1,1542 @@
+        -:    0:Source:rpg_battle_encount_pattern7.c
+        -:    1:#include <stdio.h>
+        -:    2:#include <string.h>
+        -:    3:#include <unistd.h>
+        -:    4:#include <stdlib.h>
+        -:    5:#include <time.h>
+        -:    6:#include <sys/stat.h>
+        -:    7:#include <conio.h>
+        -:    8:#include <math.h>
+        -:    9:#include <wchar.h>
+        -:   10:#include <ctype.h>
+        -:   11:#include <mbctype.h>
+        -:   12:#include <mbstring.h>
+        -:   13:#include "rpg.h"
+        -:   14:
+    #####:   15:int battle_error_enemydeadcount7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3){
+        -:   16:  int enemy_deadcount;
+        -:   17:
+    #####:   18:  enemy_deadcount = 3;
+    #####:   19:  if ( (***enemy) -> badstatus == DEAD ){
+        -:   20:    //nothing
+        -:   21:  }
+        -:   22:  else{
+    #####:   23:    enemy_deadcount--;
+        -:   24:  }
+        -:   25:
+    #####:   26:  if ( (***enemy1) -> badstatus == DEAD ){
+        -:   27:    //nothing
+        -:   28:  }
+        -:   29:  else{
+    #####:   30:    enemy_deadcount--;
+        -:   31:  }
+        -:   32:
+    #####:   33:  if ( (***enemy2) -> badstatus == DEAD ){
+        -:   34:    //nothing
+        -:   35:  }
+        -:   36:  else{
+    #####:   37:    enemy_deadcount--;
+        -:   38:  }
+        -:   39:
+    #####:   40:  if ( (***enemy3) -> badstatus == DEAD ){
+        -:   41:    //nothing
+        -:   42:  }
+        -:   43:  else{
+    #####:   44:    enemy_deadcount--;
+        -:   45:  }
+        -:   46:
+    #####:   47:  return enemy_deadcount;
+        -:   48:}
+        -:   49:
+    #####:   50:void enemy_full_recover7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3){
+        -:   51:
+    #####:   52:  (***enemy) -> badstatus = GOOD;
+    #####:   53:  (***enemy1) -> badstatus = GOOD;
+    #####:   54:  (***enemy2) -> badstatus = GOOD;
+    #####:   55:  (***enemy3) -> badstatus = GOOD;
+        -:   56:
+    #####:   57:  (***enemy) -> hp = (***enemy) -> maxhp;
+    #####:   58:  (***enemy) -> mp = (***enemy) -> maxmp;
+        -:   59:
+    #####:   60:  (***enemy1) -> hp = (***enemy1) -> maxhp;
+    #####:   61:  (***enemy1) -> mp = (***enemy1) -> maxmp;
+        -:   62:
+    #####:   63:  (***enemy2) -> hp = (***enemy2) -> maxhp;
+    #####:   64:  (***enemy2) -> mp = (***enemy2) -> maxmp;
+        -:   65:
+    #####:   66:  (***enemy3) -> hp = (***enemy3) -> maxhp;
+    #####:   67:  (***enemy3) -> mp = (***enemy3) -> maxmp;
+    #####:   68:}
+        -:   69:
+        -:   70://encount_pattern = 5;
+    #####:   71:void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, Enemy ***enemy1, Enemy ***enemy2, Enemy ***enemy3, int encount_pattern){
+        -:   72:  int player_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
+        -:   73:  int enemy_deadcount, skill_count, use_skill_count, skill_reaction, recover_point, battle_display_condition_count, enemy_temp;
+        -:   74:  int result_exp, result_gold;
+        -:   75:  int command;
+        -:   76:  int skill_command;
+        -:   77:  int skill_target, skill_user;
+        -:   78:  double player_turn, enemy_turn, turn_decrease, enemy_turn_temp;
+        -:   79:
+    #####:   80:  if ( (**enemy) -> boss_count == 0 ){
+    #####:   81:    printf("<<<<<<NORMAL BATTLE>>>>>>\n");
+    #####:   82:    printf("\a");
+    #####:   83:    sleep(1);
+    #####:   84:    if ( encount_pattern == 7 ){  //違う敵2体
+    #####:   85:      printf("%sと%sと%sと%sが現れた!\n", (**enemy) -> name, (**enemy1) -> name, (**enemy2) -> name, (**enemy3) -> name);
+    #####:   86:      enemy_temp = 4;
+    #####:   87:      sleep(1);
+        -:   88:    }
+    #####:   89:    printf("\n");
+    #####:   90:    sleep(1);
+        -:   91:  }
+    #####:   92:  else if ( (**enemy) -> boss_count == 2 ){
+    #####:   93:    printf("<<<<<<MID BOSS BATTLE>>>>>>\n");
+    #####:   94:    printf("\a");
+    #####:   95:    sleep(1);
+    #####:   96:    if ( encount_pattern == 7 ){
+    #####:   97:      printf("%sと%sと%sと%sが現れた!\n", (**enemy) -> name, (**enemy1) -> name, (**enemy2) -> name, (**enemy3) -> name);
+    #####:   98:      enemy_temp = 4;
+    #####:   99:      sleep(1);
+        -:  100:    }
+        -:  101:
+    #####:  102:    printf("\n");
+    #####:  103:    sleep(1);
+        -:  104:  }
+        -:  105:  else{
+    #####:  106:    printf("<<<<<<<BOSS BATTLE>>>>>>>\n");
+    #####:  107:    sleep(1);
+    #####:  108:    printf("\a");
+    #####:  109:    if ( encount_pattern == 7 ){
+    #####:  110:      printf("%sと%sと%sと%sが現れた!\n", (**enemy) -> name, (**enemy1) -> name, (**enemy2) -> name, (**enemy3) -> name);
+    #####:  111:      enemy_temp = 4;
+    #####:  112:      sleep(1);
+        -:  113:    }
+    #####:  114:    printf("\n");
+    #####:  115:    sleep(1);
+        -:  116:  }
+        -:  117:
+    #####:  118:  player_turn = 3;
+        -:  119:  //味方パーティが生きている人数を初期プレイヤーターンとして設定
+    #####:  120:  if ( (**st) -> badstatus == DEAD ){
+    #####:  121:    player_turn--;
+        -:  122:  }
+    #####:  123:  if ( (**st2) -> badstatus == DEAD ){
+    #####:  124:    player_turn--;
+        -:  125:  }
+    #####:  126:  if ( (**st3) -> badstatus == DEAD ){
+    #####:  127:    player_turn--;
+        -:  128:  }
+        -:  129:
+    #####:  130:  enemy_deadcount = 0; //enemyが死んだか判定
+    #####:  131:  skill_count = 0; //skillがあるか判定
+    #####:  132:  use_skill_count = 0; //skillの使用に関する判定
+        -:  133:  do {
+    #####:  134:    skill_reaction = 1;
+    #####:  135:    printf("enemy_deadcount:%d\n", enemy_deadcount);
+    #####:  136:    printf("                 <<<<<<<PLAYER TURN>>>>>>>\n");
+    #####:  137:    printf("\n");
+        -:  138:    //戦闘画面のレイアウト
+    #####:  139:    encount_pattern7_layout(&enemy,&enemy1,&enemy2,&enemy3,encount_pattern);
+    #####:  140:    printf("\n");
+        -:  141:
+    #####:  142:    printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+        -:  143:
+    #####:  144:    printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+        -:  145:
+        -:  146:    //HPをグラフィックに表現
+    #####:  147:    hp_graphycal_display(&st,&st2,&st3);
+        -:  148:    //MPをグラフィックに表現
+    #####:  149:    mp_graphycal_display(&st,&st2,&st3);
+        -:  150:
+        -:  151:    //partyの状態異常ステータスを表示
+    #####:  152:    battle_display_condition_count = 0;
+    #####:  153:    battle_display_condition(&st, battle_display_condition_count);
+        -:  154:
+    #####:  155:    battle_display_condition_count++;
+    #####:  156:    battle_display_condition(&st2, battle_display_condition_count);
+        -:  157:
+    #####:  158:    battle_display_condition_count++;
+    #####:  159:    battle_display_condition(&st3, battle_display_condition_count);
+    #####:  160:    battle_display_condition_count = 0;
+    #####:  161:    printf("\n");
+    #####:  162:    printf("\n");
+        -:  163:    //player_turnの処理
+        -:  164:    //主人公のターン
+    #####:  165:    player_turn = 3;
+        -:  166:    do{
+        -:  167:      do{
+    #####:  168:        move_finish = 0;  //各playerがplayer_turnが減少する行動を行ったら1になる
+    #####:  169:        player_guard = 0; //主人公のガードを使用に関する判定
+    #####:  170:        if ( (**st) -> badstatus == DEAD ){
+    #####:  171:          printf("%sは死んでいて行動できない!\n", (**st) -> name);
+    #####:  172:          move_finish++;
+    #####:  173:          turn_decrease = -1;
+    #####:  174:          player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  175:        }
+        -:  176:        else{
+    #####:  177:          display_player_turn(&st, player_turn);
+    #####:  178:          printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
+    #####:  179:          printf("\n");
+    #####:  180:          printf("1~6を入力してください\n");
+    #####:  181:          command =  _getch();
+    #####:  182:          if ( command == '1' ){   //攻撃コマンド
+        -:  183:            do{
+    #####:  184:              command = player_normal_attack_target7(&enemy,&enemy1,&enemy2,&enemy3);
+        -:  185:
+    #####:  186:              if ( command == '1' ){
+    #####:  187:                player_damage = player_attack(&st, &enemy, &enemy_deadcount);
+    #####:  188:                if ( player_damage > 0 ){
+    #####:  189:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  190:                  sleep(1);
+    #####:  191:                  if ( player_damage > 99000 ){
+    #####:  192:                    player_damage -= 100000;
+    #####:  193:                    printf("CRITICAL!\n");
+    #####:  194:                    turn_decrease = 0.1;
+    #####:  195:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  196:                    sleep(1);
+        -:  197:                  }
+        -:  198:                  else{
+    #####:  199:                    turn_decrease = -1;
+    #####:  200:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  201:                  }
+    #####:  202:                  printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+        -:  203:                }
+    #####:  204:                else if ( player_damage == 0 ){
+    #####:  205:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  206:                  sleep(1);
+    #####:  207:                  turn_decrease = -2;
+    #####:  208:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  209:                  printf("Miss!\n", (**st) -> name); //回避時
+        -:  210:                }
+    #####:  211:                else if ( player_damage == -1 ){
+    #####:  212:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  213:                  sleep(1);
+    #####:  214:                  turn_decrease = -2;
+    #####:  215:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  216:                  printf("BLOCK!\n");
+        -:  217:                }
+    #####:  218:                else if ( player_damage == -2 ){
+        -:  219:                  //処理なし
+        -:  220:                }
+    #####:  221:                else if ( player_damage == -3 ){
+        -:  222:                  //処理なし
+        -:  223:                }
+    #####:  224:                else if ( player_damage == -10 ){
+    #####:  225:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  226:                  sleep(1);
+    #####:  227:                  turn_decrease = -2;
+    #####:  228:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  229:                  printf("攻撃はかすりともしない!\n");
+        -:  230:                }
+        -:  231:
+    #####:  232:                if ( player_damage >= (**enemy) -> hp ){
+    #####:  233:                  printf("%sを倒した!\n", (**enemy) -> name);
+    #####:  234:                  enemy_deadcount++;
+    #####:  235:                  (**enemy) -> badstatus = DEAD;
+        -:  236:                  //printf("enemy_deadcount:%d", enemy_deadcount);
+        -:  237:                }
+        -:  238:                else{
+    #####:  239:                  if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####:  240:                    (**enemy) -> hp -= player_damage;
+        -:  241:                  }
+        -:  242:                }
+    #####:  243:                move_finish++;
+        -:  244:              }
+    #####:  245:              else if ( command == '2' ){
+    #####:  246:                player_damage = player_attack(&st, &enemy1, &enemy_deadcount);  //本当はenemy_copy1だがenemy_copy1はenemyと同じステータス
+    #####:  247:                if ( player_damage > 0 ){
+    #####:  248:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  249:                  sleep(1);
+    #####:  250:                  if ( player_damage > 99000 ){
+    #####:  251:                    player_damage -= 100000;
+    #####:  252:                    printf("CRITICAL!\n");
+    #####:  253:                    turn_decrease = 0.1;
+    #####:  254:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  255:                    sleep(1);
+        -:  256:                  }
+        -:  257:                  else{
+    #####:  258:                    turn_decrease = -1;
+    #####:  259:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  260:                  }
+    #####:  261:                  printf("%s<<%dダメージ\n", (**enemy1) -> name, player_damage);
+        -:  262:                }
+    #####:  263:                else if ( player_damage == 0 ){
+    #####:  264:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  265:                  sleep(1);
+    #####:  266:                  turn_decrease = -2;
+    #####:  267:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  268:                  printf("Miss!\n", (**st) -> name); //回避時
+        -:  269:                }
+    #####:  270:                else if ( player_damage == -1 ){
+    #####:  271:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  272:                  sleep(1);
+    #####:  273:                  turn_decrease = -2;
+    #####:  274:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  275:                  printf("BLOCK!\n");
+        -:  276:                }
+    #####:  277:                else if ( player_damage == -2 ){
+        -:  278:                  //処理なし
+        -:  279:                }
+    #####:  280:                else if ( player_damage == -3 ){
+        -:  281:                  //処理なし
+        -:  282:                }
+    #####:  283:                else if ( player_damage == -10 ){
+    #####:  284:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  285:                  sleep(1);
+    #####:  286:                  turn_decrease = -2;
+    #####:  287:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  288:                  printf("攻撃はかすりともしない!\n");
+        -:  289:                }
+        -:  290:
+    #####:  291:                if ( player_damage >= (**enemy1) -> hp ){
+    #####:  292:                  printf("%sを倒した!\n", (**enemy1) -> name);
+    #####:  293:                  enemy_deadcount++;
+    #####:  294:                  (**enemy) -> badstatus = DEAD;
+        -:  295:                  //printf("enemy_deadcount:%d", enemy_deadcount);
+        -:  296:                }
+        -:  297:                else{
+    #####:  298:                  if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####:  299:                    (**enemy1) -> hp -= player_damage;
+        -:  300:                  }
+        -:  301:                }
+    #####:  302:                move_finish++;
+        -:  303:              }
+    #####:  304:              else if ( command == '3' ){
+    #####:  305:                player_damage = player_attack(&st, &enemy2, &enemy_deadcount);  //本当はenemy_copy2だがenemy_copy2はenemyと同じステータス
+    #####:  306:                if ( player_damage > 0 ){
+    #####:  307:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  308:                  sleep(1);
+    #####:  309:                  if ( player_damage > 99000 ){
+    #####:  310:                    player_damage -= 100000;
+    #####:  311:                    printf("CRITICAL!\n");
+    #####:  312:                    turn_decrease = 0.1;
+    #####:  313:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  314:                    sleep(1);
+        -:  315:                  }
+        -:  316:                  else{
+    #####:  317:                    turn_decrease = -1;
+    #####:  318:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  319:                  }
+    #####:  320:                  printf("%s<<%dダメージ\n", (**enemy2) -> name, player_damage);
+        -:  321:                }
+    #####:  322:                else if ( player_damage == 0 ){
+    #####:  323:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  324:                  sleep(1);
+    #####:  325:                  turn_decrease = -2;
+    #####:  326:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  327:                  printf("Miss!\n", (**st) -> name); //回避時
+        -:  328:                }
+    #####:  329:                else if ( player_damage == -1 ){
+    #####:  330:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  331:                  sleep(1);
+    #####:  332:                  turn_decrease = -2;
+    #####:  333:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  334:                  printf("BLOCK!\n");
+        -:  335:                }
+    #####:  336:                else if ( player_damage == -2 ){
+        -:  337:                  //処理なし
+        -:  338:                }
+    #####:  339:                else if ( player_damage == -3 ){
+        -:  340:                  //処理なし
+        -:  341:                }
+    #####:  342:                else if ( player_damage == -10 ){
+    #####:  343:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  344:                  sleep(1);
+    #####:  345:                  turn_decrease = -2;
+    #####:  346:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  347:                  printf("攻撃はかすりともしない!\n");
+        -:  348:                }
+        -:  349:
+    #####:  350:                if ( player_damage >= (**enemy2) -> hp ){
+    #####:  351:                  printf("%sを倒した!\n", (**enemy2) -> name);
+    #####:  352:                  enemy_deadcount++;
+    #####:  353:                  (**enemy2) -> badstatus = DEAD;
+        -:  354:                  //printf("enemy_deadcount:%d", enemy_deadcount);
+        -:  355:                }
+        -:  356:                else{
+    #####:  357:                  if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####:  358:                    (**enemy2) -> hp -= player_damage;
+        -:  359:                  }
+        -:  360:                }
+    #####:  361:                move_finish++;
+        -:  362:              }
+    #####:  363:              else if ( command == '4' ){
+    #####:  364:                player_damage = player_attack(&st, &enemy3, &enemy_deadcount);
+    #####:  365:                if ( player_damage > 0 ){
+    #####:  366:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  367:                  sleep(1);
+    #####:  368:                  if ( player_damage > 99000 ){
+    #####:  369:                    player_damage -= 100000;
+    #####:  370:                    printf("CRITICAL!\n");
+    #####:  371:                    turn_decrease = 0.1;
+    #####:  372:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  373:                    sleep(1);
+        -:  374:                  }
+        -:  375:                  else{
+    #####:  376:                    turn_decrease = -1;
+    #####:  377:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  378:                  }
+    #####:  379:                  printf("%s<<%dダメージ\n", (**enemy3) -> name, player_damage);
+        -:  380:                }
+    #####:  381:                else if ( player_damage == 0 ){
+    #####:  382:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  383:                  sleep(1);
+    #####:  384:                  turn_decrease = -2;
+    #####:  385:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  386:                  printf("Miss!\n", (**st) -> name); //回避時
+        -:  387:                }
+    #####:  388:                else if ( player_damage == -1 ){
+    #####:  389:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  390:                  sleep(1);
+    #####:  391:                  turn_decrease = -2;
+    #####:  392:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  393:                  printf("BLOCK!\n");
+        -:  394:                }
+    #####:  395:                else if ( player_damage == -2 ){
+        -:  396:                  //処理なし
+        -:  397:                }
+    #####:  398:                else if ( player_damage == -3 ){
+        -:  399:                  //処理なし
+        -:  400:                }
+    #####:  401:                else if ( player_damage == -10 ){
+    #####:  402:                  printf("%s>>通常攻撃!\n", (**st) -> name);
+    #####:  403:                  sleep(1);
+    #####:  404:                  turn_decrease = -2;
+    #####:  405:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  406:                  printf("攻撃はかすりともしない!\n");
+        -:  407:                }
+        -:  408:
+    #####:  409:                if ( player_damage >= (**enemy3) -> hp ){
+    #####:  410:                  printf("%sを倒した!\n", (**enemy3) -> name);
+    #####:  411:                  enemy_deadcount++;
+    #####:  412:                  (**enemy3) -> badstatus = DEAD;
+        -:  413:                  //printf("enemy_deadcount:%d", enemy_deadcount);
+        -:  414:                }
+        -:  415:                else{
+    #####:  416:                  if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####:  417:                    (**enemy3) -> hp -= player_damage;
+        -:  418:                  }
+        -:  419:                }
+    #####:  420:                move_finish++;
+        -:  421:              }
+    #####:  422:              else if ( command == 'c' ){
+    #####:  423:                break;
+        -:  424:              }
+        -:  425:              else{
+    #####:  426:                printf("1,２,3,4のいずれかを入力してください\n");
+        -:  427:              }
+    #####:  428:            }while ( command != '1' && command != '2' && command != '3' && command != '4' );
+        -:  429:
+        -:  430:          }
+    #####:  431:          else if ( command == '2' ){ //skillコマンド
+    #####:  432:            skill_count = battle_player_skill_list(&player_skill);
+        -:  433:
+    #####:  434:            if ( skill_count != 0 ){
+        -:  435:              do {
+    #####:  436:                printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
+    #####:  437:                skill_command = _getch();
+    #####:  438:                if ( skill_command == '1' ){    //回復:LV1
+    #####:  439:                  use_skill_count = 1;
+    #####:  440:                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+        -:  441:
+        -:  442:                  //いずれかのターゲットが存在する
+    #####:  443:                  if ( skill_target != 0 ){
+    #####:  444:                    skill_user = 1; //Player
+    #####:  445:                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+        -:  446:
+    #####:  447:                    move_finish++;
+    #####:  448:                    turn_decrease = -1;
+    #####:  449:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  450:                  }
+        -:  451:                  else{
+        -:  452:                    //turn消費無し
+        -:  453:                  }
+        -:  454:
+    #####:  455:                  printf("\n");
+        -:  456:                }
+    #####:  457:                else if ( skill_command == '2' ){   //CURE-POISON
+    #####:  458:                  use_skill_count = 2;
+        -:  459:                  //player_ability(&st, &player_skill, use_skill_count);
+    #####:  460:                  move_finish++;
+    #####:  461:                  turn_decrease = -1;
+    #####:  462:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  463:
+        -:  464:                }
+    #####:  465:                else if ( skill_command == 'c' ){
+    #####:  466:                  printf("\n");
+    #####:  467:                  use_skill_count = 99;
+        -:  468:                }
+        -:  469:
+        -:  470:
+    #####:  471:              }while ( use_skill_count == 0 );    //skillを使うと数値は0ではない
+        -:  472:            }
+        -:  473:
+        -:  474:          }
+    #####:  475:          else if ( command == '3' ){  //防御コマンド
+        -:  476:
+        -:  477:            //enemy_attackのテンプレート
+    #####:  478:            player_guard++;
+    #####:  479:            move_finish++;
+    #####:  480:            turn_decrease = -1;
+    #####:  481:            player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  482:
+        -:  483:          }
+    #####:  484:          else if ( command == '4' ){  //item使用
+    #####:  485:            turn_decrease = battle_item_use(&items,&st,&st2,&st3);
+    #####:  486:            printf("turn_decrease:%f\n", turn_decrease);
+    #####:  487:            if ( turn_decrease == 0 ){
+    #####:  488:              player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  489:              move_finish = 0;
+        -:  490:            }
+        -:  491:            else{
+    #####:  492:              player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  493:              move_finish = 1;
+        -:  494:            }
+        -:  495:
+        -:  496:          }
+    #####:  497:          else if ( command == '5' ){  //逃走する
+    #####:  498:            if ( (**enemy) -> boss_count == 0 ){
+    #####:  499:              printf("逃走中・・・\n");
+    #####:  500:              sleep(2);
+    #####:  501:              if ( battle_escape(&st) == 1 ){
+    #####:  502:                enemy_full_recover7(&enemy,&enemy1,&enemy2,&enemy3);
+    #####:  503:                return;
+        -:  504:              }
+        -:  505:              else{
+    #####:  506:                player_turn = 0;
+    #####:  507:                move_finish = 1;
+        -:  508:              }
+        -:  509:            }
+        -:  510:            else{
+    #####:  511:              printf("逃走失敗!\n");
+    #####:  512:              sleep(1);
+    #####:  513:              player_turn = 0;
+    #####:  514:              move_finish = 1;
+        -:  515:            }
+        -:  516:          }
+    #####:  517:          else if ( command == '6' ){
+    #####:  518:            turn_decrease = 0.1;
+    #####:  519:            player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  520:            move_finish = 1;
+    #####:  521:            player_guard = 0;
+        -:  522:          }
+        -:  523:          //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
+        -:  524:          else{
+    #####:  525:            if ( encount_pattern == 7 ){
+    #####:  526:              enemy_deadcount = battle_error_enemydeadcount7(&enemy,&enemy1,&enemy2,&enemy3);
+        -:  527:            }
+        -:  528:
+    #####:  529:            printf("コマンドを正しく入力してください\n");
+    #####:  530:            system("pause");
+    #####:  531:            printf("\n");
+        -:  532:          }
+        -:  533:
+    #####:  534:          if ( (**st) -> badstatus == POISON ){ //毒状態時
+    #####:  535:            poison_effect(&st);
+        -:  536:          }
+        -:  537:        }
+        -:  538:        //printf("enemy_deadcount:%d\n", enemy_deadcount);
+    #####:  539:      }while ( move_finish != 1 );
+        -:  540:
+    #####:  541:      if ( enemy_deadcount == enemy_temp ){
+    #####:  542:        break;
+        -:  543:      }
+        -:  544:
+    #####:  545:      if ( player_turn == 0 ){
+    #####:  546:        break;
+        -:  547:      }
+        -:  548:
+    #####:  549:      printf("                 <<<<<<<PLAYER TURN>>>>>>>\n");
+    #####:  550:      printf("\n");
+        -:  551:
+        -:  552:      //戦闘画面のレイアウト
+    #####:  553:      encount_pattern7_layout(&enemy,&enemy1,&enemy2,&enemy3,encount_pattern);
+        -:  554:
+    #####:  555:      printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+        -:  556:
+    #####:  557:      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+        -:  558:
+        -:  559:      //HPをグラフィックに表現
+    #####:  560:      hp_graphycal_display(&st,&st2,&st3);
+        -:  561:      //MPをグラフィックに表現
+    #####:  562:      mp_graphycal_display(&st,&st2,&st3);
+        -:  563:
+        -:  564:      //partyの状態異常ステータスを表示
+    #####:  565:      battle_display_condition_count = 0;
+    #####:  566:      battle_display_condition(&st, battle_display_condition_count);
+        -:  567:
+    #####:  568:      battle_display_condition_count++;
+    #####:  569:      battle_display_condition(&st2, battle_display_condition_count);
+        -:  570:
+    #####:  571:      battle_display_condition_count++;
+    #####:  572:      battle_display_condition(&st3, battle_display_condition_count);
+    #####:  573:      battle_display_condition_count = 0;
+    #####:  574:      printf("\n");
+    #####:  575:      printf("\n");
+        -:  576:
+        -:  577:      do{
+        -:  578:        //２人目のターン
+    #####:  579:        move_finish = 0;
+    #####:  580:        player_guard2 = 0;
+        -:  581:
+    #####:  582:        if ( (**st2) -> badstatus == DEAD ){
+    #####:  583:          printf("%sは死んでいて行動できない!\n", (**st2) -> name);
+    #####:  584:          turn_decrease = -1;
+    #####:  585:          player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  586:          move_finish++;
+        -:  587:        }
+        -:  588:        else{
+        -:  589:          //printf("%f\n", player_turn);
+    #####:  590:          display_player_turn(&st2, player_turn);
+    #####:  591:          printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
+    #####:  592:          printf("\n");
+    #####:  593:          printf("1~6を入力してください\n");
+    #####:  594:          command =  _getch();
+    #####:  595:          if ( command == '1' ){   //攻撃コマンド
+        -:  596:            do{
+    #####:  597:              command = player_normal_attack_target7(&enemy,&enemy1,&enemy2,&enemy3);
+        -:  598:
+    #####:  599:              if ( command == '1' ){
+    #####:  600:                player_damage = player_attack(&st2, &enemy, &enemy_deadcount);
+    #####:  601:                if ( player_damage > 0 ){
+    #####:  602:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  603:                  sleep(1);
+    #####:  604:                  if ( player_damage > 99000 ){
+    #####:  605:                    player_damage -= 100000;
+    #####:  606:                    printf("CRITICAL!\n");
+    #####:  607:                    turn_decrease = 0.1;
+    #####:  608:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  609:                    sleep(1);
+        -:  610:                  }
+        -:  611:                  else{
+    #####:  612:                    turn_decrease = -1;
+    #####:  613:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  614:                  }
+    #####:  615:                  printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+        -:  616:                }
+    #####:  617:                else if ( player_damage == 0 ){
+    #####:  618:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  619:                  sleep(1);
+    #####:  620:                  turn_decrease = -2;
+    #####:  621:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  622:                  printf("Miss!\n", (**st2) -> name); //回避時
+        -:  623:                }
+    #####:  624:                else if ( player_damage == -1 ){
+    #####:  625:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  626:                  sleep(1);
+    #####:  627:                  turn_decrease = -2;
+    #####:  628:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  629:                  printf("BLOCK!\n");
+        -:  630:                }
+    #####:  631:                else if ( player_damage == -2 ){
+        -:  632:                  //処理なし
+        -:  633:                }
+    #####:  634:                else if ( player_damage == -3 ){
+        -:  635:                  //処理なし
+        -:  636:                }
+    #####:  637:                else if ( player_damage == -10 ){
+    #####:  638:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  639:                  sleep(1);
+    #####:  640:                  turn_decrease = -2;
+    #####:  641:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  642:                  printf("攻撃はかすりともしない!\n");
+        -:  643:                }
+        -:  644:
+    #####:  645:                if ( player_damage >= (**enemy) -> hp ){
+    #####:  646:                  printf("%sを倒した!\n", (**enemy) -> name);
+    #####:  647:                  enemy_deadcount++;
+    #####:  648:                  (**enemy) -> badstatus = DEAD;
+        -:  649:                  //printf("enemy_deadcount:%d", enemy_deadcount);
+        -:  650:                }
+        -:  651:                else{
+    #####:  652:                  if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####:  653:                    (**enemy) -> hp -= player_damage;
+        -:  654:                  }
+        -:  655:                }
+    #####:  656:                move_finish++;
+        -:  657:              }
+    #####:  658:              else if ( command == '2' ){
+    #####:  659:                player_damage = player_attack(&st2, &enemy1, &enemy_deadcount);  //本当はenemy_copy1だがenemy_copy1はenemyと同じステータス
+    #####:  660:                if ( player_damage > 0 ){
+    #####:  661:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  662:                  sleep(1);
+    #####:  663:                  if ( player_damage > 99000 ){
+    #####:  664:                    player_damage -= 100000;
+    #####:  665:                    printf("CRITICAL!\n");
+    #####:  666:                    turn_decrease = 0.1;
+    #####:  667:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  668:                    sleep(1);
+        -:  669:                  }
+        -:  670:                  else{
+    #####:  671:                    turn_decrease = -1;
+    #####:  672:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  673:                  }
+    #####:  674:                  printf("%s<<%dダメージ\n", (**enemy1) -> name, player_damage);
+        -:  675:                }
+    #####:  676:                else if ( player_damage == 0 ){
+    #####:  677:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  678:                  sleep(1);
+    #####:  679:                  turn_decrease = -2;
+    #####:  680:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  681:                  printf("Miss!\n", (**st2) -> name); //回避時
+        -:  682:                }
+    #####:  683:                else if ( player_damage == -1 ){
+    #####:  684:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  685:                  sleep(1);
+    #####:  686:                  turn_decrease = -2;
+    #####:  687:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  688:                  printf("BLOCK!\n");
+        -:  689:                }
+    #####:  690:                else if ( player_damage == -2 ){
+        -:  691:                  //処理なし
+        -:  692:                }
+    #####:  693:                else if ( player_damage == -3 ){
+        -:  694:                  //処理なし
+        -:  695:                }
+    #####:  696:                else if ( player_damage == -10 ){
+    #####:  697:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  698:                  sleep(1);
+    #####:  699:                  turn_decrease = -2;
+    #####:  700:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  701:                  printf("攻撃はかすりともしない!\n");
+        -:  702:                }
+        -:  703:
+    #####:  704:                if ( player_damage >= (**enemy1) -> hp ){
+    #####:  705:                  printf("%sを倒した!\n", (**enemy1) -> name);
+    #####:  706:                  enemy_deadcount++;
+    #####:  707:                  (**enemy1) -> badstatus = DEAD;
+        -:  708:                  //printf("enemy_deadcount:%d", enemy_deadcount);
+        -:  709:                }
+        -:  710:                else{
+    #####:  711:                  if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####:  712:                    (**enemy1) -> hp -= player_damage;
+        -:  713:                  }
+        -:  714:                }
+    #####:  715:                move_finish++;
+        -:  716:              }
+    #####:  717:              else if ( command == '3' ){
+    #####:  718:                player_damage = player_attack(&st3, &enemy2, &enemy_deadcount);  //本当はenemy_copy2だがenemy_copy2はenemyと同じステータス
+    #####:  719:                if ( player_damage > 0 ){
+    #####:  720:                  printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####:  721:                  sleep(1);
+    #####:  722:                  if ( player_damage > 99000 ){
+    #####:  723:                    player_damage -= 100000;
+    #####:  724:                    printf("CRITICAL!\n");
+    #####:  725:                    turn_decrease = 0.1;
+    #####:  726:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  727:                    sleep(1);
+        -:  728:                  }
+        -:  729:                  else{
+    #####:  730:                    turn_decrease = -1;
+    #####:  731:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  732:                  }
+    #####:  733:                  printf("%s<<%dダメージ\n", (**enemy2) -> name, player_damage);
+        -:  734:                }
+    #####:  735:                else if ( player_damage == 0 ){
+    #####:  736:                  printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####:  737:                  sleep(1);
+    #####:  738:                  turn_decrease = -2;
+    #####:  739:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  740:                  printf("Miss!\n", (**st3) -> name); //回避時
+        -:  741:                }
+    #####:  742:                else if ( player_damage == -1 ){
+    #####:  743:                  printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####:  744:                  sleep(1);
+    #####:  745:                  turn_decrease = -2;
+    #####:  746:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  747:                  printf("BLOCK!\n");
+        -:  748:                }
+    #####:  749:                else if ( player_damage == -2 ){
+        -:  750:                  //処理なし
+        -:  751:                }
+    #####:  752:                else if ( player_damage == -3 ){
+        -:  753:                  //処理なし
+        -:  754:                }
+    #####:  755:                else if ( player_damage == -10 ){
+    #####:  756:                  printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####:  757:                  sleep(1);
+    #####:  758:                  turn_decrease = -2;
+    #####:  759:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  760:                  printf("攻撃はかすりともしない!\n");
+        -:  761:                }
+        -:  762:
+    #####:  763:                if ( player_damage >= (**enemy2) -> hp ){
+    #####:  764:                  printf("%sを倒した!\n", (**enemy2) -> name);
+    #####:  765:                  enemy_deadcount++;
+    #####:  766:                  (**enemy2) -> badstatus = DEAD;
+        -:  767:                  //printf("enemy_deadcount:%d", enemy_deadcount);
+        -:  768:                }
+        -:  769:                else{
+    #####:  770:                  if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####:  771:                    (**enemy2) -> hp -= player_damage;
+        -:  772:                  }
+        -:  773:                }
+    #####:  774:                move_finish++;
+        -:  775:              }
+    #####:  776:              else if ( command == '4' ){
+    #####:  777:                player_damage = player_attack(&st2, &enemy3, &enemy_deadcount);
+    #####:  778:                if ( player_damage > 0 ){
+    #####:  779:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  780:                  sleep(1);
+    #####:  781:                  if ( player_damage > 99000 ){
+    #####:  782:                    player_damage -= 100000;
+    #####:  783:                    printf("CRITICAL!\n");
+    #####:  784:                    turn_decrease = 0.1;
+    #####:  785:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  786:                    sleep(1);
+        -:  787:                  }
+        -:  788:                  else{
+    #####:  789:                    turn_decrease = -1;
+    #####:  790:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -:  791:                  }
+    #####:  792:                  printf("%s<<%dダメージ\n", (**enemy3) -> name, player_damage);
+        -:  793:                }
+    #####:  794:                else if ( player_damage == 0 ){
+    #####:  795:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  796:                  sleep(1);
+    #####:  797:                  turn_decrease = -2;
+    #####:  798:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  799:                  printf("Miss!\n", (**st2) -> name); //回避時
+        -:  800:                }
+    #####:  801:                else if ( player_damage == -1 ){
+    #####:  802:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  803:                  sleep(1);
+    #####:  804:                  turn_decrease = -2;
+    #####:  805:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  806:                  printf("BLOCK!\n");
+        -:  807:                }
+    #####:  808:                else if ( player_damage == -2 ){
+        -:  809:                  //処理なし
+        -:  810:                }
+    #####:  811:                else if ( player_damage == -3 ){
+        -:  812:                  //処理なし
+        -:  813:                }
+    #####:  814:                else if ( player_damage == -10 ){
+    #####:  815:                  printf("%s>>通常攻撃!\n", (**st2) -> name);
+    #####:  816:                  sleep(1);
+    #####:  817:                  turn_decrease = -2;
+    #####:  818:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  819:                  printf("攻撃はかすりともしない!\n");
+        -:  820:                }
+        -:  821:
+    #####:  822:                if ( player_damage >= (**enemy3) -> hp ){
+    #####:  823:                  printf("%sを倒した!\n", (**enemy3) -> name);
+    #####:  824:                  enemy_deadcount++;
+    #####:  825:                  (**enemy3) -> badstatus = DEAD;
+        -:  826:                  //printf("enemy_deadcount:%d", enemy_deadcount);
+        -:  827:                }
+        -:  828:                else{
+    #####:  829:                  if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####:  830:                    (**enemy3) -> hp -= player_damage;
+        -:  831:                  }
+        -:  832:                }
+    #####:  833:                move_finish++;
+        -:  834:              }
+    #####:  835:              else if ( command == 'c' ){
+    #####:  836:                break;
+        -:  837:              }
+        -:  838:              else{
+    #####:  839:                printf("1,２,3,4のいずれかを入力してください\n");
+        -:  840:              }
+    #####:  841:            }while ( command != '1' && command != '2' && command != '3' && command != '4' );
+        -:  842:
+        -:  843:          }
+    #####:  844:          else if ( command == '2' ){ //skillコマンド
+    #####:  845:            skill_count = battle_player_skill_list(&player_skill2);
+        -:  846:
+    #####:  847:            if ( skill_count != 0 ){
+        -:  848:              do {
+    #####:  849:                printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
+    #####:  850:                skill_command = _getch();
+    #####:  851:                if ( skill_command == '1' ){    //回復:LV1
+    #####:  852:                  use_skill_count = 1;
+    #####:  853:                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+        -:  854:
+        -:  855:                  //いずれかのターゲットが存在する
+    #####:  856:                  if ( skill_target != 0 ){
+    #####:  857:                    skill_user = 2; //Player2
+    #####:  858:                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+        -:  859:
+    #####:  860:                    turn_decrease = -1;
+    #####:  861:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  862:                    move_finish++;
+        -:  863:                  }
+        -:  864:                  else{
+        -:  865:                    //turn消費無し
+        -:  866:                  }
+        -:  867:
+    #####:  868:                  printf("\n");
+        -:  869:
+        -:  870:                }
+    #####:  871:                else if ( skill_command == '2' ){   //CURE-POISON
+    #####:  872:                  use_skill_count = 2;
+        -:  873:                  //player_ability(&st2, &player_skill2, use_skill_count);
+        -:  874:
+    #####:  875:                  turn_decrease = -1;
+    #####:  876:                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  877:                  move_finish++;
+        -:  878:
+        -:  879:                }
+    #####:  880:                else if ( skill_command == 'c' ){
+    #####:  881:                  printf("\n");
+    #####:  882:                  use_skill_count = 99;
+        -:  883:                }
+        -:  884:
+    #####:  885:              }while ( use_skill_count == 0 );    //skillを使うと数値は0ではない
+        -:  886:            }
+        -:  887:
+        -:  888:          }
+    #####:  889:          else if ( command == '3' ){  //防御コマンド
+        -:  890:
+        -:  891:            //enemy_attackのテンプレート
+    #####:  892:            player_guard2++;
+    #####:  893:            turn_decrease = -1;
+    #####:  894:            player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  895:            move_finish++;
+        -:  896:          }
+    #####:  897:          else if ( command == '4' ){  //item使用
+    #####:  898:            turn_decrease = battle_item_use(&items,&st,&st2,&st3);
+    #####:  899:            if ( turn_decrease == 0 ){
+    #####:  900:              player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  901:              move_finish = 0;
+        -:  902:            }
+        -:  903:            else{
+    #####:  904:              player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  905:              move_finish = 1;
+        -:  906:            }
+        -:  907:
+        -:  908:          }
+    #####:  909:          else if ( command == '5' ){  //逃走する
+    #####:  910:            if ( (**enemy) -> boss_count == 0 ){
+    #####:  911:              printf("逃走中・・・\n");
+    #####:  912:              sleep(2);
+    #####:  913:              if ( battle_escape(&st2) == 1 ){
+    #####:  914:                enemy_full_recover7(&enemy,&enemy1,&enemy2,&enemy3);
+    #####:  915:                return;
+        -:  916:              }
+        -:  917:              else{
+    #####:  918:                player_turn = 0;
+    #####:  919:                move_finish = 1;
+        -:  920:              }
+        -:  921:            }
+        -:  922:            else{
+    #####:  923:              printf("逃走失敗!\n");
+    #####:  924:              sleep(1);
+    #####:  925:              move_finish = 1;
+    #####:  926:              player_turn = 0;
+        -:  927:            }
+        -:  928:          }
+    #####:  929:          else if ( command == '6' ){
+    #####:  930:            turn_decrease = 0.1;
+    #####:  931:            player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  932:            move_finish = 1;
+    #####:  933:            player_guard2 = 0;
+        -:  934:          }
+        -:  935:          //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
+        -:  936:          else{
+    #####:  937:            if ( encount_pattern == 7 ){
+    #####:  938:              enemy_deadcount = battle_error_enemydeadcount7(&enemy,&enemy1,&enemy2,&enemy3);
+        -:  939:            }
+    #####:  940:            printf("コマンドを正しく入力してください\n");
+    #####:  941:            system("pause");
+    #####:  942:            printf("\n");
+        -:  943:          }
+        -:  944:
+    #####:  945:          if ( (**st2) -> badstatus == POISON ){ //毒状態時
+    #####:  946:            poison_effect(&st2);
+        -:  947:          }
+        -:  948:        }
+    #####:  949:      }while ( move_finish != 1 );
+        -:  950:
+    #####:  951:      if ( enemy_deadcount == enemy_temp ){
+    #####:  952:        break;
+        -:  953:      }
+        -:  954:
+    #####:  955:      if ( player_turn == 0 ){
+    #####:  956:        break;
+        -:  957:      }
+        -:  958:
+    #####:  959:      printf("                 <<<<<<<PLAYER TURN>>>>>>>\n");
+    #####:  960:      printf("\n");
+        -:  961:
+        -:  962:      //戦闘画面のレイアウト
+    #####:  963:      encount_pattern7_layout(&enemy,&enemy1,&enemy2,&enemy3, encount_pattern);
+        -:  964:
+    #####:  965:      printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+        -:  966:
+    #####:  967:      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+        -:  968:
+        -:  969:      //HPをグラフィックに表現
+    #####:  970:      hp_graphycal_display(&st,&st2,&st3);
+        -:  971:      //MPをグラフィックに表現
+    #####:  972:      mp_graphycal_display(&st,&st2,&st3);
+        -:  973:
+        -:  974:      //partyの状態異常ステータスを表示
+    #####:  975:      battle_display_condition_count = 0;
+    #####:  976:      battle_display_condition(&st, battle_display_condition_count);
+        -:  977:
+    #####:  978:      battle_display_condition_count++;
+    #####:  979:      battle_display_condition(&st2, battle_display_condition_count);
+        -:  980:
+    #####:  981:      battle_display_condition_count++;
+    #####:  982:      battle_display_condition(&st3, battle_display_condition_count);
+    #####:  983:      battle_display_condition_count = 0;
+    #####:  984:      printf("\n");
+    #####:  985:      printf("\n");
+        -:  986:
+        -:  987:      do{
+    #####:  988:        move_finish = 0;
+    #####:  989:        player_guard3 = 0;
+        -:  990:
+    #####:  991:        if ( (**st3) -> badstatus == DEAD ){
+    #####:  992:          printf("%sは死んでいて行動できない!\n", (**st3) -> name);
+    #####:  993:          turn_decrease = -1;
+    #####:  994:          player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####:  995:          move_finish++;
+        -:  996:        }
+        -:  997:        else{
+        -:  998:          //printf("%f\n", player_turn);
+    #####:  999:          display_player_turn(&st3, player_turn);
+    #####: 1000:          printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
+    #####: 1001:          printf("\n");
+    #####: 1002:          printf("1~6を入力してください\n");
+    #####: 1003:          command =  _getch();
+    #####: 1004:          if ( command == '1' ){   //攻撃コマンド
+    #####: 1005:            if ( encount_pattern == 7 ){    //敵5体
+        -: 1006:              do{
+        -: 1007:                //どちらの敵に攻撃するかチェック
+    #####: 1008:                command = player_normal_attack_target7(&enemy,&enemy1,&enemy2,&enemy3);
+        -: 1009:
+    #####: 1010:                if ( command == '1' ){
+    #####: 1011:                  player_damage = player_attack(&st3, &enemy, &enemy_deadcount);
+    #####: 1012:                  if ( player_damage > 0 ){
+    #####: 1013:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1014:                    sleep(1);
+    #####: 1015:                    if ( player_damage > 99000 ){
+    #####: 1016:                      player_damage -= 100000;
+    #####: 1017:                      printf("CRITICAL!\n");
+    #####: 1018:                      turn_decrease = 0.1;
+    #####: 1019:                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1020:                      sleep(1);
+        -: 1021:                    }
+        -: 1022:                    else{
+    #####: 1023:                      turn_decrease = -1;
+    #####: 1024:                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -: 1025:                    }
+    #####: 1026:                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+        -: 1027:                  }
+    #####: 1028:                  else if ( player_damage == 0 ){
+    #####: 1029:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1030:                    sleep(1);
+    #####: 1031:                    turn_decrease = -2;
+    #####: 1032:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1033:                    printf("Miss!\n", (**st3) -> name); //回避時
+        -: 1034:                  }
+    #####: 1035:                  else if ( player_damage == -1 ){
+    #####: 1036:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1037:                    sleep(1);
+    #####: 1038:                    turn_decrease = -2;
+    #####: 1039:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1040:                    printf("BLOCK!\n");
+        -: 1041:                  }
+    #####: 1042:                  else if ( player_damage == -2 ){
+        -: 1043:                    //処理なし
+        -: 1044:                  }
+    #####: 1045:                  else if ( player_damage == -3 ){
+        -: 1046:                    //処理なし
+        -: 1047:                  }
+    #####: 1048:                  else if ( player_damage == -10 ){
+    #####: 1049:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1050:                    sleep(1);
+    #####: 1051:                    turn_decrease = -2;
+    #####: 1052:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1053:                    printf("攻撃はかすりともしない!\n");
+        -: 1054:                  }
+        -: 1055:
+    #####: 1056:                  if ( player_damage >= (**enemy) -> hp ){
+    #####: 1057:                    printf("%sを倒した!\n", (**enemy) -> name);
+    #####: 1058:                    enemy_deadcount++;
+    #####: 1059:                    (**enemy) -> badstatus = DEAD;
+        -: 1060:                    //printf("enemy_deadcount:%d", enemy_deadcount);
+        -: 1061:                  }
+        -: 1062:                  else{
+    #####: 1063:                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####: 1064:                      (**enemy) -> hp -= player_damage;
+        -: 1065:                    }
+        -: 1066:                  }
+    #####: 1067:                  move_finish++;
+        -: 1068:                }
+    #####: 1069:                else if ( command == '2' ){
+    #####: 1070:                  player_damage = player_attack(&st3, &enemy1, &enemy_deadcount);  //本当はenemy_copy1だがenemy_copy1はenemyと同じステータス
+    #####: 1071:                  if ( player_damage > 0 ){
+    #####: 1072:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1073:                    sleep(1);
+    #####: 1074:                    if ( player_damage > 99000 ){
+    #####: 1075:                      player_damage -= 100000;
+    #####: 1076:                      printf("CRITICAL!\n");
+    #####: 1077:                      turn_decrease = 0.1;
+    #####: 1078:                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1079:                      sleep(1);
+        -: 1080:                    }
+        -: 1081:                    else{
+    #####: 1082:                      turn_decrease = -1;
+    #####: 1083:                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -: 1084:                    }
+    #####: 1085:                    printf("%s<<%dダメージ\n", (**enemy1) -> name, player_damage);
+        -: 1086:                  }
+    #####: 1087:                  else if ( player_damage == 0 ){
+    #####: 1088:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1089:                    sleep(1);
+    #####: 1090:                    turn_decrease = -2;
+    #####: 1091:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1092:                    printf("Miss!\n", (**st3) -> name); //回避時
+        -: 1093:                  }
+    #####: 1094:                  else if ( player_damage == -1 ){
+    #####: 1095:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1096:                    sleep(1);
+    #####: 1097:                    turn_decrease = -2;
+    #####: 1098:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1099:                    printf("BLOCK!\n");
+        -: 1100:                  }
+    #####: 1101:                  else if ( player_damage == -2 ){
+        -: 1102:                    //処理なし
+        -: 1103:                  }
+    #####: 1104:                  else if ( player_damage == -3 ){
+        -: 1105:                    //処理なし
+        -: 1106:                  }
+    #####: 1107:                  else if ( player_damage == -10 ){
+    #####: 1108:                    printf("%sの通常攻撃!\n", (**st3) -> name);
+    #####: 1109:                    sleep(1);
+    #####: 1110:                    turn_decrease = -2;
+    #####: 1111:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1112:                    printf("攻撃はかすりともしない!\n");
+        -: 1113:                  }
+        -: 1114:
+    #####: 1115:                  if ( player_damage >= (**enemy1) -> hp ){
+    #####: 1116:                    printf("%sを倒した!\n", (**enemy1) -> name);
+    #####: 1117:                    enemy_deadcount++;
+    #####: 1118:                    (**enemy1) -> badstatus = DEAD;
+        -: 1119:                    //printf("enemy_deadcount:%d", enemy_deadcount);
+        -: 1120:                  }
+        -: 1121:                  else{
+    #####: 1122:                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####: 1123:                      (**enemy1) -> hp -= player_damage;
+        -: 1124:                    }
+        -: 1125:                  }
+    #####: 1126:                  move_finish++;
+        -: 1127:                }
+    #####: 1128:                else if ( command == '3' ){
+    #####: 1129:                  player_damage = player_attack(&st3, &enemy2, &enemy_deadcount);
+    #####: 1130:                  if ( player_damage > 0 ){
+    #####: 1131:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1132:                    sleep(1);
+    #####: 1133:                    if ( player_damage > 99000 ){
+    #####: 1134:                      player_damage -= 100000;
+    #####: 1135:                      printf("CRITICAL!\n");
+    #####: 1136:                      turn_decrease = 0.1;
+    #####: 1137:                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1138:                      sleep(1);
+        -: 1139:                    }
+        -: 1140:                    else{
+    #####: 1141:                      turn_decrease = -1;
+    #####: 1142:                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -: 1143:                    }
+    #####: 1144:                    printf("%s<<%dダメージ\n", (**enemy2) -> name, player_damage);
+        -: 1145:                  }
+    #####: 1146:                  else if ( player_damage == 0 ){
+    #####: 1147:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1148:                    sleep(1);
+    #####: 1149:                    turn_decrease = -2;
+    #####: 1150:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1151:                    printf("Miss!\n", (**st3) -> name); //回避時
+        -: 1152:                  }
+    #####: 1153:                  else if ( player_damage == -1 ){
+    #####: 1154:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1155:                    sleep(1);
+    #####: 1156:                    turn_decrease = -2;
+    #####: 1157:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1158:                    printf("BLOCK!\n");
+        -: 1159:                  }
+    #####: 1160:                  else if ( player_damage == -2 ){
+        -: 1161:                    //処理なし
+        -: 1162:                  }
+    #####: 1163:                  else if ( player_damage == -3 ){
+        -: 1164:                    //処理なし
+        -: 1165:                  }
+    #####: 1166:                  else if ( player_damage == -10 ){
+    #####: 1167:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1168:                    sleep(1);
+    #####: 1169:                    turn_decrease = -2;
+    #####: 1170:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1171:                    printf("攻撃はかすりともしない!\n");
+        -: 1172:                  }
+        -: 1173:
+    #####: 1174:                  if ( player_damage >= (**enemy2) -> hp ){
+    #####: 1175:                    printf("%sを倒した!\n", (**enemy2) -> name);
+    #####: 1176:                    enemy_deadcount++;
+    #####: 1177:                    (**enemy2) -> badstatus = DEAD;
+        -: 1178:                    //printf("enemy_deadcount:%d", enemy_deadcount);
+        -: 1179:                  }
+        -: 1180:                  else{
+    #####: 1181:                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####: 1182:                      (**enemy2) -> hp -= player_damage;
+        -: 1183:                    }
+        -: 1184:                  }
+    #####: 1185:                  move_finish++;
+        -: 1186:                }
+    #####: 1187:                else if ( command == '4' ){
+    #####: 1188:                  player_damage = player_attack(&st3, &enemy3, &enemy_deadcount);
+    #####: 1189:                  if ( player_damage > 0 ){
+    #####: 1190:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1191:                    sleep(1);
+    #####: 1192:                    if ( player_damage > 99000 ){
+    #####: 1193:                      player_damage -= 100000;
+    #####: 1194:                      printf("CRITICAL!\n");
+    #####: 1195:                      turn_decrease = 0.1;
+    #####: 1196:                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1197:                      sleep(1);
+        -: 1198:                    }
+        -: 1199:                    else{
+    #####: 1200:                      turn_decrease = -1;
+    #####: 1201:                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+        -: 1202:                    }
+    #####: 1203:                    printf("%s<<%dダメージ\n", (**enemy3) -> name, player_damage);
+        -: 1204:                  }
+    #####: 1205:                  else if ( player_damage == 0 ){
+    #####: 1206:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1207:                    sleep(1);
+    #####: 1208:                    turn_decrease = -2;
+    #####: 1209:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1210:                    printf("Miss!\n", (**st3) -> name); //回避時
+        -: 1211:                  }
+    #####: 1212:                  else if ( player_damage == -1 ){
+    #####: 1213:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1214:                    sleep(1);
+    #####: 1215:                    turn_decrease = -2;
+    #####: 1216:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1217:                    printf("BLOCK!\n");
+        -: 1218:                  }
+    #####: 1219:                  else if ( player_damage == -2 ){
+        -: 1220:                    //処理なし
+        -: 1221:                  }
+    #####: 1222:                  else if ( player_damage == -3 ){
+        -: 1223:                    //処理なし
+        -: 1224:                  }
+    #####: 1225:                  else if ( player_damage == -10 ){
+    #####: 1226:                    printf("%s>>通常攻撃!\n", (**st3) -> name);
+    #####: 1227:                    sleep(1);
+    #####: 1228:                    turn_decrease = -2;
+    #####: 1229:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1230:                    printf("攻撃はかすりともしない!\n");
+        -: 1231:                  }
+        -: 1232:
+    #####: 1233:                  if ( player_damage >= (**enemy3) -> hp ){
+    #####: 1234:                    printf("%sを倒した!\n", (**enemy3) -> name);
+    #####: 1235:                    enemy_deadcount++;
+    #####: 1236:                    (**enemy3) -> badstatus = DEAD;
+        -: 1237:                    //printf("enemy_deadcount:%d", enemy_deadcount);
+        -: 1238:                  }
+        -: 1239:                  else{
+    #####: 1240:                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
+    #####: 1241:                      (**enemy3) -> hp -= player_damage;
+        -: 1242:                    }
+        -: 1243:                  }
+    #####: 1244:                  move_finish++;
+        -: 1245:                }
+    #####: 1246:                else if ( command == 'c' ){
+    #####: 1247:                  break;
+        -: 1248:                }
+        -: 1249:                else{
+    #####: 1250:                  printf("1,２,3,4のいずれかを入力してください\n");
+        -: 1251:                }
+    #####: 1252:              }while ( command != '1' && command != '2' && command != '3' && command != '4' );
+        -: 1253:            }
+        -: 1254:          }
+    #####: 1255:          else if ( command == '2' ){ //skillコマンド
+    #####: 1256:            skill_count = battle_player_skill_list(&player_skill3);
+        -: 1257:
+    #####: 1258:            if ( skill_count != 0 ){
+        -: 1259:              do {
+    #####: 1260:                printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
+    #####: 1261:                skill_command = _getch();
+    #####: 1262:                if ( skill_command == '1' ){    //回復:LV1
+    #####: 1263:                  use_skill_count = 1;
+    #####: 1264:                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+        -: 1265:
+        -: 1266:                  //いずれかのターゲットが存在する
+    #####: 1267:                  if ( skill_target != 0 ){
+    #####: 1268:                    skill_user = 3; //Player3
+    #####: 1269:                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+        -: 1270:
+    #####: 1271:                    turn_decrease = -1;
+    #####: 1272:                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1273:                    move_finish++;
+        -: 1274:                  }
+        -: 1275:                  else{
+        -: 1276:                    //turn消費無し
+        -: 1277:                  }
+        -: 1278:
+    #####: 1279:                  printf("\n");
+        -: 1280:
+        -: 1281:                }
+    #####: 1282:                else if ( skill_command == '2' ){   //CURE-POISON
+    #####: 1283:                  use_skill_count = 2;
+        -: 1284:                  //player_ability(&st3, &player_skill3, use_skill_count);
+        -: 1285:
+    #####: 1286:                  player_turn--;
+    #####: 1287:                  move_finish++;
+        -: 1288:                }
+    #####: 1289:                else if ( skill_command == 'c' ){
+    #####: 1290:                  printf("\n");
+    #####: 1291:                  use_skill_count = 99;
+        -: 1292:                }
+        -: 1293:
+    #####: 1294:              }while ( use_skill_count == 0 );    //skillを使うと数値は0ではない
+        -: 1295:            }
+        -: 1296:
+        -: 1297:          }
+    #####: 1298:          else if ( command == '3' ){  //防御コマンド
+        -: 1299:
+        -: 1300:            //enemy_attackのテンプレート
+    #####: 1301:            player_guard3++;
+    #####: 1302:            player_turn--;
+    #####: 1303:            move_finish++;
+        -: 1304:          }
+    #####: 1305:          else if ( command == '4' ){  //item使用
+    #####: 1306:            turn_decrease = battle_item_use(&items,&st,&st2,&st3);
+    #####: 1307:            if ( turn_decrease == 0 ){
+    #####: 1308:              player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1309:              move_finish = 0;
+        -: 1310:            }
+        -: 1311:            else{
+    #####: 1312:              player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1313:              move_finish = 1;
+        -: 1314:            }
+        -: 1315:
+        -: 1316:          }
+    #####: 1317:          else if ( command == '5' ){  //逃走する
+    #####: 1318:            if ( (**enemy) -> boss_count == 0 ){
+    #####: 1319:              printf("逃走中・・・\n");
+    #####: 1320:              sleep(2);
+    #####: 1321:              if ( battle_escape(&st3) == 1 ){
+    #####: 1322:                enemy_full_recover7(&enemy,&enemy1,&enemy2,&enemy3);
+    #####: 1323:                return;
+        -: 1324:              }
+        -: 1325:              else{
+    #####: 1326:                player_turn = 0;
+    #####: 1327:                move_finish = 1;
+        -: 1328:              }
+        -: 1329:            }
+        -: 1330:            else{
+    #####: 1331:              printf("逃走失敗!\n");
+    #####: 1332:              sleep(1);
+    #####: 1333:              move_finish = 1;
+    #####: 1334:              player_turn = 0;
+        -: 1335:            }
+        -: 1336:          }
+    #####: 1337:          else if ( command == '6' ){
+    #####: 1338:            turn_decrease = 0.1;
+    #####: 1339:            player_turn = calculate_player_turn(player_turn, turn_decrease);
+    #####: 1340:            move_finish = 1;
+    #####: 1341:            player_guard3 = 0;
+        -: 1342:          }
+        -: 1343:          //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
+        -: 1344:          else{
+    #####: 1345:            if ( encount_pattern == 7 ){
+    #####: 1346:              enemy_deadcount = battle_error_enemydeadcount7(&enemy,&enemy1,&enemy2,&enemy3);
+        -: 1347:            }
+        -: 1348:
+    #####: 1349:            printf("コマンドを正しく入力してください\n");
+    #####: 1350:            system("pause");
+    #####: 1351:            printf("\n");
+        -: 1352:          }
+        -: 1353:
+    #####: 1354:          if ( (**st3) -> badstatus == POISON ){ //毒状態時
+    #####: 1355:            poison_effect(&st3);
+        -: 1356:          }
+        -: 1357:        }
+        -: 1358:
+    #####: 1359:      }while ( move_finish != 1 );
+        -: 1360:
+    #####: 1361:      if ( enemy_deadcount == enemy_temp ){
+    #####: 1362:        break;
+        -: 1363:      }
+        -: 1364:
+    #####: 1365:    }while ( player_turn != 0 );
+        -: 1366:
+        -: 1367:    //enemy_turn;
+    #####: 1368:    if ( enemy_deadcount == enemy_temp ){
+    #####: 1369:      break;
+        -: 1370:    }
+        -: 1371:
+        -: 1372:    //関係のない値の代入
+    #####: 1373:    enemy_turn_temp = -2;
+        -: 1374:
+        -: 1375:    //敵の攻撃
+        -: 1376:    do {
+    #####: 1377:      enemy_turn = 4;
+    #####: 1378:      if ( (**enemy) -> badstatus == DEAD ){
+    #####: 1379:        enemy_turn--;
+        -: 1380:      }
+    #####: 1381:      if ( (**enemy1) -> badstatus == DEAD ){
+    #####: 1382:        enemy_turn--;
+        -: 1383:      }
+    #####: 1384:      if ( (**enemy2) -> badstatus == DEAD ){
+    #####: 1385:        enemy_turn--;
+        -: 1386:      }
+    #####: 1387:      if ( (**enemy3) -> badstatus == DEAD ){
+    #####: 1388:        enemy_turn--;
+        -: 1389:      }
+        -: 1390:      //printf("enemy_turn:%f\n", enemy_turn);
+        -: 1391:      //printf("enemy_turn_temp:%f\n", enemy_turn_temp);
+        -: 1392:
+    #####: 1393:      if ( enemy_turn != enemy_turn_temp && enemy_turn_temp != -2 ){
+    #####: 1394:        enemy_turn = enemy_turn_temp;
+        -: 1395:      }
+        -: 1396:      //printf("enemy_turn:%f\n", enemy_turn);
+        -: 1397:      //printf("enemy_turn_temp:%f\n", enemy_turn_temp);
+        -: 1398:
+    #####: 1399:      printf("                 <<<<<<<ENEMY TURN>>>>>>>\n");
+    #####: 1400:      printf("\n");
+    #####: 1401:      encount_pattern7_layout(&enemy,&enemy1,&enemy2,&enemy3,encount_pattern);
+    #####: 1402:      printf("\n");
+    #####: 1403:      sleep(1);
+        -: 1404:
+    #####: 1405:      printf("       %3s                   %3s                 %3s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+    #####: 1406:      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+    #####: 1407:      battle_display_condition_count = 0;
+    #####: 1408:      hp_graphycal_display(&st,&st2,&st3);
+    #####: 1409:      mp_graphycal_display(&st,&st2,&st3);
+    #####: 1410:      battle_display_condition(&st, battle_display_condition_count);
+    #####: 1411:      battle_display_condition_count++;
+    #####: 1412:      battle_display_condition(&st2, battle_display_condition_count);
+    #####: 1413:      battle_display_condition_count++;
+    #####: 1414:      battle_display_condition(&st3, battle_display_condition_count);
+    #####: 1415:      printf("\n");
+        -: 1416:      //printf("enemy's badstatus:%d\n", (**enemy) -> badstatus);
+        -: 1417:      //printf("enemy_copy1's badstatus:%d\n", enemy_copy1.badstatus);
+    #####: 1418:      if ( (**enemy) -> badstatus != DEAD ){
+    #####: 1419:        display_enemy_turn(&enemy, enemy_turn);
+        -: 1420:        //enemyの攻撃
+        -: 1421:        //printf("%f\n", enemy_turn);
+    #####: 1422:        sleep(1);
+    #####: 1423:        enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
+    #####: 1424:        sleep(1);
+        -: 1425:        //printf("%f\n", enemy_turn);
+    #####: 1426:        printf("\n");
+        -: 1427:      }
+        -: 1428:
+    #####: 1429:      if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
+    #####: 1430:        display_gameover();
+        -: 1431:      }
+    #####: 1432:      if ( enemy_turn <= 0 ){
+    #####: 1433:        break;
+        -: 1434:      }
+        -: 1435:
+    #####: 1436:      if ( (**enemy1) -> badstatus != DEAD ){
+    #####: 1437:        sleep(1);
+    #####: 1438:        display_enemy_turn(&enemy1, enemy_turn);
+        -: 1439:        //enemyの攻撃
+        -: 1440:        //printf("%f\n", enemy_turn);
+    #####: 1441:        sleep(1);
+    #####: 1442:        enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy1, player_guard, player_guard2, player_guard3, enemy_turn);
+    #####: 1443:        sleep(1);
+        -: 1444:        //printf("%f\n", enemy_turn);
+        -: 1445:      }
+        -: 1446:
+    #####: 1447:      if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
+    #####: 1448:        display_gameover();
+        -: 1449:      }
+    #####: 1450:      if ( enemy_turn <= 0 ){
+    #####: 1451:        break;
+        -: 1452:      }
+        -: 1453:
+    #####: 1454:      if ( (**enemy2) -> badstatus != DEAD ){
+    #####: 1455:        sleep(1);
+    #####: 1456:        display_enemy_turn(&enemy2, enemy_turn);
+        -: 1457:        //enemyの攻撃
+        -: 1458:        //printf("%f\n", enemy_turn);
+    #####: 1459:        sleep(1);
+    #####: 1460:        enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy2, player_guard, player_guard2, player_guard3, enemy_turn);
+    #####: 1461:        sleep(1);
+        -: 1462:        //printf("%f\n", enemy_turn);
+        -: 1463:      }
+        -: 1464:
+    #####: 1465:      if ( (**st) -> badstatus == DEAD && (**st2) -> badstatus == DEAD && (**st3) -> badstatus == DEAD ){
+    #####: 1466:        display_gameover();
+        -: 1467:      }
+    #####: 1468:      if ( enemy_turn <= 0 ){
+    #####: 1469:        break;
+        -: 1470:      }
+        -: 1471:
+    #####: 1472:      if ( (**enemy3) -> badstatus != DEAD ){
+    #####: 1473:        sleep(1);
+    #####: 1474:        display_enemy_turn(&enemy3, enemy_turn);
+        -: 1475:        //enemyの攻撃
+        -: 1476:        //printf("%f\n", enemy_turn);
+    #####: 1477:        sleep(1);
+    #####: 1478:        enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy3, player_guard, player_guard2, player_guard3, enemy_turn);
+    #####: 1479:        sleep(1);
+        -: 1480:        //printf("%f\n", enemy_turn);
+        -: 1481:      }
+        -: 1482:
+    #####: 1483:      enemy_turn_temp = enemy_turn;
+        -: 1484:
+    #####: 1485:    }while ( enemy_turn > 0 );
+        -: 1486:
+    #####: 1487:  }while( enemy_deadcount != enemy_temp || ( (**st) -> badstatus != DEAD && (**st2) -> badstatus != DEAD && (**st3) -> badstatus != DEAD ) );
+        -: 1488:
+        -: 1489:  //encount_pattern = 5;
+    #####: 1490:  enemy_full_recover7(&enemy,&enemy1,&enemy2,&enemy3);
+        -: 1491:
+    #####: 1492:  result_exp = 0;
+    #####: 1493:  result_gold = 0;
+        -: 1494:
+    #####: 1495:  result_exp = (**enemy) -> exp + (**enemy1) -> exp + (**enemy2) -> exp + (**enemy3) -> exp;
+    #####: 1496:  result_gold = (**enemy) -> gold + (**enemy1) -> gold + (**enemy2) -> gold + (**enemy3) -> gold;
+        -: 1497:
+    #####: 1498:  printf("\a");
+    #####: 1499:  sleep(1);
+    #####: 1500:  printf("%s達は戦闘に勝利した!\n", (**st) -> name);
+    #####: 1501:  printf("------RESULT------\n");
+    #####: 1502:  printf("  EXP:%d GOLD:%d\n", result_exp, result_gold);
+    #####: 1503:  printf("\n");
+        -: 1504:
+        -: 1505:  //アイテムドロップ
+    #####: 1506:  item_drop(&st,&st2,&st3,&enemy,&items,encount_pattern);
+    #####: 1507:  item_drop(&st,&st2,&st3,&enemy1,&items,encount_pattern);
+    #####: 1508:  item_drop(&st,&st2,&st3,&enemy2,&items,encount_pattern);
+    #####: 1509:  item_drop(&st,&st2,&st3,&enemy3,&items,encount_pattern);
+        -: 1510:
+    #####: 1511:  if ( (**st) -> badstatus == DEAD ){
+        -: 1512:    //経験値獲得無し
+        -: 1513:  }
+        -: 1514:  else{
+    #####: 1515:    (**st) -> exp += result_exp;
+    #####: 1516:    (**st) -> sumexp += result_exp;
+    #####: 1517:    level_up(&st, &player_skill);
+        -: 1518:  }
+    #####: 1519:  if ( (**st2) -> badstatus == DEAD ){
+        -: 1520:    //獲得経験値なし
+        -: 1521:  }
+        -: 1522:  else{
+    #####: 1523:    (**st2) -> exp += result_exp;
+    #####: 1524:    (**st2) -> sumexp += result_exp;
+    #####: 1525:    level_up(&st2, &player_skill2);
+        -: 1526:  }
+    #####: 1527:  if ( (**st3) -> badstatus == DEAD ){
+        -: 1528:    //獲得経験値なし
+        -: 1529:  }
+        -: 1530:  else{
+    #####: 1531:    (**st3) -> exp += result_exp;
+    #####: 1532:    (**st3) -> sumexp += result_exp;
+    #####: 1533:    level_up(&st3, &player_skill3);
+        -: 1534:  }
+        -: 1535:
+    #####: 1536:  (**st) -> gold += result_gold;
+        -: 1537:
+    #####: 1538:  player_badstatus_recover(&st);
+    #####: 1539:  player_badstatus_recover(&st2);
+    #####: 1540:  player_badstatus_recover(&st3);
+        -: 1541:}

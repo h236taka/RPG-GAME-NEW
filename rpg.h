@@ -277,6 +277,8 @@ void display_condition(Player ***st);
 
 void display_status(Player **st, Player **st2, Player **st3);
 
+void goods_shop(Player **st, Items **items);
+
 void prologue(void);
 
 int check_player_name(Player **st);

@@ -1,0 +1,195 @@
+        -:    0:Source:rpg_levelup.c
+        -:    1:#include <stdio.h>
+        -:    2:#include <string.h>
+        -:    3:#include <unistd.h>
+        -:    4:#include <stdlib.h>
+        -:    5:#include <time.h>
+        -:    6:#include <sys/stat.h>
+        -:    7:#include <conio.h>
+        -:    8:#include <wchar.h>
+        -:    9:#include "rpg.h"
+        -:   10:
+    #####:   11:void player_skill_check(Player ******st, P_skill ******player_skill){
+    #####:   12:  if ( (*****st) -> lv == 2 ){
+    #####:   13:    (*****player_skill) -> recover1 = 1;                        //skillget!
+    #####:   14:    printf("%sはケディアを習得した!\n", (*****st) -> name);
+        -:   15:  }
+    #####:   16:  else if ( (*****st) -> lv == 3 ){
+    #####:   17:    (*****player_skill) -> cure_poison = 1;                     //skillget!
+    #####:   18:    printf("%sはCURE-POISONを習得した!\n", (*****st) -> name);
+        -:   19:  }
+    #####:   20:}
+        -:   21:
+        -:   22:
+    #####:   23:void status_lvup(Player *****st, P_skill *****player_skill){
+        -:   24:  int hp, mp, status_count;
+        -:   25:  int input;
+        -:   26:
+    #####:   27:  status_count = 0; //statusUPがなされたかcheck
+    #####:   28:  hp = (rand() % ( 5 - 3 + 1) ) + 3; //Lvup時のHP増加率 3~5
+    #####:   29:  mp = (rand() % ( 5 - 3 + 1) ) + 3; //Lvup時のMP増加率 3~5
+    #####:   30:  (****st) -> maxhp += hp;
+    #####:   31:  (****st) -> maxmp += mp;
+        -:   32:
+    #####:   33:  player_skill_check(&st, &player_skill);
+        -:   34:
+        -:   35:  do {
+    #####:   36:    printf("%sの上昇させたい能力を選んで下さい!\n", (****st) -> name);
+    #####:   37:    printf("1.力:%d\n", (****st) -> atk);
+    #####:   38:    printf("2.魔:%d\n", (****st) -> magic);
+    #####:   39:    printf("3.体:%d\n", (****st) -> str);
+    #####:   40:    printf("4.速:%d\n", (****st) -> agi);
+    #####:   41:    printf("5.運:%d\n", (****st) -> luk);
+    #####:   42:    printf("1~5の内数字を1つ入力してください!\n");
+    #####:   43:    input = _getch();
+    #####:   44:    if ( input == '1' ){
+    #####:   45:      (****st) -> atk++;
+    #####:   46:      printf("力:%d -> 力:%d\n", (****st) -> atk - 1, (****st) -> atk);
+    #####:   47:      status_count++;
+        -:   48:    }
+    #####:   49:    else if ( input == '2' ){
+    #####:   50:      (****st) -> magic++;
+    #####:   51:      printf("魔:%d -> 魔:%d\n", (****st) -> magic - 1, (****st) -> magic);
+    #####:   52:      (****st) -> maxmp += 3;
+    #####:   53:      status_count++;
+        -:   54:    }
+    #####:   55:    else if ( input == '3' ){
+    #####:   56:      (****st) -> str++;
+    #####:   57:      printf("体:%d -> 体:%d\n", (****st) -> str - 1, (****st) -> str);
+    #####:   58:      (****st) -> maxhp += 5;
+    #####:   59:      status_count++;
+        -:   60:    }
+    #####:   61:    else if ( input == '4' ){
+    #####:   62:      (****st) -> agi++;
+    #####:   63:      printf("速:%d -> 速:%d\n", (****st) -> agi - 1, (****st) -> agi);
+    #####:   64:      status_count++;
+        -:   65:    }
+    #####:   66:    else if ( input == '5' ){
+    #####:   67:      (****st) -> luk++;
+    #####:   68:      printf("運:%d -> 運:%d\n", (****st) -> luk - 1, (****st) -> luk);
+    #####:   69:      status_count++;
+        -:   70:    }
+        -:   71:    else{
+    #####:   72:      printf("再度入力してください!\n");
+    #####:   73:      printf("\n");
+        -:   74:    }
+    #####:   75:  }while ( status_count == 0 );
+        -:   76:
+    #####:   77:  printf("\n");
+    #####:   78:  printf("%sの能力\n", (****st) -> name);
+    #####:   79:  printf("LV:%d\n", (****st) -> lv);
+    #####:   80:  printf("HP:%d/%d MP:%d/%d\n", (****st) -> hp, (****st) -> maxhp, (****st) -> mp, (****st) -> maxmp);
+    #####:   81:  printf("1.力:%d\n", (****st) -> atk);
+    #####:   82:  printf("2.魔:%d\n", (****st) -> magic);
+    #####:   83:  printf("3.体:%d\n", (****st) -> str);
+    #####:   84:  printf("4.速:%d\n", (****st) -> agi);
+    #####:   85:  printf("5.運:%d\n", (****st) -> luk);
+    #####:   86:  printf("\n");
+    #####:   87:}
+        -:   88:
+    #####:   89:void special_status_lvup(Player *****st){
+        -:   90:  int per;
+        -:   91:
+    #####:   92:  printf("%sにさらなる力がみなぎる!!\n", (****st) -> name);
+    #####:   93:  sleep(1);
+        -:   94:
+    #####:   95:  per = (rand() % ( 5 - 1 + 1 ) + 1);
+    #####:   96:  if ( per == 1 ){
+    #####:   97:    (****st) -> atk++;
+    #####:   98:    printf("力が1ポイント上昇した!\n");
+    #####:   99:    printf("\n");
+        -:  100:  }
+    #####:  101:  else if ( per == 2 ){
+    #####:  102:    (****st) -> magic++;
+    #####:  103:    (****st) -> maxmp += 3;
+    #####:  104:    printf("魔が1ポイント上昇した!\n");
+    #####:  105:    printf("\n");
+        -:  106:  }
+    #####:  107:  else if ( per == 3 ){
+    #####:  108:    (****st) -> str++;
+    #####:  109:    (****st) -> maxhp += 5;
+    #####:  110:    printf("体が1ポイント上昇した!\n");
+    #####:  111:    printf("\n");
+        -:  112:  }
+    #####:  113:  else if ( per == 4 ){
+    #####:  114:    (****st) -> agi++;
+    #####:  115:    printf("速が1ポイント上昇した!\n");
+    #####:  116:    printf("\n");
+        -:  117:  }
+    #####:  118:  else if ( per == 5 ){
+    #####:  119:    (****st) -> luk++;
+    #####:  120:    printf("運が1ポイント上昇した!\n");
+    #####:  121:    printf("\n");
+        -:  122:  }
+        -:  123:
+    #####:  124:  sleep(1);
+        -:  125:
+    #####:  126:}
+        -:  127:
+        3:  128:void level_up(Player ****st, P_skill ****player_skill){
+        -:  129:  int exp_function;  //LVup必要経験値 LVUPごとに1.4倍
+        -:  130:  int i, finish_count, per;
+        -:  131:
+        3:  132:  finish_count = 0;
+        -:  133:  do{
+        3:  134:    exp_function = 10;
+       18:  135:    for ( i = 1; i <= (***st) -> lv; i++ ){
+       15:  136:      if ( (***st) -> lv == 1 ){
+    #####:  137:        exp_function = 10;
+    #####:  138:        break;
+        -:  139:      }
+        -:  140:      else{
+       15:  141:        exp_function *= 1.4;
+        -:  142:      }
+        -:  143:    }
+        -:  144:
+        -:  145:    //printf("exp_function:%d\n", exp_function);
+        -:  146:
+        3:  147:    if ( (***st) -> exp >= (***st) -> nextexp ){
+    #####:  148:      (***st) -> lv++;
+    #####:  149:      printf("%sはLVUP!!\n", (***st) -> name);
+    #####:  150:      printf("%s LV:%d -> LV:%d\n", (***st) -> name, (***st) -> lv - 1, (***st) -> lv);
+        -:  151:
+    #####:  152:      status_lvup(&st, &player_skill);
+        -:  153:
+    #####:  154:      per = (rand() % ( 10 - 1 + 1 ) + 1); //10%
+    #####:  155:      if ( per == 5 ){
+        -:  156:        //更にステータスアップ
+    #####:  157:        special_status_lvup(&st);
+        -:  158:      }
+        -:  159:
+    #####:  160:      if ( (***st) -> exp - (***st) -> nextexp > 0 ){
+    #####:  161:        (***st) -> leftoverexp = (***st) -> exp - (***st) -> nextexp;  //残存経験値
+        -:  162:      }
+        -:  163:      else{
+    #####:  164:        (***st) -> leftoverexp = 0;
+        -:  165:      }
+        -:  166:
+        -:  167:      //次のレベルまでの必要経験値
+    #####:  168:      exp_function = 10;
+    #####:  169:      for ( i = 1; i <= (***st) -> lv; i++ ){
+    #####:  170:        exp_function *= 1.4;
+        -:  171:      }
+        -:  172:
+    #####:  173:      if ( (***st) -> leftoverexp >= exp_function ){
+    #####:  174:        (***st) -> nextexp = (***st) -> leftoverexp;
+    #####:  175:        (***st) -> leftoverexp = 0;
+        -:  176:        //再びループ処理の最初でレベルアップ判定
+        -:  177:      }
+        -:  178:      else{
+    #####:  179:        (***st) -> nextexp = exp_function - (***st) -> leftoverexp;
+    #####:  180:        printf("%s LV:%d NEXTEXP:%d\n", (***st) -> name, (***st) -> lv, (***st) -> nextexp);
+    #####:  181:        finish_count = 1;
+        -:  182:      }
+        -:  183:    }
+        -:  184:    else{
+        -:  185:      //次のレベルまでの必要経験値
+        3:  186:      (***st) -> nextexp -= (***st) -> exp;
+        3:  187:      printf("%s LV:%d NEXTEXP:%d\n", (***st) -> name, (***st) -> lv, (***st) -> nextexp);
+        3:  188:      finish_count = 1;
+        -:  189:    }
+        3:  190:  }while( finish_count == 0 );
+        -:  191:
+        3:  192:  (***st) -> exp = 0;
+        -:  193:
+        3:  194:}

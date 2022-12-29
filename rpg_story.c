@@ -480,8 +480,24 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     if ( input == '1' ){
       printf("%s達は保健室へ行った...\n", st -> name);
       sleep(1);
-      full_recover(&st,&st2,&st3);
-      printf("%s達は全回復した！\n", st -> name);
+      do{
+        printf("\n");
+        printf("---保健室---\n");
+        printf("1.回復する\n");
+        printf("2.道具を買う\n");
+        printf("3.保健室を出る\n");
+        input = _getch();
+
+        if ( input == '1' ){
+          sleep(1);
+          full_recover(&st,&st2,&st3);
+          printf("%s達は全回復した！\n", st -> name);
+        }
+        else if ( input == '2' ){
+          goods_shop(&st,&items);
+        }
+      } while ( input != '3' );
+      
       sleep(1);
     }
     else if ( input == '2' ){

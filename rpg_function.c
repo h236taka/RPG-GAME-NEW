@@ -69,3 +69,72 @@ void display_status(Player **st, Player **st2, Player **st3){
 
   printf("\n");
 }
+
+void buy_goods(Player ***st, Items ***items, int goods_number){
+  int sum, count, price;
+  int input;
+
+  printf("何個購入しますか?(1~99個まで,入力が完了したらエンターキーを押してください)\n");
+  scanf("%d", &count);
+
+  if ( count < 1 || count > 99 ){
+    printf("個数を入力し直してください\n");
+    return;
+  }
+
+  if ( goods_number == 1 ){
+    price = 100;
+  }
+  else if ( goods_number == 2 ){
+    price = 150;
+  }
+
+  sum = 0;
+  for ( int i = 1; i <= count; i++ ){
+    sum += price;
+    if ( (**st) -> gold < sum ){
+      printf("\n");
+      printf("所持金が足りません...\n");
+      return;
+    }
+  }
+
+  printf("\n");
+  printf("%d個購入しました\n", count);
+  printf("\n");
+
+  (**st) -> gold -= sum;
+
+  if ( goods_number == 1 ){
+    (**items) -> medicine += count;
+  }
+  else if ( goods_number == 2 ){
+    (**items) -> antipoison += count;
+  }
+
+}
+
+void goods_shop(Player **st, Items **items){
+  int input;
+  int goods_number;
+
+  do{
+    sleep(1);
+    printf("---SHOP---\n");
+    printf("何を買いますか？(所持金: %dG)\n", (*st) -> gold);
+    printf("1.傷薬:100G(味方１人のHPを50回復)\n");
+    printf("2.アンタイポイズン:150G(味方1人のPOISONを回復)\n");
+    printf("c.購入を止める\n");
+    input = _getch();
+
+    if ( input == '1' ){
+      goods_number = 1;
+      buy_goods(&st,&items,goods_number);
+    }
+    else if ( input == '2' ){
+      goods_number = 2;
+      buy_goods(&st,&items,goods_number);
+    }
+  } while ( input != 'c' );
+
+}

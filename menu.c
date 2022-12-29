@@ -940,7 +940,7 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
   //to check programs
   //(****items) -> medicine = 1;
   //(****items) -> lifestone = 1;
-  (****items) -> antipoison = 1;
+  //(****items) -> antipoison = 1;
 
   printf("<<<ITEM>>>\n");
   do{
