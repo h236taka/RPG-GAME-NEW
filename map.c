@@ -1764,6 +1764,15 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       printf("ダンジョンから脱出した...\n");
       return;
     }
+    else if ( map.x == 0 && map.y == 11 ){  //map.x 0 map.y 11
+      printf("目の前が光に包まれた...\n");
+      sleep(1);
+      printf("%sはワープした!\n", (*st) -> name);
+      map.x = 4;
+      map.y = 25;
+      event_to_map = 1;
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
+    }
     else{
       //敵とエンカウント
       if ( battle_mode == 1 ){
