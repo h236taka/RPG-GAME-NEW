@@ -477,7 +477,7 @@ double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, 
     }
     else{
       damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
-      printf("damage_base:%d\n", damage_base);
+      //printf("damage_base:%d\n", damage_base);
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -492,7 +492,7 @@ double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, 
 
       max_damage = damage_base * 1.3;
       damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
-      printf("damage:%d\n", damage);
+      //printf("damage:%d\n", damage);
       //printf("damage:%d\n", damage);
       //味方の耐性判断
       if ( (*****st) -> fire == 100 ){
@@ -566,7 +566,8 @@ int enemy_skill_target(void){
 //enemyのskillに関わる関数 skill_reaction = 1ならダメージに関係するskill skill_reactionが0ならダメージに関係しないskill
 double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
   int enemy_move, badstatus_per, badstatus_count, recover_point;
-  int target_base, turn_decrease;
+  int target_base;
+  double turn_decrease;
   int attack_skill_number;
   double attack_skill_count, attack_skill_count2, attack_skill_count3;  //playerがattackskillでダメージを受けたかどうか
 
@@ -751,7 +752,8 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
 
 double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Enemy **enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
   int enemy_move, badstatus_per, badstatus_count, recover_point;
-  int target_base, turn_decrease;
+  int target_base;
+  double turn_decrease;
   int magic_damage;
 
   badstatus_count = 0; //badstatusになったか判定
@@ -911,7 +913,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy
   else if ( (***enemy) -> enemy_id == 8 ){
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
-    if ( enemy_move >= 1 && enemy_move <= 80 ){  //火炎攻撃を使用する行動
+    if ( enemy_move >= 1 && enemy_move <= 40 ){  //火炎攻撃を使用する行動
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
     }
     else{

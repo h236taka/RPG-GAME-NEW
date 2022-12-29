@@ -1709,7 +1709,7 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
     {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
     {-1,  4, -1, -1, 100, -1,-1, -1, -1, -1},     //start
-    {-1, -1, -1, -1, 4, -1, -1, -1, -1, -1} };  //26
+    {-1, -1, -1, -1, 101, -1, -1, -1, -1, -1} };  //26
 
   //start地点の設定
   map.y = 25;
@@ -1757,7 +1757,12 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     if ( map.x == 8 && map.y == 3 && (*area) -> event2a == 0 ){
       printf("GOAL!!\n");
       printf("デモプレイを終了します...\n");
+      (*area) -> event2a = 1;
       exit(EXIT_SUCCESS);
+    }
+    else if ( map.x == 4 && map.y == 26 ){
+      printf("ダンジョンから脱出した...\n");
+      return;
     }
     else{
       //敵とエンカウント

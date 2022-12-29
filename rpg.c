@@ -80,7 +80,8 @@ int main(void){
 
   //printf("%d\n", player.stage_clear);
   load = 0;
-  if ( player.stage_clear == 1 ){
+  if ( player.stage_clear == 1 || player.stage_clear == 1.1 ){
+    //start_time = time(NULL);
     game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items,&area,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);//図書館ステージ
     save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, load);
   }

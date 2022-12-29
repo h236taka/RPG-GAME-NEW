@@ -51,7 +51,7 @@ int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
   }
 
   if ( eva_count == 0 ){
-    critical_base = 1 + ( (***st) -> luk * 0.2 ) + ( (***st) -> agi * 0.1 )- ( (***enemy) -> luk * 0.1 );  //critical率の計算
+    critical_base = 1 + ( (***st) -> luk * 0.2 ) + ( (***st) -> agi * 0.2 )- ( (***enemy) -> luk * 0.1 );  //critical率の計算
     if ( critical_base < 1 ){
       critical_base = 1;       //critical最小値1%
     }

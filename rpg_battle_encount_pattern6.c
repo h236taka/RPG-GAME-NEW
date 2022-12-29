@@ -1215,8 +1215,8 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
       printf("\n");
       sleep(1);
 
-      printf("       %3s                   %3s                    %3s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
-      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d          HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+      printf("       %3s                   %3s                 %3s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
       battle_display_condition_count = 0;
       hp_graphycal_display(&st,&st2,&st3);
       mp_graphycal_display(&st,&st2,&st3);

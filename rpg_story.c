@@ -417,59 +417,85 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
   int input;
   int tmp;
 
-  /*printf("%s達は渡り廊下での戦いを終えて教室に戻ってきた。\n", st -> name);
-  sleep(2);
-  printf("クラスメイト「何が何だか分からないけど、凄かったよ!」\n");
-  sleep(2);
-  printf("クラスメイト「そういえば、校長先生が%s達を呼んでいたよ。」\n", st -> name);
-  sleep(2);
-  printf("%s「校長室に行ってみよう!」\n", st2 -> name);
-  sleep(2);
+  if ( st -> stage_clear == 1 ){
+    /*printf("%s達は渡り廊下での戦いを終えて教室に戻ってきた。\n", st -> name);
+    sleep(2);
+    printf("クラスメイト「何が何だか分からないけど、凄かったよ!」\n");
+    sleep(2);
+    printf("クラスメイト「そういえば、校長先生が%s達を呼んでいたよ。」\n", st -> name);
+    sleep(2);
+    printf("%s「校長室に行ってみよう!」\n", st2 -> name);
+    sleep(2);
 
-  printf("校長室...\n");
-  sleep(2);
-  printf("校長先生「来てくれたか！」\n");
-  sleep(2);
-  printf("校長「単刀直入に言おう、君たちに何とかしてほしいんだ。」\n");
-  sleep(2);
-  printf("校長「学校からも出られないし、インターネットも使えないから連絡も取れない。」\n");
-  sleep(2);
-  printf("校長「電気や水道は使えるが、不便極まりない事には変わりない。」\n");
-  sleep(2);
-  printf("校長「どうやら君たちは凄い力を手に入れて、悪魔どもと戦う術を持っているそうだね」\n");
-  sleep(2);
-  printf("校長「その力で我々を元の世界に戻してくれ！ 引き受けてくれるね？」\n");
+    printf("校長室...\n");
+    sleep(2);
+    printf("校長先生「来てくれたか！」\n");
+    sleep(2);
+    printf("校長「単刀直入に言おう、君たちに何とかしてほしいんだ。」\n");
+    sleep(2);
+    printf("校長「学校からも出られないし、インターネットも使えないから連絡も取れない。」\n");
+    sleep(2);
+    printf("校長「電気や水道は使えるが、不便極まりない事には変わりない。」\n");
+    sleep(2);
+    printf("校長「どうやら君たちは凄い力を手に入れて、悪魔どもと戦う術を持っているそうだね」\n");
+    sleep(2);
+    printf("校長「その力で我々を元の世界に戻してくれ！ 引き受けてくれるね？」\n");
 
-  do{
-    printf("校長のお願いを引き受けますか？\n");
-    printf("1. YES 2. NO\n");
-    input = _getch();
+    do{
+      printf("校長のお願いを引き受けますか？\n");
+      printf("1. YES 2. NO\n");
+      input = _getch();
 
-    if ( input == '1' ){
-      //OK
-    }
-    else if ( input == '2' ){
-      printf("校長「君たちしかいないんだ！」\n");
-      printf("\n");
-    }
+      if ( input == '1' ){
+        //OK
+      }
+      else if ( input == '2' ){
+        printf("校長「君たちしかいないんだ！」\n");
+        printf("\n");
+      }
 
-  }while ( input != '1' );
+    }while ( input != '1' );
 
-  sleep(2);
-  printf("校長「ありがとう！」\n");
-  sleep(2);
-  printf("校長「早速だが、君たちには図書館の解放を行ってほしい！」\n");
-  sleep(2);
-  printf("校長「宜しく頼むよ。」\n");
-  sleep(2);*/
+    sleep(2);
+    printf("校長「ありがとう！」\n");
+    sleep(2);
+    printf("校長「早速だが、君たちには図書館の解放を行ってほしい！」\n");
+    sleep(2);
+    printf("校長「宜しく頼むよ。」\n");
+    sleep(2);*/
+  }
 
   full_recover(&st,&st2,&st3);
 
-  //printf("st2:HP:%d\n", st2 -> hp);
-  //printf("st3:HP:%d\n", st3 -> hp);
+  do{
+    sleep(1);
+    printf("\n");
+    printf("%sはどうしますか?\n", st -> name);
+    printf("1.保健室へ行く\n");
+    printf("2.ダンジョンへ行く\n");
+    printf("3.ゲームをセーブせずに止める\n");
+    printf("4.セーブする\n");
+    input = _getch();
 
-  area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);
+    if ( input == '1' ){
+      printf("%s達は保健室へ行った...\n", st -> name);
+      sleep(1);
+      full_recover(&st,&st2,&st3);
+      printf("%s達は全回復した！\n", st -> name);
+      sleep(1);
+    }
+    else if ( input == '2' ){
+      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);
+    }
+    else if ( input == '3' ){
+      exit(EXIT_SUCCESS);
+    }
+    else if ( input == '4' ){
+      st -> stage_clear = 1.1;
+      school_save(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items);
+    }
 
+  } while ( area -> event2a == 0 );
 
   printf("\a");
   printf("---STAGE2 CLEARED!!---\n");

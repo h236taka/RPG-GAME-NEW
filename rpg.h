@@ -113,7 +113,7 @@ typedef struct player {
   int panic;      //混乱耐性
   int sleep;      //睡眠耐性
   int curse;      //呪い耐性
-  int stage_clear;
+  double stage_clear;
   int playtime;
   int recover1;
   int cure_poison;
@@ -172,7 +172,7 @@ typedef struct save_data_players{
   int panic;      //混乱耐性
   int sleep;      //睡眠耐性
   int curse;      //呪い耐性
-  int stage_clear;
+  double stage_clear;
   int playtime;
   int recover1;
   int cure_poison;
@@ -266,8 +266,10 @@ typedef struct save_data_items {
   int bead;
 } Save_data_items;
 
-//rpg_function.c
+//rpg_save_load.c
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, int load);
+
+void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items);
 
 long long int getFileSize(const char *fileName);
 
