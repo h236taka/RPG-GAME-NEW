@@ -15,7 +15,7 @@ void player_skill_check(Player ******st, P_skill ******player_skill){
   }
   else if ( (*****st) -> lv == 3 ){
     (*****player_skill) -> cure_poison = 1;                     //skillget!
-    printf("%sはCURE-POISONを習得した!\n", (*****st) -> name);
+    printf("%sはキュアポを習得した!\n", (*****st) -> name);
   }
 }
 

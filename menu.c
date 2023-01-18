@@ -757,20 +757,23 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st3) -> name, beforehp, (******st3) -> maxhp, (******st3) -> hp, (******st3) -> maxhp);
     }
   }
-  else if ( item_number == 3 ){
+  else if ( item_number == 3 ){  //宝玉
     if ( item_target == 1 ){
       beforehp = (******st) -> hp;
-      (******st) -> hp = (******st) -> maxhp;
+      recover_point = (******st) -> maxhp;
+      (******st) -> hp = recover_point;
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st) -> name, beforehp, (******st) -> maxhp, (******st) -> hp, (******st) -> maxhp);
     }
     else if ( item_target == 2 ){
       beforehp = (******st2) -> hp;
-      (******st) -> hp = (******st2) -> maxhp;
+      recover_point = (******st2) -> maxhp;
+      (******st2) -> hp = recover_point;
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st2) -> name, beforehp, (******st2) -> maxhp, (******st2) -> hp, (******st2) -> maxhp);
     }
     else if ( item_target == 3 ){
       beforehp = (******st3) -> hp;
-      (******st) -> hp = (******st3) -> maxhp;
+      recover_point = (******st3) -> maxhp;
+      (******st3) -> hp = recover_point;
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st3) -> name, beforehp, (******st3) -> maxhp, (******st3) -> hp, (******st3) -> maxhp);
     }
   }

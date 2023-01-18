@@ -162,25 +162,148 @@ int player_ability(Player ****st, Player ****st2, Player ****st3, P_skill ****pl
     }
 
   }
-  else if ( use_skill_count == 2 ){
-    if ( (***st) -> mp >= 4 ){
-      printf("---CURE-POISON---\n");
-      if ( (***st) -> badstatus == POISON ){
-        (***st) -> badstatus = GOOD;
+  else if ( use_skill_count == 2 ){  //キュアポ
+    //skill使用者
+    if ( skill_user == 1 ){
+      printf("%s>>キュアポ\n", (***st) -> name);
+      sleep(1);
 
-        printf("%sのPOISONは治った！\n", (***st) -> name);
-        (***st) -> mp -= 4;
+      if ( (***st) -> mp < 4 ){
+        printf("MP不足!\n");
       }
       else{
-        printf("%sには効果がありません\n", (***st) -> name);
+        (***st) -> mp -= 4;
+
+        if ( skill_target == 1 ){
+          if ( (***st) -> badstatus == POISON ){
+            (***st) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st) -> name);
+            printf("\n");
+          }
+          else{
+            printf("無効果\n");
+            printf("\n");
+          }
+        }
+        else if ( skill_target == 2 ){
+          if ( (***st2) -> badstatus == POISON ){
+            (***st2) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st2) -> name);
+            printf("\n");
+          }
+          else{
+            printf("無効果\n");
+            printf("\n");
+          }
+        }
+        else if ( skill_target == 3 ){
+          if ( (***st3) -> badstatus == POISON ){
+            (***st3) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st3) -> name);
+            printf("\n");
+          }
+          else{
+            printf("無効果\n");
+            printf("\n");
+          }
+        }
+
       }
     }
-    else{
-      printf("MPが足りません!\n");
+    else if ( skill_user == 2 ){
+      printf("%s>>キュアポ\n", (***st2) -> name);
+      sleep(1);
+
+      if ( (***st2) -> mp < 4 ){
+        printf("MP不足!\n");
+      }
+      else{
+        (***st2) -> mp -= 4;
+
+        if ( skill_target == 1 ){
+          if ( (***st) -> badstatus == POISON ){
+            (***st) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st) -> name);
+            printf("\n");
+          }
+          else{
+            printf("無効果\n");
+            printf("\n");
+          }
+        }
+        else if ( skill_target == 2 ){
+          if ( (***st2) -> badstatus == POISON ){
+            (***st2) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st2) -> name);
+            printf("\n");
+          }
+          else{
+            printf("無効果\n");
+            printf("\n");
+          }
+        }
+        else if ( skill_target == 3 ){
+          if ( (***st3) -> badstatus == POISON ){
+            (***st3) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st3) -> name);
+            printf("\n");
+          }
+          else{
+            printf("無効果\n");
+            printf("\n");
+          }
+        }
+
+      }
+    }
+    else if ( skill_user == 3 ){
+      printf("%s>>キュアポ\n", (***st3) -> name);
+      sleep(1);
+
+      if ( (***st3) -> mp < 4 ){
+        printf("MP不足!\n");
+      }
+      else{
+        (***st3) -> mp -= 4;
+
+        if ( skill_target == 1 ){
+          if ( (***st) -> badstatus == POISON ){
+            (***st) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st) -> name);
+            printf("\n");
+          }
+          else{
+            printf("無効果\n");
+            printf("\n");
+          }
+        }
+        else if ( skill_target == 2 ){
+          if ( (***st2) -> badstatus == POISON ){
+            (***st2) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st2) -> name);
+            printf("\n");
+          }
+          else{
+            printf("無効果\n");
+            printf("\n");
+          }
+        }
+        else if ( skill_target == 3 ){
+          if ( (***st3) -> badstatus == POISON ){
+            (***st3) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st3) -> name);
+            printf("\n");
+          }
+          else{
+            printf("無効果\n");
+            printf("\n");
+          }
+        }
+
+      }
     }
   }
 
-  //return recover_point;
 }
 
 int skill_target_select(Player ****st, Player ****st2, Player ****st3, int use_skill_count){
@@ -257,7 +380,7 @@ int battle_player_skill_list(P_skill ****player_skill){
     skill_count++;
   }
   if ( (***player_skill) -> cure_poison == 1 ){
-    printf("2:キュアポ 消費MP:4MP (POISON状態を回復)\n");
+    printf("2:キュアポ 消費MP:4 (味方1人のPOISON状態を回復)\n");
     skill_count++;
   }
   if ( (***player_skill) -> recover2 == 1 ){
@@ -555,10 +678,47 @@ double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, 
   return attack_skill_count;
 }
 
-int enemy_skill_target(void){
+int enemy_skill_target(Player ******st, Player ******st2, Player ******st3){
   int target_base;
 
   target_base = (rand() % ( 3 - 1 + 1 ) + 1); //スキルを使用するターゲットを決定
+
+  if ( target_base == 1 ){
+    if ( (*****st) -> badstatus == DEAD ){
+      if ( (*****st2) -> badstatus == DEAD ){
+        target_base = 3;
+        return target_base;
+      }
+      if ( (*****st3) -> badstatus == DEAD ){
+        target_base = 2;
+        return target_base;
+      }
+    }
+  }
+  else if ( target_base == 2 ){
+    if ( (*****st2) -> badstatus == DEAD ){
+      if ( (*****st) -> badstatus == DEAD ){
+        target_base = 3;
+        return target_base;
+      }
+      if ( (*****st3) -> badstatus == DEAD ){
+        target_base = 1;
+        return target_base;
+      }
+    }
+  }
+  else if ( target_base == 3 ){
+    if ( (*****st3) -> badstatus == DEAD ){
+      if ( (*****st) -> badstatus == DEAD ){
+        target_base = 2;
+        return target_base;
+      }
+      if ( (*****st2) -> badstatus == DEAD ){
+        target_base = 1;
+        return target_base;
+      }
+    }
+  }
 
   return target_base;
 }
@@ -600,7 +760,7 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
   }
   //グール
   else if ( (****enemy) -> enemy_id == 5 ){
-    target_base = enemy_skill_target();
+    target_base = enemy_skill_target(&st,&st2,&st3);
 
     badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
     //printf("badstatus_per:%d\n", badstatus_per);
@@ -651,7 +811,7 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
   }
   //ゾンビ
   else if ( (****enemy) -> enemy_id == 6 ){
-    target_base = enemy_skill_target();
+    target_base = enemy_skill_target(&st,&st2,&st3);
 
     badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
     //printf("badstatus_per:%d\n", badstatus_per);
@@ -701,7 +861,7 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *
     enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
   else if ( (****enemy) -> enemy_id == 8 ){  //オンモラキ
-    target_base = enemy_skill_target();
+    target_base = enemy_skill_target(&st,&st2,&st3);
     printf("%s>>エンファ\n", (****enemy) -> name);
     sleep(1);
     printf("%sは小さな火球を飛ばした!\n", (****enemy) -> name);
@@ -760,7 +920,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
 
   //グールの毒スキル
   if ( (*enemy_copy1) -> enemy_id == 5 ){
-    target_base = enemy_skill_target();
+    target_base = enemy_skill_target(&st,&st2,&st3);
 
     badstatus_per = ( rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
     //printf("badstatus_per:%d\n", badstatus_per);
@@ -810,7 +970,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
     enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
   else if ( (*enemy_copy1) -> enemy_id == 6 ){
-    target_base = enemy_skill_target();
+    target_base = enemy_skill_target(&st,&st2,&st3);
 
     badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
     //printf("badstatus_per:%d\n", badstatus_per);
@@ -860,7 +1020,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, En
     enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
   else if ( (*enemy_copy1) -> enemy_id == 7 ){
-    target_base = enemy_skill_target();
+    target_base = enemy_skill_target(&st,&st2,&st3);
   }
   else if ( (*enemy_copy1) -> enemy_id == 101 ){    //回復:LV1
     recover_point = (rand() % (20 + (*enemy_copy1) -> magic * 3 - 20 + 1) ) + 20; //回復量20 ~ 20 + (***enemy) -> magic * 3

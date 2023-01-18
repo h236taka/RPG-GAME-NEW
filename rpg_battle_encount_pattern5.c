@@ -317,10 +317,22 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                 }
                 else if ( skill_command == '2' ){   //CURE-POISON
                   use_skill_count = 2;
-                  //player_ability(&st, &player_skill, use_skill_count);
-                  move_finish++;
-                  turn_decrease = -1;
-                  player_turn = calculate_player_turn(player_turn, turn_decrease);
+                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+
+                  //いずれかのターゲットが存在する
+                  if ( skill_target != 0 ){
+                    skill_user = 1; //Player
+                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+
+                    move_finish++;
+                    turn_decrease = -1;
+                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+                  }
+                  else{
+                    //turn消費無し
+                  }
+
+                  printf("\n");
 
                 }
                 else if ( skill_command == 'c' ){
@@ -618,11 +630,22 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                 }
                 else if ( skill_command == '2' ){   //CURE-POISON
                   use_skill_count = 2;
-                  //player_ability(&st2, &player_skill2, use_skill_count);
+                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
 
-                  turn_decrease = -1;
-                  player_turn = calculate_player_turn(player_turn, turn_decrease);
-                  move_finish++;
+                  //いずれかのターゲットが存在する
+                  if ( skill_target != 0 ){
+                    skill_user = 2; //Player
+                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+
+                    move_finish++;
+                    turn_decrease = -1;
+                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+                  }
+                  else{
+                    //turn消費無し
+                  }
+
+                  printf("\n");
 
                 }
                 else if ( skill_command == 'c' ){
@@ -913,10 +936,22 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                 }
                 else if ( skill_command == '2' ){   //CURE-POISON
                   use_skill_count = 2;
-                  //player_ability(&st3, &player_skill3, use_skill_count);
+                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
 
-                  player_turn--;
-                  move_finish++;
+                  //いずれかのターゲットが存在する
+                  if ( skill_target != 0 ){
+                    skill_user = 3; //Player
+                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+
+                    move_finish++;
+                    turn_decrease = -1;
+                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+                  }
+                  else{
+                    //turn消費無し
+                  }
+
+                  printf("\n");
                 }
                 else if ( skill_command == 'c' ){
                   printf("\n");

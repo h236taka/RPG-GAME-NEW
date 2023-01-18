@@ -273,9 +273,13 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
 
 long long int getFileSize(const char *fileName);
 
+void delete_savedata();
+
 void display_condition(Player ***st);
 
 void display_status(Player **st, Player **st2, Player **st3);
+
+void buy_goods(Player ***st, Items ***items, int goods_number);
 
 void goods_shop(Player **st, Items **items);
 
@@ -436,7 +440,7 @@ int battle_player_skill_list(P_skill ****player_skill);
 
 double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number);
 
-int enemy_skill_target(void);
+int enemy_skill_target(Player ******st, Player ******st2, Player ******st3);
 
 double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
 
