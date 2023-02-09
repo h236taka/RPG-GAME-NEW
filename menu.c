@@ -1008,6 +1008,7 @@ void skill_menu(void){
 }
 
 void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****equip){
+  int input;
 
   do {
     printf("\n");
@@ -1028,7 +1029,7 @@ void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****equ
     else if ( input == '3' ){
       equip_change(&st3,&equip);
     }
-    else if ( command == '' ){
+    else if ( input == '' ){
       printf("強制終了\n");
       exit(EXIT_FAILURE);
     }
