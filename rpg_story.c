@@ -238,7 +238,11 @@ void full_recover(Player **st, Player **st2, Player **st3){
   (*st3) -> mp = (*st3) -> maxmp;
 }
 
+<<<<<<< HEAD
 void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, Area *area, Enemy *slime, Enemy *kobalt, Enemy *goblin){
+=======
+void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *equip, Area *area, Enemy *slime, Enemy *kobalt, Enemy *goblin){
+>>>>>>> origin/main
 
   st -> hp = 30;
   st -> maxhp = 30;
@@ -397,7 +401,11 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
   map_tutorial();
   sleep(1);
+<<<<<<< HEAD
   area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, &kobalt, &goblin);
+=======
+  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &equip, &slime, &kobalt, &goblin);
+>>>>>>> origin/main
 
   sleep(2);
 
@@ -413,7 +421,11 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
 }
 
+<<<<<<< HEAD
 void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki){
+=======
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *equip, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki){
+>>>>>>> origin/main
   int input;
   int tmp;
 
@@ -507,24 +519,40 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
         input = _getch();
 
         if ( input == '1' ){
+<<<<<<< HEAD
           equip_shop(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
         }
 
       } while ( input != '3' );
 
+=======
+          equip_shop(&st,&st2,&st3,&equip);
+        }
+
+      } while ( input != '3' );
+      
+>>>>>>> origin/main
     }
     else if ( input == '3' ){
 
     }
     else if ( input == '4' ){
+<<<<<<< HEAD
       area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);
+=======
+      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &equip, &zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);
+>>>>>>> origin/main
     }
     else if ( input == '5' ){
       exit(EXIT_SUCCESS);
     }
     else if ( input == '6' ){
       st -> stage_clear = 1.1;
+<<<<<<< HEAD
       school_save(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip);
+=======
+      school_save(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &equip);
+>>>>>>> origin/main
     }
 
   } while ( area -> event2a == 0 );

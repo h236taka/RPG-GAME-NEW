@@ -115,7 +115,11 @@ void delete_savedata(){
 
 }
 
+<<<<<<< HEAD
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, int load){
+=======
+void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *equip, int load){
+>>>>>>> origin/main
   int save_count, load_count, input, savedata_num, savedata_lv1, savedata_lv2, savedata_lv3, temp, hours, minutes;
   char savedata_name1[7], savedata_name2[7], savedata_name3[7];
   FILE *fp;
@@ -710,7 +714,11 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
 }
 
+<<<<<<< HEAD
 void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip){
+=======
+void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **equip){
+>>>>>>> origin/main
   int save_count, load_count, input, savedata_num, savedata_lv1, savedata_lv2, savedata_lv3, temp, hours, minutes;
   char savedata_name1[7], savedata_name2[7], savedata_name3[7];
   FILE *fp;

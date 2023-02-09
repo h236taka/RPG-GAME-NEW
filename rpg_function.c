@@ -151,7 +151,11 @@ void goods_shop(Player **st, Items **items){
 
 }
 
+<<<<<<< HEAD
 void buy_equips(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, int equip_number, int price){
+=======
+void buy_equips(Player ***st, Equip ***equip, int equip_number, int price){
+>>>>>>> origin/main
   int sum, count;
   int input;
 
@@ -180,6 +184,7 @@ void buy_equips(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equi
   (**st) -> gold -= sum;
 
   if ( equip_number == 1 ){
+<<<<<<< HEAD
     (**pEquip) -> HpRing1 += count;
     (**p2Equip) -> HpRing1 += count;
     (**p3Equip) -> HpRing1 += count;
@@ -188,12 +193,22 @@ void buy_equips(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equi
     (**pEquip) -> MpRing1 += count;
     (**p2Equip) -> MpRing1 += count;
     (**p3Equip) -> MpRing1 += count;
+=======
+    (**equip) -> HpRing1 += count;
+  }
+  else if ( equip_number == 2 ){
+    (**equip) -> MpRing1 += count;
+>>>>>>> origin/main
   }
 
 
 }
 
+<<<<<<< HEAD
 void equip_shop(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip **p2Equip, Equip **p3Equip){
+=======
+void equip_shop(Player **st, Player **st2, Player **st3, Equip **equip){
+>>>>>>> origin/main
   int input;
   int equip_number, price;
 
@@ -212,12 +227,20 @@ void equip_shop(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip *
     if ( input == '1' ){
       equip_number = 1;
       price = 500;
+<<<<<<< HEAD
       buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
+=======
+      buy_equips(&st,&equip,equip_number,price);
+>>>>>>> origin/main
     }
     else if ( input == '2' && (*st) -> stage_clear >= 2 ){
       equip_number = 2;
       price = 800;
+<<<<<<< HEAD
       buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
+=======
+      buy_equips(&st,&equip,equip_number,price);
+>>>>>>> origin/main
     }
 
     printf("\n");
