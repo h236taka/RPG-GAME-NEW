@@ -17,7 +17,7 @@
 //マクロ定義
 #define NAME_LEN 50
 #define ENEMY_NAME 100
-#define COMMAND 3
+#define COMMAND 2
 //#define POINT 2
 #define S_COMMAND 3
 
