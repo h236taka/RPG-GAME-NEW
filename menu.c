@@ -936,6 +936,14 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
   }
 }
 
+void equip_change(Player ******st, Equip ******equip){
+
+  printf("\n");
+  printf("<<<EQUIP>>>\n");
+  printf("%s:", (*****st) -> name);
+
+}
+
 void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****items){
   int command;
   int items_count;
@@ -999,8 +1007,33 @@ void skill_menu(void){
   printf("skill\n");
 }
 
-void equip_menu(void){
+void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****equip){
 
+  do {
+    printf("\n");
+    printf("<<<EQUIP>>>\n");
+    printf("誰の装備を変更しますか?(戻る場合はcを入力してください)");
+    printf("1:%s\n", (****st) -> name);
+    printf("2:%s\n", (****st2) -> name);
+    printf("3:%s\n", (****st3) -> name);
+
+    input = _getch();
+
+    if ( input == '1' ){
+      equip_change(&st,&equip);
+    }
+    else if ( input == '2' ){
+      equip_change(&st2,&equip);
+    }
+    else if ( input == '3' ){
+      equip_change(&st3,&equip);
+    }
+    else if ( command == '' ){
+      printf("強制終了\n");
+      exit(EXIT_FAILURE);
+    }
+
+  } while ( input != 'c' );
   printf("equip\n");
 }
 
@@ -1074,7 +1107,7 @@ void map_menu(Map ***map, Area *****area, int area_data_line, int area_data_len,
 
 }
 
-void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
+void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Equip ****equip, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
   int menu_end, input, battle_display_condition_count;
 
   do{
@@ -1127,7 +1160,7 @@ void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****pla
       skill_menu();
     }
     else if ( input == '3' ){
-      equip_menu();
+      equip_menu(&st,&st2,&st3,&equip);
     }
     else if ( input == '4' ){
       set_menu();

@@ -70,8 +70,22 @@ void display_status(Player **st, Player **st2, Player **st3){
   printf("\n");
 }
 
-void buy_goods(Player ***st, Items ***items, int goods_number){
-  int sum, count, price;
+int school_command(){
+  int input;
+
+  printf("1.保健室へ行く\n");
+  printf("2.美術室へ行く\n");
+  printf("3.化学実験室へ行く\n");
+  printf("4.ダンジョンへ行く\n");
+  printf("5.ゲームをセーブせずに止める\n");
+  printf("6.セーブする\n");
+  input = _getch();
+
+  return input;
+}
+
+void buy_goods(Player ***st, Items ***items, int goods_number,  int price){
+  int sum, count;
   int input;
 
   printf("何個購入しますか?(1~99個まで,入力が完了したらエンターキーを押してください)\n");
@@ -80,13 +94,6 @@ void buy_goods(Player ***st, Items ***items, int goods_number){
   if ( count < 1 || count > 99 ){
     printf("個数を入力し直してください\n");
     return;
-  }
-
-  if ( goods_number == 1 ){
-    price = 100;
-  }
-  else if ( goods_number == 2 ){
-    price = 150;
   }
 
   sum = 0;
@@ -116,10 +123,11 @@ void buy_goods(Player ***st, Items ***items, int goods_number){
 
 void goods_shop(Player **st, Items **items){
   int input;
-  int goods_number;
+  int goods_number, price;
 
   do{
-    sleep(1);
+    goods_number = 0;
+    printf("\n");
     printf("---SHOP---\n");
     printf("何を買いますか？(所持金: %dG)\n", (*st) -> gold);
     printf("1.傷薬:100G(味方１人のHPを50回復)\n");
@@ -129,12 +137,85 @@ void goods_shop(Player **st, Items **items){
 
     if ( input == '1' ){
       goods_number = 1;
-      buy_goods(&st,&items,goods_number);
+      price = 100;
+      buy_goods(&st,&items,goods_number, price);
     }
     else if ( input == '2' ){
       goods_number = 2;
-      buy_goods(&st,&items,goods_number);
+      price = 150;
+      buy_goods(&st,&items,goods_number, price);
     }
+
+    printf("\n");
   } while ( input != 'c' );
 
+}
+
+void buy_equips(Player ***st, Equip ***equip, int equip_number, int price){
+  int sum, count;
+  int input;
+
+  printf("何個購入しますか?(1~99個まで,入力が完了したらエンターキーを押してください)\n");
+  scanf("%d", &count);
+
+  if ( count < 1 || count > 99 ){
+    printf("個数を入力し直してください\n");
+    return;
+  }
+
+  sum = 0;
+  for ( int i = 1; i <= count; i++ ){
+    sum += price;
+    if ( (**st) -> gold < sum ){
+      printf("\n");
+      printf("所持金が足りません...\n");
+      return;
+    }
+  }
+
+  printf("\n");
+  printf("%d個購入しました\n", count);
+  printf("\n");
+
+  (**st) -> gold -= sum;
+
+  if ( equip_number == 1 ){
+    (**equip) -> HpRing1 += count;
+  }
+  else if ( equip_number == 2 ){
+    (**equip) -> MpRing1 += count;
+  }
+
+
+}
+
+void equip_shop(Player **st, Player **st2, Player **st3, Equip **equip){
+  int input;
+  int equip_number, price;
+
+  do {
+    equip_number = 0;
+    printf("\n");
+    printf("---SHOP---\n");
+    printf("何を購入しますか?(所持金: %dG)\n", (*st) -> gold);
+    printf("1.HPリング1: 500G(味方1人の最大HPを5%増加)\n");
+    if ( (*st) -> stage_clear >= 2 ){
+      printf("2.MPリング1: 800G(味方1人の最大MPを5%増加)\n");
+    }
+    printf("c.購入を止める\n");
+
+    input = _getch();
+    if ( input == '1' ){
+      equip_number = 1;
+      price = 500;
+      buy_equips(&st,&equip,equip_number,price);
+    }
+    else if ( input == '2' && (*st) -> stage_clear >= 2 ){
+      equip_number = 2;
+      price = 800;
+      buy_equips(&st,&equip,equip_number,price);
+    }
+
+    printf("\n");
+  } while ( input != 'c' );
 }

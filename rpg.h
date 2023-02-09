@@ -259,6 +259,13 @@ typedef struct items {
   int bead;          //宝玉
 } Items;
 
+typedef struct equip {
+  int HpRing1;  //味方1人の最大HPを5%増加
+  int isHpRing1;  //
+  int MpRing1;  //味方1人の最大MPを5%増加
+  int isMpRing1;
+} Equip;
+
 typedef struct save_data_items {
   int medicine;
   int lifestone;
@@ -267,9 +274,9 @@ typedef struct save_data_items {
 } Save_data_items;
 
 //rpg_save_load.c
-void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, int load);
+void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *equip, int load);
 
-void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items);
+void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **equip);
 
 long long int getFileSize(const char *fileName);
 
@@ -279,9 +286,15 @@ void display_condition(Player ***st);
 
 void display_status(Player **st, Player **st2, Player **st3);
 
-void buy_goods(Player ***st, Items ***items, int goods_number);
+int school_command();
+
+void buy_goods(Player ***st, Items ***items, int goods_number, int price);
 
 void goods_shop(Player **st, Items **items);
+
+void buy_equips(Player ***st, Equip ***equip, int equip_number, int price);
+
+void equip_shop(Player **st, Player **st2, Player **st3, Equip **equip);
 
 void prologue(void);
 
@@ -290,24 +303,24 @@ int check_player_name(Player **st);
 void game_start(Player *player, Player *player2, Player *player3);
 
 //rpg.c -> rpg_story.c
-void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *enemy, Enemy *enemy1, Enemy *enemy2);
+void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *equip, Area *area, Enemy *enemy, Enemy *enemy1, Enemy *enemy2);
 
 void map_tutorial(void);
 
 //HP,MP,STATUS全回復
 void full_recover(Player **st, Player **st2, Player **st3);
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki);
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *equip, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki);
 
 //map.c
-void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **slime, Enemy **kobalt, Enemy **goblin);
+void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **equip, Enemy **slime, Enemy **kobalt, Enemy **goblin);
 
-void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki);
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **equip, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki);
 
-void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Map *map, Area ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]);
+void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***equip, Map *map, Area ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]);
 
 //about menu function in map.c
-void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
+void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Equip ****equip, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
 
 void menu_hp_graphycal_display(Player *****st, Player *****st2, Player *****st3);
 
@@ -327,12 +340,16 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
 
 void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****items);
 
+void equip_change(Player ******st, Equip ******equip);
+
+void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****equip);
+
 void status_menu(Player *****st, Player *****st2, Player *****st3);
 
 void map_menu(Map ***map, Area *****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
 
 //map.c -> rpg_battle_same_enemy.c
-void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, int encount_pattern);
+void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***equip, Enemy ***enemy, int encount_pattern);
 
 int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount);
 
@@ -351,19 +368,19 @@ void player_badstatus_recover(Player ****st);
 void display_gameover(void);
 
 //rpg_battle_encount_pattern5.c
-void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, Enemy ***enemy1, int encount_pattern);
+void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***equip, Enemy ***enemy, Enemy ***enemy1, int encount_pattern);
 
 void enemy_full_recover5(Enemy ****enemy, Enemy ****enemy1);
 
 //rpg_battle_encount_pattern6.c
 
-void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, Enemy ***enemy1, Enemy ***enemy2, int encount_pattern);
+void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***equip, Enemy ***enemy, Enemy ***enemy1, Enemy ***enemy2, int encount_pattern);
 
 void enemy_full_recover6(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2);
 
 //rpg_battle_encount_pattern7.c
 
-void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, Enemy ***enemy1, Enemy ***enemy2, Enemy ***enemy3, int encount_pattern);
+void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***equip, Enemy ***enemy, Enemy ***enemy1, Enemy ***enemy2, Enemy ***enemy3, int encount_pattern);
 
 void enemy_full_recover7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3);
 
@@ -438,17 +455,17 @@ int skill_target_select(Player ****st, Player ****st2, Player ****st3, int use_s
 
 int battle_player_skill_list(P_skill ****player_skill);
 
-double enemy_attack_skill(Player ******st, Enemy ******enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number);
+double enemy_attack_skill(Player ******st, Equip ******equip, Enemy ******enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number);
 
 int enemy_skill_target(Player ******st, Player ******st2, Player ******st3);
 
-double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
+double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *****equip, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
 
-double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Enemy **enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
+double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Equip *****equip, Enemy **enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
 
-double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy ****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
+double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip ****equip, Enemy ****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
 
-double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Enemy *enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
+double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip ****equip, Enemy *enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
 
 //rpg_levelup.c ( check levelup and skills whatever players learned)
 void player_skill_check(Player ******st, P_skill ******player_skill);

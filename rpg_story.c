@@ -238,7 +238,7 @@ void full_recover(Player **st, Player **st2, Player **st3){
   (*st3) -> mp = (*st3) -> maxmp;
 }
 
-void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *slime, Enemy *kobalt, Enemy *goblin){
+void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *equip, Area *area, Enemy *slime, Enemy *kobalt, Enemy *goblin){
 
   st -> hp = 30;
   st -> maxhp = 30;
@@ -397,7 +397,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
   map_tutorial();
   sleep(1);
-  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &slime, &kobalt, &goblin);
+  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &equip, &slime, &kobalt, &goblin);
 
   sleep(2);
 
@@ -413,7 +413,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
 }
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki){
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *equip, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki){
   int input;
   int tmp;
 
@@ -471,11 +471,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     sleep(1);
     printf("\n");
     printf("%sはどうしますか?\n", st -> name);
-    printf("1.保健室へ行く\n");
-    printf("2.ダンジョンへ行く\n");
-    printf("3.ゲームをセーブせずに止める\n");
-    printf("4.セーブする\n");
-    input = _getch();
+    input = school_command();
 
     if ( input == '1' ){
       printf("%s達は保健室へ行った...\n", st -> name);
@@ -497,18 +493,38 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
           goods_shop(&st,&items);
         }
       } while ( input != '3' );
-      
-      sleep(1);
+
     }
     else if ( input == '2' ){
-      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);
+      printf("%s達は美術室へ行った...\n", st -> name);
+      sleep(1);
+      do {
+        printf("\n");
+        printf("---美術室---\n");
+        printf("1.装備を購入する\n");
+        printf("2.装備を売却する\n");
+        printf("3.美術室を出る\n");
+        input = _getch();
+
+        if ( input == '1' ){
+          equip_shop(&st,&st2,&st3,&equip);
+        }
+
+      } while ( input != '3' );
+      
     }
     else if ( input == '3' ){
-      exit(EXIT_SUCCESS);
+
     }
     else if ( input == '4' ){
+      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &equip, &zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);
+    }
+    else if ( input == '5' ){
+      exit(EXIT_SUCCESS);
+    }
+    else if ( input == '6' ){
       st -> stage_clear = 1.1;
-      school_save(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items);
+      school_save(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &equip);
     }
 
   } while ( area -> event2a == 0 );

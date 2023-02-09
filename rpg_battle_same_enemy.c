@@ -1567,7 +1567,7 @@ void player_badstatus_recover(Player ****st){
 }
 
 //敵１種類の戦闘関数
-void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Enemy ***enemy, int encount_pattern){  //構造体のポインタを引数にまたポインタ指定（ダブルポインタ)
+void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***equip, Enemy ***enemy, int encount_pattern){  //構造体のポインタを引数にまたポインタ指定（ダブルポインタ)
   int player_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
   int enemy_deadcount, skill_count, use_skill_count, skill_reaction, recover_point, battle_display_condition_count, enemy_temp;
   int result_exp, result_gold;
@@ -4172,7 +4172,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         //enemyの攻撃
         //printf("%f\n", enemy_turn);
         sleep(1);
-        enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
+        enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &equip, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
         sleep(1);
         //printf("%f\n", enemy_turn);
 
@@ -4221,7 +4221,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
           sleep(1);
-          enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
+          enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &equip, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           //printf("%f\n", enemy_turn);
           printf("\n");
@@ -4240,7 +4240,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
           sleep(1);
-          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
+          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &equip, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           //printf("%f\n", enemy_turn);
         }
@@ -4293,7 +4293,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
           sleep(1);
-          enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
+          enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &equip, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           //printf("%f\n", enemy_turn);
           printf("\n");
@@ -4312,7 +4312,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
           sleep(1);
-          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
+          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &equip, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           //rintf("%f\n", enemy_turn);
         }
@@ -4329,7 +4329,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
           sleep(1);
-          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy2, player_guard, player_guard2, player_guard3, enemy_turn);
+          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &equip, &enemy_copy2, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           //printf("%f\n", enemy_turn);
         }
@@ -4378,7 +4378,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
           sleep(1);
-          enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
+          enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &equip, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           //printf("%f\n", enemy_turn);
           printf("\n");
@@ -4397,7 +4397,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
           sleep(1);
-          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
+          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &equip, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           //printf("%f\n", enemy_turn);
         }
@@ -4414,7 +4414,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
           sleep(1);
-          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy2, player_guard, player_guard2, player_guard3, enemy_turn);
+          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &equip, &enemy_copy2, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           //printf("%f\n", enemy_turn);
         }
@@ -4432,7 +4432,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
           sleep(1);
-          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &enemy_copy3, player_guard, player_guard2, player_guard3, enemy_turn);
+          enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &equip, &enemy_copy3, player_guard, player_guard2, player_guard3, enemy_turn);
           sleep(1);
           //printf("%f\n", enemy_turn);
         }
