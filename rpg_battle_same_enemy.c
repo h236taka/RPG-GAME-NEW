@@ -8,6 +8,7 @@
 #include <math.h>
 #include <wchar.h>
 #include "rpg.h"
+//encountpatternが1~4のとき
 
 int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
   int damage_base, damage, i, eva, critical, eva_count, critical_count, max_damage, temp;

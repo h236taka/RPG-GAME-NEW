@@ -9,6 +9,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+//アイテムに関するファイル
+
 //アイテム使用者選択
 int battle_item_useselect(Items *****items, Player *****st, Player *****st2, Player *****st3){
   //item_targetとはアイテムを使用する対象メンバー(主人公は１、２人目は２、３人目は３)

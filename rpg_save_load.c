@@ -8,6 +8,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+//セーブとロード
+
 extern time_t start_time, end_time;
 extern int play_time;
 

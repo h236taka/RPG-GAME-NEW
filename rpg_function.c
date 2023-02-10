@@ -8,6 +8,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+//細かな機能
+
 //badstatus表示
 void display_condition(Player ***st){
 

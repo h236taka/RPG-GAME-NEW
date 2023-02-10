@@ -11,6 +11,7 @@
 #include <mbctype.h>
 #include <mbstring.h>
 #include "rpg.h"
+//encountpatternが7のとき
 
 int battle_error_enemydeadcount7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3){
   int enemy_deadcount;

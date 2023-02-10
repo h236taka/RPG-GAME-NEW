@@ -7,6 +7,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+//敵と味方のスキルに関する機能
+
 int player_ability(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user){
   int recover_point, base, beforehp;
 

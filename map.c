@@ -7,6 +7,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+//マップに関するファイル
+
 /*typedef struct map {
   int x;   //x座標
   int y;   //y座標

@@ -9,6 +9,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+//マップ上で開くメニュー画面
+
 void menu_hp_graphycal_display(Player *****st, Player *****st2, Player *****st3){
   printf(" ------------");
   printf("           ------------");

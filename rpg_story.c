@@ -12,6 +12,8 @@
 #include <mbstring.h>
 #include "rpg.h"
 
+//ストーリーに関する
+
 void prologue(void){
   printf("ここは私立元町学園・・・\n");
   sleep(1);
@@ -530,7 +532,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
         }
 
       } while ( input != '3' );
-      
+
 >>>>>>> origin/main
     }
     else if ( input == '3' ){

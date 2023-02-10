@@ -8,6 +8,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+//レベルアップとスキル習得
+
 void player_skill_check(Player ******st, P_skill ******player_skill){
   if ( (*****st) -> lv == 2 ){
     (*****player_skill) -> recover1 = 1;                        //skillget!

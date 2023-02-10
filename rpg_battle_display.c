@@ -7,6 +7,7 @@
 #include <conio.h>
 #include <wchar.h>
 #include "rpg.h"
+//バトルに関するUI
 
 //encount_pattern = 2
 int player_normal_attack_target2(Enemy ****enemy, Enemy *enemy_copy1){

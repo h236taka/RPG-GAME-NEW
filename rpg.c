@@ -8,6 +8,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+//main関数
+
 //プレイ時間に関するグローバルな型・変数
 time_t start_time, end_time;
 int play_time;
