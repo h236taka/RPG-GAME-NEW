@@ -371,7 +371,7 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
   return turn_decrease;
 }
 
-int item_drop_caluculate(int i, int drop_base, int drop_per){
+int item_drop_caluculate(int i, int drop_base, int drop_per){ //ドロップしたか計算
   int drop_count;
 
   drop_count = 0;
