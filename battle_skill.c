@@ -401,11 +401,8 @@ int battle_player_skill_list(P_skill ****player_skill){
   return skill_count;
 }
 
-<<<<<<< HEAD
 double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, Enemy ******enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number){
-=======
-double enemy_attack_skill(Player ******st, Equip ******equip, Enemy ******enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number){
->>>>>>> origin/main
+
   double attack_skill_count;
   int damage_base, damage, eva, critical, eva_count, critical_count, i, max_damage, temp;
   double eva_base, critical_base;
@@ -730,11 +727,8 @@ int enemy_skill_target(Player ******st, Player ******st2, Player ******st3){
 }
 
 //enemyのskillに関わる関数 skill_reaction = 1ならダメージに関係するskill skill_reactionが0ならダメージに関係しないskill
-<<<<<<< HEAD
 double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
-=======
-double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *****equip, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
->>>>>>> origin/main
+
   int enemy_move, badstatus_per, badstatus_count, recover_point;
   int target_base;
   double turn_decrease;
@@ -751,15 +745,9 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     sleep(1);
 
     attack_skill_number = 1;
-<<<<<<< HEAD
     attack_skill_count = enemy_attack_skill(&st, &pEquip, &p2Equip, &p3Equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
     attack_skill_count2 = enemy_attack_skill(&st2, &pEquip, &p2Equip, &p3Equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
     attack_skill_count3 = enemy_attack_skill(&st3, &pEquip, &p2Equip, &p3Equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
-=======
-    attack_skill_count = enemy_attack_skill(&st, &equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
-    attack_skill_count2 = enemy_attack_skill(&st2, &equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
-    attack_skill_count3 = enemy_attack_skill(&st3, &equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
->>>>>>> origin/main
 
     if ( attack_skill_count == -2 || attack_skill_count2 == -2 || attack_skill_count3 == -2 ){
       turn_decrease = -2;
@@ -886,7 +874,6 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     attack_skill_number = 2;
 
     if ( target_base == 1 ){
-<<<<<<< HEAD
       attack_skill_count = enemy_attack_skill(&st, &pEquip, &p2Equip, &p3Equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
     }
     else if ( target_base == 2 ){
@@ -894,15 +881,6 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     }
     else if ( target_base == 3 ){
       attack_skill_count3 = enemy_attack_skill(&st3, &pEquip, &p2Equip, &p3Equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
-=======
-      attack_skill_count = enemy_attack_skill(&st, &equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
-    }
-    else if ( target_base == 2 ){
-      attack_skill_count2 = enemy_attack_skill(&st2, &equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
-    }
-    else if ( target_base == 3 ){
-      attack_skill_count3 = enemy_attack_skill(&st3, &equip, &enemy, player_guard, player_guard2, player_guard3, attack_skill_number);
->>>>>>> origin/main
     }
 
     if ( attack_skill_count == -2 || attack_skill_count2 == -2 || attack_skill_count3 == -2 ){
@@ -936,11 +914,8 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
   return enemy_turn;
 }
 
-<<<<<<< HEAD
 double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip, Enemy **enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
-=======
-double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Equip *****equip, Enemy **enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
->>>>>>> origin/main
+
   int enemy_move, badstatus_per, badstatus_count, recover_point;
   int target_base;
   double turn_decrease;
@@ -1067,21 +1042,14 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Eq
   return enemy_turn;
 }
 
-<<<<<<< HEAD
 double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, Enemy ****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
-=======
-double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip ****equip, Enemy ****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
->>>>>>> origin/main
+
   int enemy_move;
 
   if ( (***enemy) -> enemy_id == 3 || (***enemy) -> enemy_id == 7 ){  //bossゴブリン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
     if ( enemy_move >= 1 && enemy_move <= 50 ){
-<<<<<<< HEAD
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);
-=======
-      enemy_turn = use_enemy_skill(&st,&st2,&st3,&equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);
->>>>>>> origin/main
     }
     else{
       enemy_turn = enemy_attack(&st,&st2,&st3,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);
@@ -1092,11 +1060,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 40 ){  //毒攻撃を使用する行動
-<<<<<<< HEAD
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
-=======
-      enemy_turn = use_enemy_skill(&st,&st2,&st3,&equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
->>>>>>> origin/main
     }
     else{
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
@@ -1106,11 +1070,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 35 ){  //麻痺攻撃を使用する行動
-<<<<<<< HEAD
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
-=======
-      enemy_turn = use_enemy_skill(&st,&st2,&st3,&equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
->>>>>>> origin/main
     }
     else{
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
@@ -1120,11 +1080,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 40 ){  //火炎攻撃を使用する行動
-<<<<<<< HEAD
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
-=======
-      enemy_turn = use_enemy_skill(&st,&st2,&st3,&equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
->>>>>>> origin/main
     }
     else{
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
@@ -1135,11 +1091,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 45 ){  //回復:LV1を使用する行動
       if ( (***enemy) -> hp <= (***enemy) -> maxhp * 0.6 ){
-<<<<<<< HEAD
         enemy_turn = use_enemy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
-=======
-        enemy_turn = use_enemy_skill(&st,&st2,&st3,&equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
->>>>>>> origin/main
       }
     }
     else{
@@ -1157,22 +1109,15 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
   return enemy_turn;
 }
 
-<<<<<<< HEAD
 double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, Enemy *enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
-=======
-double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip ****equip, Enemy *enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
->>>>>>> origin/main
+
   int enemy_move;
 
   if ( enemy_copy1 -> enemy_id == 5 ){    //skill(POISON)を持つ敵の攻撃パターン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 35 ){  //毒攻撃を使用する行動
-<<<<<<< HEAD
       enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
-=======
-      enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&equip,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
->>>>>>> origin/main
     }
     else{
       enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
@@ -1182,11 +1127,7 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 30 ){  //毒攻撃を使用する行動
-<<<<<<< HEAD
       enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
-=======
-      enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&equip,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
->>>>>>> origin/main
     }
     else{
       enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
@@ -1196,11 +1137,7 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 45 ){  //毒攻撃を使用する行動
-<<<<<<< HEAD
       enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
-=======
-      enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&equip,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
->>>>>>> origin/main
     }
     else{
       enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
@@ -1211,11 +1148,7 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 45 ){  //回復:LV1を使用する行動
       if ( enemy_copy1 -> hp <= enemy_copy1 -> maxhp * 0.6 ){
-<<<<<<< HEAD
         enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
-=======
-        enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&equip,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
->>>>>>> origin/main
       }
     }
     else{

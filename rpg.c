@@ -20,13 +20,9 @@ int main(void){
   Player player2;
   Player player3;
   Items items = {0};
-<<<<<<< HEAD
   Equip pEquip;
   Equip p2Equip;
   Equip p3Equip;
-=======
-  Equip equip = {0};
->>>>>>> origin/main
 
   Area area = {0};
 
@@ -57,13 +53,6 @@ int main(void){
   P_skill player_skill2;
   P_skill player_skill3;
 
-<<<<<<< HEAD
-=======
-  /*strcpy(equip.isHpRing1, "equip");
-  printf("%s\n", equip.isHpRing1);
-  exit(EXIT_SUCCESS);*/
-
->>>>>>> origin/main
   do{
     printf("MAIN MENU\n");
     printf("1:<<<LOAD GAME>>>\n");
@@ -73,11 +62,7 @@ int main(void){
     input = _getch();
     if ( input == '1' ){
       load = 1;
-<<<<<<< HEAD
       save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, load);
-=======
-      save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &equip, load);
->>>>>>> origin/main
     }
     else if ( input == '2' ){
       //new gameでは、player.stage_clearは0
@@ -86,13 +71,8 @@ int main(void){
       printf("start_time:%d\n", start_time);
       game_start(&player, &player2, &player3);
       load = 0;
-<<<<<<< HEAD
       game_story1(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &area, &slime, &kobalt, &goblin);
       save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, load);
-=======
-      game_story1(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &equip, &area, &slime, &kobalt, &goblin);
-      save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &equip, load);
->>>>>>> origin/main
     }
     else if ( input == '3' ){
       delete_savedata();
@@ -111,13 +91,8 @@ int main(void){
   load = 0;
   if ( player.stage_clear == 1 || player.stage_clear == 1.1 ){
     //start_time = time(NULL);
-<<<<<<< HEAD
     game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items,&pEquip, &p2Equip, &p3Equip,&area,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);//図書館ステージ
     save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, load);
-=======
-    game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items,&equip,&area,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);//図書館ステージ
-    save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items, &equip, load);
->>>>>>> origin/main
   }
   else if ( player.stage_clear == 2 ){
     printf("Wait・・・\n");

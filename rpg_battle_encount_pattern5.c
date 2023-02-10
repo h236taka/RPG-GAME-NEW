@@ -45,11 +45,8 @@ void enemy_full_recover5(Enemy ****enemy, Enemy ****enemy1){
 }
 
 //encount_pattern = 5;
-<<<<<<< HEAD
 void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy ***enemy, Enemy ***enemy1, int encount_pattern){
-=======
-void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***equip, Enemy ***enemy, Enemy ***enemy1, int encount_pattern){
->>>>>>> origin/main
+
   int player_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
   int enemy_deadcount, skill_count, use_skill_count, skill_reaction, recover_point, battle_display_condition_count, enemy_temp;
   int result_exp, result_gold;
@@ -1086,11 +1083,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
         //enemyの攻撃
         //printf("%f\n", enemy_turn);
         sleep(1);
-<<<<<<< HEAD
         enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &pEquip, &p2Equip, &p3Equip, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
-=======
-        enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &equip, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
->>>>>>> origin/main
         sleep(1);
         //printf("%f\n", enemy_turn);
         printf("\n");
@@ -1109,11 +1102,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
         //enemyの攻撃
         //printf("%f\n", enemy_turn);
         sleep(1);
-<<<<<<< HEAD
         enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &pEquip, &p2Equip, &p3Equip, &enemy1, player_guard, player_guard2, player_guard3, enemy_turn);
-=======
-        enemy_turn = enemy_attack_pattern(&st, &st2, &st3, &equip, &enemy1, player_guard, player_guard2, player_guard3, enemy_turn);
->>>>>>> origin/main
         sleep(1);
         //printf("%f\n", enemy_turn);
       }

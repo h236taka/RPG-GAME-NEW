@@ -938,11 +938,7 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
   }
 }
 
-<<<<<<< HEAD
 void equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip){
-=======
-void equip_change(Player ******st, Equip ******equip){
->>>>>>> origin/main
 
   printf("\n");
   printf("<<<EQUIP>>>\n");
@@ -1013,11 +1009,8 @@ void skill_menu(void){
   printf("skill\n");
 }
 
-<<<<<<< HEAD
 void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip){
-=======
-void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****equip){
->>>>>>> origin/main
+
   int input;
 
   do {
@@ -1031,7 +1024,6 @@ void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****equ
     input = _getch();
 
     if ( input == '1' ){
-<<<<<<< HEAD
       equip_change(&st,&pEquip,&p2Equip,&p3Equip);
     }
     else if ( input == '2' ){
@@ -1039,15 +1031,6 @@ void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****equ
     }
     else if ( input == '3' ){
       equip_change(&st3,&pEquip,&p2Equip,&p3Equip);
-=======
-      equip_change(&st,&equip);
-    }
-    else if ( input == '2' ){
-      equip_change(&st2,&equip);
-    }
-    else if ( input == '3' ){
-      equip_change(&st3,&equip);
->>>>>>> origin/main
     }
     else if ( input == '' ){
       printf("強制終了\n");
@@ -1055,10 +1038,7 @@ void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****equ
     }
 
   } while ( input != 'c' );
-<<<<<<< HEAD
-=======
-  printf("equip\n");
->>>>>>> origin/main
+
 }
 
 void set_menu(void){
@@ -1131,11 +1111,8 @@ void map_menu(Map ***map, Area *****area, int area_data_line, int area_data_len,
 
 }
 
-<<<<<<< HEAD
 void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
-=======
-void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Equip ****equip, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
->>>>>>> origin/main
+
   int menu_end, input, battle_display_condition_count;
 
   do{
@@ -1188,11 +1165,7 @@ void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****pla
       skill_menu();
     }
     else if ( input == '3' ){
-<<<<<<< HEAD
       equip_menu(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
-=======
-      equip_menu(&st,&st2,&st3,&equip);
->>>>>>> origin/main
     }
     else if ( input == '4' ){
       set_menu();
