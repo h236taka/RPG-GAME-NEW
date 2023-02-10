@@ -1,7 +1,7 @@
 # RPG-GAME
 個人的な制作物です。
 C言語で作成したRPGゲームです。
-RPG-GAME_OLDではなく、こちらを更新します。
+RPG-GAME_OLDではなく、RPG-GAME-NEWを更新していきます。
 開発エディタはAtomです。
 想定OSはWindowsで、VisualStudioやVisualStudioCodeからのデバックによる実行ではセキュリティに関するエラーが表示されて上手く動かない可能性があるので、コマンドプロンプト上で動かしてください。
 
