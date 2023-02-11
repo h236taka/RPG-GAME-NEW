@@ -76,11 +76,11 @@ void copy_savedata(){
             exit(EXIT_FAILURE);
           }
 
-          for (;;) {
+          for (;;) {  //無限ループ
             char c;
             // 1バイト読み込む
             if ( fread(&c, sizeof(c), 1, fpSrc) < 1 ) {
-              if ( feof(fpSrc) ) {
+              if ( feof(fpSrc) ) {  //ファイルの読み込みが終了位置に到達したかチェック
                 break;
               }
               else {
@@ -1171,7 +1171,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
         savedata_lv2 = save_data_players.lv;
 
         temp = save_data_players.playtime;
-        temp -= 1000;
+        //temp -= 1000;
         if ( temp >= 3600 ){
           hours = temp / 3600;
           minutes = temp % 3600 / 60;
@@ -1208,7 +1208,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
         strcpy(savedata_name3, save_data_players.name);
         savedata_lv3 = save_data_players.lv;
         temp = save_data_players.playtime;
-        temp -= 1000;
+        //temp -= 1000;
         if ( temp >= 3600 ){
           hours = temp / 3600;
           minutes = temp % 3600 / 60;

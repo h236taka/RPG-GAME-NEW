@@ -79,7 +79,7 @@ int school_command(){
   printf("2.美術室へ行く\n");
   printf("3.化学実験室へ行く\n");
   printf("4.ダンジョンへ行く\n");
-  printf("5.ゲームをセーブせずに止める\n");
+  printf("5.ゲームをセーブせずに終了する\n");
   printf("6.セーブする\n");
   input = _getch();
 
@@ -90,8 +90,12 @@ void buy_goods(Player ***st, Items ***items, int goods_number,  int price){
   int sum, count;
   int input;
 
-  printf("何個購入しますか?(1~99個まで,入力が完了したらエンターキーを押してください)\n");
+  printf("何個購入しますか?(1~99個まで,購入を止める場合は0を入力,入力が完了したらエンターキーを押してください)\n");
   scanf("%d", &count);
+
+  if ( count == 0 ){
+    return;
+  }
 
   if ( count < 1 || count > 99 ){
     printf("個数を入力し直してください\n");
@@ -158,8 +162,12 @@ void buy_equips(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equi
   int sum, count;
   int input;
 
-  printf("何個購入しますか?(1~99個まで,入力が完了したらエンターキーを押してください)\n");
+  printf("何個購入しますか?(1~99個まで,購入を止める場合は0を入力,が完了したらエンターキーを押してください)\n");
   scanf("%d", &count);
+
+  if ( count == 0 ){
+    return;
+  }
 
   if ( count < 1 || count > 99 ){
     printf("個数を入力し直してください\n");
