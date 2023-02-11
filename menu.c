@@ -9,6 +9,10 @@
 #include <wchar.h>
 #include "rpg.h"
 
+static int pEquip_temp;
+static int p2Equip_temp;
+static int p3Equip_temp;
+
 //マップ上で開くメニュー画面
 
 void menu_hp_graphycal_display(Player *****st, Player *****st2, Player *****st3){
@@ -938,11 +942,430 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
   }
 }
 
-void equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip){
+void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip){
 
+  if ( input == '1' ){
+    if ( command == '1' ){
+      (******pEquip) -> HpRing1--;
+      (******p2Equip) -> HpRing1--;
+      (******p3Equip) -> HpRing1--;
+      (******pEquip) -> isEquip = 1;
+    }
+    else if ( command == '2' ){
+      (******pEquip) -> MpRing1--;
+      (******p2Equip) -> MpRing1--;
+      (******p3Equip) -> MpRing1--;
+      (******pEquip) -> isEquip = 2;
+    }
+  }
+  else if ( input == '2' ){
+    if ( command == '1' ){
+      (******pEquip) -> HpRing1--;
+      (******p2Equip) -> HpRing1--;
+      (******p3Equip) -> HpRing1--;
+      (******p2Equip) -> isEquip = 1;
+    }
+    else if ( command == '2' ){
+      (******pEquip) -> MpRing1--;
+      (******p2Equip) -> MpRing1--;
+      (******p3Equip) -> MpRing1--;
+      (******p2Equip) -> isEquip = 2;
+    }
+  }
+  else if ( input == '3' ){
+    if ( command == '1' ){
+      (******pEquip) -> HpRing1--;
+      (******p2Equip) -> HpRing1--;
+      (******p3Equip) -> HpRing1--;
+      (******p3Equip) -> isEquip = 1;
+    }
+    else if ( command == '2' ){
+      (******pEquip) -> MpRing1--;
+      (******p2Equip) -> MpRing1--;
+      (******p3Equip) -> MpRing1--;
+      (******p3Equip) -> isEquip = 2;
+    }
+  }
+  else{
+    return;
+  }
+
+}
+
+int equip_command_check(int command, Equip *******pEquip){  //pEquipもp2Equipもp3Equipも装備品の個数は連携しているので、pEquipのみでOK
+
+  if ( command == '1' && (******pEquip) -> HpRing1 == 0 ){
+    command = 'e';
+  }
+  if ( command == '2' && (******pEquip) -> MpRing1 == 0 ){
+    command = 'e';
+  }
+
+  return command;
+}
+
+void isEquip_check(Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip){
+
+  pEquip_temp = (******pEquip) -> isEquip;
+  p2Equip_temp = (******p2Equip) -> isEquip;
+  p3Equip_temp = (******p3Equip) -> isEquip;
+
+  /*printf("%d\n", pEquip_temp);
+  printf("%d\n", p2Equip_temp);
+  printf("%d\n", p3Equip_temp);*/
+}
+
+//もともと装備していた装備を外して個数を1プラスする(元の個数に戻す)
+void before_equip_plus(int input, Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip){
+
+  if ( input == '1' ){
+    if ( pEquip_temp != 0 ){
+      if ( pEquip_temp == 1 ){
+        (******pEquip) -> HpRing1++;
+        (******p2Equip) -> HpRing1++;
+        (******p3Equip) -> HpRing1++;
+      }
+      else if ( pEquip_temp == 2 ){
+        (******pEquip) -> MpRing1++;
+        (******p2Equip) -> MpRing1++;
+        (******p3Equip) -> MpRing1++;
+      }
+      return;
+    }
+    else{
+      return;
+    }
+  }
+  else if ( input == '2' ){
+    if ( p2Equip_temp != 0 ){
+      if ( p2Equip_temp == 1 ){
+        (******pEquip) -> HpRing1++;
+        (******p2Equip) -> HpRing1++;
+        (******p3Equip) -> HpRing1++;
+      }
+      else if ( p3Equip_temp == 2 ){
+        (******pEquip) -> MpRing1++;
+        (******p2Equip) -> MpRing1++;
+        (******p3Equip) -> MpRing1++;
+      }
+      return;
+    }
+    else{
+      return;
+    }
+  }
+  else if ( input == '3' ){
+    if ( p3Equip_temp != 0 ){
+      if ( p3Equip_temp == 1 ){
+        (******pEquip) -> HpRing1++;
+        (******p2Equip) -> HpRing1++;
+        (******p3Equip) -> HpRing1++;
+      }
+      else if ( p3Equip_temp == 2 ){
+        (******pEquip) -> MpRing1++;
+        (******p2Equip) -> MpRing1++;
+        (******p3Equip) -> MpRing1++;
+      }
+      return;
+    }
+    else{
+      return;
+    }
+  }
+  else{
+    return;
+  }
+}
+
+void equip_effect(Player *******st, int input, Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip){
+  int hpTemp, mpTemp;
+
+  /*if ( pEquip_temp == (******pEquip) -> isEquip ){
+    return;
+  }
+  else if ( p2Equip_temp == (******p2Equip) -> isEquip ){
+    return;
+  }
+  else if ( p3Equip_temp == (******p3Equip) -> isEquip ){
+    return;
+  }*/
+
+  if ( input == '1' ){  //player1
+    if ( pEquip_temp == 0 ){
+      if ( (******pEquip) -> isEquip == 1 ){
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp += (int)(hpTemp * 0.05);
+      }
+      else if ( (******pEquip) -> isEquip == 2 ){
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp += (int)(mpTemp * 0.05);
+      }
+    }
+    else if ( pEquip_temp == 1 ){
+      if ( (******pEquip) -> isEquip == 0 ){
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp -= (int)(hpTemp * 0.05);
+      }
+      else if ( (******pEquip) -> isEquip == 2 ){
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp -= (int)(hpTemp * 0.05);
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp += (int)(mpTemp * 0.05);
+      }
+    }
+    else if ( pEquip_temp == 2 ){
+      if ( (******pEquip) -> isEquip == 0 ){
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp -= (int)(mpTemp * 0.05);
+      }
+      else if ( (******pEquip) -> isEquip == 1 ){
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp -= (int)(mpTemp * 0.05);
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp += (int)(hpTemp * 0.05);
+      }
+    }
+  }
+  else if ( input == '2' ){  //player2
+    if ( p2Equip_temp == 0 ){
+      if ( (******p2Equip) -> isEquip == 1 ){
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp += (int)(hpTemp * 0.05);
+      }
+      else if ( (******pEquip) -> isEquip == 2 ){
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp += (int)(mpTemp * 0.05);
+      }
+    }
+    else if ( p2Equip_temp == 1 ){
+      if ( (******p2Equip) -> isEquip == 0 ){
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp -= (int)(hpTemp * 0.05);
+      }
+      else if ( (******p2Equip) -> isEquip == 2 ){
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp -= (int)(hpTemp * 0.05);
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp += (int)(mpTemp * 0.05);
+      }
+    }
+    else if ( p2Equip_temp == 2 ){
+      if ( (******p2Equip) -> isEquip == 0 ){
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp -= (int)(mpTemp * 0.05);
+      }
+      else if ( (******p2Equip) -> isEquip == 1 ){
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp -= (int)(mpTemp * 0.05);
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp += (int)(hpTemp * 0.05);
+      }
+    }
+  }
+  else if ( input == '3' ){  //player3
+    if ( p3Equip_temp == 0 ){
+      if ( (******p3Equip) -> isEquip == 1 ){
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp += (int)(hpTemp * 0.05);
+      }
+      else if ( (******pEquip) -> isEquip == 2 ){
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp += (int)(mpTemp * 0.05);
+      }
+    }
+    else if ( p3Equip_temp == 1 ){
+      if ( (******p3Equip) -> isEquip == 0 ){
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp -= (int)(hpTemp * 0.05);
+      }
+      else if ( (******p3Equip) -> isEquip == 2 ){
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp -= (int)(hpTemp * 0.05);
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp += (int)(mpTemp * 0.05);
+      }
+    }
+    else if ( p3Equip_temp == 2 ){
+      if ( (******p3Equip) -> isEquip == 0 ){
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp -= (int)(mpTemp * 0.05);
+      }
+      else if ( (******p3Equip) -> isEquip == 1 ){
+        mpTemp = (******st) -> maxmp;
+        (******st) -> maxmp -= (int)(mpTemp * 0.05);
+        hpTemp = (******st) -> maxhp;
+        (******st) -> maxhp += (int)(hpTemp * 0.05);
+      }
+    }
+  }
+  else{
+    return;
+  }
+
+}
+
+void display_isEquip(Equip *******pEquip){
+
+  if ( (******pEquip) -> isEquip == 0 ){
+    printf("装備無し\n");
+  }
+  else if ( (******pEquip) -> isEquip == 1 ){
+    printf("HPリング1\n");
+  }
+  else if ( (******pEquip) -> isEquip == 2 ){
+    printf("MPリング1\n");
+  }
+
+}
+
+void display_menu_isEquip(Equip ******pEquip){
+
+  if ( (*****pEquip) -> isEquip == 0 ){
+    printf("装備無し\n");
+  }
+  else if ( (*****pEquip) -> isEquip == 1 ){
+    printf("HPリング1\n");
+  }
+  else if ( (*****pEquip) -> isEquip == 2 ){
+    printf("MPリング1\n");
+  }
+
+}
+
+void unequip(Player ******st, Player ******st2, Player ******st3, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip){
+  int input;
+
+  do {
+    printf("\n");
+    printf("<<<EQUIP>>>\n");
+    printf("誰の装備を外しますか?(cを入力することでキャンセル)\n");
+
+    printf("1.%s ", (*****st) -> name);
+    display_isEquip(&pEquip);
+
+    printf("2.%s ", (*****st2) -> name);
+    display_isEquip(&p2Equip);
+
+    printf("3.%s ", (*****st3) -> name);
+    display_isEquip(&p3Equip);
+
+    input = _getch();
+
+    if ( input == '1' && (*****pEquip) -> isEquip == 0 ){
+      printf("何も装備していません!\n");
+      return;
+    }
+    if ( input == '2' && (*****p2Equip) -> isEquip == 0 ){
+      printf("何も装備していません!\n");
+      return;
+    }
+    if ( input == '3' && (*****p3Equip) -> isEquip == 0 ){
+      printf("何も装備していません!\n");
+      return;
+    }
+
+    if ( input == '1' || input == '2' || input == '3' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        (*****pEquip) -> isEquip = 0;
+        equip_effect(&st,input,&pEquip,&p2Equip,&p3Equip);
+      }
+      else if ( input == '2' ){
+        (*****p2Equip) -> isEquip = 0;
+        equip_effect(&st2,input,&pEquip,&p2Equip,&p3Equip);
+      }
+      else if ( input == '3' ){
+        (*****p3Equip) -> isEquip = 0;
+        equip_effect(&st3,input,&pEquip,&p2Equip,&p3Equip);
+      }
+    }
+
+  } while ( input != 'c' );
+}
+
+void display_equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, int input){
+  int command;
+  int equip_count;
+  int loop;
+
+  equip_count = 0;
   printf("\n");
   printf("<<<EQUIP>>>\n");
-  printf("%s:", (*****st) -> name);
+
+  if ( input == '1' ){
+    printf("%s:", (*****st) -> name);
+  }
+  else if ( input == '2' ){
+    printf("%s:", (*****st) -> name);
+  }
+  else if ( input == '3' ){
+    printf("%s:", (*****st) -> name);
+  }
+  else{
+    return;
+  }
+
+  if ( input == '1' ){
+    display_isEquip(&pEquip);
+  }
+  else if ( input == '2' ){
+    display_isEquip(&p2Equip);
+  }
+  else if ( input == '3' ){
+    display_isEquip(&p3Equip);
+  }
+  printf("\n");
+
+  loop = 0;
+  do {
+    if ( loop > 0 ){
+      break;
+    }
+
+    printf("何を装備しますか?(cを入力することでmenu画面に戻ります)\n");
+    if ( (*****pEquip) -> HpRing1 > 0 ){
+      printf("1.HPリング1(味方1人の最大HPを5%%増加) %d個\n", (*****pEquip) -> HpRing1);
+      equip_count = 1;
+    }
+    if ( (*****pEquip) -> MpRing1 > 0 ){
+      printf("2.MPリング1(味方1人の最大MPを5%%増加) %d個\n", (*****pEquip) -> MpRing1);
+      equip_count = 1;
+    }
+
+    if ( equip_count == 0 && (*****pEquip) -> isEquip == 0 && (*****p2Equip) -> isEquip == 0 && (*****p3Equip) -> isEquip == 0 ){
+      printf("装備品を持っていません!\n");
+      printf("\n");
+      return;
+    }
+
+    if ( equip_count == 0 && ( (*****pEquip) -> isEquip != 0 || (*****p2Equip) -> isEquip != 0 || (*****p3Equip) -> isEquip != 0 ) ){
+      printf("アイテムは全て装備されています\n");
+      printf("\n");
+      return;
+    }
+
+    command = _getch();  //装備品に対する入力
+    if ( command != 'c' ){
+      command = equip_command_check(command,&pEquip); //ユーザー入力をチェック
+    }
+
+    if ( command == '1' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(command,input,&pEquip,&p2Equip,&p3Equip);
+      equip_effect(&st,input,&pEquip,&p2Equip,&p3Equip);
+    }
+    else if ( command == '2' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(command,input,&pEquip,&p2Equip,&p3Equip);
+      equip_effect(&st,input,&pEquip,&p2Equip,&p3Equip);
+    }
+
+    loop++;
+  } while ( command != 'c' );
+
 
 }
 
@@ -1016,21 +1439,29 @@ void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEq
   do {
     printf("\n");
     printf("<<<EQUIP>>>\n");
-    printf("誰の装備を変更しますか?(戻る場合はcを入力してください)");
-    printf("1:%s\n", (****st) -> name);
-    printf("2:%s\n", (****st2) -> name);
-    printf("3:%s\n", (****st3) -> name);
+    printf("誰の装備を変更しますか?(戻る場合はcを入力してください)\n");
+    printf("1:%s ", (****st) -> name);
+    display_menu_isEquip(&pEquip);
+    printf("2:%s ", (****st2) -> name);
+    display_menu_isEquip(&p2Equip);
+    printf("3:%s ", (****st3) -> name);
+    display_menu_isEquip(&p3Equip);
+    printf("\n");
+    printf("d:装備を外す\n");
 
     input = _getch();
 
     if ( input == '1' ){
-      equip_change(&st,&pEquip,&p2Equip,&p3Equip);
+      display_equip_change(&st,&pEquip,&p2Equip,&p3Equip,input);
     }
     else if ( input == '2' ){
-      equip_change(&st2,&pEquip,&p2Equip,&p3Equip);
+      display_equip_change(&st2,&pEquip,&p2Equip,&p3Equip,input);
     }
     else if ( input == '3' ){
-      equip_change(&st3,&pEquip,&p2Equip,&p3Equip);
+      display_equip_change(&st3,&pEquip,&p2Equip,&p3Equip,input);
+    }
+    else if ( input == 'd' ){
+      unequip(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
     }
     else if ( input == '' ){
       printf("強制終了\n");

@@ -260,10 +260,9 @@ typedef struct items {
 } Items;
 
 typedef struct equip {
-  int HpRing1;  //味方1人の最大HPを5%増加
-  int isHpRing1;  //
-  int MpRing1;  //味方1人の最大MPを5%増加
-  int isMpRing1;
+  int HpRing1;  //味方1人の最大HPを5%増加 No:1
+  int MpRing1;  //味方1人の最大MPを5%増加 No:2
+  int isEquip;  //味方が何か装備しているか(0:装備していない),している場合はその番号を代入
 } Equip;
 
 typedef struct save_data_items {
@@ -272,6 +271,12 @@ typedef struct save_data_items {
   int antipoison;
   int bead;
 } Save_data_items;
+
+typedef struct save_data_equip {
+  int HpRing1;  //味方1人の最大HPを5%増加 No:1
+  int MpRing1;  //味方1人の最大MPを5%増加 No:2
+  int isEquip;  //味方が何か装備しているか(0:装備していない),している場合はその番号を代入
+} Save_data_equip;
 
 //rpg_save_load.c
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, int load);
@@ -340,7 +345,9 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
 
 void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****items);
 
-void equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip);
+int equip_command_check(int command, Equip *******pEquip);
+
+void display_equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, int input);
 
 void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip);
 

@@ -128,6 +128,10 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
   Save_data_players save_data_players;
   Save_data_items save_data_items;
 
+  Save_data_equip save_data_pEquip;
+  Save_data_equip save_data_p2Equip;
+  Save_data_equip save_data_p3Equip;
+
   if ( load == 1 ){       //load
     do{
       load_count = 0;
@@ -147,7 +151,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
           printf("1:\n");
         }
         else{
-          fread(&save_data_players, sizeof(Save_data_players), 1, fp);
+          fread(&save_data_players, sizeof(save_data_players), 1, fp);
           strcpy(savedata_name1, save_data_players.name);
           savedata_lv1 = save_data_players.lv;
 
@@ -270,6 +274,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
           else{
             fread(&save_data_players, sizeof(Save_data_players), 1, fp);
             fread(&save_data_items, sizeof(save_data_items), 1, fp);
+            fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
+            fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
+            fread(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fclose(fp);
             load_count++;
           }
@@ -288,6 +295,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
           else{
             fread(&save_data_players, sizeof(Save_data_players), 1, fp);
             fread(&save_data_items, sizeof(save_data_items), 1, fp);
+            fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
+            fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
+            fread(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fclose(fp);
             load_count++;
           }
@@ -306,6 +316,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
           else{
             fread(&save_data_players, sizeof(Save_data_players), 1, fp);
             fread(&save_data_items, sizeof(save_data_items), 1, fp);
+            fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
+            fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
+            fread(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fclose(fp);
             load_count++;
           }
@@ -321,9 +334,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       }
     }while ( load_count == 0 );
 
-    printf("SaveDataをLoadしています・・・・\n");
+    printf("セーブデータをロードしています・・・・\n");
     sleep(2);
-    printf("Loadが完了しました!\n");
+    printf("ロードが完了しました!\n");
     start_time = time(NULL);
 
     //主人公のセーブデータ
@@ -446,6 +459,18 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
     items -> lifestone = save_data_items.lifestone;
     items -> antipoison = save_data_items.antipoison;
     items -> bead = save_data_items.bead;
+
+    pEquip -> HpRing1 = save_data_pEquip.HpRing1;
+    pEquip -> MpRing1 = save_data_pEquip.MpRing1;
+    pEquip -> isEquip = save_data_pEquip.isEquip;
+
+    p2Equip -> HpRing1 = save_data_p2Equip.HpRing1;
+    p2Equip -> MpRing1 = save_data_p2Equip.MpRing1;
+    p2Equip -> isEquip = save_data_p2Equip.isEquip;
+
+    p3Equip -> HpRing1 = save_data_p3Equip.HpRing1;
+    p3Equip -> MpRing1 = save_data_p3Equip.MpRing1;
+    p3Equip -> isEquip = save_data_p3Equip.isEquip;
 
     /*int save_automap_area1[sizeof(automap_area1[16][3]) - 1 * 16];
     int c;
@@ -613,6 +638,20 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       save_data_items.antipoison = items -> antipoison;
       save_data_items.bead = items -> bead;
 
+      save_data_pEquip.HpRing1 = pEquip -> HpRing1;
+      save_data_pEquip.MpRing1 = pEquip -> MpRing1;
+      save_data_pEquip.isEquip = pEquip -> isEquip;
+
+      //printf("%d\n", save_data_pEquip.HpRing1);
+
+      save_data_p2Equip.HpRing1 = p2Equip -> HpRing1;
+      save_data_p2Equip.MpRing1 = p2Equip -> MpRing1;
+      save_data_p2Equip.isEquip = p2Equip -> isEquip;
+
+      save_data_p3Equip.HpRing1 = p3Equip -> HpRing1;
+      save_data_p3Equip.MpRing1 = p3Equip -> MpRing1;
+      save_data_p3Equip.isEquip = p3Equip -> isEquip;
+
       /*for ( int i = 0; i < 16; i++ ){
         memcpy(save_automap_area1[i], automap_area1[i], 3);
       }*/
@@ -646,7 +685,10 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             }
             //セーブデータの書き込み
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
-            fwrite(&save_data_items, sizeof(save_data_players), 1, fp);
+            fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
+            fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
+            fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
+            fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fclose(fp);
             save_count++;
           }
@@ -664,7 +706,10 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             }
             //セーブデータの書き込み
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
-            fwrite(&save_data_items, sizeof(save_data_players), 1, fp);
+            fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
+            fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
+            fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
+            fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fclose(fp);
             save_count++;
           }
@@ -682,7 +727,10 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             }
             //セーブデータの書き込み
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
-            fwrite(&save_data_items, sizeof(save_data_players), 1, fp);
+            fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
+            fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
+            fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
+            fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fclose(fp);
             save_count++;
           }
@@ -726,6 +774,10 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
 
   Save_data_players save_data_players;
   Save_data_items save_data_items;
+
+  Save_data_equip save_data_pEquip;
+  Save_data_equip save_data_p2Equip;
+  Save_data_equip save_data_p3Equip;
   //save
   sleep(2);
   printf("今の状態をSaveしますか?\n");
@@ -995,6 +1047,21 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     save_data_items.antipoison = (*items) -> antipoison;
     save_data_items.bead = (*items) -> bead;
 
+    save_data_pEquip.HpRing1 = (*pEquip) -> HpRing1;
+    save_data_pEquip.MpRing1 = (*pEquip) -> MpRing1;
+    save_data_pEquip.isEquip = (*pEquip) -> isEquip;
+
+    save_data_p2Equip.HpRing1 = (*p2Equip) -> HpRing1;
+    save_data_p2Equip.MpRing1 = (*p2Equip) -> MpRing1;
+    save_data_p2Equip.isEquip = (*p2Equip) -> isEquip;
+
+    save_data_p3Equip.HpRing1 = (*p3Equip) -> HpRing1;
+    save_data_p3Equip.MpRing1 = (*p3Equip) -> MpRing1;
+    save_data_p3Equip.isEquip = (*p3Equip) -> isEquip;
+
+    //printf("%d\n", save_data_pEquip.HpRing1);
+    //printf("%d\n", save_data_p2Equip.MpRing1);
+
     save_automap_area1[16][3] = automap_area1[16][3];
     save_automap_area2[27][10] = automap_area2[27][10];
 
@@ -1019,7 +1086,10 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
         else{
           //セーブデータの書き込み
           fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
-          fwrite(&save_data_items, sizeof(save_data_players), 1, fp);
+          fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
+          fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
+          fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
+          fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
           fclose(fp);
           save_count++;
         }
@@ -1032,7 +1102,10 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
         else{
           //セーブデータの書き込み
           fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
-          fwrite(&save_data_items, sizeof(save_data_players), 1, fp);
+          fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
+          fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
+          fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
+          fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
           fclose(fp);
           save_count++;
         }
@@ -1045,7 +1118,10 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
         else{
           //セーブデータの書き込み
           fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
-          fwrite(&save_data_items, sizeof(save_data_players), 1, fp);
+          fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
+          fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
+          fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
+          fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
           fclose(fp);
           save_count++;
         }

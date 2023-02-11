@@ -1674,6 +1674,14 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
       (*area) -> boss1 = 1;
       printf("BOSSを倒した!\n");
+      sleep(1);
+      printf("足元に何か落ちている...\n");
+      sleep(1);
+      printf("%sはHPリング1を手に入れた!\n", (*st) -> name);
+      (*pEquip) -> HpRing1++;
+      (*p2Equip) -> HpRing1++;
+      (*p3Equip) -> HpRing1++;
+      sleep(1);
       clear_count = 1;
     }
 

@@ -20,9 +20,9 @@ int main(void){
   Player player2;
   Player player3;
   Items items = {0};
-  Equip pEquip;
-  Equip p2Equip;
-  Equip p3Equip;
+  Equip pEquip = {0};
+  Equip p2Equip = {0};
+  Equip p3Equip = {0};
 
   Area area = {0};
 
