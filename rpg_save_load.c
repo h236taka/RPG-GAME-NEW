@@ -33,6 +33,326 @@ long long int getFileSize(const char *fileName){
   return st.st_size;
 }
 
+void copy_savedata(){
+  int input, result;
+  FILE *fpSrc;
+  FILE *fpDest;
+
+  do {
+    printf("何番のセーブデータをコピーしますか?(コピーしない場合はcを入力)\n");
+    printf("1:SAVEDATA FILE1\n");
+    printf("2:SAVEDATA FILE2\n");
+    printf("3:SAVEDATA FILE3\n");
+
+    result = 1;
+    input = _getch();
+
+    if ( input == '1' ){
+      const char *file = "save1.dat";
+      fpSrc = fopen("save1.dat", "rb");
+      if ( fpSrc == NULL ){
+        printf("セーブデータ1を確認できませんでした...\n");
+        fclose(fpSrc);
+        exit(EXIT_FAILURE);
+      }
+
+      do {
+        printf("\n");
+        printf("コピー先のセーブデータを選んでください(コピーしない場合はcを入力)\n");
+        printf("2:SAVEDATA FILE2\n");
+        printf("3:SAVEDATA FILE3\n");
+
+        input = _getch();
+
+        if ( input == 'c' ){
+          printf("コピーを中止します...");
+          exit(EXIT_SUCCESS);
+        }
+        else if ( input == '2' ){
+          fpDest = fopen("save2.dat", "wb");
+          if ( fpDest == NULL ){
+            printf("セーブデータ2を確認できませんでした...\n");
+            fclose(fpDest);
+            exit(EXIT_FAILURE);
+          }
+
+          for (;;) {
+            char c;
+            // 1バイト読み込む
+            if ( fread(&c, sizeof(c), 1, fpSrc) < 1 ) {
+              if ( feof(fpSrc) ) {
+                break;
+              }
+              else {
+                result = 0;
+                break;
+              }
+            }
+
+            // 1バイト書き込む
+            if ( fwrite(&c, sizeof(c), 1, fpDest) < 1 ) {
+              result = 0;
+              break;
+            }
+          }
+
+          if ( result != 0 ){
+            printf("コピーが完了しました...\n");
+            exit(EXIT_SUCCESS);
+          }
+          else{
+            printf("コピーに失敗しました...\n");
+            exit(EXIT_FAILURE);
+          }
+
+        }
+        else if ( input == '3' ){
+          fpDest = fopen("save3.dat", "wb");
+          if ( fpDest == NULL ){
+            printf("セーブデータ3を確認できませんでした...\n");
+            fclose(fpDest);
+            exit(EXIT_FAILURE);
+          }
+
+          for (;;) {
+            char c;
+            // 1バイト読み込む
+            if ( fread(&c, sizeof(c), 1, fpSrc) < 1 ) {
+              if ( feof(fpSrc) ) {
+                break;
+              }
+              else {
+                result = 0;
+                break;
+              }
+            }
+
+            // 1バイト書き込む
+            if ( fwrite(&c, sizeof(c), 1, fpDest) < 1 ) {
+              result = 0;
+              break;
+            }
+          }
+
+          if ( result != 0 ){
+            printf("コピーが完了しました...\n");
+            exit(EXIT_SUCCESS);
+          }
+          else{
+            printf("コピーに失敗しました...\n");
+            exit(EXIT_FAILURE);
+          }
+        }
+
+      } while ( input != 'c' );
+    }
+    else if ( input == '2' ){
+      const char *file = "save2.dat";
+      fpSrc = fopen("save2.dat", "rb");
+      if ( fpSrc == NULL ){
+        printf("セーブデータ2を確認できませんでした...\n");
+        fclose(fpSrc);
+        exit(EXIT_FAILURE);
+      }
+
+      do {
+        printf("\n");
+        printf("コピー先のセーブデータを選んでください(コピーしない場合はcを入力)\n");
+        printf("1:SAVEDATA FILE2\n");
+        printf("3:SAVEDATA FILE3\n");
+
+        input = _getch();
+
+        if ( input == 'c' ){
+          printf("コピーを中止します...");
+          exit(EXIT_SUCCESS);
+        }
+        else if ( input == '1' ){
+          fpDest = fopen("save1.dat", "wb");
+          if ( fpDest == NULL ){
+            printf("セーブデータ1を確認できませんでした...\n");
+            fclose(fpDest);
+            exit(EXIT_FAILURE);
+          }
+
+          for (;;) {
+            char c;
+            // 1バイト読み込む
+            if ( fread(&c, sizeof(c), 1, fpSrc) < 1 ) {
+              if ( feof(fpSrc) ) {
+                break;
+              }
+              else {
+                result = 0;
+                break;
+              }
+            }
+
+            // 1バイト書き込む
+            if ( fwrite(&c, sizeof(c), 1, fpDest) < 1 ) {
+              result = 0;
+              break;
+            }
+          }
+
+          if ( result != 0 ){
+            printf("コピーが完了しました...\n");
+            exit(EXIT_SUCCESS);
+          }
+          else{
+            printf("コピーに失敗しました...\n");
+            exit(EXIT_FAILURE);
+          }
+
+        }
+        else if ( input == '3' ){
+          fpDest = fopen("save3.dat", "wb");
+          if ( fpDest == NULL ){
+            printf("セーブデータ3を確認できませんでした...\n");
+            fclose(fpDest);
+            exit(EXIT_FAILURE);
+          }
+
+          for (;;) {
+            char c;
+            // 1バイト読み込む
+            if ( fread(&c, sizeof(c), 1, fpSrc) < 1 ) {
+              if ( feof(fpSrc) ) {
+                break;
+              }
+              else {
+                result = 0;
+                break;
+              }
+            }
+
+            // 1バイト書き込む
+            if ( fwrite(&c, sizeof(c), 1, fpDest) < 1 ) {
+              result = 0;
+              break;
+            }
+          }
+
+          if ( result != 0 ){
+            printf("コピーが完了しました...\n");
+            exit(EXIT_SUCCESS);
+          }
+          else{
+            printf("コピーに失敗しました...\n");
+            exit(EXIT_FAILURE);
+          }
+        }
+
+      } while ( input != 'c' );
+
+    }
+    else if ( input == '3' ){
+      const char *file = "save3.dat";
+      fpSrc = fopen("save3.dat", "rb");
+      if ( fpSrc == NULL ){
+        printf("セーブデータ3を確認できませんでした...\n");
+        fclose(fpSrc);
+        exit(EXIT_FAILURE);
+      }
+
+      do {
+        printf("\n");
+        printf("コピー先のセーブデータを選んでください(コピーしない場合はcを入力)\n");
+        printf("1:SAVEDATA FILE2\n");
+        printf("2:SAVEDATA FILE3\n");
+
+        input = _getch();
+
+        if ( input == 'c' ){
+          printf("コピーを中止します...");
+          exit(EXIT_SUCCESS);
+        }
+        else if ( input == '1' ){
+          fpDest = fopen("save1.dat", "wb");
+          if ( fpDest == NULL ){
+            printf("セーブデータ1を確認できませんでした...\n");
+            fclose(fpDest);
+            exit(EXIT_FAILURE);
+          }
+
+          for (;;) {
+            char c;
+            // 1バイト読み込む
+            if ( fread(&c, sizeof(c), 1, fpSrc) < 1 ) {
+              if ( feof(fpSrc) ) {
+                break;
+              }
+              else {
+                result = 0;
+                break;
+              }
+            }
+
+            // 1バイト書き込む
+            if ( fwrite(&c, sizeof(c), 1, fpDest) < 1 ) {
+              result = 0;
+              break;
+            }
+          }
+
+          if ( result != 0 ){
+            printf("コピーが完了しました...\n");
+            exit(EXIT_SUCCESS);
+          }
+          else{
+            printf("コピーに失敗しました...\n");
+            exit(EXIT_FAILURE);
+          }
+
+        }
+        else if ( input == '2' ){
+          fpDest = fopen("save2.dat", "wb");
+          if ( fpDest == NULL ){
+            printf("セーブデータ2を確認できませんでした...\n");
+            fclose(fpDest);
+            exit(EXIT_FAILURE);
+          }
+
+          for (;;) {
+            char c;
+            // 1バイト読み込む
+            if ( fread(&c, sizeof(c), 1, fpSrc) < 1 ) {
+              if ( feof(fpSrc) ) {
+                break;
+              }
+              else {
+                result = 0;
+                break;
+              }
+            }
+
+            // 1バイト書き込む
+            if ( fwrite(&c, sizeof(c), 1, fpDest) < 1 ) {
+              result = 0;
+              break;
+            }
+          }
+
+          if ( result != 0 ){
+            printf("コピーが完了しました...\n");
+            exit(EXIT_SUCCESS);
+          }
+          else{
+            printf("コピーに失敗しました...\n");
+            exit(EXIT_FAILURE);
+          }
+        }
+
+      } while ( input != 'c' );
+    }
+    else if ( input == 'c' ){
+      printf("コピーを中止します...\n");
+      exit(EXIT_SUCCESS);
+    }
+
+  } while( input != 'c' );
+}
+
 void delete_savedata(){
   int input;
   FILE *fp;

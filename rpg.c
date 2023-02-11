@@ -58,7 +58,8 @@ int main(void){
     printf("1:<<<LOAD GAME>>>\n");
     printf("2:<<<NEW  GAME>>>\n");
     printf("3:<<<DELETE SAVE DATA>>>\n");
-    printf("1か2か3を入力してください(ゲームを起動しない場合はcを入力してください)\n");
+    printf("4:<<<COPY SAVE DATA>>>\n");
+    printf("1~4を入力してください(ゲームを起動しない場合はcを入力してください)\n");
     input = _getch();
     if ( input == '1' ){
       load = 1;
@@ -76,6 +77,9 @@ int main(void){
     }
     else if ( input == '3' ){
       delete_savedata();
+    }
+    else if ( input == '4' ){
+      copy_savedata();
     }
     else if ( input == '' ){
       printf("強制終了\n");

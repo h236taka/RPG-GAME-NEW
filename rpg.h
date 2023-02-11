@@ -285,6 +285,8 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
 
 long long int getFileSize(const char *fileName);
 
+void copy_savedata();
+
 void delete_savedata();
 
 void display_condition(Player ***st);
