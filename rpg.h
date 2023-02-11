@@ -345,7 +345,21 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
 
 void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****items);
 
+void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip);
+
 int equip_command_check(int command, Equip *******pEquip);
+
+void isEquip_check(Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip);
+
+void before_equip_plus(int input, Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip);
+
+void equip_effect(Player *******st, int input, Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip);
+
+void display_isEquip(Equip *******pEquip);
+
+void display_menu_isEquip(Equip ******pEquip);
+
+void unequip(Player ******st, Player ******st2, Player ******st3, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip);
 
 void display_equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, int input);
 
