@@ -815,6 +815,38 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       printf("\n");
     }
   }
+  else if ( item_number == 5 ){
+    if ( item_target == 1 ){
+      if ( (******st) -> badstatus == PALYZE ){
+        (******st) -> badstatus = GOOD;
+        printf("%s(PALYZE) >> %s(GOOD)\n", (******st) -> name, (******st) -> name);
+      }
+      else{
+        printf("無効果!\n");
+      }
+      printf("\n");
+    }
+    else if ( item_target == 2 ){
+      if ( (******st2) -> badstatus == PALYZE ){
+        (******st2) -> badstatus = GOOD;
+        printf("%s(PALYZE) >> %s(GOOD)\n", (******st2) -> name, (******st2) -> name);
+      }
+      else{
+        printf("無効果!\n");
+      }
+      printf("\n");
+    }
+    else if ( item_target == 3 ){
+      if ( (******st3) -> badstatus == PALYZE ){
+        (******st3) -> badstatus = GOOD;
+        printf("%s(PALYZE) >> %s(GOOD)\n", (******st3) -> name, (******st3) -> name);
+      }
+      else{
+        printf("無効果!\n");
+      }
+      printf("\n");
+    }
+  }
 }
 
 void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items ******items, int command){
@@ -935,6 +967,36 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     //item_target = 3
     else if ( item_target == 3 ){
       (*****items) -> antipoison--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+  }
+  else if ( command == '5' ){
+    item_number = 5;
+    item_target = menu_item_useselect(&st,&st2,&st3,&items);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
+
+    if ( item_target == 0 ){
+      //nothing
+      return;
+    }
+    else if ( item_target == 1 ){
+      (*****items) -> antipalyze--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    else if ( item_target == 2 ){
+      (*****items) -> antipalyze--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    //item_target = 3
+    else if ( item_target == 3 ){
+      (*****items) -> antipalyze--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
@@ -1377,6 +1439,7 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
   //(****items) -> medicine = 1;
   //(****items) -> lifestone = 1;
   //(****items) -> antipoison = 1;
+  //(****items) -> antipalyze = 0;
 
   printf("<<<ITEM>>>\n");
   do{
@@ -1395,6 +1458,10 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
     }
     if ( (****items) -> antipoison > 0 ){
       printf("4.アンタイポイズン%d個(味方1人のPOISONを回復)\n", (****items) -> antipoison);
+      items_count = 1;
+    }
+    if ( (****items) -> antipalyze > 0 ){
+      printf("5.アンタイパライズ%d個(味方1人のPALYZEを回復)\n", (****items) -> antipalyze);
       items_count = 1;
     }
 
@@ -1419,6 +1486,9 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
     else if ( command == '4' && (****items) -> antipoison > 0 ){
       menu_item_use(&st,&st2,&st3,&items,command);
     }
+    else if ( command == '5' && (****items) -> antipalyze > 0 ){
+      menu_item_use(&st,&st2,&st3,&items,command);
+    }
     else if ( command == '' ){
       printf("強制終了\n");
       exit(EXIT_FAILURE);
@@ -1435,6 +1505,13 @@ void skill_menu(void){
 void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip){
 
   int input;
+
+  /*(****pEquip) -> isEquip = 0;
+  (****p2Equip) -> isEquip = 0;
+  (****p3Equip) -> isEquip = 0;
+  (****pEquip) -> HpRing1 = 1;
+  (****p2Equip) -> HpRing1 = 1;
+  (****p3Equip) -> HpRing1 = 1;*/
 
   do {
     printf("\n");

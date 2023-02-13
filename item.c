@@ -192,6 +192,39 @@ void use_items_effect(Player *****st, Player *****st2, Player *****st3, int item
       printf("\n");
     }
   }
+  //antipalyze
+  else if ( item_number == 5 ){
+    if ( item_target == 1 ){
+      if ( (****st) -> badstatus == PALYZE ){
+        (****st) -> badstatus = GOOD;
+        printf("%s(PALYZE) >> %s(GOOD)\n", (****st) -> name, (****st) -> name);
+      }
+      else{
+        printf("無効果!\n");
+      }
+      printf("\n");
+    }
+    else if ( item_target == 2 ){
+      if ( (****st2) -> badstatus == PALYZE ){
+        (****st2) -> badstatus = GOOD;
+        printf("%s(PALYZE) >> %s(GOOD)\n", (****st2) -> name, (****st2) -> name);
+      }
+      else{
+        printf("無効果!\n");
+      }
+      printf("\n");
+    }
+    else if ( item_target == 3 ){
+      if ( (****st3) -> badstatus == PALYZE ){
+        (****st3) -> badstatus = GOOD;
+        printf("%s(POISON) >> %s(PALYZE)\n", (****st3) -> name, (****st3) -> name);
+      }
+      else{
+        printf("無効果!\n");
+      }
+      printf("\n");
+    }
+  }
 }
 
 int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****st3){
@@ -223,6 +256,11 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
     }
     if ( (***items) -> antipoison > 0 ){
       printf("4.アンタイポイズン%d個(味方1人のPOISONを回復)\n", (***items) -> antipoison);
+      printf("\n");
+      items_count++;
+    }
+    if ( (***items) -> antipalyze > 0 ){
+      printf("4.アンタイパライズ%d個(味方1人のPOISONを回復)\n", (***items) -> antipalyze);
       printf("\n");
       items_count++;
     }
@@ -355,6 +393,36 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //item_target = 3
       else if ( item_target == 3 ){
         (***items) -> antipoison--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+    }
+    else if ( command == '5' && (***items) -> antipalyze > 0 ){
+      item_number = 5;
+      item_target = battle_item_useselect(&items,&st,&st2,&st3);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
+
+      if ( item_target == 0 ){
+        //nothing
+        turn_decrease = 0.0;
+      }
+      else if ( item_target == 1 ){
+        (***items) -> antipalyze--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      else if ( item_target == 2 ){
+        (***items) -> antipalyze--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      //item_target = 3
+      else if ( item_target == 3 ){
+        (***items) -> antipalyze--;
         use_items_effect(&st,&st2,&st3,item_number,item_target);
         turn_decrease = -1;
         loop_count++;

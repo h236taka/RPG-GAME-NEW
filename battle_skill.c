@@ -728,11 +728,11 @@ int enemy_skill_target(Player ******st, Player ******st2, Player ******st3){
 
 //enemyのskillに関わる関数 skill_reaction = 1ならダメージに関係するskill skill_reactionが0ならダメージに関係しないskill
 double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
-
   int enemy_move, badstatus_per, badstatus_count, recover_point;
   int target_base;
   double turn_decrease;
   int attack_skill_number;
+  int isPoison, isPalyze;
   double attack_skill_count, attack_skill_count2, attack_skill_count3;  //playerがattackskillでダメージを受けたかどうか
 
   badstatus_count = 0; //badstatusになったか判定 1はbadstatusになったということ
@@ -771,30 +771,197 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     printf("%s>>ポイゾガ\n", (****enemy) -> name);
     if ( badstatus_per >= 1 && badstatus_per <= 35 ){
       if ( target_base == 1 ){
-        if ( (****st) -> badstatus == POISON ){
-          printf("%sは既にPOISONになっている\n", (****st) -> name);
+
+        isPoison = check_player_poizonRegist(&st);
+
+        if ( isPoison == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPoison == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPoison == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st) -> badstatus = POISON;
-          printf("%sはPOISONになった\n", (****st) -> name);
+          if ( (****st) -> badstatus == POISON ){
+            printf("%sは既にPOISONになっている\n", (****st) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPoison == 100 ){
+              (****st) -> badstatus = POISON;
+              printf("%sはPOISONになった\n", (****st) -> name);
+            }
+            else if ( isPoison == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPOISONになった\n", (****st) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
       else if ( target_base == 2 ){
-        if ( (****st2) -> badstatus == POISON ){
-          printf("%sは既にPOISONになっている\n", (****st2) -> name);
+
+        isPoison = check_player_poizonRegist(&st2);
+
+        if ( isPoison == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st2) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPoison == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPoison == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st2) -> badstatus = POISON;
-          printf("%sはPOISONになった\n", (****st2) -> name);
+          if ( (****st2) -> badstatus == POISON ){
+            printf("%sは既にPOISONになっている\n", (****st2) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPoison == 100 ){
+              (****st2) -> badstatus = POISON;
+              printf("%sはPOISONになった\n", (****st2) -> name);
+            }
+            else if ( isPoison == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st2) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st2) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st2) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st2) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st2) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st2) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPOISONになった\n", (****st2) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
       else if ( target_base == 3 ){
-        if ( (****st3) -> badstatus == POISON ){
-          printf("%sは既にPOISONになっている\n", (****st3) -> name);
+        isPoison = check_player_poizonRegist(&st3);
+
+        if ( isPoison == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st3) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPoison == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPoison == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st3) -> badstatus = POISON;
-          printf("%sはPOISONになった\n", (****st3) -> name);
+          if ( (****st3) -> badstatus == POISON ){
+            printf("%sは既にPOISONになっている\n", (****st3) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPoison == 100 ){
+              (****st3) -> badstatus = POISON;
+              printf("%sはPOISONになった\n", (****st3) -> name);
+            }
+            else if ( isPoison == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st3) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st3) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st3) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st3) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st3) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st3) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPOISONになった\n", (****st3) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
     }
@@ -809,9 +976,6 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
         printf("%s<<MISS!!\n", (****st3) -> name);
       }
     }
-
-    turn_decrease = -1;
-    enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
   //ゾンビ
   else if ( (****enemy) -> enemy_id == 6 ){
@@ -822,30 +986,197 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     printf("%s>>パララズ\n", (****enemy) -> name);
     if ( badstatus_per >= 1 && badstatus_per <= 35 ){
       if ( target_base == 1 ){
-        if ( (****st) -> badstatus == PALYZE ){
-          printf("%sは既にPALYZEになっている\n", (****st) -> name);
+
+        isPalyze = check_player_palyzeRegist(&st);
+
+        if ( isPalyze == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPalyze == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPalyze == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st) -> badstatus = PALYZE;
-          printf("%sはPALYZEになった\n", (****st) -> name);
+          if ( (****st) -> badstatus == PALYZE ){
+            printf("%sは既にPALYZEになっている\n", (****st) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPalyze == 100 ){
+              (****st) -> badstatus = PALYZE;
+              printf("%sはPALYZEになった\n", (****st) -> name);
+            }
+            else if ( isPalyze == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPALYZEになった\n", (****st) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
       else if ( target_base == 2 ){
-        if ( (****st2) -> badstatus == PALYZE ){
-          printf("%sは既にPALYZEになっている\n", (****st2) -> name);
+
+        isPalyze = check_player_palyzeRegist(&st2);
+
+        if ( isPalyze == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st2) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPalyze == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPalyze == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st2) -> badstatus = PALYZE;
-          printf("%sはPALYZEになった\n", (****st2) -> name);
+          if ( (****st2) -> badstatus == PALYZE ){
+            printf("%sは既にPALYZEになっている\n", (****st2) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPalyze == 100 ){
+              (****st2) -> badstatus = PALYZE;
+              printf("%sはPALYZEになった\n", (****st2) -> name);
+            }
+            else if ( isPalyze == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st2) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st2) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st2) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st2) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st2) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st2) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPALYZEになった\n", (****st2) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
       else if ( target_base == 3 ){
-        if ( (****st3) -> badstatus == PALYZE ){
-          printf("%sは既にPALYZEになっている\n", (****st3) -> name);
+        isPoison = check_player_palyzeRegist(&st3);
+
+        if ( isPalyze == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st3) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPalyze == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPalyze == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st3) -> badstatus = PALYZE;
-          printf("%sはPALYZEになった\n", (****st3) -> name);
+          if ( (****st3) -> badstatus == PALYZE ){
+            printf("%sは既にPALYZEになっている\n", (****st3) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPalyze == 100 ){
+              (****st3) -> badstatus = PALYZE;
+              printf("%sはPALYZEになった\n", (****st3) -> name);
+            }
+            else if ( isPalyze == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st3) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st3) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st3) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st3) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st3) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st3) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPALYZEになった\n", (****st3) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
     }
@@ -920,6 +1251,7 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Eq
   int target_base;
   double turn_decrease;
   int magic_damage;
+  int isPoison, isPalyze;
 
   badstatus_count = 0; //badstatusになったか判定
 
@@ -930,32 +1262,199 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Eq
     badstatus_per = ( rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
     //printf("badstatus_per:%d\n", badstatus_per);
     printf("%s>>ポイゾガ\n", (*enemy_copy1) -> name);
-    if ( badstatus_per >= 1 && badstatus_per <= 20 ){
+    if ( badstatus_per >= 1 && badstatus_per <= 35 ){
       if ( target_base == 1 ){
-        if ( (****st) -> badstatus == POISON ){
-          printf("%sは既にPOISONになっている\n", (****st) -> name);
+
+        isPoison = check_player_poizonRegist(&st);
+
+        if ( isPoison == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPoison == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPoison == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st) -> badstatus = POISON;
-          printf("%sはPOISONになった\n", (****st) -> name);
+          if ( (****st) -> badstatus == POISON ){
+            printf("%sは既にPOISONになっている\n", (****st) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPoison == 100 ){
+              (****st) -> badstatus = POISON;
+              printf("%sはPOISONになった\n", (****st) -> name);
+            }
+            else if ( isPoison == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPOISONになった\n", (****st) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
       else if ( target_base == 2 ){
-        if ( (****st2) -> badstatus == POISON ){
-          printf("%sは既にPOISONになっている\n", (****st2) -> name);
+
+        isPoison = check_player_poizonRegist(&st2);
+
+        if ( isPoison == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st2) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPoison == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPoison == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st2) -> badstatus = POISON;
-          printf("%sはPOISONになった\n", (****st2) -> name);
+          if ( (****st2) -> badstatus == POISON ){
+            printf("%sは既にPOISONになっている\n", (****st2) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPoison == 100 ){
+              (****st2) -> badstatus = POISON;
+              printf("%sはPOISONになった\n", (****st2) -> name);
+            }
+            else if ( isPoison == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st2) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st2) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st2) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st2) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st2) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st2) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPOISONになった\n", (****st2) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
       else if ( target_base == 3 ){
-        if ( (****st3) -> badstatus == POISON ){
-          printf("%sは既にPOISONになっている\n", (****st3) -> name);
+        isPoison = check_player_poizonRegist(&st3);
+
+        if ( isPoison == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st3) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPoison == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPoison == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st3) -> badstatus = POISON;
-          printf("%sはPOISONになった\n", (****st3) -> name);
+          if ( (****st3) -> badstatus == POISON ){
+            printf("%sは既にPOISONになっている\n", (****st3) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPoison == 100 ){
+              (****st3) -> badstatus = POISON;
+              printf("%sはPOISONになった\n", (****st3) -> name);
+            }
+            else if ( isPoison == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st3) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st3) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st3) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st3) -> badstatus = POISON;
+                printf("%sはPOISONになった\n", (****st3) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st3) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPoison == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPOISONになった\n", (****st3) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
     }
@@ -982,30 +1481,197 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Eq
     printf("%s>>パララズ\n", (*enemy_copy1) -> name);
     if ( badstatus_per >= 1 && badstatus_per <= 35 ){
       if ( target_base == 1 ){
-        if ( (****st) -> badstatus == PALYZE ){
-          printf("%sは既にPALYZEになっている\n", (****st) -> name);
+
+        isPalyze = check_player_palyzeRegist(&st);
+
+        if ( isPalyze == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPalyze == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPalyze == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st) -> badstatus = PALYZE;
-          printf("%sはPALYZEになった\n", (****st) -> name);
+          if ( (****st) -> badstatus == PALYZE ){
+            printf("%sは既にPALYZEになっている\n", (****st) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPalyze == 100 ){
+              (****st) -> badstatus = PALYZE;
+              printf("%sはPALYZEになった\n", (****st) -> name);
+            }
+            else if ( isPalyze == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPALYZEになった\n", (****st) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
       else if ( target_base == 2 ){
-        if ( (****st2) -> badstatus == PALYZE ){
-          printf("%sは既にPALYZEになっている\n", (****st2) -> name);
+
+        isPalyze = check_player_palyzeRegist(&st2);
+
+        if ( isPalyze == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st2) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPalyze == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPalyze == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st2) -> badstatus = PALYZE;
-          printf("%sはPALYZEになった\n", (****st2) -> name);
+          if ( (****st2) -> badstatus == PALYZE ){
+            printf("%sは既にPALYZEになっている\n", (****st2) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPalyze == 100 ){
+              (****st2) -> badstatus = PALYZE;
+              printf("%sはPALYZEになった\n", (****st2) -> name);
+            }
+            else if ( isPalyze == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st2) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st2) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st2) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st2) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st2) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st2) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPALYZEになった\n", (****st2) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
       else if ( target_base == 3 ){
-        if ( (****st3) -> badstatus == PALYZE ){
-          printf("%sは既にPALYZEになっている\n", (****st3) -> name);
+        isPoison = check_player_palyzeRegist(&st3);
+
+        if ( isPalyze == -1 ){
+          sleep(1);
+          printf("%s<<BLOCK!\n", (****st3) -> name);
+          turn_decrease = -2;
+          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+        }
+        else if ( isPalyze == -2 ){
+          sleep(1);
+          printf("Absorb!\n");
+          enemy_turn = 0;
+        }
+        else if ( isPalyze == -3 ){
+          sleep(1);
+          printf("Reflect!\n");
+          enemy_turn = 0;
         }
         else{
-          (****st3) -> badstatus = PALYZE;
-          printf("%sはPALYZEになった\n", (****st3) -> name);
+          if ( (****st3) -> badstatus == PALYZE ){
+            printf("%sは既にPALYZEになっている\n", (****st3) -> name);
+            turn_decrease = -1;
+            enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+          }
+          else{
+            //playerの耐性チェック(無効、吸収、反射以外)
+            if ( isPalyze == 100 ){
+              (****st3) -> badstatus = PALYZE;
+              printf("%sはPALYZEになった\n", (****st3) -> name);
+            }
+            else if ( isPalyze == 50 ){
+              badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
+              if ( badstatus_per == 1 ){
+                (****st3) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st3) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st3) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 25 ){
+              badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+              if ( badstatus_per == 4 ){
+                (****st3) -> badstatus = PALYZE;
+                printf("%sはPALYZEになった\n", (****st3) -> name);
+              }
+              else{
+                printf("%s<<MISS!!\n", (****st3) -> name);
+              }
+              turn_decrease = -1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+            else if ( isPalyze == 200 ){
+              printf("WEAKNESS!!\n");
+              printf("%sはPALYZEになった\n", (****st3) -> name);
+              turn_decrease = 0.1;
+              enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
+            }
+          }
         }
       }
     }
@@ -1164,4 +1830,60 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
   }
 
   return enemy_turn;
+}
+
+int check_player_poizonRegist(Player ******st){
+  int isPoison;
+
+  if ( (*****st) -> poison == 100 ){
+    isPoison = 100;
+  }
+  else if ( (*****st) -> poison == 50 ){
+    isPoison = 50;
+  }
+  else if ( (*****st) -> poison == 25 ){
+    isPoison = 25;
+  }
+  else if ( (*****st) -> poison == 200 ){
+    isPoison = 200;
+  }
+  else if ( (*****st) -> poison == -1 ){  //block
+    isPoison = -1;
+  }
+  else if ( (*****st) -> poison == -2 ){  //absorb
+    isPoison = -2;
+  }
+  else if ( (*****st) -> poison == -3 ){
+    isPoison = -3;
+  }
+
+  return isPoison;
+}
+
+int check_player_palyzeRegist(Player ******st){
+  int isPalyze;
+
+  if ( (*****st) -> palyze == 100 ){
+    isPalyze = 100;
+  }
+  else if ( (*****st) -> palyze == 50 ){
+    isPalyze = 50;
+  }
+  else if ( (*****st) -> palyze == 25 ){
+    isPalyze = 25;
+  }
+  else if ( (*****st) -> palyze == 200 ){
+    isPalyze = 200;
+  }
+  else if ( (*****st) -> palyze == -1 ){  //block
+    isPalyze = -1;
+  }
+  else if ( (*****st) -> palyze == -2 ){  //absorb
+    isPalyze = -2;
+  }
+  else if ( (*****st) -> palyze == -3 ){
+    isPalyze = -3;
+  }
+
+  return isPalyze;
 }

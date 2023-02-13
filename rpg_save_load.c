@@ -437,7 +437,7 @@ void delete_savedata(){
 
 }
 
-void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, int load){
+void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load){
 
   int save_count, load_count, input, savedata_num, savedata_lv1, savedata_lv2, savedata_lv3, temp, hours, minutes;
   char savedata_name1[7], savedata_name2[7], savedata_name3[7];
@@ -451,6 +451,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
   Save_data_equip save_data_pEquip;
   Save_data_equip save_data_p2Equip;
   Save_data_equip save_data_p3Equip;
+
+  Save_data_search Save_data_search;
+
 
   if ( load == 1 ){       //load
     do{
@@ -597,6 +600,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fread(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
+            fread(&Save_data_search, sizeof(Save_data_search), 1, fp);
             fclose(fp);
             load_count++;
           }
@@ -618,6 +622,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fread(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
+            fread(&Save_data_search, sizeof(Save_data_search), 1, fp);
             fclose(fp);
             load_count++;
           }
@@ -639,6 +644,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fread(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
+            fread(&Save_data_search, sizeof(Save_data_search), 1, fp);
             fclose(fp);
             load_count++;
           }
@@ -791,6 +797,8 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
     p3Equip -> HpRing1 = save_data_p3Equip.HpRing1;
     p3Equip -> MpRing1 = save_data_p3Equip.MpRing1;
     p3Equip -> isEquip = save_data_p3Equip.isEquip;
+
+    search -> search_item1 = Save_data_search.search_item1;
 
     /*int save_automap_area1[sizeof(automap_area1[16][3]) - 1 * 16];
     int c;
@@ -972,6 +980,8 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       save_data_p3Equip.MpRing1 = p3Equip -> MpRing1;
       save_data_p3Equip.isEquip = p3Equip -> isEquip;
 
+      Save_data_search.search_item1 = search -> search_item1;
+
       /*for ( int i = 0; i < 16; i++ ){
         memcpy(save_automap_area1[i], automap_area1[i], 3);
       }*/
@@ -1009,6 +1019,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
+            fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
             fclose(fp);
             save_count++;
           }
@@ -1030,6 +1041,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
+            fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
             fclose(fp);
             save_count++;
           }
@@ -1051,6 +1063,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
+            fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
             fclose(fp);
             save_count++;
           }
@@ -1081,7 +1094,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
 }
 
-void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip){
+void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search){
 
   int save_count, load_count, input, savedata_num, savedata_lv1, savedata_lv2, savedata_lv3, temp, hours, minutes;
   char savedata_name1[7], savedata_name2[7], savedata_name3[7];
@@ -1098,6 +1111,8 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
   Save_data_equip save_data_pEquip;
   Save_data_equip save_data_p2Equip;
   Save_data_equip save_data_p3Equip;
+
+  Save_data_search Save_data_search;
   //save
   sleep(2);
   printf("今の状態をSaveしますか?\n");
@@ -1379,6 +1394,8 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     save_data_p3Equip.MpRing1 = (*p3Equip) -> MpRing1;
     save_data_p3Equip.isEquip = (*p3Equip) -> isEquip;
 
+    Save_data_search.search_item1 = (*search) -> search_item1;
+
     //printf("%d\n", save_data_pEquip.HpRing1);
     //printf("%d\n", save_data_p2Equip.MpRing1);
 
@@ -1410,6 +1427,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
           fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
           fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
           fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
+          fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
           fclose(fp);
           save_count++;
         }
@@ -1426,6 +1444,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
           fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
           fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
           fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
+          fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
           fclose(fp);
           save_count++;
         }
@@ -1442,6 +1461,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
           fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
           fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
           fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
+          fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
           fclose(fp);
           save_count++;
         }
