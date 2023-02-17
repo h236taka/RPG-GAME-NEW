@@ -227,19 +227,6 @@ void map_tutorial(void){
   printf("\n");
 }
 
-void full_recover(Player **st, Player **st2, Player **st3){
-  (*st) -> badstatus = GOOD;
-  (*st2) -> badstatus = GOOD;
-  (*st3) -> badstatus = GOOD;
-
-  (*st) -> hp = (*st) -> maxhp;
-  (*st) -> mp = (*st) -> maxmp;
-  (*st2) -> hp = (*st2) -> maxhp;
-  (*st2) -> mp = (*st2) -> maxmp;
-  (*st3) -> hp = (*st3) -> maxhp;
-  (*st3) -> mp = (*st3) -> maxmp;
-}
-
 void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *slime, Enemy *kobalt, Enemy *goblin){
 
   st -> hp = 30;
@@ -477,44 +464,10 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     input = school_command();
 
     if ( input == '1' ){
-      printf("%s達は保健室へ行った...\n", st -> name);
-      sleep(1);
-      do{
-        printf("\n");
-        printf("---保健室---\n");
-        printf("1.回復する\n");
-        printf("2.道具を買う\n");
-        printf("3.保健室を出る\n");
-        input = _getch();
-
-        if ( input == '1' ){
-          sleep(1);
-          full_recover(&st,&st2,&st3);
-          printf("%s達は全回復した！\n", st -> name);
-        }
-        else if ( input == '2' ){
-          goods_shop(&st,&items);
-        }
-      } while ( input != '3' );
-
+      goTo_infirmary(&st,&st2,&st3,&items);
     }
     else if ( input == '2' ){
-      printf("%s達は美術室へ行った...\n", st -> name);
-      sleep(1);
-      do {
-        printf("\n");
-        printf("---美術室---\n");
-        printf("1.装備を購入する\n");
-        printf("2.装備を売却する\n");
-        printf("3.美術室を出る\n");
-        input = _getch();
-
-        if ( input == '1' ){
-          equip_shop(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
-        }
-
-      } while ( input != '3' );
-
+      goTo_artRoom(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
     }
     else if ( input == '3' ){
 

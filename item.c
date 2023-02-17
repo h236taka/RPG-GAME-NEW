@@ -260,7 +260,7 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       items_count++;
     }
     if ( (***items) -> antipalyze > 0 ){
-      printf("4.アンタイパライズ%d個(味方1人のPOISONを回復)\n", (***items) -> antipalyze);
+      printf("4.アンタイパライズ%d個(味方1人のPALYZEを回復)\n", (***items) -> antipalyze);
       printf("\n");
       items_count++;
     }

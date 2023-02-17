@@ -13,9 +13,6 @@
 extern time_t start_time, end_time;
 extern int play_time;
 
-extern int automap_area1[16][3];
-extern int automap_area2[27][10];
-
 //セーブデータのバイト数をreturn
 //long 型よりもさらに大きな数を表現できる型
 long long int getFileSize(const char *fileName){
@@ -461,7 +458,6 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
       printf("\n");
       printf("何番のセーブデータを読み込みますか？\n");
-      //printf("%d\n", sizeof(automap_area1[16][3]));         sizeは4
 
       if ( ( fp = fopen( "save1.dat", "rb" ) ) == NULL ){
         //can't open file. So create new file
@@ -799,18 +795,6 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
     p3Equip -> isEquip = save_data_p3Equip.isEquip;
 
     search -> search_item1 = Save_data_search.search_item1;
-
-    /*int save_automap_area1[sizeof(automap_area1[16][3]) - 1 * 16];
-    int c;
-    for ( int i = 0; i < 16; i++ ){
-      for ( int j = 0; j < 3; j++ ){
-
-      }
-    }*/
-    //int save_automap_area2[27][10];
-
-
-
     //printf("medicine:%d個\n", save_data_items.medicine);
 
   }
@@ -982,15 +966,6 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
       Save_data_search.search_item1 = search -> search_item1;
 
-      /*for ( int i = 0; i < 16; i++ ){
-        memcpy(save_automap_area1[i], automap_area1[i], 3);
-      }*/
-
-      //save_automap_area1[16][3] = automap_area1[16][3];
-      //save_automap_area2[27][10] = automap_area2[27][10];
-
-      //printf("medicine:%d個\n", save_data_items.medicine);
-
       do{
         save_count = 0;
         printf("\n");
@@ -1082,9 +1057,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       printf("Saveが完了しました!\n");
       printf("\n");
 
-      /*for ( int i = 0; i < 16; i++ ){
-      for ( int j = 0; j < 3; j++ ){
-      printf("%d ", save_automap_area1[i][j]);
+      /*
     }
     printf("\n");
   }*/
@@ -1101,9 +1074,6 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
   FILE *fp;
   const char *file;
   int n;
-
-  int save_automap_area1[16][3];
-  int save_automap_area2[27][10];
 
   Save_data_players save_data_players;
   Save_data_items save_data_items;
@@ -1399,9 +1369,6 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     //printf("%d\n", save_data_pEquip.HpRing1);
     //printf("%d\n", save_data_p2Equip.MpRing1);
 
-    save_automap_area1[16][3] = automap_area1[16][3];
-    save_automap_area2[27][10] = automap_area2[27][10];
-
     //printf("medicine:%d個\n", save_data_items.medicine);
 
     do{
@@ -1480,9 +1447,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     printf("Saveが完了しました!\n");
     printf("\n");
 
-    /*for ( int i = 0; i < 16; i++ ){
-    for ( int j = 0; j < 3; j++ ){
-    printf("%d ", save_automap_area1[i][j]);
+    /*
   }
   printf("\n");
 }*/

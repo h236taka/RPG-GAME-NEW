@@ -22,52 +22,34 @@ typedef struct area1 {
   int encount; //敵とエンカウントするか否か 0ならばエンカウントしない 1ならばエンカウント
 } Area1;*/
 
-int automap_area1[16][3] = {
-  {-1, 0, -1},   //event2
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},
-  {-1, 0, -1},   //event1
-  {-1, 0, -1},
-  {-1, 0, -1},     //start
-  {-1, 0, -1} };
-
-int automap_area2[27][10] = {
+static int automap_area2[27][10] = {
   {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
   {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
   {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-  {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0,  0,  0,  0,  0, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  { 0,  0,  0,  0,  0,  0,  0,  0, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
   { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+  {-1, -1, -1, -1,  0, -1, -1,  0, -1, -1},
+  {-1, -1, -1, -1,  0, -1, -1,  0,  0,  0},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+  {0,   0,  0,  0,  0,  0,  0,  0,  0,  0},
   {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
   {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
-  {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},     //start
-  {-1, -1, -1, -1, 101, -1, -1, -1, -1, -1} };  //26
+  {-1,  0, -1, -1,  0, -1,-1, -1, -1, -1},     //start
+  {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1} };  //26
 
 //battleからmap画面に戻る判定(1なら該当)
 static int battle_to_map;
@@ -1566,6 +1548,24 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     {-1, 4, -1} };  //15
     //   exit
 
+  int automap_area1[16][3] = {
+    {-1, 0, -1},   //event2
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},
+    {-1, 0, -1},   //event1
+    {-1, 0, -1},
+    {-1, 0, -1},     //start
+    {-1, 0, -1} };
+
   //start地点の設定
   map.y = 14;
   map.x = 1;
@@ -1754,14 +1754,16 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
   printf("ダンジョンから出た!\n");
 
-
 }
 
 void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki){
 
-  int area_data_len, area_data_line, enemy_count, encount_pattern, clear_count;
+  int area_data_len, area_data_line;
+  int i, j, file_output;
+  int enemy_count, encount_pattern, clear_count;
   int enemy_appearance_per;
   Map map;
+  FILE *fp;
 
   int area_data[27][10] = {
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -1791,6 +1793,27 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     {-1,  0, -1, -1,  0, -1, -1, -1, -1, -1},
     {-1,  4, -1, -1, 100, -1,-1, -1, -1, -1},     //start
     {-1, -1, -1, -1, 101, -1, -1, -1, -1, -1} };  //26
+
+  area_data_len = 10;
+  area_data_line = sizeof(area_data) / sizeof(int) / area_data_len;
+
+  //mapデータの呼び出し
+  if ( getFileSize( "area2.dat") != 0 ){
+    if ( ( fp = fopen("area2.dat", "rb") ) != NULL ){
+      for ( j = 0; j < area_data_line; j++ ){
+        for ( i = 0; i < area_data_len; i++ ){
+          fread(&file_output, sizeof(int), 1, fp);
+          //printf("file_output:%d", file_output);
+          if ( file_output != -10 ){
+            automap_area2[j][i] = file_output;
+            printf("%d ",automap_area2[j][i]);
+          }
+        }
+        printf("\n");
+      }
+      fclose(fp);
+    }
+  }
 
   //start地点の設定
   map.y = 25;
@@ -1828,9 +1851,6 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   printf("| ↑  |\n");
   printf("|____ |\n");
 
-  area_data_len = 10;
-  area_data_line = sizeof(area_data) / sizeof(int) / area_data_len;
-
   clear_count = 0;
   do{
     player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);  //playerの移動に関する関数
@@ -1843,6 +1863,11 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     }
     else if ( map.x == 4 && map.y == 26 ){
       printf("ダンジョンから脱出した...\n");
+      sleep(1);
+      printf("\n");
+
+      save_autoMap(&area,area_data_line,area_data_len,automap_area2);
+
       return;
     }
     else if ( map.x == 0 && map.y == 11 ){  //map.x 0 map.y 11
@@ -1898,4 +1923,76 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
   }while ( clear_count == 0 );
 
+}
+
+void save_area2(int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
+  int i, j;
+  int temp;
+  int checkNum;
+  FILE *fp;
+
+  if ( ( fp = fopen( "area2.dat", "wb" ) ) == NULL ){
+    printf("マップデータを記録できませんでした\n");
+    return;
+  }
+
+  /*for ( j = 0; j < area_data_line; j++ ){
+    printf("   ");
+    for ( i = 0; i < area_data_len; i++ ){
+      if ( automap_area[j][i] == -1 || automap_area[j][i] == 0 ){
+        printf(" ");
+      }
+      else if ( j == (**map) -> y && i == (**map) -> x ){
+        printf("P");
+        //automap_area[j][i] = 'P';
+      }
+      else if ( automap_area[j][i] == 1 ){
+        printf("*");
+      }
+    }
+    printf("\n");
+  }*/
+
+  for ( j = 0; j < area_data_line; j++ ){
+    for ( i = 0; i < area_data_len; i++ ){
+      temp = automap_area[j][i];
+      //printf("temp:%d\n", temp);
+      printf("%d ", temp);
+      fwrite(&temp, sizeof(int), 1, fp);
+    }
+  }
+
+  fclose(fp);
+
+}
+
+void save_autoMap(Area ***area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
+  int input;
+  int i, j;
+  FILE *fp;
+
+  do {
+    printf("マップデータを記録しますか?\n");
+    printf("1.YES 2.NO\n");
+
+    input = _getch();
+
+    if ( input =='1' ){
+      printf("マップデータの記録を開始します...\n");
+
+      if ( (**area) -> dangeonId == 2 ){
+        save_area2(area_data_line,area_data_len,automap_area);
+      }
+      return;
+
+    }
+    else if ( input == '2' ){
+      printf("マップデータの記録を中止しました...\n");
+    }
+    else{
+      printf("1か2を入力してください\n");
+    }
+
+    printf("\n");
+  } while ( input != '2' );
 }

@@ -262,7 +262,7 @@ typedef struct items {
   int lifestone;     //魔石
   int antipoison;    //アンタイポイズン
   int bead;          //宝玉
-  int antipalyze;
+  int antipalyze;    //アンタイパライズ
 } Items;
 
 typedef struct equip {
@@ -307,13 +307,17 @@ void display_status(Player **st, Player **st2, Player **st3);
 
 int school_command();
 
-void buy_goods(Player ***st, Items ***items, int goods_number, int price);
+void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items);
 
-void goods_shop(Player **st, Items **items);
+void goTo_artRoom(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip **p2Equip, Equip **p3Equip);
 
-void buy_equips(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, int equip_number, int price);
+void buy_goods(Player ****st, Items ****items, int goods_number, int price);
 
-void equip_shop(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip **p2Equip, Equip **p3Equip);
+void goods_shop(Player ***st, Items ***items);
+
+void buy_equips(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, int equip_number, int price);
+
+void equip_shop(Player ***st, Player ***st2, Player ***st3, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip);
 
 void prologue(void);
 
@@ -335,6 +339,10 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
 void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **slime, Enemy **kobalt, Enemy **goblin);
 
 void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki);
+
+void save_area2(int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
+
+void save_autoMap(Area ***area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
 
 void check_dangeonId(Area ****area);
 

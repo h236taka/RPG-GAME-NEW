@@ -86,7 +86,78 @@ int school_command(){
   return input;
 }
 
-void buy_goods(Player ***st, Items ***items, int goods_number,  int price){
+void full_recover(Player **st, Player **st2, Player **st3){
+  (*st) -> badstatus = GOOD;
+  (*st2) -> badstatus = GOOD;
+  (*st3) -> badstatus = GOOD;
+
+  (*st) -> hp = (*st) -> maxhp;
+  (*st) -> mp = (*st) -> maxmp;
+  (*st2) -> hp = (*st2) -> maxhp;
+  (*st2) -> mp = (*st2) -> maxmp;
+  (*st3) -> hp = (*st3) -> maxhp;
+  (*st3) -> mp = (*st3) -> maxmp;
+}
+
+void infirmary_full_recover(Player ***st, Player ***st2, Player ***st3){
+  (**st) -> badstatus = GOOD;
+  (**st2) -> badstatus = GOOD;
+  (**st3) -> badstatus = GOOD;
+
+  (**st) -> hp = (**st) -> maxhp;
+  (**st) -> mp = (**st) -> maxmp;
+  (**st2) -> hp = (**st2) -> maxhp;
+  (**st2) -> mp = (**st2) -> maxmp;
+  (**st3) -> hp = (**st3) -> maxhp;
+  (**st3) -> mp = (**st3) -> maxmp;
+}
+
+void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items){
+  int input;
+
+  printf("%s達は保健室へ行った...\n", (*st) -> name);
+  sleep(1);
+  do{
+    printf("\n");
+    printf("---保健室---\n");
+    printf("1.回復する\n");
+    printf("2.道具を買う\n");
+    printf("3.保健室を出る\n");
+    input = _getch();
+
+    if ( input == '1' ){
+      sleep(1);
+      infirmary_full_recover(&st,&st2,&st3);
+      printf("%s達は全回復した！\n", (*st) -> name);
+    }
+    else if ( input == '2' ){
+      goods_shop(&st,&items);
+    }
+  } while ( input != '3' );
+
+}
+
+void goTo_artRoom(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip **p2Equip, Equip **p3Equip){
+  int input;
+
+  printf("%s達は美術室へ行った...\n", (*st) -> name);
+  sleep(1);
+  do {
+    printf("\n");
+    printf("---美術室---\n");
+    printf("1.装備を購入する\n");
+    printf("2.装備を売却する\n");
+    printf("3.美術室を出る\n");
+    input = _getch();
+
+    if ( input == '1' ){
+      equip_shop(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
+    }
+
+  } while ( input != '3' );
+}
+
+void buy_goods(Player ****st, Items ****items, int goods_number,  int price){
   int sum, count;
   int input;
 
@@ -105,7 +176,7 @@ void buy_goods(Player ***st, Items ***items, int goods_number,  int price){
   sum = 0;
   for ( int i = 1; i <= count; i++ ){
     sum += price;
-    if ( (**st) -> gold < sum ){
+    if ( (***st) -> gold < sum ){
       printf("\n");
       printf("所持金が足りません...\n");
       return;
@@ -116,18 +187,21 @@ void buy_goods(Player ***st, Items ***items, int goods_number,  int price){
   printf("%d個購入しました\n", count);
   printf("\n");
 
-  (**st) -> gold -= sum;
+  (***st) -> gold -= sum;
 
   if ( goods_number == 1 ){
-    (**items) -> medicine += count;
+    (***items) -> medicine += count;
   }
   else if ( goods_number == 2 ){
-    (**items) -> antipoison += count;
+    (***items) -> antipoison += count;
+  }
+  else if ( goods_number == 3 ){
+    (***items) -> antipalyze += count;
   }
 
 }
 
-void goods_shop(Player **st, Items **items){
+void goods_shop(Player ***st, Items ***items){
   int input;
   int goods_number, price;
 
@@ -135,9 +209,10 @@ void goods_shop(Player **st, Items **items){
     goods_number = 0;
     printf("\n");
     printf("---SHOP---\n");
-    printf("何を買いますか？(所持金: %dG)\n", (*st) -> gold);
+    printf("何を買いますか？(所持金: %dG)\n", (**st) -> gold);
     printf("1.傷薬:100G(味方１人のHPを50回復)\n");
     printf("2.アンタイポイズン:150G(味方1人のPOISONを回復)\n");
+    printf("3.アンタイパライズ:150G(味方1人のPALYZEを回復)\n");
     printf("c.購入を止める\n");
     input = _getch();
 
@@ -151,13 +226,18 @@ void goods_shop(Player **st, Items **items){
       price = 150;
       buy_goods(&st,&items,goods_number, price);
     }
+    else if ( input == '3' ){
+      goods_number = 3;
+      price = 150;
+      buy_goods(&st,&items,goods_number, price);
+    }
 
     printf("\n");
   } while ( input != 'c' );
 
 }
 
-void buy_equips(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, int equip_number, int price){
+void buy_equips(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, int equip_number, int price){
 
   int sum, count;
   int input;
@@ -177,7 +257,7 @@ void buy_equips(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equi
   sum = 0;
   for ( int i = 1; i <= count; i++ ){
     sum += price;
-    if ( (**st) -> gold < sum ){
+    if ( (***st) -> gold < sum ){
       printf("\n");
       printf("所持金が足りません...\n");
       return;
@@ -188,23 +268,23 @@ void buy_equips(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equi
   printf("%d個購入しました\n", count);
   printf("\n");
 
-  (**st) -> gold -= sum;
+  (***st) -> gold -= sum;
 
   if ( equip_number == 1 ){
-    (**pEquip) -> HpRing1 += count;
-    (**p2Equip) -> HpRing1 += count;
-    (**p3Equip) -> HpRing1 += count;
+    (***pEquip) -> HpRing1 += count;
+    (***p2Equip) -> HpRing1 += count;
+    (***p3Equip) -> HpRing1 += count;
   }
   else if ( equip_number == 2 ){
-    (**pEquip) -> MpRing1 += count;
-    (**p2Equip) -> MpRing1 += count;
-    (**p3Equip) -> MpRing1 += count;
+    (***pEquip) -> MpRing1 += count;
+    (***p2Equip) -> MpRing1 += count;
+    (***p3Equip) -> MpRing1 += count;
   }
 
 
 }
 
-void equip_shop(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip **p2Equip, Equip **p3Equip){
+void equip_shop(Player ***st, Player ***st2, Player ***st3, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip){
 
   int input;
   int equip_number, price;
@@ -213,9 +293,9 @@ void equip_shop(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip *
     equip_number = 0;
     printf("\n");
     printf("---SHOP---\n");
-    printf("何を購入しますか?(所持金: %dG)\n", (*st) -> gold);
+    printf("何を購入しますか?(所持金: %dG)\n", (**st) -> gold);
     printf("1.HPリング1: 500G(味方1人の最大HPを5%増加)\n");
-    if ( (*st) -> stage_clear >= 2 ){
+    if ( (**st) -> stage_clear >= 2 ){
       printf("2.MPリング1: 800G(味方1人の最大MPを5%増加)\n");
     }
     printf("c.購入を止める\n");
@@ -226,7 +306,7 @@ void equip_shop(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip *
       price = 500;
       buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
     }
-    else if ( input == '2' && (*st) -> stage_clear >= 2 ){
+    else if ( input == '2' && (**st) -> stage_clear >= 2 ){
       equip_number = 2;
       price = 800;
       buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
