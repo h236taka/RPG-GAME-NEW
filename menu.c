@@ -1431,6 +1431,58 @@ void display_equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equ
 
 }
 
+int skill_count_check(int count){
+
+  if ( count > 11 ){
+    return -1;
+  }
+
+  return count;
+}
+
+void set_skill_list(P_skill *******player_skill){
+  int input;
+  int count;
+
+  count = 1;
+
+  if ( (******player_skill) -> recover1 == SETTING ){
+    printf("%d:ケディア 消費MP:3 (味方1人のHP小回復)\n", count);
+    count++;
+  }
+  skill_count_check(count);
+  if ( (******player_skill) -> cure_poison == SETTING && count != -1 ){
+    printf("%d:キュアポ 消費MP:4 (味方1人のPOISON状態を回復)\n",count);
+    count++;
+  }
+  skill_count_check(count);
+
+  printf("\n");
+  do {
+    printf("セットしたいスキルを選んでください(セットが終了したらcを入力してください)\n");
+
+    input = _getch();
+
+  } while ( input != 'c' );
+}
+
+void skill_set(Player ******st, P_skill ******player_skill){
+  int input;
+
+  do {
+    printf("\n");
+    printf("<<<SET>>>\n");
+
+    printf("---%s's skill---\n", (*****st) -> name);
+
+    set_skill_list(&player_skill);
+
+    input = _getch();
+
+  } while ( input != 'c' );
+
+}
+
 void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****items){
   int command;
   int items_count;
@@ -1549,18 +1601,50 @@ void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEq
 
 }
 
-void set_menu(void){
+void set_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3){
+  int input;
 
-  printf("set\n");
+  do {
+    printf("\n");
+    printf("<<<SET>>>\n");
+    printf("スキルをセットするキャラクターを選んでください(セットしない場合はcを入力してください)\n");
+    printf("1:%s\n", (****st) -> name);
+    printf("2:%s\n", (****st2) -> name);
+    printf("3:%s\n", (****st3) -> name);
+
+    /*(****player_skill) -> recover1 = 1;
+    (****player_skill) -> cure_poison = 1;
+
+    (****player_skill2) -> recover1 = 1;
+    (****player_skill2) -> cure_poison = 1;
+
+    (****player_skill3) -> recover1 = 1;
+    (****player_skill3) -> cure_poison = 1;*/
+
+    input = _getch();
+
+    if ( input == '1' ){
+      skill_set(&st,&player_skill);
+    }
+    else if ( input == '2' ){
+      skill_set(&st2,&player_skill2);
+    }
+    else if ( input == '3' ){
+      skill_set(&st3,&player_skill3);
+    }
+    else{
+      //nothing
+    }
+
+  } while ( input != 'c' );
 }
 
 void status_menu(Player *****st, Player *****st2, Player *****st3){
   int command;
 
-  printf("\n");
-  printf("<<<STATUS>>>\n");
-
   do{
+    printf("\n");
+    printf("<<<STATUS>>>\n");
     printf("誰のSTATUSを表示しますか?(戻る場合はcを入力してください。)\n");
     printf("1:%s\n", (****st) -> name);
     printf("2:%s\n", (****st2) -> name);
@@ -1676,7 +1760,7 @@ void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****pla
       equip_menu(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
     }
     else if ( input == '4' ){
-      set_menu();
+      set_menu(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3);
     }
     else if ( input == '5' ){
       status_menu(&st,&st2,&st3);

@@ -10,6 +10,8 @@
 
 //main関数
 
+//メモ：構造体は相当な領域を使用することから構造体変数を関数に渡すのではなく、参照渡し(pointer)を行った方がよい
+
 //プレイ時間に関するグローバルな型・変数
 time_t start_time, end_time;
 int play_time;
@@ -28,6 +30,8 @@ int main(void){
 
   SearchDangeon search = {0};
 
+  //列挙体
+  SkillState skillstate;
 
   //boss_count = １ならばボス扱い
   //boss_count = 2ならば強制戦闘
@@ -51,9 +55,9 @@ int main(void){
 
   srand((unsigned int)time(NULL));
 
-  P_skill player_skill;
-  P_skill player_skill2;
-  P_skill player_skill3;
+  P_skill player_skill = {0};
+  P_skill player_skill2 = {0};
+  P_skill player_skill3 = {0};
 
   do{
     printf("MAIN MENU\n");

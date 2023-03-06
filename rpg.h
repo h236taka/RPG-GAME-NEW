@@ -34,6 +34,12 @@
 
 //型定義
 
+typedef enum {
+  NOT_LEARNING = 0,
+  SETTING = 1,
+  LEARNED = 2,
+} SkillState;
+
 typedef struct enemy {
   char name[ENEMY_NAME];
   int hp;
@@ -392,6 +398,8 @@ void unequip(Player ******st, Player ******st2, Player ******st3, Equip ******pE
 void display_equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, int input);
 
 void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip);
+
+void set_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3);
 
 void status_menu(Player *****st, Player *****st2, Player *****st3);
 

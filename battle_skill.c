@@ -377,26 +377,25 @@ int battle_player_skill_list(P_skill ****player_skill){
 
   skill_count = 0;
   printf("<<<<<<SKILL>>>>>>\n");
-  if ( (***player_skill) -> recover1 == 1 ){
+  if ( (***player_skill) -> recover1 == SETTING ){
     printf("1:ケディア 消費MP:3 (味方1人のHP小回復)\n");
     skill_count++;
   }
-  if ( (***player_skill) -> cure_poison == 1 ){
+  if ( (***player_skill) -> cure_poison == SETTING ){
     printf("2:キュアポ 消費MP:4 (味方1人のPOISON状態を回復)\n");
     skill_count++;
   }
-  if ( (***player_skill) -> recover2 == 1 ){
+  if ( (***player_skill) -> recover2 == SETTING ){
     printf("3:回復:LV2 (HP中回復)\n");
     skill_count++;
   }
-  if ( (***player_skill) -> recover3 == 1 ){
+  if ( (***player_skill) -> recover3 == SETTING ){
     printf("4:回復:LV3 (HP大回復)\n");
     skill_count++;
   }
   if ( skill_count == 0 ){
     printf("使用可能なSKILLはありません!\n");
   }
-  printf("-----------------------------\n");
 
   return skill_count;
 }
