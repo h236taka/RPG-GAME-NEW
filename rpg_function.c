@@ -10,6 +10,12 @@
 
 //細かな機能
 
+void Debug_Mode(Player *st, Player *st2, Player *st3){
+
+  printf("デバッグモードを記述します...\n");
+  exit(EXIT_SUCCESS);
+}
+
 //badstatus表示
 void display_condition(Player ***st){
 
@@ -112,9 +118,214 @@ void infirmary_full_recover(Player ***st, Player ***st2, Player ***st3){
   (**st3) -> mp = (**st3) -> maxmp;
 }
 
+int calculate_RecoverSkill_price(int input, int money){
+
+  if ( input == '0' ){
+    money -= 500;
+  }
+  else if( input == '1' ){
+    money -= 500;
+  }
+  else if ( input == '2' ){
+    money -= 8000;
+  }
+
+  return money;
+}
+
+void check_PhysicalSkill_state(P_skill *****player_skill){
+
+
+}
+
+void check_RecoverSkill_state(P_skill *****player_skill, int num){
+
+  if ( num == 0 ){
+    if ( (****player_skill) -> recover1 != NOT_LEARNING ){
+      printf("MASTER★\n");
+    }
+    else{
+      printf("未習得\n");
+    }
+
+    return;
+  }
+
+  if ( num == 1 ){
+    if ( (****player_skill) -> cure_poison != NOT_LEARNING ){
+      printf("MASTER★\n");
+    }
+    else{
+      printf("未習得\n");
+    }
+
+    return;
+  }
+
+  if ( num == 2 ){
+    if ( (****player_skill) -> recover2 != NOT_LEARNING ){
+      printf("MASTER★\n");
+    }
+    else{
+      printf("未習得\n");
+    }
+
+    return;
+  }
+
+}
+
+int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money){
+
+  if ( input == '0' ){
+    if ( (****player_skill) -> recover1 == NOT_LEARNING ){
+      if ( money < 500 ){
+        printf("所持金が足りません!\n");
+        return NOT_LEARNING;
+      }
+      else{
+        printf("ヘルメス「ケディアについて学ぶが良い！」\n");
+        (****player_skill) -> recover1 = LEARNING;
+        return LEARNING;
+      }
+    }
+    else{
+      printf("既にMASTERしています!\n");
+      return LEARNED;
+    }
+  }
+  else if ( input == '1' ){
+    if ( (****player_skill) -> cure_poison == NOT_LEARNING ){
+      if ( money < 500 ){
+        printf("所持金が足りません!\n");
+        return NOT_LEARNING;
+      }
+      else{
+        printf("ヘルメス「キュアポについて学ぶが良い！」\n");
+        (****player_skill) -> cure_poison = LEARNING;
+        return LEARNING;
+      }
+    }
+    else{
+      printf("既にMASTERしています!\n");
+      return LEARNED;
+    }
+  }
+  else if ( input == '2' ){
+    if ( (****player_skill) -> recover2 == NOT_LEARNING ){
+      if ( money < 8000 ){
+        printf("所持金が足りません!\n");
+        return NOT_LEARNING;
+      }
+      else{
+        printf("ヘルメス「ケディアスについて学ぶが良い！」\n");
+        (****player_skill) -> recover2 = LEARNING;
+        return LEARNING;
+      }
+    }
+    else{
+      printf("既にMASTERしています!\n");
+      return LEARNED;
+    }
+  }
+
+}
+
+
+void getSkill_Physical(Player ****st, P_skill ****player_skill, int money){
+  int input;
+
+  do{
+    printf("\n");
+    printf("所持金:%dG\n", money);
+    printf("<<<物理スキル>>>\n");
+    printf("0.突撃(消費HP:最大体力の8%% 単体に物理小ダメージ) ");
+    check_PhysicalSkill_state(&player_skill);
+
+    printf("習得したいスキルを選んでください(終了する場合はcを入力)\n");
+    input = _getch();
+
+  }while( input != 'c' );
+}
+
+
+int getSkill_Recover(Player ****st, P_skill ****player_skill, int money){
+  int input;
+  int num;
+  int isLearned;
+
+  do{
+    num = 0;
+    printf("\n");
+    printf("所持金:%dG\n", money);
+    printf("<<<回復スキル>>>\n");
+    printf("0.ケディア 500G(消費MP:3 単体のHPを小回復) ");
+    check_RecoverSkill_state(&player_skill,num);
+    num++;
+    printf("1.キュアポ 500G(消費MP:4 単体のPOISONを回復) ");
+    check_RecoverSkill_state(&player_skill,num);
+    num++;
+    printf("2.ケディアス 8000G(消費MP:8 全体のHPを小回復)");
+    check_RecoverSkill_state(&player_skill,num);
+    num++;
+
+    printf("習得したいスキルを選んでください(終了する場合はcを入力)\n");
+    input = _getch();
+
+    if ( input == 'c' ){
+      return money;
+    }
+
+    isLearned = procedure_getRecoverSkill(input,&player_skill,money);
+    if ( isLearned == LEARNING ){
+      money = calculate_RecoverSkill_price(input,money);
+      return money;
+    }
+
+  }while( input != 'c' );
+}
+
+int getSkill(Player ***st, P_skill ***player_skill, int money){
+  int input;
+
+  printf("\n");
+  do {
+    printf("習得したいスキルを選んでください(終了したらcを入力してください)\n");
+    printf("1.物理スキル  ");
+    printf("2.火炎スキル\n");
+    printf("3.氷結スキル  ");
+    printf("4.電撃スキル\n");
+    printf("5.衝撃スキル  ");
+    printf("6.万能スキル\n");
+    printf("7.呪殺スキル  ");
+    printf("8.破魔スキル\n");
+    printf("9.回復スキル  ");
+    printf("a.補助スキル\n");
+    printf("b.状態異常スキル   ");
+    printf("d.属性防御スキル   ");
+    printf("e.自動効果スキル\n");
+
+    input = _getch();
+
+    if ( input == '1' ){
+      getSkill_Physical(&st,&player_skill,money);
+    }
+    else if ( input == '2' ){
+      //getSkill_fire(&st,&player_skill,money);
+    }
+    else if ( input == '9' ){
+      money = getSkill_Recover(&st,&player_skill,money);
+      return money;
+    }
+
+  } while ( input != 'c' );
+
+}
+
 void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items){
   int input;
 
+  printf("\n");
   printf("%s達は保健室へ行った...\n", (*st) -> name);
   sleep(1);
   do{
@@ -123,6 +334,7 @@ void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items){
     printf("1.回復する\n");
     printf("2.道具を買う\n");
     printf("3.保健室を出る\n");
+    printf("h.話を聞く\n");
     input = _getch();
 
     if ( input == '1' ){
@@ -133,6 +345,12 @@ void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items){
     else if ( input == '2' ){
       goods_shop(&st,&items);
     }
+    else if ( input == 'h' ){
+      printf("香山先生「ここでは、あなたたちの治療と回復アイテムを販売するわ」\n");
+      sleep(2);
+      printf("香山先生「治療に関しては無料でしてあげるけど、アイテムは有料だから覚えといて」\n");
+      sleep(1);
+    }
   } while ( input != '3' );
 
 }
@@ -140,6 +358,7 @@ void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items){
 void goTo_artRoom(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip **p2Equip, Equip **p3Equip){
   int input;
 
+  printf("\n");
   printf("%s達は美術室へ行った...\n", (*st) -> name);
   sleep(1);
   do {
@@ -148,13 +367,83 @@ void goTo_artRoom(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip
     printf("1.装備を購入する\n");
     printf("2.装備を売却する\n");
     printf("3.美術室を出る\n");
+    printf("h.話を聞く\n");
     input = _getch();
 
     if ( input == '1' ){
       equip_shop(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
     }
+    else if ( input == 'h' ){
+      printf("岡本先生「ここでは、私が作った装備品を販売するよ」\n");
+      sleep(2);
+      printf("岡本先生「装備品はきっとあなたたちの助けになるはずだから、購入したら忘れずに装備してね」\n");
+      sleep(2);
+      printf("岡本先生「ラインナップについては、時間が経てば増えるはずだから待ってて」\n");
+      sleep(1);
+    }
 
   } while ( input != '3' );
+}
+
+void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3){
+  int input;
+  int money;
+
+  printf("\n");
+  printf("%s達は化学準備室へ行った...\n", (*st) -> name);
+  sleep(1);
+
+
+  do {
+    money = (*st) -> gold;
+    printf("\n");
+    printf("---化学準備室---\n");
+    printf("1.スキルの知識を得る\n");
+    printf("2.化学準備室を出る\n");
+    printf("h.話を聞く\n");
+    input = _getch();
+
+    if ( input == '1' ){
+      do {
+        printf("スキルを習得したい人を選んでください(終了したい場合はcを入力してください)\n");
+        printf("1.%s\n", (*st) -> name);
+        printf("2.%s\n", (*st2) -> name);
+        printf("3.%s\n", (*st3) -> name);
+
+        input = _getch();
+
+        if ( input == '1' ){
+          money = getSkill(&st,&player_skill,money);
+          (*st) -> gold = money;
+        }
+        else if ( input == '2' ){
+          money = getSkill(&st2,&player_skill2,money);
+          (*st) -> gold = money;
+        }
+        else if ( input == '3' ){
+          money = getSkill(&st3,&player_skill3,money);
+          (*st) -> gold = money;
+        }
+
+      } while ( input != 'c' );
+
+    }
+    else if ( input == 'h' ){
+      printf("ヘルメス「私は錬金術の神、ヘルメスである」\n");
+      sleep(2);
+      printf("ヘルメス「汝らの助けになるようにと、ある御方から命を受けた」\n");
+      sleep(2);
+      printf("ヘルメス「汝らの旅に必要なスキルを代価と引き換えに授けよう」\n");
+      sleep(2);
+      printf("ヘルメス「スキルを習得するには、戦いの経験が必要である」\n");
+      sleep(2);
+      printf("ヘルメス「敵とたくさん戦い、経験を積むがよい」\n");
+      sleep(2);
+      printf("ヘルメス「ただし、途中でスキルの経験を積むことを止めた場合、再びやり直しになることは留意するように」\n");
+      sleep(1);
+    }
+
+  } while ( input != '2' );
 }
 
 void buy_goods(Player ****st, Items ****items, int goods_number,  int price){

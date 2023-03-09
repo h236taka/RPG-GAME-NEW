@@ -1440,6 +1440,11 @@ int skill_count_check(int count){
   return count;
 }
 
+int learned_PhysicalSkill_list(P_skill ********player_skill){
+
+  return 0;
+}
+
 void set_skill_list(P_skill *******player_skill){
   int input;
   int count;
@@ -1450,18 +1455,33 @@ void set_skill_list(P_skill *******player_skill){
     printf("%d:ケディア 消費MP:3 (味方1人のHP小回復)\n", count);
     count++;
   }
-  skill_count_check(count);
-  if ( (******player_skill) -> cure_poison == SETTING && count != -1 ){
+  if ( (******player_skill) -> cure_poison == SETTING ){
     printf("%d:キュアポ 消費MP:4 (味方1人のPOISON状態を回復)\n",count);
     count++;
   }
-  skill_count_check(count);
 
   printf("\n");
   do {
     printf("セットしたいスキルを選んでください(セットが終了したらcを入力してください)\n");
+    printf("1.物理スキル  ");
+    printf("2.火炎スキル\n");
+    printf("3.氷結スキル  ");
+    printf("4.電撃スキル\n");
+    printf("5.衝撃スキル  ");
+    printf("6.万能スキル\n");
+    printf("7.呪殺スキル  ");
+    printf("8.破魔スキル\n");
+    printf("9.回復スキル  ");
+    printf("a.補助スキル\n");
+    printf("b.状態異常スキル   ");
+    printf("d.属性防御スキル   ");
+    printf("e.自動効果スキル\n");
 
     input = _getch();
+
+    if ( input == '1' ){
+      learned_PhysicalSkill_list(&player_skill);
+    }
 
   } while ( input != 'c' );
 }

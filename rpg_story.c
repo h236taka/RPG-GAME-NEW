@@ -16,11 +16,11 @@
 
 void prologue(void){
   printf("ここは私立元町学園・・・\n");
-  sleep(1);
+  sleep(3);
   printf("学生は平穏で怠惰な学園生活を送っていた\n");
-  sleep(1);
+  sleep(3);
   printf("しかし・・・\n");
-  sleep(1);
+  sleep(3);
 }
 
 int check_player_name(Player **st){
@@ -404,7 +404,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
 }
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki){
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki, Enemy *gremlin){
 
   int input;
   int tmp;
@@ -472,10 +472,10 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
       goTo_artRoom(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
     }
     else if ( input == '3' ){
-
+      goTo_labo(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3);
     }
     else if ( input == '4' ){
-      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki);
+      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki,&gremlin);
     }
     else if ( input == '5' ){
       exit(EXIT_SUCCESS);

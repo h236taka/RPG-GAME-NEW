@@ -30,6 +30,8 @@ static int event_to_map;
 
 int battle_mode;
 
+extern int saveFile;
+
 void display_3dmap(int area_data_number, int direction, Map ***map){
 
   if ( area_data_number == 100 ){
@@ -857,14 +859,14 @@ int enemy_encount(Map **map){
   int encounter;
 
   encounter = (rand() % ( 10 - 1 + 1)) + 1;  //1~10の乱数
-  if ( (*map) -> walk_step <= 3 ){
+  if ( (*map) -> walk_step <= 4 ){
     if ( encounter == 1 ){
       printf("エンカウント！\n");
       (*map) -> walk_step = 0;
       return 1;
     }
   }
-  else if ( (*map) -> walk_step < 7 ){
+  else if ( (*map) -> walk_step < 9 ){
     if ( encounter >= 1 && encounter <= 3 ){
       printf("エンカウント！\n");
       (*map) -> walk_step = 0;
@@ -872,7 +874,7 @@ int enemy_encount(Map **map){
     }
   }
   else{
-    if ( encounter >= 1 && encounter <= 7 ){
+    if ( encounter >= 1 && encounter <= 6 ){
       printf("エンカウント!\n");
       (*map) -> walk_step = 0;
       return 1;
@@ -1727,7 +1729,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
 }
 
-void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki){
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki, Enemy **gremlin){
 
   int area_data_len, area_data_line;
   int i, j, file_output;
@@ -1738,9 +1740,9 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
   int area_data[27][10] = {
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1,  2,  0,  0,  9,  5, -1},
+    {-1, -1, -1, -1,  4, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1,  4,  0,  0,  1,  0,  0,  9,  5, -1},
     {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
@@ -1767,9 +1769,9 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
   int automap_area2[27][10] = {
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {-1, -1, -1, -1,  0,  0,  0,  0,  0, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
+    {-1,  0,  0,  0,  0,  0,  0,  0,  0, -1},
     {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1,  0, -1, -1, -1, -1, -1},
@@ -1798,21 +1800,62 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   area_data_line = sizeof(area_data) / sizeof(int) / area_data_len;
 
   //Automapデータの呼び出し
-  if ( getFileSize( "AutoMapArea2.dat") != 0 ){
-    if ( ( fp = fopen("AutoMapArea2.dat", "rb") ) != NULL ){
-      for ( j = 0; j < area_data_line; j++ ){
-        for ( i = 0; i < area_data_len; i++ ){
-          fread(&file_output, sizeof(int), 1, fp);
-          //printf("file_output:%d", file_output);
-          if ( file_output != -10 ){
-            automap_area2[j][i] = file_output;
-            //printf("%d ",automap_area2[j][i]);
+  if ( saveFile == 1 ){
+    if ( getFileSize( "AutoMapArea2/saveFile1_AutoMapArea2.dat") != 0 ){
+      if ( ( fp = fopen("AutoMapArea2/saveFile1_AutoMapArea2.dat", "rb") ) != NULL ){
+        for ( j = 0; j < area_data_line; j++ ){
+          for ( i = 0; i < area_data_len; i++ ){
+            fread(&file_output, sizeof(int), 1, fp);
+            //printf("file_output:%d", file_output);
+            if ( file_output != -10 ){
+              automap_area2[j][i] = file_output;
+              //printf("%d ",automap_area2[j][i]);
+            }
           }
+          //printf("\n");
         }
-        //printf("\n");
+        fclose(fp);
       }
-      fclose(fp);
     }
+  }
+  else if ( saveFile == 2 ){
+    if ( getFileSize( "AutoMapArea2/saveFile2_AutoMapArea2.dat") != 0 ){
+      if ( ( fp = fopen("AutoMapArea2/saveFile2_AutoMapArea2.dat", "rb") ) != NULL ){
+        for ( j = 0; j < area_data_line; j++ ){
+          for ( i = 0; i < area_data_len; i++ ){
+            fread(&file_output, sizeof(int), 1, fp);
+            //printf("file_output:%d", file_output);
+            if ( file_output != -10 ){
+              automap_area2[j][i] = file_output;
+              //printf("%d ",automap_area2[j][i]);
+            }
+          }
+          //printf("\n");
+        }
+        fclose(fp);
+      }
+    }
+  }
+  else if ( saveFile == 3 ){
+    if ( getFileSize( "AutoMapArea2.dat") != 0 ){
+      if ( ( fp = fopen("AutoMapArea2/saveFile3_AutoMapArea2.dat", "rb") ) != NULL ){
+        for ( j = 0; j < area_data_line; j++ ){
+          for ( i = 0; i < area_data_len; i++ ){
+            fread(&file_output, sizeof(int), 1, fp);
+            //printf("file_output:%d", file_output);
+            if ( file_output != -10 ){
+              automap_area2[j][i] = file_output;
+              //printf("%d ",automap_area2[j][i]);
+            }
+          }
+          //printf("\n");
+        }
+        fclose(fp);
+      }
+    }
+  }
+  else{
+
   }
 
   //start地点の設定
@@ -1855,11 +1898,38 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   do{
     player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);  //playerの移動に関する関数
     //event処理
-    if ( map.x == 8 && map.y == 3 && (*area) -> event2a == 0 ){
-      printf("GOAL!!\n");
-      printf("デモプレイを終了します...\n");
+    if ( map.x == 8 && map.y == 3 && (*area) -> boss2 == 0 ){
+      printf("\n");
+      printf("...\n");
+      sleep(2);
+      printf("？「誰？」\n");
+      sleep(2);
+      printf("？「人間がいる～！」\n");
+      sleep(2);
+      printf("？「僕はグレムリンって言うんだ！」\n");
+      sleep(2);
+      printf("グレムリン「ここには本がいっぱいあってたくさん勉強できるから楽しいね！！」\n");
+      sleep(2);
+      printf("グレムリン「何だか賢くなった気がする～」\n");
+      sleep(2);
+      printf("グレムリン「ん？ここから出て行けって？」\n");
+      sleep(2);
+      printf("グレムリン「まさか、僕の勉強の邪魔をする気だな」\n");
+      sleep(2);
+      printf("グレムリン「こうなったら、僕の賢さを見せつけてやる！」\n");
+      sleep(1);
+
+      encount_pattern = 1;
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &gremlin, encount_pattern);
+
+      (*area) -> boss2 = 1;
+    }
+    else if ( map.x == 7 && map.y == 3 && (*area) -> event2a == 0 ){
+      printf("この先から強力な気配を感じる...\n");
+      printf("\n");
       (*area) -> event2a = 1;
-      exit(EXIT_SUCCESS);
+      event_to_map = 1;
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
     }
     else if ( map.x == 4 && map.y == 26 ){
       printf("ダンジョンから脱出した...\n");
@@ -1931,9 +2001,26 @@ void save_area2(int area_data_line, int area_data_len, int automap_area[area_dat
   int checkNum;
   FILE *fp;
 
-  if ( ( fp = fopen( "AutoMapArea2.dat", "wb" ) ) == NULL ){
-    printf("マップデータを記録できませんでした\n");
-    return;
+  if ( saveFile == 1 ){
+    if ( ( fp = fopen( "AutoMapArea2/saveFile1_AutoMapArea2.dat", "wb" ) ) == NULL ){
+      printf("マップデータを記録できませんでした\n");
+      return;
+    }
+  }
+  else if ( saveFile == 2 ){
+    if ( ( fp = fopen( "AutoMapArea2/saveFile2_AutoMapArea2.dat", "wb" ) ) == NULL ){
+      printf("マップデータを記録できませんでした\n");
+      return;
+    }
+  }
+  else if ( saveFile == 3 ){
+    if ( ( fp = fopen( "AutoMapArea2/saveFile3_AutoMapArea2.dat", "wb" ) ) == NULL ){
+      printf("マップデータを記録できませんでした\n");
+      return;
+    }
+  }
+  else{
+
   }
 
   /*for ( j = 0; j < area_data_line; j++ ){

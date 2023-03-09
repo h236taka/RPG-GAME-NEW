@@ -34,11 +34,14 @@
 
 //型定義
 
+//列挙型
 typedef enum {
   NOT_LEARNING = 0,
   SETTING = 1,
   LEARNED = 2,
+  LEARNING = 3,
 } SkillState;
+
 
 typedef struct enemy {
   char name[ENEMY_NAME];
@@ -80,7 +83,7 @@ typedef struct enemy {
 typedef struct player_skill {   //値が1ならば習得済み
   int recover1; //ケディア
   int cure_poison; //毒治療
-  int recover2; //回復:LV2
+  int recover2; //ケディアス
   int recover3; //回復:LV3
 } P_skill;
 
@@ -139,6 +142,7 @@ typedef struct area {
   int event1d;
   int boss1;
   int event2a;
+  int boss2;
   int encount; //敵とエンカウントするか否か 0ならばエンカウントしない 1ならばエンカウント
 } Area;
 
@@ -297,6 +301,8 @@ typedef struct Save_data_search{
 } Save_data_search;
 
 //rpg_save_load.c
+void check_AutoMapFile();
+
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load);
 
 void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search);
@@ -307,15 +313,35 @@ void copy_savedata();
 
 void delete_savedata();
 
+void delete_AUtoMapFile();
+
 void display_condition(Player ***st);
+
+void Debug_Mode(Player *st, Player *st2, Player *st3);
 
 void display_status(Player **st, Player **st2, Player **st3);
 
 int school_command();
 
+int calculate_RecoverSkill_price(int input, int money);
+
+void check_PhysicalSkill_state(P_skill *****player_skill);
+
+void check_RecoverSkill_state(P_skill *****player_skill, int num);
+
+int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money);
+
+void getSkill_Physical(Player ****st, P_skill ****player_skill, int money);
+
+int getSkill_Recover(Player ****st, P_skill ****player_skill, int money);
+
+int getSkill(Player ***st, P_skill ***player_skill, int money);
+
 void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items);
 
 void goTo_artRoom(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip **p2Equip, Equip **p3Equip);
+
+void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3);
 
 void buy_goods(Player ****st, Items ****items, int goods_number, int price);
 
@@ -339,12 +365,12 @@ void map_tutorial(void);
 //HP,MP,STATUS全回復
 void full_recover(Player **st, Player **st2, Player **st3);
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki);
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki, Enemy *gremlin);
 
 //map.c
 void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **slime, Enemy **kobalt, Enemy **goblin);
 
-void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki);
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki, Enemy **gremlin);
 
 void save_area2(int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
 

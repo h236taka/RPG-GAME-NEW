@@ -650,6 +650,10 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
           enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
         }
       }
+
+      if ( damage < 0 ){
+        damage = 1;
+      }
     }
 
     if ( target == 1 ){

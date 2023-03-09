@@ -13,6 +13,8 @@
 extern time_t start_time, end_time;
 extern int play_time;
 
+int saveFile = 0;
+
 //セーブデータのバイト数をreturn
 //long 型よりもさらに大きな数を表現できる型
 long long int getFileSize(const char *fileName){
@@ -45,8 +47,8 @@ void copy_savedata(){
     input = _getch();
 
     if ( input == '1' ){
-      const char *file = "save1.dat";
-      fpSrc = fopen("save1.dat", "rb");
+      const char *file = "SaveData/save1.dat";
+      fpSrc = fopen("SaveData/save1.dat", "rb");
       if ( fpSrc == NULL ){
         printf("セーブデータ1を確認できませんでした...\n");
         fclose(fpSrc);
@@ -66,7 +68,7 @@ void copy_savedata(){
           exit(EXIT_SUCCESS);
         }
         else if ( input == '2' ){
-          fpDest = fopen("save2.dat", "wb");
+          fpDest = fopen("SaveData/save2.dat", "wb");
           if ( fpDest == NULL ){
             printf("セーブデータ2を確認できませんでした...\n");
             fclose(fpDest);
@@ -104,7 +106,7 @@ void copy_savedata(){
 
         }
         else if ( input == '3' ){
-          fpDest = fopen("save3.dat", "wb");
+          fpDest = fopen("SaveData/save3.dat", "wb");
           if ( fpDest == NULL ){
             printf("セーブデータ3を確認できませんでした...\n");
             fclose(fpDest);
@@ -144,8 +146,8 @@ void copy_savedata(){
       } while ( input != 'c' );
     }
     else if ( input == '2' ){
-      const char *file = "save2.dat";
-      fpSrc = fopen("save2.dat", "rb");
+      const char *file = "SaveData/save2.dat";
+      fpSrc = fopen("SaveData/save2.dat", "rb");
       if ( fpSrc == NULL ){
         printf("セーブデータ2を確認できませんでした...\n");
         fclose(fpSrc);
@@ -165,7 +167,7 @@ void copy_savedata(){
           exit(EXIT_SUCCESS);
         }
         else if ( input == '1' ){
-          fpDest = fopen("save1.dat", "wb");
+          fpDest = fopen("SaveData/save1.dat", "wb");
           if ( fpDest == NULL ){
             printf("セーブデータ1を確認できませんでした...\n");
             fclose(fpDest);
@@ -203,7 +205,7 @@ void copy_savedata(){
 
         }
         else if ( input == '3' ){
-          fpDest = fopen("save3.dat", "wb");
+          fpDest = fopen("SaveData/save3.dat", "wb");
           if ( fpDest == NULL ){
             printf("セーブデータ3を確認できませんでした...\n");
             fclose(fpDest);
@@ -244,8 +246,8 @@ void copy_savedata(){
 
     }
     else if ( input == '3' ){
-      const char *file = "save3.dat";
-      fpSrc = fopen("save3.dat", "rb");
+      const char *file = "SaveData/save3.dat";
+      fpSrc = fopen("SaveData/save3.dat", "rb");
       if ( fpSrc == NULL ){
         printf("セーブデータ3を確認できませんでした...\n");
         fclose(fpSrc);
@@ -265,7 +267,7 @@ void copy_savedata(){
           exit(EXIT_SUCCESS);
         }
         else if ( input == '1' ){
-          fpDest = fopen("save1.dat", "wb");
+          fpDest = fopen("SaveData/save1.dat", "wb");
           if ( fpDest == NULL ){
             printf("セーブデータ1を確認できませんでした...\n");
             fclose(fpDest);
@@ -303,7 +305,7 @@ void copy_savedata(){
 
         }
         else if ( input == '2' ){
-          fpDest = fopen("save2.dat", "wb");
+          fpDest = fopen("SaveData/save2.dat", "wb");
           if ( fpDest == NULL ){
             printf("セーブデータ2を確認できませんでした...\n");
             fclose(fpDest);
@@ -362,8 +364,8 @@ void delete_savedata(){
     printf("3:SAVEDATA FILE3\n");
     input = _getch();
     if ( input == '1' ){
-      const char *file = "save1.dat";
-      fp = fopen("save1.dat", "rb");
+      const char *file = "SaveData/save1.dat";
+      fp = fopen("SaveData/save1.dat", "rb");
       if ( fp == NULL ){
         printf("セーブデータ1を読み込めませんでした...\n");
         fclose(fp);
@@ -373,7 +375,7 @@ void delete_savedata(){
         fclose(fp);
         if ( remove(file) == 0 ){
           printf("セーブデータ1を削除しました!\n");
-          fp = fopen( "save1.dat", "wb+");
+          fp = fopen( "SaveData/save1.dat", "wb+");
         }
         else{
           printf("セーブデータ1を削除できませんでした...\n");
@@ -382,8 +384,8 @@ void delete_savedata(){
       }
     }
     else if ( input == '2' ){
-      const char *file = "save2.dat";
-      fp = fopen("save2.dat", "rb");
+      const char *file = "SaveData/save2.dat";
+      fp = fopen("SaveData/save2.dat", "rb");
       if ( fp == NULL ){
         printf("セーブデータ2を読み込めませんでした...\n");
         fclose(fp);
@@ -393,7 +395,7 @@ void delete_savedata(){
         fclose(fp);
         if ( remove(file) == 0 ){
           printf("セーブデータ2を削除しました!\n");
-          fp = fopen( "save2.dat", "wb+");
+          fp = fopen( "SaveData/save2.dat", "wb+");
         }
         else{
           printf("セーブデータ2を削除できませんでした...\n");
@@ -402,8 +404,8 @@ void delete_savedata(){
       }
     }
     else if ( input == '3' ){
-      const char *file = "save3.dat";
-      fp = fopen("save3.dat", "rb");
+      const char *file = "SaveData/save3.dat";
+      fp = fopen("SaveData/save3.dat", "rb");
       if ( fp == NULL ){
         printf("セーブデータ3を読み込めませんでした...\n");
         fclose(fp);
@@ -413,7 +415,7 @@ void delete_savedata(){
         fclose(fp);
         if ( remove(file) == 0 ){
           printf("セーブデータ3を削除しました!\n");
-          fp = fopen( "save3.dat", "wb+");
+          fp = fopen( "SaveData/save3.dat", "wb+");
         }
         else{
           printf("セーブデータ3を削除できませんでした...\n");
@@ -434,6 +436,96 @@ void delete_savedata(){
 
 }
 
+void check_AutoMapFile(){
+  FILE *fp;
+
+  if ( ( fp = fopen( "AutoMapArea2/saveFile1_AutoMapArea2.dat", "rb" ) ) == NULL ){
+    fp = fopen("AutoMapArea2/saveFile1_AutoMapArea2.dat", "wb+");
+  }
+  if ( ( fp = fopen( "AutoMapArea2/saveFile2_AutoMapArea2.dat", "rb" ) ) == NULL ){
+    fp = fopen("AutoMapArea2/saveFile2_AutoMapArea2.dat", "wb+");
+  }
+  if ( ( fp = fopen( "AutoMapArea2/saveFile3_AutoMapArea2.dat", "rb" ) ) == NULL ){
+    fp = fopen("AutoMapArea2/saveFile3_AutoMapArea2.dat", "wb+");
+  }
+
+  fclose(fp);
+}
+
+void delete_AUtoMapFile(){
+  FILE *fp;
+  int input;
+
+  printf("1.セーブデータ1.図書館1F\n");
+  printf("2.セーブデータ2.図書館1F\n");
+  printf("3.セーブデータ3.図書館1F\n");
+  printf("削除したいマップデータを選択してください(決定する場合はエンターキーを入力し、終了する場合は0を入力し、エンターキーを押してください)\n");
+  printf("マップデータ:No.");
+  scanf("%d", &input);
+
+  if ( input == 0 ){
+    exit(EXIT_SUCCESS);
+  }
+
+  if ( input == 1 ){
+    const char *file = "AutoMapArea2/saveFile1_AutoMapArea2.dat";
+    if ( ( fp = fopen( "AutoMapArea2/saveFile1_AutoMapArea2.dat", "rb" ) ) == NULL ){
+      printf("マップデータは存在しません...\n");
+      fclose(fp);
+      exit(EXIT_SUCCESS);
+    }
+    else{
+      fclose(fp);
+      if ( remove(file) == 0 ){
+        printf("マップデータを削除しました!\n");
+      }
+      else{
+        printf("マップデータを削除できませんでした...\n");
+      }
+      fclose(fp);
+      exit(EXIT_SUCCESS);
+    }
+  }
+  else if ( input == 2 ){
+    const char *file = "AutoMapArea2/saveFile2_AutoMapArea2.dat";
+    if ( ( fp = fopen( "AutoMapArea2/saveFile2_AutoMapArea2.dat", "rb" ) ) == NULL ){
+      printf("マップデータは存在しません...\n");
+      fclose(fp);
+      exit(EXIT_SUCCESS);
+    }
+    else{
+      fclose(fp);
+      if ( remove(file) == 0 ){
+        printf("マップデータを削除しました!\n");
+      }
+      else{
+        printf("マップデータを削除できませんでした...\n");
+      }
+      fclose(fp);
+      exit(EXIT_SUCCESS);
+    }
+  }
+  else if ( input == 3 ){
+    const char *file = "AutoMapArea2/saveFile3_AutoMapArea2.dat";
+    if ( ( fp = fopen( "AutoMapArea2/saveFile3_AutoMapArea2.dat", "rb" ) ) == NULL ){
+      printf("マップデータは存在しません...\n");
+      fclose(fp);
+      exit(EXIT_SUCCESS);
+    }
+    else{
+      fclose(fp);
+      if ( remove(file) == 0 ){
+        printf("マップデータを削除しました!\n");
+      }
+      else{
+        printf("マップデータを削除できませんでした...\n");
+      }
+      fclose(fp);
+      exit(EXIT_SUCCESS);
+    }
+  }
+}
+
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load){
 
   int save_count, load_count, input, savedata_num, savedata_lv1, savedata_lv2, savedata_lv3, temp, hours, minutes;
@@ -451,6 +543,8 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
   Save_data_search Save_data_search;
 
+  check_AutoMapFile();
+
 
   if ( load == 1 ){       //load
     do{
@@ -459,15 +553,15 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       printf("\n");
       printf("何番のセーブデータを読み込みますか？\n");
 
-      if ( ( fp = fopen( "save1.dat", "rb" ) ) == NULL ){
+      if ( ( fp = fopen( "SaveData/save1.dat", "rb" ) ) == NULL ){
         //can't open file. So create new file
-        fp = fopen( "save1.dat", "wb+");
-        printf("1:\n");
+        fp = fopen( "SaveData/save1.dat", "wb+");
+        printf("1:NO DATA\n");
       }
       else{
-        if ( getFileSize( "save1.dat") == 0 ){                   //fileのbyteが０ならデータがない
+        if ( getFileSize( "SaveData/save1.dat") == 0 ){                   //fileのbyteが０ならデータがない
           //printf("セーブデータを読み込めませんでした・・・\n");
-          printf("1:\n");
+          printf("1:NO DATA\n");
         }
         else{
           fread(&save_data_players, sizeof(save_data_players), 1, fp);
@@ -503,15 +597,15 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
         }
       }
 
-      if ( ( fp = fopen( "save2.dat", "rb" ) ) == NULL ){
+      if ( ( fp = fopen( "SaveData/save2.dat", "rb" ) ) == NULL ){
         //can't open file. So create new file
-        fp = fopen( "save2.dat", "wb+");
-        printf("2:\n");
+        fp = fopen( "SaveData/save2.dat", "wb+");
+        printf("2:NO DATA\n");
       }
       else{
-        if ( getFileSize( "save2.dat") == 0 ){                   //fileのbyteが０ならデータがない
+        if ( getFileSize( "SaveData/save2.dat") == 0 ){                   //fileのbyteが０ならデータがない
           //printf("セーブデータを読み込めませんでした・・・\n");
-          printf("2:\n");
+          printf("2:NO DATA\n");
         }
         else{
           fread(&save_data_players, sizeof(Save_data_players), 1, fp);
@@ -540,15 +634,15 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
         }
       }
 
-      if ( ( fp = fopen( "save3.dat", "rb" ) ) == NULL ){
+      if ( ( fp = fopen( "SaveData/save3.dat", "rb" ) ) == NULL ){
         //can't open file. So create new file
-        fp = fopen( "save3.dat", "wb+");
-        printf("3:\n");
+        fp = fopen( "SaveData/save3.dat", "wb+");
+        printf("3:NO DATA\n");
       }
       else{
-        if ( getFileSize( "save3.dat") == 0 ){                   //fileのbyteが０ならデータがない
+        if ( getFileSize( "SaveData/save3.dat") == 0 ){                   //fileのbyteが０ならデータがない
           //printf("セーブデータを読み込めませんでした・・・\n");
-          printf("3:\n");
+          printf("3:NO DATA\n");
         }
         else{
           fread(&save_data_players, sizeof(Save_data_players), 1, fp);
@@ -582,12 +676,12 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
       if ( input == '1' ){
         //ファイル処理
-        if ( ( fp = fopen( "save1.dat", "rb" ) ) == NULL ){
+        if ( ( fp = fopen( "SaveData/save1.dat", "rb" ) ) == NULL ){
           printf("セーブデータがありません\n");
         }
         else{
           //セーブデータの読み込み
-          if ( getFileSize( "save1.dat") == 0 ){                   //fileのbyteが０ならデータがない
+          if ( getFileSize( "SaveData/save1.dat") == 0 ){                   //fileのbyteが０ならデータがない
             printf("セーブデータを読み込めませんでした・・・\n");
           }
           else{
@@ -599,17 +693,18 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fread(&Save_data_search, sizeof(Save_data_search), 1, fp);
             fclose(fp);
             load_count++;
+            saveFile = 1;
           }
         }
       }
       else if ( input == '2' ){
         //ファイル処理
-        if ( ( fp = fopen( "save2.dat", "rb" ) ) == NULL ){
+        if ( ( fp = fopen( "SaveData/save2.dat", "rb" ) ) == NULL ){
           printf("セーブデータがありません\n");
         }
         else{
           //セーブデータの読み込み
-          if ( getFileSize( "save2.dat") == 0 ){
+          if ( getFileSize( "SaveData/save2.dat") == 0 ){
             printf("セーブデータを読み込めませんでした・・・\n");
           }
           else{
@@ -621,17 +716,18 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fread(&Save_data_search, sizeof(Save_data_search), 1, fp);
             fclose(fp);
             load_count++;
+            saveFile = 2;
           }
         }
       }
       else if ( input == '3' ){
         //ファイル処理
-        if ( ( fp = fopen( "save2.dat", "rb" ) ) == NULL ){
+        if ( ( fp = fopen( "SaveData/save2.dat", "rb" ) ) == NULL ){
           printf("セーブデータがありません\n");
         }
         else{
           //セーブデータの読み込み
-          if ( getFileSize( "save3.dat") == 0 ){
+          if ( getFileSize( "SaveData/save3.dat") == 0 ){
             printf("セーブデータを読み込めませんでした・・・\n");
           }
           else{
@@ -643,6 +739,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fread(&Save_data_search, sizeof(Save_data_search), 1, fp);
             fclose(fp);
             load_count++;
+            saveFile = 3;
           }
         }
       }
@@ -979,14 +1076,14 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
         if ( savedata_num == '1' ){
           //ファイル処理
-          if ( ( fp = fopen( "save1.dat", "wb" ) ) == NULL ){
+          if ( ( fp = fopen( "SaveData/save1.dat", "wb" ) ) == NULL ){
             printf("セーブデータがありません\n");
           }
           else{
             if ( st -> stage_clear == 1 ){
               //ファイルを削除し再生成
-              remove("save1.dat");
-              fp = fopen( "save1.dat", "wb+");
+              remove("SaveData/save1.dat");
+              fp = fopen( "SaveData/save1.dat", "wb+");
             }
             //セーブデータの書き込み
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
@@ -1001,14 +1098,14 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
         }
         else if ( savedata_num  == '2' ){
           //ファイル処理
-          if ( ( fp = fopen( "save2.dat", "wb" ) ) == NULL ){
+          if ( ( fp = fopen( "SaveData/save2.dat", "wb" ) ) == NULL ){
             printf("セーブデータがありません\n");
           }
           else{
             if ( st -> stage_clear == 1 ){
               //ファイルを削除し再生成
-              remove("save2.dat");
-              fp = fopen( "save2.dat", "wb+");
+              remove("SaveData/save2.dat");
+              fp = fopen( "SaveData/save2.dat", "wb+");
             }
             //セーブデータの書き込み
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
@@ -1023,14 +1120,14 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
         }
         else if ( savedata_num == '3' ){
           //ファイル処理
-          if ( ( fp = fopen( "save3.dat", "wb" ) ) == NULL ){
+          if ( ( fp = fopen( "SaveData/save3.dat", "wb" ) ) == NULL ){
             printf("セーブデータがありません\n");
           }
           else{
             if ( st -> stage_clear == 1 ){
               //ファイルを削除し再生成
-              remove("save3.dat");
-              fp = fopen( "save3.dat", "wb+");
+              remove("SaveData/save3.dat");
+              fp = fopen( "SaveData/save3.dat", "wb+");
             }
             //セーブデータの書き込み
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
@@ -1096,15 +1193,15 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     //printf("end_time:%d\n", end_time);
     play_time = difftime(end_time, start_time);  //endとstartの差分
 
-    if ( ( fp = fopen( "save1.dat", "rb" ) ) == NULL ){
+    if ( ( fp = fopen( "SaveData/save1.dat", "rb" ) ) == NULL ){
       //can't open file. So create new file
-      fp = fopen( "save1.dat", "wb+");
-      printf("1:\n");
+      fp = fopen( "SaveData/save1.dat", "wb+");
+      printf("1:NO DATA\n");
     }
     else{
-      if ( getFileSize( "save1.dat") == 0 ){                   //fileのbyteが０ならデータがない
+      if ( getFileSize( "SaveData/save1.dat") == 0 ){                   //fileのbyteが０ならデータがない
         //printf("セーブデータを読み込めませんでした・・・\n");
-        printf("1:\n");
+        printf("1:NO DATA\n");
       }
       else{
         fread(&save_data_players, sizeof(Save_data_players), 1, fp);
@@ -1140,15 +1237,15 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
       }
     }
 
-    if ( ( fp = fopen( "save2.dat", "rb" ) ) == NULL ){
+    if ( ( fp = fopen( "SaveData/save2.dat", "rb" ) ) == NULL ){
       //can't open file. So create new file
-      fp = fopen( "save2.dat", "wb+");
-      printf("2:\n");
+      fp = fopen( "SaveData/save2.dat", "wb+");
+      printf("2:NO DATA\n");
     }
     else{
-      if ( getFileSize( "save2.dat") == 0 ){                   //fileのbyteが０ならデータがない
+      if ( getFileSize( "SaveData/save2.dat") == 0 ){                   //fileのbyteが０ならデータがない
         //printf("セーブデータを読み込めませんでした・・・\n");
-        printf("2:\n");
+        printf("2:NO DATA\n");
       }
       else{
         fread(&save_data_players, sizeof(Save_data_players), 1, fp);
@@ -1178,15 +1275,15 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
       }
     }
 
-    if ( ( fp = fopen( "save3.dat", "rb" ) ) == NULL ){
+    if ( ( fp = fopen( "SaveData/save3.dat", "rb" ) ) == NULL ){
       //can't open file. So create new file
-      fp = fopen( "save3.dat", "wb+");
-      printf("3:\n");
+      fp = fopen( "SaveData/save3.dat", "wb+");
+      printf("3:NO DATA\n");
     }
     else{
-      if ( getFileSize( "save3.dat") == 0 ){                   //fileのbyteが０ならデータがない
+      if ( getFileSize( "SaveData/save3.dat") == 0 ){                   //fileのbyteが０ならデータがない
         //printf("セーブデータを読み込めませんでした・・・\n");
-        printf("3:\n");
+        printf("3:NO DATA\n");
       }
       else{
         fread(&save_data_players, sizeof(Save_data_players), 1, fp);
@@ -1384,7 +1481,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
 
       if ( savedata_num == '1' ){
         //ファイル処理
-        if ( ( fp = fopen( "save1.dat", "wb" ) ) == NULL ){
+        if ( ( fp = fopen( "SaveData/save1.dat", "wb" ) ) == NULL ){
           printf("セーブデータがありません\n");
         }
         else{
@@ -1401,7 +1498,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
       }
       else if ( savedata_num  == '2' ){
         //ファイル処理
-        if ( ( fp = fopen( "save2.dat", "wb" ) ) == NULL ){
+        if ( ( fp = fopen( "SaveData/save2.dat", "wb" ) ) == NULL ){
           printf("セーブデータがありません\n");
         }
         else{
@@ -1418,7 +1515,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
       }
       else if ( savedata_num == '3' ){
         //ファイル処理
-        if ( ( fp = fopen( "save3.dat", "wb" ) ) == NULL ){
+        if ( ( fp = fopen( "SaveData/save3.dat", "wb" ) ) == NULL ){
           printf("セーブデータがありません\n");
         }
         else{
