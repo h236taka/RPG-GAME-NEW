@@ -42,6 +42,11 @@ typedef enum {
   LEARNING = 3,
 } SkillState;
 
+typedef enum {
+  LOADGAME = 1,
+  NEWGAME = 0,
+} Gamemode;
+
 
 typedef struct enemy {
   char name[ENEMY_NAME];
@@ -86,6 +91,19 @@ typedef struct player_skill {   //値が1ならば習得済み
   int recover2; //ケディアス
   int recover3; //回復:LV3
 } P_skill;
+
+typedef struct setting_skill {  //setting済みのスキル
+  int skill0;
+  int skill1;
+  int skill2;
+  int skill3;
+  int skill4;
+  int skill5;
+  int skill6;
+  int skill7;
+  int skill8;
+  int skill9;
+} Setting_skill;
 
 typedef struct player {
   char name[NAME_LEN];
@@ -303,7 +321,7 @@ typedef struct Save_data_search{
 //rpg_save_load.c
 void check_AutoMapFile();
 
-void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load);
+void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load);
 
 void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search);
 
@@ -358,7 +376,7 @@ int check_player_name(Player **st);
 void game_start(Player *player, Player *player2, Player *player3);
 
 //rpg.c -> rpg_story.c
-void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *enemy, Enemy *enemy1, Enemy *enemy2);
+void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *enemy, Enemy *enemy1, Enemy *enemy2);
 
 void map_tutorial(void);
 
@@ -368,7 +386,7 @@ void full_recover(Player **st, Player **st2, Player **st3);
 void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki, Enemy *gremlin);
 
 //map.c
-void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **slime, Enemy **kobalt, Enemy **goblin);
+void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **slime, Enemy **kobalt, Enemy **goblin);
 
 void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki, Enemy **gremlin);
 

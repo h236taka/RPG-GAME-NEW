@@ -229,7 +229,7 @@ void map_tutorial(void){
   printf("\n");
 }
 
-void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *slime, Enemy *kobalt, Enemy *goblin){
+void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *slime, Enemy *kobalt, Enemy *goblin){
 
   st -> hp = 30;
   st -> maxhp = 30;
@@ -246,16 +246,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
   st -> nextexp = 10;
   st -> leftoverexp = 0;
   st -> gold = 0;
-  //badstatus = 0:正常
-  //badstatus = 1:死亡
-  //badstatus = 2:毒状態
-  //badstatus = 3; 麻痺
-  //badstatus = 4; 魅了
-  //badstatus = 5; 魔封
-  //badstatus = 6; 石化
-  //badstatus = 7; 混乱
-  //badstatus = 8; 睡眠
-  //badstatus = 9; 呪い
+
   st -> badstatus = GOOD;
   //攻撃耐性
   st -> physical_attack = 100;
@@ -388,20 +379,14 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
   map_tutorial();
   sleep(1);
-  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &slime, &kobalt, &goblin);
+  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &slime, &kobalt, &goblin);
 
   sleep(2);
 
   printf("\a");
-  //printf("---STAGE1 CLEARED!!---\n");
   st -> stage_clear = 1;
 
   full_recover(&st,&st2,&st3);
-
-  //printf("st:HP:%d\n", st -> hp);
-  //printf("st2:HP:%d\n", st2 -> hp);
-  //printf("st3:HP:%d\n", st3 -> hp);
-
 }
 
 void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki, Enemy *gremlin){
