@@ -10,19 +10,21 @@
 
 //レベルアップとスキル習得
 
-void player_skill_check(Player ******st, P_skill ******player_skill){
+void player_skill_check(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
   if ( (*****st) -> lv == 2 ){
-    (*****player_skill) -> recover1 = 1;                        //skillget!
+    (*****player_skill) -> recover1 = SETTING;                        //skillget!
+    (*****setting_skill) -> set_skill[0] = RECOVER1;
     printf("%sはケディアを習得した!\n", (*****st) -> name);
   }
   else if ( (*****st) -> lv == 3 ){
-    (*****player_skill) -> cure_poison = 1;                     //skillget!
+    (*****player_skill) -> cure_poison = SETTING;                     //skillget!
+    (*****setting_skill) -> set_skill[1] = CUREPOISON;
     printf("%sはキュアポを習得した!\n", (*****st) -> name);
   }
 }
 
 
-void status_lvup(Player *****st, P_skill *****player_skill){
+void status_lvup(Player *****st, P_skill *****player_skill, Setting_skill *****setting_skill){
   int hp, mp, status_count;
   int input;
 
@@ -32,7 +34,7 @@ void status_lvup(Player *****st, P_skill *****player_skill){
   (****st) -> maxhp += hp;
   (****st) -> maxmp += mp;
 
-  player_skill_check(&st, &player_skill);
+  player_skill_check(&st, &player_skill,&setting_skill);
 
   do {
     printf("%sの上昇させたい能力を選んで下さい!\n", (****st) -> name);
@@ -127,7 +129,7 @@ void special_status_lvup(Player *****st){
 
 }
 
-void level_up(Player ****st, P_skill ****player_skill){
+void level_up(Player ****st, P_skill ****player_skill, Setting_skill ****setting_skill){
   int exp_function;  //LVup必要経験値 LVUPごとに1.4倍
   int i, finish_count, per;
 
@@ -151,7 +153,7 @@ void level_up(Player ****st, P_skill ****player_skill){
       printf("%sはLVUP!!\n", (***st) -> name);
       printf("%s LV:%d -> LV:%d\n", (***st) -> name, (***st) -> lv - 1, (***st) -> lv);
 
-      status_lvup(&st, &player_skill);
+      status_lvup(&st, &player_skill,&setting_skill);
 
       per = (rand() % ( 10 - 1 + 1 ) + 1); //10%
       if ( per == 5 ){

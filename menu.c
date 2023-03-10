@@ -1445,7 +1445,7 @@ int learned_PhysicalSkill_list(P_skill ********player_skill){
   return 0;
 }
 
-void set_skill_list(P_skill *******player_skill){
+void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_skill){
   int input;
   int count;
 
@@ -1486,7 +1486,7 @@ void set_skill_list(P_skill *******player_skill){
   } while ( input != 'c' );
 }
 
-void skill_set(Player ******st, P_skill ******player_skill){
+void skill_set(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
   int input;
 
   do {
@@ -1495,7 +1495,7 @@ void skill_set(Player ******st, P_skill ******player_skill){
 
     printf("---%s's skill---\n", (*****st) -> name);
 
-    set_skill_list(&player_skill);
+    set_skill_list(&player_skill,&setting_skill);
 
     input = _getch();
 
@@ -1621,7 +1621,7 @@ void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEq
 
 }
 
-void set_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3){
+void set_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3, Setting_skill *****setting_skill, Setting_skill *****setting_skill2, Setting_skill *****setting_skill3){
   int input;
 
   do {
@@ -1644,13 +1644,13 @@ void set_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****pla
     input = _getch();
 
     if ( input == '1' ){
-      skill_set(&st,&player_skill);
+      skill_set(&st,&player_skill,&setting_skill);
     }
     else if ( input == '2' ){
-      skill_set(&st2,&player_skill2);
+      skill_set(&st2,&player_skill2,&setting_skill2);
     }
     else if ( input == '3' ){
-      skill_set(&st3,&player_skill3);
+      skill_set(&st3,&player_skill3,&setting_skill3);
     }
     else{
       //nothing
@@ -1723,7 +1723,7 @@ void map_menu(Map ***map, Area *****area, int area_data_line, int area_data_len,
 
 }
 
-void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Items ****items, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
+void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Setting_skill ****setting_skill, Setting_skill ****setting_skill2, Setting_skill ****setting_skill3, Items ****items, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
 
   int menu_end, input, battle_display_condition_count;
 
@@ -1780,7 +1780,7 @@ void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****pla
       equip_menu(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
     }
     else if ( input == '4' ){
-      set_menu(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3);
+      set_menu(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3,&setting_skill,&setting_skill2,&setting_skill3);
     }
     else if ( input == '5' ){
       status_menu(&st,&st2,&st3);

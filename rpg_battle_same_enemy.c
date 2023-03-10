@@ -11,11 +11,10 @@
 //encountpatternが1~4のとき
 
 int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
-  int damage_base, damage, i, eva, critical, eva_count, critical_count, max_damage, temp;
+  int damage_base, damage, i, eva, critical, eva_count, max_damage, temp;
   double eva_base, critical_base;
 
   eva_count = 0;
-  critical_count = 0;
   damage_base =( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - (***enemy) -> str;
   if ( damage_base < 0 ){
     damage_base = 0;
@@ -71,72 +70,78 @@ int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
           damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base; //(rand()%(max - min + 1)) + min;
           damage *= 2;     //criticalでダメージ2倍
           damage += 100000;
-          critical_count++;
+          return damage;
         }
       }
     }
 
     max_damage = damage_base * 1.3;
 
-    if ( critical_count == 0 ){
-      damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
-      //敵の耐性判断
-      if ( (***enemy) -> physical_attack == 150 ){     //物理攻撃1.5倍
-        damage *= 1.5;
+    damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
+    //敵の耐性判断
+    if ( (***enemy) -> physical_attack == 150 ){     //物理攻撃1.5倍
+      damage *= 1.5;
+    }
+    else if ( (***enemy) -> physical_attack == 200 ){
+      printf("%sの通常攻撃!\n", (***st) -> name);
+      sleep(1);
+      printf("WEAKNESS!!\n");
+      damage *= 2;
+    }
+    else if ( (***enemy) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
+      damage *= 0.8;
+    }
+    else if ( (***enemy) -> physical_attack == 50 ){  //物理攻撃半減
+      printf("%sの通常攻撃!\n", (***st) -> name);
+      sleep(1);
+      printf("RESIST!\n");
+      damage *= 0.5;
+    }
+    else if ( (***enemy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
+      printf("%sの通常攻撃!\n", (***st) -> name);
+      sleep(1);
+      printf("RESIST!\n");
+      damage *= 0.25;
+    }
+    else if ( (***enemy) -> physical_attack == -1 ){   //物理攻撃無効
+      damage = -1;
+      return damage;
+    }
+    else if ( (***enemy) -> physical_attack == -2 ){   //物理攻撃吸収
+      temp = damage;
+      damage = -2;
+      (***enemy) -> hp += temp;
+      if ( (***enemy) -> hp > (***enemy) -> maxhp ){
+        (***enemy) -> hp = (***enemy) -> maxhp;
       }
-      else if ( (***enemy) -> physical_attack == 200 ){
-        printf("%sの通常攻撃!\n", (***st) -> name);
+      printf("%sの通常攻撃!\n", (***st) -> name);
+      sleep(1);
+      printf("Absorb!\n");
+      printf("%s:%dダメージ吸収\n", (***enemy) -> name, temp);
+      return damage;
+    }
+    else if ( (***enemy) -> physical_attack == -3 ){   //物理攻撃反射
+      temp = damage;
+      damage = -3;
+      (***st) -> hp -= temp;
+      printf("%sの通常攻撃!\n", (***st) -> name);
+      sleep(1);
+      printf("Reflect!\n");
+      printf("%sは%dダメージを受けた\n", (***st) -> name, temp);
+      if ( (***st) -> hp <= 0 ){
+        (***st) -> hp = 0;
+        (***st) -> badstatus = DEAD;
         sleep(1);
-        printf("WEAKNESS!!\n");
-        damage *= 2;
-      }
-      else if ( (***enemy) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
-        damage *= 0.8;
-      }
-      else if ( (***enemy) -> physical_attack == 50 ){  //物理攻撃半減
-        printf("%sの通常攻撃!\n", (***st) -> name);
-        sleep(1);
-        printf("RESIST!\n");
-        damage *= 0.5;
-      }
-      else if ( (***enemy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-        printf("%sの通常攻撃!\n", (***st) -> name);
-        sleep(1);
-        printf("RESIST!\n");
-        damage *= 0.25;
-      }
-      else if ( (***enemy) -> physical_attack == -1 ){   //物理攻撃無効
-        damage = -1;
-      }
-      else if ( (***enemy) -> physical_attack == -2 ){   //物理攻撃吸収
-        temp = damage;
-        damage = -2;
-        (***enemy) -> hp += temp;
-        if ( (***enemy) -> hp > (***enemy) -> maxhp ){
-          (***enemy) -> hp = (***enemy) -> maxhp;
-        }
-        printf("%sの通常攻撃!\n", (***st) -> name);
-        sleep(1);
-        printf("Absorb!\n");
-        printf("%s:%dダメージ吸収\n", (***enemy) -> name, temp);
-      }
-      else if ( (***enemy) -> physical_attack == -3 ){   //物理攻撃反射
-        temp = damage;
-        damage = -3;
-        (***st) -> hp -= temp;
-        printf("%sの通常攻撃!\n", (***st) -> name);
-        sleep(1);
-        printf("Reflect!\n");
-        printf("%sは%dダメージを受けた\n", (***st) -> name, temp);
-        if ( (***st) -> hp <= 0 ){
-          (***st) -> hp = 0;
-          (***st) -> badstatus = DEAD;
-          sleep(1);
-          printf("%sは死んでしまった\n", (***st) -> name);
-        }
+        printf("%sは死んでしまった\n", (***st) -> name);
       }
 
+      return damage;
     }
+
+  }
+
+  if ( damage > 9999 ){
+    damage = 9999;
   }
 
   return damage;
@@ -1308,7 +1313,6 @@ double calculate_player_turn(double player_turn, double turn_decrease){
   }
   //プレスターン増加
   else if ( turn_decrease == 0.1 ){
-    //printf("here\n");
     if ( player_turn == 3 || player_turn == 2 || player_turn == 1 ){
       player_turn += turn_decrease;
     }
@@ -1572,7 +1576,7 @@ void player_badstatus_recover(Player ****st){
 }
 
 //敵１種類の戦闘関数
-void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy ***enemy, int encount_pattern){  //構造体のポインタを引数にまたポインタ指定（ダブルポインタ)
+void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy ***enemy, int encount_pattern){  //構造体のポインタを引数にまたポインタ指定（ダブルポインタ)
 
   int player_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
   int enemy_deadcount, skill_count, use_skill_count, skill_reaction, recover_point, battle_display_condition_count, enemy_temp;
@@ -1692,6 +1696,10 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     else if ( encount_pattern == 4 ){
       encount_pattern4_layout(&enemy, &enemy_copy1, &enemy_copy2, &enemy_copy3, encount_pattern);
     }
+    else{
+      printf("EncountPatternが存在しません\n");
+      return;
+    }
     printf("\n");
 
     printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
@@ -1724,6 +1732,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         player_guard = 0; //主人公のガードを使用に関する判定
         if ( (**st) -> badstatus == DEAD ){
           printf("%sは死んでいて行動できない!\n", (**st) -> name);
+          printf("\n");
           move_finish++;
           turn_decrease = -1;
           player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2370,57 +2379,178 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
           }
           else if ( command == '2' ){ //skillコマンド
-            skill_count = battle_player_skill_list(&player_skill);
+            skill_count = battle_player_skill_list(&player_skill,&setting_skill);
 
             if ( skill_count != 0 ){
               do {
+                skill_target = NOPLAYER;
                 printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
                 skill_command = _getch();
-                if ( skill_command == '1' ){    //ケディア
-                  use_skill_count = 1;
-                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+                if ( skill_command == '0' ){
+                  if ( (**setting_skill) -> set_skill[0] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
 
-                  //いずれかのターゲットが存在する
-                  if ( skill_target != 0 ){
-                    skill_user = 1; //Player
-                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
-
-                    move_finish++;
-                    turn_decrease = -1;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
                   }
-                  else{
-                    //turn消費無し
-                  }
-
                   printf("\n");
                 }
-                else if ( skill_command == '2' ){   //キュアポ
-                  use_skill_count = 2;
-                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+                else if ( skill_command == '1' ){
+                  if ( (**setting_skill) -> set_skill[1] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
 
-                  //いずれかのターゲットが存在する
-                  if ( skill_target != 0 ){
-                    skill_user = 1; //Player
-                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
-
-                    move_finish++;
-                    turn_decrease = -1;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
                   }
-                  else{
-                    //turn消費無し
-                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '2' ){
+                  if ( (**setting_skill) -> set_skill[2] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
 
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '3' ){
+                  if ( (**setting_skill) -> set_skill[3] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '4' ){
+                  if ( (**setting_skill) -> set_skill[4] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '5' ){
+                  if ( (**setting_skill) -> set_skill[5] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '6' ){
+                  if ( (**setting_skill) -> set_skill[6] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '7' ){
+                  if ( (**setting_skill) -> set_skill[7] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '8' ){
+                  if ( (**setting_skill) -> set_skill[8] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '9' ){
+                  if ( (**setting_skill) -> set_skill[9] != 0 ){
+                    skill_user = PLAYER;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
                   printf("\n");
                 }
                 else if ( skill_command == 'c' ){
                   printf("\n");
-                  use_skill_count = 99;
+                  break;
                 }
-
-
-              }while ( use_skill_count == 0 );    //skillを使うと数値は0ではない
+              }while ( skill_user == NOPLAYER );    //skillを使うと数値は0ではない
             }
 
           }
@@ -3195,60 +3325,179 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
           }
           else if ( command == '2' ){ //skillコマンド
-            skill_count = battle_player_skill_list(&player_skill2);
+            skill_count = battle_player_skill_list(&player_skill2,&setting_skill2);
 
             if ( skill_count != 0 ){
               do {
+                skill_target = NOPLAYER;
                 printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
                 skill_command = _getch();
-                if ( skill_command == '1' ){    //回復:LV1
-                  use_skill_count = 1;
-                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+                if ( skill_command == '0' ){
+                  if ( (**setting_skill2) -> set_skill[0] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
 
-                  //いずれかのターゲットが存在する
-                  if ( skill_target != 0 ){
-                    skill_user = 2; //Player2
-                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
-
-                    turn_decrease = -1;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    move_finish++;
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
                   }
-                  else{
-                    //turn消費無し
-                  }
-
                   printf("\n");
-
                 }
-                else if ( skill_command == '2' ){   //CURE-POISON
-                  use_skill_count = 2;
-                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+                else if ( skill_command == '1' ){
+                  if ( (**setting_skill2) -> set_skill[1] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
 
-                  //いずれかのターゲットが存在する
-                  if ( skill_target != 0 ){
-                    skill_user = 2; //Player
-                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
-
-                    move_finish++;
-                    turn_decrease = -1;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
                   }
-                  else{
-                    //turn消費無し
-                  }
-
                   printf("\n");
+                }
+                else if ( skill_command == '2' ){
+                  if ( (**setting_skill2) -> set_skill[2] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
 
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '3' ){
+                  if ( (**setting_skill2) -> set_skill[3] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '4' ){
+                  if ( (**setting_skill2) -> set_skill[4] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '5' ){
+                  if ( (**setting_skill2) -> set_skill[5] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '6' ){
+                  if ( (**setting_skill2) -> set_skill[6] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '7' ){
+                  if ( (**setting_skill2) -> set_skill[7] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '8' ){
+                  if ( (**setting_skill2) -> set_skill[8] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '9' ){
+                  if ( (**setting_skill2) -> set_skill[9] != 0 ){
+                    skill_user = PLAYER2;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
                 }
                 else if ( skill_command == 'c' ){
                   printf("\n");
-                  use_skill_count = 99;
+                  break;
                 }
-
-              }while ( use_skill_count == 0 );    //skillを使うと数値は0ではない
+              }while ( skill_user == NOPLAYER );    //skillを使うと数値は0ではない
             }
-
           }
           else if ( command == '3' ){  //防御コマンド
 
@@ -4009,59 +4258,179 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
           }
           else if ( command == '2' ){ //skillコマンド
-            skill_count = battle_player_skill_list(&player_skill3);
+            skill_count = battle_player_skill_list(&player_skill3,&setting_skill3);
 
             if ( skill_count != 0 ){
               do {
+                skill_target = NOPLAYER;
                 printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
                 skill_command = _getch();
-                if ( skill_command == '1' ){    //回復:LV1
-                  use_skill_count = 1;
-                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+                if ( skill_command == '0' ){
+                  if ( (**setting_skill3) -> set_skill[0] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
 
-                  //いずれかのターゲットが存在する
-                  if ( skill_target != 0 ){
-                    skill_user = 3; //Player3
-                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
-
-                    turn_decrease = -1;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    move_finish++;
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
                   }
-                  else{
-                    //turn消費無し
-                  }
-
                   printf("\n");
-
                 }
-                else if ( skill_command == '2' ){   //CURE-POISON
-                  use_skill_count = 2;
-                  skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
+                else if ( skill_command == '1' ){
+                  if ( (**setting_skill3) -> set_skill[1] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
 
-                  //いずれかのターゲットが存在する
-                  if ( skill_target != 0 ){
-                    skill_user = 3; //Player
-                    player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
-
-                    move_finish++;
-                    turn_decrease = -1;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
                   }
-                  else{
-                    //turn消費無し
-                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '2' ){
+                  if ( (**setting_skill3) -> set_skill[2] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
 
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '3' ){
+                  if ( (**setting_skill3) -> set_skill[3] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '4' ){
+                  if ( (**setting_skill3) -> set_skill[4] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '5' ){
+                  if ( (**setting_skill3) -> set_skill[5] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '6' ){
+                  if ( (**setting_skill3) -> set_skill[6] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '7' ){
+                  if ( (**setting_skill3) -> set_skill[7] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '8' ){
+                  if ( (**setting_skill3) -> set_skill[8] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
+                  printf("\n");
+                }
+                else if ( skill_command == '9' ){
+                  if ( (**setting_skill3) -> set_skill[9] != 0 ){
+                    skill_user = PLAYER3;
+                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+
+                    if ( skill_target != NOPLAYER ){
+                      move_finish++;
+                      turn_decrease = -1;
+                      player_turn = calculate_player_turn(player_turn, turn_decrease);
+                    }
+                    else{
+                      //turn消費無し
+                    }
+                  }
                   printf("\n");
                 }
                 else if ( skill_command == 'c' ){
                   printf("\n");
-                  use_skill_count = 99;
+                  break;
                 }
-
-              }while ( use_skill_count == 0 );    //skillを使うと数値は0ではない
+              }while ( skill_user == NOPLAYER );    //skillを使うと数値は0ではない
             }
-
           }
           else if ( command == '3' ){  //防御コマンド
 
@@ -4503,7 +4872,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   else{
     (**st) -> exp += result_exp;
     (**st) -> sumexp += result_exp;
-    level_up(&st, &player_skill);
+    level_up(&st, &player_skill,&setting_skill);
   }
   if ( (**st2) -> badstatus == DEAD ){
     //獲得経験値なし
@@ -4511,7 +4880,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   else{
     (**st2) -> exp += result_exp;
     (**st2) -> sumexp += result_exp;
-    level_up(&st2, &player_skill2);
+    level_up(&st2, &player_skill2,&setting_skill2);
   }
   if ( (**st3) -> badstatus == DEAD ){
     //獲得経験値なし
@@ -4519,7 +4888,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   else{
     (**st3) -> exp += result_exp;
     (**st3) -> sumexp += result_exp;
-    level_up(&st3, &player_skill3);
+    level_up(&st3, &player_skill3,&setting_skill3);
   }
 
   (**st) -> gold += result_gold;

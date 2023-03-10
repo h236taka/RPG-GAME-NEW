@@ -30,9 +30,6 @@ int main(void){
 
   SearchDangeon search = {0};
 
-  //列挙体
-  SkillState skillstate;
-
   //boss_count = １ならばボス扱い
   //boss_count = 2ならば強制戦闘
   //enemy_skillが0以外なら敵はスキルを使用
@@ -59,9 +56,9 @@ int main(void){
   P_skill player_skill = {0};
   P_skill player_skill2 = {0};
   P_skill player_skill3 = {0};
-  Setting_skill setting_skill;
-  Setting_skill setting_skill2;
-  Setting_skill setting_skill3;
+  Setting_skill setting_skill = {0};
+  Setting_skill setting_skill2 = {0};
+  Setting_skill setting_skill3 = {0};
 
   do{
     printf("MAIN MENU\n");
@@ -113,7 +110,7 @@ int main(void){
   load = 0;
   if ( player.stage_clear == 1 || player.stage_clear == 1.1 ){
     //start_time = time(NULL);
-    game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &items,&pEquip, &p2Equip, &p3Equip, &search, &area,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki,&gremlin);//図書館ステージ
+    game_story2(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items,&pEquip, &p2Equip, &p3Equip, &search, &area,&zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki,&gremlin);//図書館ステージ
     save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, load);
   }
   else if ( player.stage_clear == 2 ){

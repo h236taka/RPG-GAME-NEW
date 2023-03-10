@@ -940,7 +940,7 @@ void get_search_event(int search_id, Player ****st, Items ****items, Equip ****p
   }
 }
 
-void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, SearchDangeon ***search, Map *map, Area ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]){
+void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, SearchDangeon ***search, Map *map, Area ***area, int area_data_line, int area_data_len, int area_data[area_data_line][area_data_len], int automap_area[area_data_line][area_data_len]){
   int input, dummy, area_data_number;   //direction = 1; ↑ direction = 2; ↓ direction = 3; ← direction = 4; →
   int is_move;
   int search_id;
@@ -1009,7 +1009,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     }
 
     if ( dummy == 'm' ){  //menu
-      display_menu(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3,&items,&pEquip,&p2Equip,&p3Equip,&map,&area,area_data_line,area_data_len,automap_area);
+      display_menu(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3,&setting_skill,&setting_skill2,&setting_skill3,&items,&pEquip,&p2Equip,&p3Equip,&map,&area,area_data_line,area_data_len,automap_area);
       if ( first_move_count == 0 ){
         direction = 1;
       }
@@ -1640,13 +1640,13 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   //encount_pattern = 10; 敵３体(同じ敵２体と違う敵１体)
   clear_count = 0;
   do{
-    player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);  //playerの移動に関する関数
+    player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);  //playerの移動に関する関数
     //event処理
     if ( map.x == 1 && map.y == 12 && (*area) -> event1a == 0 ){
       printf("突然目の前に敵が現れた!\n");
       encount_pattern = 2;
       (*slime) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
-      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, encount_pattern);
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, encount_pattern);
 
       (*slime) -> boss_count = 0;  //元に戻す
       (*area) -> event1a = 1;
@@ -1659,7 +1659,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
       battle_to_map = 1;
 
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
     if ( map.x == 1 && map.y == 9 && (*area) -> event1b == 0 ){
@@ -1667,14 +1667,14 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       encount_pattern = 3;
       (*slime) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
 
-      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, encount_pattern);
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, encount_pattern);
 
       (*slime) -> boss_count = 0;  //元に戻す
       (*area) -> event1b = 1;
 
       battle_to_map = 1;
 
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
     if ( map.x == 1 && map.y == 5 && (*area) -> event1c == 0 ){
@@ -1682,14 +1682,14 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       encount_pattern = 1;
       (*kobalt) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
 
-      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &kobalt, encount_pattern);
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &kobalt, encount_pattern);
 
       (*kobalt) -> boss_count = 0;  //元に戻す
       (*area) -> event1c = 1;
 
       battle_to_map = 1;
 
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
     if ( map.x == 1 && map.y == 1 && (*area) -> event1d == 0 ){
@@ -1700,7 +1700,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
       event_to_map = 1;
 
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
     if ( map.x == 1 && map.y == 0 && (*area) -> boss1 == 0 ){
@@ -1708,7 +1708,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
       encount_pattern = 1;
 
-      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin, encount_pattern);
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin, encount_pattern);
 
       (*area) -> boss1 = 1;
       printf("BOSSを倒した!\n");
@@ -1729,7 +1729,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
 }
 
-void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki, Enemy **gremlin){
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki, Enemy **gremlin){
 
   int area_data_len, area_data_line;
   int i, j, file_output;
@@ -1896,7 +1896,7 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
   clear_count = 0;
   do{
-    player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);  //playerの移動に関する関数
+    player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);  //playerの移動に関する関数
     //event処理
     if ( map.x == 8 && map.y == 3 && (*area) -> boss2 == 0 ){
       printf("\n");
@@ -1920,7 +1920,7 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       sleep(1);
 
       encount_pattern = 1;
-      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &gremlin, encount_pattern);
+      game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &gremlin, encount_pattern);
 
       (*area) -> boss2 = 1;
     }
@@ -1929,7 +1929,7 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       printf("\n");
       (*area) -> event2a = 1;
       event_to_map = 1;
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
     }
     else if ( map.x == 4 && map.y == 26 ){
       printf("ダンジョンから脱出した...\n");
@@ -1948,7 +1948,7 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       map.y = 25;
       event_to_map = 1;
 
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
+      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
     }
     else{
       //敵とエンカウント
@@ -1957,37 +1957,37 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
         if ( enemy_appearance_per >= 1 && enemy_appearance_per <= 10 ){
           encount_pattern = 1;
           //zombie1体
-          game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &zombie, encount_pattern);
+          game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &zombie, encount_pattern);
         }
         else if ( enemy_appearance_per <= 25 ){  //オンモラキ１体+ゾンビドッグ1体+コボルト1体
           encount_pattern = 6;
-          game_battle_encount_pattern6(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &zombiedog, &onmoraki, &kobalt, encount_pattern);
+          game_battle_encount_pattern6(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &zombiedog, &onmoraki, &kobalt, encount_pattern);
         }
         else if ( enemy_appearance_per <= 40 ){  //スライム1体+ゾンビ1体
           encount_pattern = 5;
-          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, &zombie, encount_pattern);
+          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, &zombie, encount_pattern);
         }
         else if ( enemy_appearance_per <= 60 ){  //コボルト1体+ゴブリン1体
           encount_pattern = 5;
-          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin_normal, &kobalt, encount_pattern);
+          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin_normal, &kobalt, encount_pattern);
         }
         else if ( enemy_appearance_per <= 75 ){ //ゴブリン2体
           encount_pattern = 2;
-          game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin_normal, encount_pattern);
+          game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin_normal, encount_pattern);
         }
         else if ( enemy_appearance_per <= 85 ){  //スライム1体+ゾンビドッグ1体+コボルト1体+ゾンビ1体
           encount_pattern = 7;
-          game_battle_encount_pattern7(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, &kobalt, &zombiedog, &zombie,encount_pattern);
+          game_battle_encount_pattern7(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, &kobalt, &zombiedog, &zombie,encount_pattern);
         }
         else{
           encount_pattern = 5;   //ゾンビ1体+オンモラキ1体
-          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &zombie, &onmoraki, encount_pattern);
+          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &zombie, &onmoraki, encount_pattern);
         }
 
         battle_mode = 0;
 
         battle_to_map = 1;
-        player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
+        player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
       }
     }
 

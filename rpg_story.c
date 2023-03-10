@@ -389,7 +389,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
   full_recover(&st,&st2,&st3);
 }
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki, Enemy *gremlin){
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki, Enemy *gremlin){
 
   int input;
   int tmp;
@@ -460,7 +460,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
       goTo_labo(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3);
     }
     else if ( input == '4' ){
-      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki,&gremlin);
+      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki,&gremlin);
     }
     else if ( input == '5' ){
       exit(EXIT_SUCCESS);
@@ -470,7 +470,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
       school_save(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip,&search);
     }
 
-  } while ( area -> event2a == 0 );
+  } while ( area -> boss2 == 0 );
 
   printf("\a");
   printf("---STAGE2 CLEARED!!---\n");
