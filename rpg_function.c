@@ -107,7 +107,16 @@ int calculate_RecoverSkill_price(int input, int money){
     money -= 500;
   }
   else if ( input == '2' ){
-    money -= 8000;
+    money -= 4000;
+  }
+
+  return money;
+}
+
+int calculate_FireSkill_price(int input, int money){
+
+  if ( input == '0' ){
+    money -= 700;
   }
 
   return money;
@@ -118,11 +127,31 @@ void check_PhysicalSkill_state(P_skill *****player_skill){
 
 }
 
+void check_FireSkill_state(P_skill *****player_skill, int num){
+
+  if ( num == 0 ){
+    if ( (****player_skill) -> enfa[0] == LEARNED || (****player_skill) -> enfa[0] == SETTING ){
+      printf("MASTER★\n");
+    }
+    else if ( (****player_skill) -> enfa[0] == LEARNING ){
+      printf("習得中\n");
+    }
+    else{
+      printf("未習得\n");
+    }
+
+    return;
+  }
+}
+
 void check_RecoverSkill_state(P_skill *****player_skill, int num){
 
   if ( num == 0 ){
-    if ( (****player_skill) -> recover1 != NOT_LEARNING ){
+    if ( (****player_skill) -> recover1[0] == LEARNED || (****player_skill) -> recover1[0] == SETTING ){
       printf("MASTER★\n");
+    }
+    else if ( (****player_skill) -> recover1[0] == LEARNING ){
+      printf("習得中\n");
     }
     else{
       printf("未習得\n");
@@ -132,8 +161,11 @@ void check_RecoverSkill_state(P_skill *****player_skill, int num){
   }
 
   if ( num == 1 ){
-    if ( (****player_skill) -> cure_poison != NOT_LEARNING ){
+    if ( (****player_skill) -> cure_poison[0] == LEARNED || (****player_skill) -> cure_poison[0] == SETTING ){
       printf("MASTER★\n");
+    }
+    else if ( (****player_skill) -> cure_poison[0] == LEARNING ){
+      printf("習得中\n");
     }
     else{
       printf("未習得\n");
@@ -143,8 +175,11 @@ void check_RecoverSkill_state(P_skill *****player_skill, int num){
   }
 
   if ( num == 2 ){
-    if ( (****player_skill) -> recover2 != NOT_LEARNING ){
+    if ( (****player_skill) -> recover2[0] == LEARNED || (****player_skill) -> recover2[0] == SETTING ){
       printf("MASTER★\n");
+    }
+    else if ( (****player_skill) -> recover2[0] == LEARNING ){
+      printf("習得中\n");
     }
     else{
       printf("未習得\n");
@@ -155,17 +190,58 @@ void check_RecoverSkill_state(P_skill *****player_skill, int num){
 
 }
 
+int procedure_getFireSkill(int input, P_skill *****player_skill, int money ){
+
+  if ( input == '0' ){
+    if ( (****player_skill) -> enfa[0] == NOT_LEARNING ){
+      if ( money < 700 ){
+        printf("所持金が足りません!\n");
+        return NOT_LEARNING;
+      }
+      else{
+        printf("ヘルメス「エンファについて学ぶが良い！」\n");
+        (****player_skill) -> enfa[0] = LEARNING;
+        (****player_skill) -> enfa[3] = 70;
+        return LEARNING;
+      }
+    }
+    else{
+      printf("既にMASTERしています!\n");
+      return LEARNED;
+    }
+  }
+  else if ( input == '1' && ( (****player_skill) -> enfa[0] == SETTING || (****player_skill) -> enfa[0] == LEARNED ) ){
+    printf("未実装\n");
+    return NOT_LEARNING;
+    if ( (****player_skill) -> cure_poison[0] == NOT_LEARNING ){
+      if ( money < 500 ){
+        printf("所持金が足りません!\n");
+        return NOT_LEARNING;
+      }
+      else{
+        printf("ヘルメス「エンファスについて学ぶが良い！」\n");
+        (****player_skill) -> cure_poison[0] = LEARNING;
+        return LEARNING;
+      }
+    }
+    else{
+      printf("既にMASTERしています!\n");
+      return LEARNED;
+    }
+  }
+}
+
 int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money){
 
   if ( input == '0' ){
-    if ( (****player_skill) -> recover1 == NOT_LEARNING ){
+    if ( (****player_skill) -> recover1[0] == NOT_LEARNING ){
       if ( money < 500 ){
         printf("所持金が足りません!\n");
         return NOT_LEARNING;
       }
       else{
         printf("ヘルメス「ケディアについて学ぶが良い！」\n");
-        (****player_skill) -> recover1 = LEARNING;
+        (****player_skill) -> recover1[0] = LEARNING;
         return LEARNING;
       }
     }
@@ -175,14 +251,14 @@ int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money){
     }
   }
   else if ( input == '1' ){
-    if ( (****player_skill) -> cure_poison == NOT_LEARNING ){
+    if ( (****player_skill) -> cure_poison[0] == NOT_LEARNING ){
       if ( money < 500 ){
         printf("所持金が足りません!\n");
         return NOT_LEARNING;
       }
       else{
         printf("ヘルメス「キュアポについて学ぶが良い！」\n");
-        (****player_skill) -> cure_poison = LEARNING;
+        (****player_skill) -> cure_poison[0] = LEARNING;
         return LEARNING;
       }
     }
@@ -192,14 +268,14 @@ int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money){
     }
   }
   else if ( input == '2' ){
-    if ( (****player_skill) -> recover2 == NOT_LEARNING ){
-      if ( money < 8000 ){
+    if ( (****player_skill) -> recover2[0] == NOT_LEARNING ){
+      if ( money < 4000 ){
         printf("所持金が足りません!\n");
         return NOT_LEARNING;
       }
       else{
         printf("ヘルメス「ケディアスについて学ぶが良い！」\n");
-        (****player_skill) -> recover2 = LEARNING;
+        (****player_skill) -> recover2[0] = LEARNING;
         return LEARNING;
       }
     }
@@ -228,6 +304,41 @@ void getSkill_Physical(Player ****st, P_skill ****player_skill, int money){
   }while( input != 'c' );
 }
 
+int getSkill_Fire(Player ****st, P_skill ****player_skill, int money){
+  int input;
+  int num;
+  int isLearned;
+
+  do{
+    num = 0;
+    printf("\n");
+    printf("所持金:%dG\n", money);
+    printf("<<<火炎スキル>>>\n");
+    printf("0.エンファ 700G(消費MP:4 単体に火炎小ダメージ) ");
+    check_FireSkill_state(&player_skill,num);
+    num++;
+
+    if ( (***player_skill) -> enfa[0] == LEARNED ){
+      printf("1.エンファス 3500G(消費MP:8 敵全体に火炎小ダメージ)\n");
+    }
+    check_FireSkill_state(&player_skill,num);
+    num++;
+
+    printf("習得したいスキルを選んでください(終了する場合はcを入力)\n");
+    input = _getch();
+
+    if ( input == 'c' ){
+      return money;
+    }
+
+    isLearned = procedure_getFireSkill(input,&player_skill,money);
+    if ( isLearned == LEARNING ){
+      money = calculate_FireSkill_price(input,money);
+      return money;
+    }
+
+  }while( input != 'c' );
+}
 
 int getSkill_Recover(Player ****st, P_skill ****player_skill, int money){
   int input;
@@ -245,7 +356,7 @@ int getSkill_Recover(Player ****st, P_skill ****player_skill, int money){
     printf("1.キュアポ 500G(消費MP:4 単体のPOISONを回復) ");
     check_RecoverSkill_state(&player_skill,num);
     num++;
-    printf("2.ケディアス 8000G(消費MP:8 全体のHPを小回復)");
+    printf("2.ケディアス 4000G(消費MP:8 全体のHPを小回復)");
     check_RecoverSkill_state(&player_skill,num);
     num++;
 
@@ -265,7 +376,7 @@ int getSkill_Recover(Player ****st, P_skill ****player_skill, int money){
   }while( input != 'c' );
 }
 
-int getSkill(Player ***st, P_skill ***player_skill, int money){
+int getSkillAll(Player ***st, P_skill ***player_skill, int money){
   int input;
 
   printf("\n");
@@ -289,9 +400,11 @@ int getSkill(Player ***st, P_skill ***player_skill, int money){
 
     if ( input == '1' ){
       getSkill_Physical(&st,&player_skill,money);
+      return money;
     }
     else if ( input == '2' ){
-      //getSkill_fire(&st,&player_skill,money);
+      money = getSkill_Fire(&st,&player_skill,money);
+      return money;
     }
     else if ( input == '9' ){
       money = getSkill_Recover(&st,&player_skill,money);
@@ -393,15 +506,15 @@ void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, 
         input = _getch();
 
         if ( input == '1' ){
-          money = getSkill(&st,&player_skill,money);
+          money = getSkillAll(&st,&player_skill,money);
           (*st) -> gold = money;
         }
         else if ( input == '2' ){
-          money = getSkill(&st2,&player_skill2,money);
+          money = getSkillAll(&st2,&player_skill2,money);
           (*st) -> gold = money;
         }
         else if ( input == '3' ){
-          money = getSkill(&st3,&player_skill3,money);
+          money = getSkillAll(&st3,&player_skill3,money);
           (*st) -> gold = money;
         }
 

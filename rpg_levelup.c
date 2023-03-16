@@ -12,12 +12,14 @@
 
 void player_skill_check(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
   if ( (*****st) -> lv == 2 ){
-    (*****player_skill) -> recover1 = SETTING;                        //skillget!
+    (*****player_skill) -> recover1[0] = SETTING;                        //skillget!
+    (*****player_skill) -> recover1[1] = MENUANDBATTLE;
     (*****setting_skill) -> set_skill[0] = RECOVER1;
     printf("%sはケディアを習得した!\n", (*****st) -> name);
   }
   else if ( (*****st) -> lv == 3 ){
-    (*****player_skill) -> cure_poison = SETTING;                     //skillget!
+    (*****player_skill) -> cure_poison[0] = SETTING;                     //skillget!
+    (*****player_skill) -> cure_poison[1] = MENUANDBATTLE;
     (*****setting_skill) -> set_skill[1] = CUREPOISON;
     printf("%sはキュアポを習得した!\n", (*****st) -> name);
   }

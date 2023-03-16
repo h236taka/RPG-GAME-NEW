@@ -36,6 +36,11 @@
 
 //列挙型
 typedef enum {
+  TRUE = 1,
+  FALSE = 0,
+} Checkbool;
+
+typedef enum {
   NOT_LEARNING = 0,
   SETTING = 1,
   LEARNED = 2,
@@ -48,9 +53,10 @@ typedef enum {
 } Gamemode;
 
 typedef enum {
-  RECOVER1 = 1,
-  CUREPOISON = 2,
-} Skillid;
+  BATTLEONLY = 0,
+  MENUONLY = 1,
+  MENUANDBATTLE = 2,
+} Skilltype;
 
 typedef enum {
   PLAYER = 1,
@@ -58,6 +64,40 @@ typedef enum {
   PLAYER3 = 3,
   NOPLAYER = 0,
 } Playerid;
+
+typedef enum {
+  ENEMY1 = 1,  //左端の敵
+  ENEMY2 = 2, //左から２番目
+  ENEMY3 = 3, //左から3番目
+  ENEMY4 = 4, //右端の敵
+} EnemyTarget;
+
+typedef enum {
+  RECOVER1 = 1,
+  CUREPOISON = 2,
+  RECOVER2 = 3,
+  ENFA = 4,
+} Skillid;
+
+typedef enum {
+  MEDICINE = 1,
+  LIFESTONE = 2,
+  BEAD = 3,
+  ANTIPOISON = 4,
+  ANTIPALYZE = 5,
+} ItemId;
+
+typedef enum {
+  SLIME = 1,
+  KOBALT = 2,
+  GOBLIN = 3,
+  ZOMBIEDOG = 4,
+  GHOUL = 5,
+  ZOMIBIE = 6,
+  GOBLINNORMAL = 7,
+  ONMORAKI = 8,
+  GREMLIN = 9,
+} EnemyId;
 
 
 typedef struct enemy {
@@ -96,12 +136,15 @@ typedef struct enemy {
   int enemy_id;  //敵識別ID
 } Enemy;
 
-//playerのスキル
+/*playerのスキル  skill[0] : SETTING or NOT_LEARNING or LEARNED or LEARNING
+skill[1] : MENUONLY or BATTLEONLY or MENUANDBATTLE
+skill[2] : このスキルに関して獲得した熟練度
+skill[3] : 獲得に必要な熟練度*/
 typedef struct player_skill {   //値が1ならば習得済み
-  int recover1; //ケディア
-  int cure_poison; //毒治療
-  int recover2; //ケディアス
-  int recover3; //回復:LV3
+  int recover1[3]; //ケディア
+  int cure_poison[3]; //毒治療
+  int recover2[3]; //ケディアス
+  int enfa[3]; //エンファ
 } P_skill;
 
 typedef struct setting_skill {  //setting済みのスキル
@@ -210,82 +253,6 @@ typedef struct save_data_players{
   int curse;      //呪い耐性
   double stage_clear;
   int playtime;
-  int recover1;
-  int cure_poison;
-  //２人目
-  char name2[NAME_LEN];
-  int hp2;
-  int maxhp2;
-  int mp2;
-  int maxmp2;
-  int atk2;
-  int magic2;
-  int str2;
-  int agi2;
-  int luk2;
-  int lv2;
-  int exp2;
-  int sumexp2;
-  int nextexp2;
-  int leftoverexp2;
-  int badstatus2;
-  int physical_attack2; //物理攻撃
-  int gun_attack2; //銃攻撃
-  int fire2;       //火炎攻撃
-  int ice2;        //氷結攻撃
-  int elec2;       //電撃攻撃
-  int wave2;       //衝撃攻撃
-  int almighty2;   //万能攻撃
-  int death2;      //呪殺攻撃
-  int expel2;      //破魔攻撃
-  int poison2;     //毒耐性
-  int palyze2;     //麻痺耐性
-  int charm2;      //魅了耐性
-  int close2;      //魔封耐性
-  int stone2;      //石化耐性
-  int panic2;      //混乱耐性
-  int sleep2;      //睡眠耐性
-  int curse2;      //呪い耐性
-  int stage_clear2;
-  int recover1_2;
-  int cure_poison_2;
-  //３人目
-  char name3[NAME_LEN];
-  int hp3;
-  int maxhp3;
-  int mp3;
-  int maxmp3;
-  int atk3;
-  int magic3;
-  int str3;
-  int agi3;
-  int luk3;
-  int lv3;
-  int exp3;
-  int sumexp3;
-  int nextexp3;
-  int leftoverexp3;
-  int badstatus3;
-  int physical_attack3; //物理攻撃
-  int gun_attack3; //銃攻撃
-  int fire3;       //火炎攻撃
-  int ice3;        //氷結攻撃
-  int elec3;       //電撃攻撃
-  int wave3;       //衝撃攻撃
-  int almighty3;   //万能攻撃
-  int death3;      //呪殺攻撃
-  int expel3;      //破魔攻撃
-  int poison3;     //毒耐性
-  int palyze3;     //麻痺耐性
-  int charm3;      //魅了耐性
-  int close3;      //魔封耐性
-  int stone3;      //石化耐性
-  int panic3;      //混乱耐性
-  int sleep3;      //睡眠耐性
-  int curse3;      //呪い耐性
-  int stage_clear3;
-  int recover1_3;
-  int cure_poison_3;
 } Save_data_players;
 
 typedef struct items {
@@ -321,12 +288,16 @@ typedef struct Save_data_search{
   int search_item2;
 } Save_data_search;
 
+typedef struct save_data_setting_skill {
+  int set_skill[10];
+} Save_data_setting_skill;
+
 //rpg_save_load.c
 void check_AutoMapFile();
 
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load);
 
-void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search);
+void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search);
 
 long long int getFileSize(const char *fileName);
 
@@ -348,15 +319,21 @@ int calculate_RecoverSkill_price(int input, int money);
 
 void check_PhysicalSkill_state(P_skill *****player_skill);
 
+void check_FireSkill_state(P_skill *****player_skill, int num);
+
 void check_RecoverSkill_state(P_skill *****player_skill, int num);
+
+int procedure_getFireSkill(int input, P_skill *****player_skill, int money);
 
 int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money);
 
 void getSkill_Physical(Player ****st, P_skill ****player_skill, int money);
 
+int getSkill_Fire(Player ****st, P_skill ****player_skill, int money);
+
 int getSkill_Recover(Player ****st, P_skill ****player_skill, int money);
 
-int getSkill(Player ***st, P_skill ***player_skill, int money);
+int getSkillAll(Player ***st, P_skill ***player_skill, int money);
 
 void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items);
 
@@ -424,6 +401,12 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
 
 void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items ******items, int command);
 
+void check_set_skillID(Setting_skill ********setting_skill, int idx);
+
+void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_skill);
+
+void skill_set(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill);
+
 void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****items);
 
 void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip);
@@ -443,6 +426,8 @@ void display_menu_isEquip(Equip ******pEquip);
 void unequip(Player ******st, Player ******st2, Player ******st3, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip);
 
 void display_equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, int input);
+
+void skill_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3, Setting_skill *****setting_skill);
 
 void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip);
 
@@ -553,13 +538,15 @@ void encount_pattern6_layout(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2
 void encount_pattern7_layout(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3, int encount_pattern);
 
 //battle_skill.c ( about players and enemies skills function and to decide enemies move pattern)
+int check_playerMP(Player ******st, int skillMP);
+
 int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, int use_skill_count, int skill_target, int skill_user);
 
 int skill_target_select(Player *****st, Player *****st2, Player *****st3, int use_skill_count);
 
 int use_player_skill(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, Setting_skill ****setting_skill, int skill_command, int skill_user);
 
-int check_skillID(Setting_skill *****setting_skill, int idx);
+void check_skillID(Setting_skill *****setting_skill, int idx);
 
 int battle_player_skill_list(P_skill ****player_skill, Setting_skill ****setting_skill);
 

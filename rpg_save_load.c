@@ -535,6 +535,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
   int n;
 
   Save_data_players save_data_players;
+  Save_data_players save_data_players2;
+  Save_data_players save_data_players3;
+
   Save_data_items save_data_items;
 
   Save_data_equip save_data_pEquip;
@@ -542,6 +545,10 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
   Save_data_equip save_data_p3Equip;
 
   Save_data_search Save_data_search;
+
+  Save_data_setting_skill save_data_setting_skill;
+  Save_data_setting_skill save_data_setting_skill2;
+  Save_data_setting_skill save_data_setting_skill3;
 
   check_AutoMapFile();
 
@@ -685,12 +692,17 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             printf("セーブデータを読み込めませんでした・・・\n");
           }
           else{
-            fread(&save_data_players, sizeof(Save_data_players), 1, fp);
+            fread(&save_data_players, sizeof(save_data_players), 1, fp);
+            fread(&save_data_players2, sizeof(save_data_players2), 1, fp);
+            fread(&save_data_players3, sizeof(save_data_players3), 1, fp);
             fread(&save_data_items, sizeof(save_data_items), 1, fp);
             fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fread(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fread(&Save_data_search, sizeof(Save_data_search), 1, fp);
+            fread(&save_data_setting_skill, sizeof(save_data_setting_skill), 1, fp);
+            fread(&save_data_setting_skill2, sizeof(save_data_setting_skill2), 1, fp);
+            fread(&save_data_setting_skill3, sizeof(save_data_setting_skill3), 1, fp);
             fclose(fp);
             load_count++;
             saveFile = 1;
@@ -709,11 +721,16 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
           }
           else{
             fread(&save_data_players, sizeof(Save_data_players), 1, fp);
+            fread(&save_data_players2, sizeof(save_data_players2), 1, fp);
+            fread(&save_data_players3, sizeof(save_data_players3), 1, fp);
             fread(&save_data_items, sizeof(save_data_items), 1, fp);
             fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fread(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fread(&Save_data_search, sizeof(Save_data_search), 1, fp);
+            fread(&save_data_setting_skill, sizeof(save_data_setting_skill), 1, fp);
+            fread(&save_data_setting_skill2, sizeof(save_data_setting_skill2), 1, fp);
+            fread(&save_data_setting_skill3, sizeof(save_data_setting_skill3), 1, fp);
             fclose(fp);
             load_count++;
             saveFile = 2;
@@ -732,11 +749,16 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
           }
           else{
             fread(&save_data_players, sizeof(Save_data_players), 1, fp);
+            fread(&save_data_players2, sizeof(save_data_players2), 1, fp);
+            fread(&save_data_players3, sizeof(save_data_players3), 1, fp);
             fread(&save_data_items, sizeof(save_data_items), 1, fp);
             fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fread(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fread(&Save_data_search, sizeof(Save_data_search), 1, fp);
+            fread(&save_data_setting_skill, sizeof(save_data_setting_skill), 1, fp);
+            fread(&save_data_setting_skill2, sizeof(save_data_setting_skill2), 1, fp);
+            fread(&save_data_setting_skill3, sizeof(save_data_setting_skill3), 1, fp);
             fclose(fp);
             load_count++;
             saveFile = 3;
@@ -795,84 +817,80 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
     st -> curse = save_data_players.curse;
     st -> stage_clear = save_data_players.stage_clear;
     st -> playtime = save_data_players.playtime;
-    player_skill -> recover1 = save_data_players.recover1;
-    player_skill -> cure_poison = save_data_players.cure_poison;
 
     //２人目のセーブデータ
-    strcpy(st2 -> name, save_data_players.name2);
-    st2 -> hp = save_data_players.hp2;
-    st2 -> maxhp = save_data_players.maxhp2;
-    st2 -> mp = save_data_players.mp2;
-    st2 -> maxmp = save_data_players.maxmp2;
-    st2 -> atk = save_data_players.atk2;
-    st2 -> magic = save_data_players.magic2;
-    st2 -> str = save_data_players.str2;
-    st2 -> agi = save_data_players.agi2;
-    st2 -> luk = save_data_players.luk2;
-    st2 -> lv = save_data_players.lv2;
-    st2 -> exp = save_data_players.exp2;
-    st2 -> sumexp = save_data_players.sumexp2;
-    st2 -> nextexp = save_data_players.nextexp2;
-    st2 -> leftoverexp = save_data_players.leftoverexp2;
-    st2-> badstatus = save_data_players.badstatus2;
-    st2 -> physical_attack = save_data_players.physical_attack2;
-    st2 -> gun_attack = save_data_players.gun_attack2;
-    st2 -> fire = save_data_players.fire2;
-    st2 -> ice = save_data_players.ice2;
-    st2 -> elec = save_data_players.elec2;
-    st2 -> wave = save_data_players.wave2;
-    st2 -> almighty = save_data_players.almighty2;
-    st2 -> death = save_data_players.death2;
-    st2 -> expel = save_data_players.expel2;
-    st2 -> poison = save_data_players.poison2;
-    st2 -> palyze = save_data_players.palyze2;
-    st2 -> charm = save_data_players.charm2;
-    st2 -> close = save_data_players.close2;
-    st2 -> stone = save_data_players.stone2;
-    st2 -> panic = save_data_players.panic2;
-    st2 -> sleep = save_data_players.sleep2;
-    st2 -> curse = save_data_players.curse2;
-    st2 -> stage_clear = save_data_players.stage_clear2;
-    player_skill2 -> recover1 = save_data_players.recover1_2;
-    player_skill2 -> cure_poison = save_data_players.cure_poison_2;
+    strcpy(st2 -> name, save_data_players2.name);
+    st2 -> hp = save_data_players2.hp;
+    st2 -> maxhp = save_data_players2.maxhp;
+    st2 -> mp = save_data_players2.mp;
+    st2 -> maxmp = save_data_players2.maxmp;
+    st2 -> atk = save_data_players2.atk;
+    st2 -> magic = save_data_players2.magic;
+    st2 -> str = save_data_players2.str;
+    st2 -> agi = save_data_players2.agi;
+    st2 -> luk = save_data_players2.luk;
+    st2 -> lv = save_data_players2.lv;
+    st2 -> exp = save_data_players2.exp;
+    st2 -> sumexp = save_data_players2.sumexp;
+    st2 -> nextexp = save_data_players2.nextexp;
+    st2 -> leftoverexp = save_data_players2.leftoverexp;
+    st2 -> gold = save_data_players2.gold;
+    st2-> badstatus = save_data_players2.badstatus;
+    st2 -> physical_attack = save_data_players2.physical_attack;
+    st2 -> gun_attack = save_data_players2.gun_attack;
+    st2 -> fire = save_data_players2.fire;
+    st2 -> ice = save_data_players2.ice;
+    st2 -> elec = save_data_players2.elec;
+    st2 -> wave = save_data_players2.wave;
+    st2 -> almighty = save_data_players2.almighty;
+    st2 -> death = save_data_players2.death;
+    st2 -> expel = save_data_players2.expel;
+    st2 -> poison = save_data_players2.poison;
+    st2 -> palyze = save_data_players2.palyze;
+    st2 -> charm = save_data_players2.charm;
+    st2 -> close = save_data_players2.close;
+    st2 -> stone = save_data_players2.stone;
+    st2 -> panic = save_data_players2.panic;
+    st2 -> sleep = save_data_players2.sleep;
+    st2 -> curse = save_data_players2.curse;
+    st2 -> stage_clear = save_data_players2.stage_clear;
 
     //３人目のセーブデータ
-    strcpy(st3 -> name, save_data_players.name3);
-    st3 -> hp = save_data_players.hp3;
-    st3 -> maxhp = save_data_players.maxhp3;
-    st3 -> mp = save_data_players.mp3;
-    st3 -> maxmp = save_data_players.maxmp3;
-    st3 -> atk = save_data_players.atk3;
-    st3 -> magic = save_data_players.magic3;
-    st3 -> str = save_data_players.str3;
-    st3 -> agi = save_data_players.agi3;
-    st3 -> luk = save_data_players.luk3;
-    st3 -> lv = save_data_players.lv3;
-    st3 -> exp = save_data_players.exp3;
-    st3 -> sumexp = save_data_players.sumexp3;
-    st3 -> nextexp = save_data_players.nextexp3;
-    st3 -> leftoverexp = save_data_players.leftoverexp3;
-    st3 -> badstatus = save_data_players.badstatus3;
-    st3 -> physical_attack = save_data_players.physical_attack3;
-    st3 -> gun_attack = save_data_players.gun_attack3;
-    st3 -> fire = save_data_players.fire3;
-    st3 -> ice = save_data_players.ice3;
-    st3 -> elec = save_data_players.elec3;
-    st3 -> wave = save_data_players.wave3;
-    st3 -> almighty = save_data_players.almighty3;
-    st3 -> death = save_data_players.death3;
-    st3 -> expel = save_data_players.expel3;
-    st3 -> poison = save_data_players.poison3;
-    st3 -> palyze = save_data_players.palyze3;
-    st3 -> charm = save_data_players.charm3;
-    st3 -> close = save_data_players.close3;
-    st3 -> stone = save_data_players.stone3;
-    st3 -> panic = save_data_players.panic3;
-    st3 -> sleep = save_data_players.sleep3;
-    st3 -> curse = save_data_players.curse3;
-    st3 -> stage_clear = save_data_players.stage_clear3;
-    player_skill3 -> recover1 = save_data_players.recover1_3;
-    player_skill3 -> cure_poison = save_data_players.cure_poison_3;
+    strcpy(st3 -> name, save_data_players3.name);
+    st3 -> hp = save_data_players3.hp;
+    st3 -> maxhp = save_data_players3.maxhp;
+    st3 -> mp = save_data_players3.mp;
+    st3 -> maxmp = save_data_players3.maxmp;
+    st3 -> atk = save_data_players3.atk;
+    st3 -> magic = save_data_players3.magic;
+    st3 -> str = save_data_players3.str;
+    st3 -> agi = save_data_players3.agi;
+    st3 -> luk = save_data_players3.luk;
+    st3 -> lv = save_data_players3.lv;
+    st3 -> exp = save_data_players3.exp;
+    st3 -> sumexp = save_data_players3.sumexp;
+    st3 -> nextexp = save_data_players3.nextexp;
+    st3 -> leftoverexp = save_data_players3.leftoverexp;
+    st3 -> gold = save_data_players3.gold;
+    st3 -> badstatus = save_data_players3.badstatus;
+    st3 -> physical_attack = save_data_players3.physical_attack;
+    st3 -> gun_attack = save_data_players3.gun_attack;
+    st3 -> fire = save_data_players3.fire;
+    st3 -> ice = save_data_players3.ice;
+    st3 -> elec = save_data_players3.elec;
+    st3 -> wave = save_data_players3.wave;
+    st3 -> almighty = save_data_players3.almighty;
+    st3 -> death = save_data_players3.death;
+    st3 -> expel = save_data_players3.expel;
+    st3 -> poison = save_data_players3.poison;
+    st3 -> palyze = save_data_players3.palyze;
+    st3 -> charm = save_data_players3.charm;
+    st3 -> close = save_data_players3.close;
+    st3 -> stone = save_data_players3.stone;
+    st3 -> panic = save_data_players3.panic;
+    st3 -> sleep = save_data_players3.sleep;
+    st3 -> curse = save_data_players3.curse;
+    st3 -> stage_clear = save_data_players3.stage_clear;
 
     items -> medicine = save_data_items.medicine;
     items -> lifestone = save_data_items.lifestone;
@@ -893,6 +911,18 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
     search -> search_item1 = Save_data_search.search_item1;
     //printf("medicine:%d個\n", save_data_items.medicine);
+
+    for ( int i = 0; i < 10; i++ ){
+      setting_skill -> set_skill[i] = save_data_setting_skill.set_skill[i];
+    }
+
+    for ( int i = 0; i < 10; i++ ){
+      setting_skill2 -> set_skill[i] = save_data_setting_skill2.set_skill[i];
+    }
+
+    for ( int i = 0; i < 10; i++ ){
+      setting_skill3 -> set_skill[i] = save_data_setting_skill3.set_skill[i];
+    }
 
   }
   else{              //save
@@ -963,84 +993,82 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       }
       //save_data_players.playtime = play_time;
       //printf("save_data_players.playtime:%d\n", save_data_players.playtime);
-      save_data_players.recover1 = player_skill -> recover1;
-      save_data_players.cure_poison = player_skill -> cure_poison;
 
       //２人目のセーブデータの書き込み
-      strcpy(save_data_players.name2, st2 -> name);
-      save_data_players.hp2 = st2 -> hp;
-      save_data_players.maxhp2 = st2 -> maxhp;
-      save_data_players.mp2 = st2 -> mp;
-      save_data_players.maxmp2 = st2 -> maxmp;
-      save_data_players.atk2 = st2 -> atk;
-      save_data_players.magic2 = st2 -> magic;
-      save_data_players.str2 = st2 -> str;
-      save_data_players.agi2 = st2 -> agi;
-      save_data_players.luk2 = st2 -> luk;
-      save_data_players.lv2 = st2 -> lv;
-      save_data_players.exp2 = st2 -> exp;
-      save_data_players.sumexp2 = st2 -> sumexp;
-      save_data_players.nextexp2 = st2 -> nextexp;
-      save_data_players.leftoverexp2 = st2 -> leftoverexp;
-      save_data_players.badstatus2 = st2 -> badstatus;
-      save_data_players.physical_attack2 = st2 -> physical_attack;
-      save_data_players.gun_attack2 = st2 -> gun_attack;
-      save_data_players.fire2 = st2 -> fire;
-      save_data_players.ice2 = st2 -> ice;
-      save_data_players.elec2 = st2 -> elec;
-      save_data_players.wave2 = st2 -> wave;
-      save_data_players.almighty2 = st2 -> almighty;
-      save_data_players.death2 = st2 -> death;
-      save_data_players.expel2 = st2 -> expel;
-      save_data_players.poison2 = st2 -> poison;
-      save_data_players.palyze2 = st2 -> palyze;
-      save_data_players.charm2 = st2 -> charm;
-      save_data_players.close2 = st2 -> close;
-      save_data_players.stone2 = st2 -> stone;
-      save_data_players.panic2 = st2 -> panic;
-      save_data_players.sleep2 = st2 -> sleep;
-      save_data_players.curse2 = st2 -> curse;
-      //save_data_players.stage_clear2 = st2 -> stage_clear;
-      save_data_players.recover1_2 = player_skill2 -> recover1;
-      save_data_players.cure_poison_2 = player_skill2 -> cure_poison;
+      strcpy(save_data_players2.name, st2 -> name);
+      save_data_players2.hp = st2 -> hp;
+      save_data_players2.maxhp = st2 -> maxhp;
+      save_data_players2.mp = st2 -> mp;
+      save_data_players2.maxmp = st2 -> maxmp;
+      save_data_players2.atk = st2 -> atk;
+      save_data_players2.magic = st2 -> magic;
+      save_data_players2.str = st2 -> str;
+      save_data_players2.agi = st2 -> agi;
+      save_data_players2.luk = st2 -> luk;
+      save_data_players2.lv = st2 -> lv;
+      save_data_players2.exp = st2 -> exp;
+      save_data_players2.sumexp = st2 -> sumexp;
+      save_data_players2.nextexp = st2 -> nextexp;
+      save_data_players2.leftoverexp = st2 -> leftoverexp;
+      save_data_players2.gold = st -> gold;
+      save_data_players2.badstatus = st2 -> badstatus;
+      save_data_players2.physical_attack = st2 -> physical_attack;
+      save_data_players2.gun_attack = st2 -> gun_attack;
+      save_data_players2.fire = st2 -> fire;
+      save_data_players2.ice = st2 -> ice;
+      save_data_players2.elec = st2 -> elec;
+      save_data_players2.wave = st2 -> wave;
+      save_data_players2.almighty = st2 -> almighty;
+      save_data_players2.death = st2 -> death;
+      save_data_players2.expel = st2 -> expel;
+      save_data_players2.poison = st2 -> poison;
+      save_data_players2.palyze = st2 -> palyze;
+      save_data_players2.charm = st2 -> charm;
+      save_data_players2.close = st2 -> close;
+      save_data_players2.stone = st2 -> stone;
+      save_data_players2.panic = st2 -> panic;
+      save_data_players2.sleep = st2 -> sleep;
+      save_data_players2.curse = st2 -> curse;
+      save_data_players2.stage_clear = -1;
+      save_data_players2.playtime = -1;
 
       //３人目のセーブデータの書き込み
-      strcpy(save_data_players.name3, st3 -> name);
-      save_data_players.hp3 = st3 -> hp;
-      save_data_players.maxhp3 = st3 -> maxhp;
-      save_data_players.mp3 = st3 -> mp;
-      save_data_players.maxmp3 = st3 -> maxmp;
-      save_data_players.atk3 = st3 -> atk;
-      save_data_players.magic3 = st3 -> magic;
-      save_data_players.str3 = st3 -> str;
-      save_data_players.agi3 = st3 -> agi;
-      save_data_players.luk3 = st3 -> luk;
-      save_data_players.lv3 = st3 -> lv;
-      save_data_players.exp3 = st3 -> exp;
-      save_data_players.sumexp3 = st3 -> sumexp;
-      save_data_players.nextexp3 = st3 -> nextexp;
-      save_data_players.leftoverexp3 = st3 -> leftoverexp;
-      save_data_players.badstatus3 = st3 -> badstatus;
-      save_data_players.physical_attack3 = st3 -> physical_attack;
-      save_data_players.gun_attack3 = st3 -> gun_attack;
-      save_data_players.fire3 = st3 -> fire;
-      save_data_players.ice3 = st3 -> ice;
-      save_data_players.elec3 = st3 -> elec;
-      save_data_players.wave3 = st3 -> wave;
-      save_data_players.almighty3 = st3 -> almighty;
-      save_data_players.death3 = st3 -> death;
-      save_data_players.expel3 = st3 -> expel;
-      save_data_players.poison3 = st3 -> poison;
-      save_data_players.palyze3 = st3 -> palyze;
-      save_data_players.charm3 = st3 -> charm;
-      save_data_players.close3 = st3 -> close;
-      save_data_players.stone3 = st3 -> stone;
-      save_data_players.panic3 = st3 -> panic;
-      save_data_players.sleep3 = st3 -> sleep;
-      save_data_players.curse3 = st3 -> curse;
-      //save_data_players.stage_clear3 = st3 -> stage_clear;
-      save_data_players.recover1_3 = player_skill3 -> recover1;
-      save_data_players.cure_poison_3 = player_skill3 -> cure_poison;
+      strcpy(save_data_players3.name, st3 -> name);
+      save_data_players3.hp = st3 -> hp;
+      save_data_players3.maxhp = st3 -> maxhp;
+      save_data_players3.mp = st3 -> mp;
+      save_data_players3.maxmp = st3 -> maxmp;
+      save_data_players3.atk = st3 -> atk;
+      save_data_players3.magic = st3 -> magic;
+      save_data_players3.str = st3 -> str;
+      save_data_players3.agi = st3 -> agi;
+      save_data_players3.luk = st3 -> luk;
+      save_data_players3.lv = st3 -> lv;
+      save_data_players3.exp = st3 -> exp;
+      save_data_players3.sumexp = st3 -> sumexp;
+      save_data_players3.nextexp = st3 -> nextexp;
+      save_data_players3.leftoverexp = st3 -> leftoverexp;
+      save_data_players3.gold = st3 -> gold;
+      save_data_players3.badstatus = st3 -> badstatus;
+      save_data_players3.physical_attack = st3 -> physical_attack;
+      save_data_players3.gun_attack = st3 -> gun_attack;
+      save_data_players3.fire = st3 -> fire;
+      save_data_players3.ice = st3 -> ice;
+      save_data_players3.elec = st3 -> elec;
+      save_data_players3.wave = st3 -> wave;
+      save_data_players3.almighty = st3 -> almighty;
+      save_data_players3.death = st3 -> death;
+      save_data_players3.expel = st3 -> expel;
+      save_data_players3.poison = st3 -> poison;
+      save_data_players3.palyze = st3 -> palyze;
+      save_data_players3.charm = st3 -> charm;
+      save_data_players3.close = st3 -> close;
+      save_data_players3.stone = st3 -> stone;
+      save_data_players3.panic = st3 -> panic;
+      save_data_players3.sleep = st3 -> sleep;
+      save_data_players3.curse = st3 -> curse;
+      save_data_players3.stage_clear = -1;
+      save_data_players3.playtime = -1;
 
       save_data_items.medicine = items -> medicine;
       save_data_items.lifestone = items -> lifestone;
@@ -1062,6 +1090,18 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       save_data_p3Equip.isEquip = p3Equip -> isEquip;
 
       Save_data_search.search_item1 = search -> search_item1;
+
+      for ( int i = 0; i < 10; i++ ){
+        save_data_setting_skill.set_skill[i] = setting_skill -> set_skill[i];
+      }
+
+      for ( int i = 0; i < 10; i++ ){
+        save_data_setting_skill2.set_skill[i] = setting_skill2 -> set_skill[i];
+      }
+
+      for ( int i = 0; i < 10; i++ ){
+        save_data_setting_skill3.set_skill[i] = setting_skill3 -> set_skill[i];
+      }
 
       do{
         save_count = 0;
@@ -1086,12 +1126,18 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
               fp = fopen( "SaveData/save1.dat", "wb+");
             }
             //セーブデータの書き込み
-            fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
+            fwrite(&save_data_players, sizeof(save_data_players), 1, fp);
+            fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
+            fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
             fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
             fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
+            fwrite(&save_data_setting_skill, sizeof(save_data_setting_skill), 1, fp);
+            fwrite(&save_data_setting_skill2, sizeof(save_data_setting_skill2), 1, fp);
+            fwrite(&save_data_setting_skill3, sizeof(save_data_setting_skill3), 1, fp);
+
             fclose(fp);
             save_count++;
           }
@@ -1109,11 +1155,16 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             }
             //セーブデータの書き込み
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
+            fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
+            fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
             fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
             fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
+            fwrite(&save_data_setting_skill, sizeof(save_data_setting_skill), 1, fp);
+            fwrite(&save_data_setting_skill2, sizeof(save_data_setting_skill2), 1, fp);
+            fwrite(&save_data_setting_skill3, sizeof(save_data_setting_skill3), 1, fp);
             fclose(fp);
             save_count++;
           }
@@ -1131,11 +1182,16 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             }
             //セーブデータの書き込み
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
+            fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
+            fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
             fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
             fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
             fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
             fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
+            fwrite(&save_data_setting_skill, sizeof(save_data_setting_skill), 1, fp);
+            fwrite(&save_data_setting_skill2, sizeof(save_data_setting_skill2), 1, fp);
+            fwrite(&save_data_setting_skill3, sizeof(save_data_setting_skill3), 1, fp);
             fclose(fp);
             save_count++;
           }
@@ -1164,7 +1220,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
 }
 
-void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search){
+void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search){
 
   int save_count, load_count, input, savedata_num, savedata_lv1, savedata_lv2, savedata_lv3, temp, hours, minutes;
   char savedata_name1[7], savedata_name2[7], savedata_name3[7];
@@ -1173,6 +1229,9 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
   int n;
 
   Save_data_players save_data_players;
+  Save_data_players save_data_players2;
+  Save_data_players save_data_players3;
+
   Save_data_items save_data_items;
 
   Save_data_equip save_data_pEquip;
@@ -1180,6 +1239,10 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
   Save_data_equip save_data_p3Equip;
 
   Save_data_search Save_data_search;
+
+  Save_data_setting_skill save_data_setting_skill;
+  Save_data_setting_skill save_data_setting_skill2;
+  Save_data_setting_skill save_data_setting_skill3;
   //save
   sleep(2);
   printf("今の状態をSaveしますか?\n");
@@ -1365,84 +1428,82 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
       save_data_players.playtime += play_time;
     }
     //save_data_players.playtime = play_time;
-    save_data_players.recover1 = (*player_skill) -> recover1;
-    save_data_players.cure_poison = (*player_skill) -> cure_poison;
 
     //２人目のセーブデータの書き込み
-    strcpy(save_data_players.name2, (*st2) -> name);
-    save_data_players.hp2 = (*st2) -> hp;
-    save_data_players.maxhp2 = (*st2) -> maxhp;
-    save_data_players.mp2 = (*st2) -> mp;
-    save_data_players.maxmp2 = (*st2) -> maxmp;
-    save_data_players.atk2 = (*st2) -> atk;
-    save_data_players.magic2 = (*st2) -> magic;
-    save_data_players.str2 = (*st2) -> str;
-    save_data_players.agi2 = (*st2) -> agi;
-    save_data_players.luk2 = (*st2) -> luk;
-    save_data_players.lv2 = (*st2) -> lv;
-    save_data_players.exp2 = (*st2) -> exp;
-    save_data_players.sumexp2 = (*st2) -> sumexp;
-    save_data_players.nextexp2 = (*st2) -> nextexp;
-    save_data_players.leftoverexp2 = (*st2) -> leftoverexp;
-    save_data_players.badstatus2 = (*st2) -> badstatus;
-    save_data_players.physical_attack2 = (*st2) -> physical_attack;
-    save_data_players.gun_attack2 = (*st2) -> gun_attack;
-    save_data_players.fire2 = (*st2) -> fire;
-    save_data_players.ice2 = (*st2) -> ice;
-    save_data_players.elec2 = (*st2) -> elec;
-    save_data_players.wave2 = (*st2) -> wave;
-    save_data_players.almighty2 = (*st2) -> almighty;
-    save_data_players.death2 = (*st2) -> death;
-    save_data_players.expel2 = (*st2) -> expel;
-    save_data_players.poison2 = (*st2) -> poison;
-    save_data_players.palyze2 = (*st2) -> palyze;
-    save_data_players.charm2 = (*st2) -> charm;
-    save_data_players.close2 = (*st2) -> close;
-    save_data_players.stone2 = (*st2) -> stone;
-    save_data_players.panic2 = (*st2) -> panic;
-    save_data_players.sleep2 = (*st2) -> sleep;
-    save_data_players.curse2 = (*st2) -> curse;
-    //save_data_players.stage_clear2 = st2 -> stage_clear;
-    save_data_players.recover1_2 = (*player_skill2) -> recover1;
-    save_data_players.cure_poison_2 = (*player_skill2) -> cure_poison;
+    strcpy(save_data_players2.name, (*st2) -> name);
+    save_data_players2.hp = (*st2) -> hp;
+    save_data_players2.maxhp = (*st2) -> maxhp;
+    save_data_players2.mp = (*st2) -> mp;
+    save_data_players2.maxmp = (*st2) -> maxmp;
+    save_data_players2.atk = (*st2) -> atk;
+    save_data_players2.magic = (*st2) -> magic;
+    save_data_players2.str = (*st2) -> str;
+    save_data_players2.agi = (*st2) -> agi;
+    save_data_players2.luk = (*st2) -> luk;
+    save_data_players2.lv = (*st2) -> lv;
+    save_data_players2.exp = (*st2) -> exp;
+    save_data_players2.sumexp = (*st2) -> sumexp;
+    save_data_players2.nextexp = (*st2) -> nextexp;
+    save_data_players2.leftoverexp = (*st2) -> leftoverexp;
+    save_data_players2.gold = -1;
+    save_data_players2.badstatus = (*st2) -> badstatus;
+    save_data_players2.physical_attack = (*st2) -> physical_attack;
+    save_data_players2.gun_attack = (*st2) -> gun_attack;
+    save_data_players2.fire = (*st2) -> fire;
+    save_data_players2.ice = (*st2) -> ice;
+    save_data_players2.elec = (*st2) -> elec;
+    save_data_players2.wave = (*st2) -> wave;
+    save_data_players2.almighty = (*st2) -> almighty;
+    save_data_players2.death = (*st2) -> death;
+    save_data_players2.expel = (*st2) -> expel;
+    save_data_players2.poison = (*st2) -> poison;
+    save_data_players2.palyze = (*st2) -> palyze;
+    save_data_players2.charm = (*st2) -> charm;
+    save_data_players2.close = (*st2) -> close;
+    save_data_players2.stone = (*st2) -> stone;
+    save_data_players2.panic = (*st2) -> panic;
+    save_data_players2.sleep = (*st2) -> sleep;
+    save_data_players2.curse = (*st2) -> curse;
+    save_data_players2.stage_clear = -1;
+    save_data_players2.playtime = -1;
 
     //３人目のセーブデータの書き込み
-    strcpy(save_data_players.name3, (*st3) -> name);
-    save_data_players.hp3 = (*st3) -> hp;
-    save_data_players.maxhp3 = (*st3) -> maxhp;
-    save_data_players.mp3 = (*st3) -> mp;
-    save_data_players.maxmp3 = (*st3) -> maxmp;
-    save_data_players.atk3 = (*st3) -> atk;
-    save_data_players.magic3 = (*st3) -> magic;
-    save_data_players.str3 = (*st3) -> str;
-    save_data_players.agi3 = (*st3) -> agi;
-    save_data_players.luk3 = (*st3) -> luk;
-    save_data_players.lv3 = (*st3) -> lv;
-    save_data_players.exp3 = (*st3) -> exp;
-    save_data_players.sumexp3 = (*st3) -> sumexp;
-    save_data_players.nextexp3 = (*st3) -> nextexp;
-    save_data_players.leftoverexp3 = (*st3) -> leftoverexp;
-    save_data_players.badstatus3 = (*st3) -> badstatus;
-    save_data_players.physical_attack3 = (*st3) -> physical_attack;
-    save_data_players.gun_attack3 = (*st3) -> gun_attack;
-    save_data_players.fire3 = (*st3) -> fire;
-    save_data_players.ice3 = (*st3) -> ice;
-    save_data_players.elec3 = (*st3) -> elec;
-    save_data_players.wave3 = (*st3) -> wave;
-    save_data_players.almighty3 = (*st3) -> almighty;
-    save_data_players.death3 = (*st3) -> death;
-    save_data_players.expel3 = (*st3) -> expel;
-    save_data_players.poison3 = (*st3) -> poison;
-    save_data_players.palyze3 = (*st3) -> palyze;
-    save_data_players.charm3 = (*st3) -> charm;
-    save_data_players.close3 = (*st3) -> close;
-    save_data_players.stone3 = (*st3) -> stone;
-    save_data_players.panic3 = (*st3) -> panic;
-    save_data_players.sleep3 = (*st3) -> sleep;
-    save_data_players.curse3 = (*st3) -> curse;
-    //save_data_players.stage_clear3 = st3 -> stage_clear;
-    save_data_players.recover1_3 = (*player_skill3) -> recover1;
-    save_data_players.cure_poison_3 = (*player_skill3) -> cure_poison;
+    strcpy(save_data_players3.name, (*st3) -> name);
+    save_data_players3.hp = (*st3) -> hp;
+    save_data_players3.maxhp = (*st3) -> maxhp;
+    save_data_players3.mp = (*st3) -> mp;
+    save_data_players3.maxmp = (*st3) -> maxmp;
+    save_data_players3.atk = (*st3) -> atk;
+    save_data_players3.magic = (*st3) -> magic;
+    save_data_players3.str = (*st3) -> str;
+    save_data_players3.agi = (*st3) -> agi;
+    save_data_players3.luk = (*st3) -> luk;
+    save_data_players3.lv = (*st3) -> lv;
+    save_data_players3.exp = (*st3) -> exp;
+    save_data_players3.sumexp = (*st3) -> sumexp;
+    save_data_players3.nextexp = (*st3) -> nextexp;
+    save_data_players3.leftoverexp = (*st3) -> leftoverexp;
+    save_data_players3.gold = -1;
+    save_data_players3.badstatus = (*st3) -> badstatus;
+    save_data_players3.physical_attack = (*st3) -> physical_attack;
+    save_data_players3.gun_attack = (*st3) -> gun_attack;
+    save_data_players3.fire = (*st3) -> fire;
+    save_data_players3.ice = (*st3) -> ice;
+    save_data_players3.elec = (*st3) -> elec;
+    save_data_players3.wave = (*st3) -> wave;
+    save_data_players3.almighty = (*st3) -> almighty;
+    save_data_players3.death = (*st3) -> death;
+    save_data_players3.expel = (*st3) -> expel;
+    save_data_players3.poison = (*st3) -> poison;
+    save_data_players3.palyze = (*st3) -> palyze;
+    save_data_players3.charm = (*st3) -> charm;
+    save_data_players3.close = (*st3) -> close;
+    save_data_players3.stone = (*st3) -> stone;
+    save_data_players3.panic = (*st3) -> panic;
+    save_data_players3.sleep = (*st3) -> sleep;
+    save_data_players3.curse = (*st3) -> curse;
+    save_data_players3.stage_clear = -1;
+    save_data_players3.playtime = -1;
 
     save_data_items.medicine = (*items) -> medicine;
     save_data_items.lifestone = (*items) -> lifestone;
@@ -1462,6 +1523,18 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     save_data_p3Equip.isEquip = (*p3Equip) -> isEquip;
 
     Save_data_search.search_item1 = (*search) -> search_item1;
+
+    for ( int i = 0; i < 10; i++ ){
+      save_data_setting_skill.set_skill[i] = (*setting_skill) -> set_skill[i];
+    }
+
+    for ( int i = 0; i < 10; i++ ){
+      save_data_setting_skill2.set_skill[i] = (*setting_skill2) -> set_skill[i];
+    }
+
+    for ( int i = 0; i < 10; i++ ){
+      save_data_setting_skill3.set_skill[i] = (*setting_skill3) -> set_skill[i];
+    }
 
     //printf("%d\n", save_data_pEquip.HpRing1);
     //printf("%d\n", save_data_p2Equip.MpRing1);
@@ -1487,11 +1560,16 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
         else{
           //セーブデータの書き込み
           fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
+          fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
+          fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
           fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
           fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
           fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
           fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
           fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
+          fwrite(&save_data_setting_skill, sizeof(save_data_setting_skill), 1, fp);
+          fwrite(&save_data_setting_skill2, sizeof(save_data_setting_skill2), 1, fp);
+          fwrite(&save_data_setting_skill3, sizeof(save_data_setting_skill3), 1, fp);
           fclose(fp);
           save_count++;
         }
@@ -1504,11 +1582,16 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
         else{
           //セーブデータの書き込み
           fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
+          fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
+          fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
           fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
           fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
           fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
           fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
           fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
+          fwrite(&save_data_setting_skill, sizeof(save_data_setting_skill), 1, fp);
+          fwrite(&save_data_setting_skill2, sizeof(save_data_setting_skill2), 1, fp);
+          fwrite(&save_data_setting_skill3, sizeof(save_data_setting_skill3), 1, fp);
           fclose(fp);
           save_count++;
         }
@@ -1521,11 +1604,16 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
         else{
           //セーブデータの書き込み
           fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
+          fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
+          fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
           fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
           fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
           fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
           fwrite(&save_data_p3Equip, sizeof(save_data_p3Equip), 1, fp);
           fwrite(&Save_data_search, sizeof(Save_data_search), 1, fp);
+          fwrite(&save_data_setting_skill, sizeof(save_data_setting_skill), 1, fp);
+          fwrite(&save_data_setting_skill2, sizeof(save_data_setting_skill2), 1, fp);
+          fwrite(&save_data_setting_skill3, sizeof(save_data_setting_skill3), 1, fp);
           fclose(fp);
           save_count++;
         }

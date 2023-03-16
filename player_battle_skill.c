@@ -8,27 +8,33 @@
 #include "rpg.h"
 
 //敵と味方のスキルに関する機能
+int check_playerMP(Player ******st, int skillMP){
+
+  if ( (*****st) -> mp < skillMP ){
+    printf("MP不足!\n");
+    return FALSE;
+  }
+
+  return TRUE;
+}
 
 int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, int use_skill_count, int skill_target, int skill_user){
   int recover_point, base, beforehp;
 
-  if ( use_skill_count == 1 ){
+  if ( use_skill_count == RECOVER1 ){
 
     //skill使用者
-    if ( skill_user == 1 ){
+    if ( skill_user == PLAYER ){
       printf("%s>>ケディア\n", (****st) -> name);
       sleep(1);
 
-      if ( (****st) -> mp < 3 ){
-        printf("MP不足!\n");
-      }
-      else{
+      if ( check_playerMP(&st,3) == TRUE ){
         (****st) -> mp -= 3;
 
         base = 25;
         recover_point = (rand() % ( base + (****st) -> magic * 3 + (****st) -> luk - base + 1) ) + base; //(rand()%(max - min + 1)) + min;
 
-        if ( skill_target == 1 ){
+        if ( skill_target == PLAYER ){
           beforehp = (****st) -> hp;
 
           (****st) -> hp += recover_point;
@@ -39,7 +45,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
           printf("%s: HP:%d/%d >> HP:%d/%d\n", (****st) -> name, beforehp, (****st) -> maxhp, (****st) -> hp, (****st) -> maxhp);
           printf("\n");
         }
-        else if ( skill_target == 2 ){
+        else if ( skill_target == PLAYER2 ){
           beforehp = (****st2) -> hp;
 
           (****st2) -> hp += recover_point;
@@ -50,7 +56,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
           printf("%s: HP:%d/%d >> HP:%d/%d\n", (****st2) -> name, beforehp, (****st2) -> maxhp, (****st2) -> hp, (****st2) -> maxhp);
           printf("\n");
         }
-        else if ( skill_target == 3 ){
+        else if ( skill_target == PLAYER3 ){
           beforehp = (****st3) -> hp;
 
           (****st3) -> hp += recover_point;
@@ -64,20 +70,17 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
 
       }
     }
-    else if ( skill_user == 2 ){
+    else if ( skill_user == PLAYER2 ){
       printf("%s>>ケディア\n", (****st2) -> name);
       sleep(1);
 
-      if ( (****st2) -> mp < 3 ){
-        printf("MP不足!\n");
-      }
-      else{
+      if ( check_playerMP(&st,3) == TRUE ){
         (****st2) -> mp -= 3;
 
         base = 25;
         recover_point = (rand() % ( base + (****st2) -> magic * 3 + (****st2) -> luk - base + 1) ) + base; //(rand()%(max - min + 1)) + min;
 
-        if ( skill_target == 1 ){
+        if ( skill_target == PLAYER ){
           beforehp = (****st) -> hp;
 
           (****st) -> hp += recover_point;
@@ -88,7 +91,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
           printf("%s: HP:%d/%d >> HP:%d/%d\n", (****st) -> name, beforehp, (****st) -> maxhp, (****st) -> hp, (****st) -> maxhp);
           printf("\n");
         }
-        else if ( skill_target == 2 ){
+        else if ( skill_target == PLAYER2 ){
           beforehp = (****st2) -> hp;
 
           (****st2) -> hp += recover_point;
@@ -99,7 +102,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
           printf("%s: HP:%d/%d >> HP:%d/%d\n", (****st2) -> name, beforehp, (****st2) -> maxhp, (****st2) -> hp, (****st2) -> maxhp);
           printf("\n");
         }
-        else if ( skill_target == 3 ){
+        else if ( skill_target == PLAYER3 ){
           beforehp = (****st3) -> hp;
 
           (****st3) -> hp += recover_point;
@@ -113,20 +116,17 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
 
       }
     }
-    else if ( skill_user == 3 ){
+    else if ( skill_user == PLAYER3 ){
       printf("%s>>ケディア\n", (****st3) -> name);
       sleep(1);
 
-      if ( (****st3) -> mp < 3 ){
-        printf("MP不足!\n");
-      }
-      else{
+      if ( check_playerMP(&st,3) == TRUE ){
         (****st3) -> mp -= 3;
 
         base = 25;
         recover_point = (rand() % ( base + (****st3) -> magic * 3 + (****st3) -> luk - base + 1) ) + base; //(rand()%(max - min + 1)) + min;
 
-        if ( skill_target == 1 ){
+        if ( skill_target == PLAYER ){
           beforehp = (****st) -> hp;
 
           (****st) -> hp += recover_point;
@@ -137,7 +137,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
           printf("%s: HP:%d/%d >> HP:%d/%d\n", (****st) -> name, beforehp, (****st) -> maxhp, (****st) -> hp, (****st) -> maxhp);
           printf("\n");
         }
-        else if ( skill_target == 2 ){
+        else if ( skill_target == PLAYER2 ){
           beforehp = (****st2) -> hp;
 
           (****st2) -> hp += recover_point;
@@ -148,7 +148,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
           printf("%s: HP:%d/%d >> HP:%d/%d\n", (****st2) -> name, beforehp, (****st2) -> maxhp, (****st2) -> hp, (****st2) -> maxhp);
           printf("\n");
         }
-        else if ( skill_target == 3 ){
+        else if ( skill_target == PLAYER3 ){
           beforehp = (****st3) -> hp;
 
           (****st3) -> hp += recover_point;
@@ -164,19 +164,16 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
     }
 
   }
-  else if ( use_skill_count == 2 ){  //キュアポ
+  else if ( use_skill_count == CUREPOISON ){  //キュアポ
     //skill使用者
-    if ( skill_user == 1 ){
+    if ( skill_user == PLAYER ){
       printf("%s>>キュアポ\n", (****st) -> name);
       sleep(1);
 
-      if ( (****st) -> mp < 4 ){
-        printf("MP不足!\n");
-      }
-      else{
+      if ( check_playerMP(&st,4) == TRUE ){
         (****st) -> mp -= 4;
 
-        if ( skill_target == 1 ){
+        if ( skill_target == PLAYER ){
           if ( (****st) -> badstatus == POISON ){
             (****st) -> badstatus = GOOD;
             printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st) -> name);
@@ -187,7 +184,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
             printf("\n");
           }
         }
-        else if ( skill_target == 2 ){
+        else if ( skill_target == PLAYER2 ){
           if ( (****st2) -> badstatus == POISON ){
             (****st2) -> badstatus = GOOD;
             printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st2) -> name);
@@ -198,7 +195,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
             printf("\n");
           }
         }
-        else if ( skill_target == 3 ){
+        else if ( skill_target == PLAYER3 ){
           if ( (****st3) -> badstatus == POISON ){
             (****st3) -> badstatus = GOOD;
             printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st3) -> name);
@@ -212,17 +209,14 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
 
       }
     }
-    else if ( skill_user == 2 ){
+    else if ( skill_user == PLAYER2 ){
       printf("%s>>キュアポ\n", (****st2) -> name);
       sleep(1);
 
-      if ( (****st2) -> mp < 4 ){
-        printf("MP不足!\n");
-      }
-      else{
+      if ( check_playerMP(&st,4) == TRUE ){
         (****st2) -> mp -= 4;
 
-        if ( skill_target == 1 ){
+        if ( skill_target == PLAYER ){
           if ( (****st) -> badstatus == POISON ){
             (****st) -> badstatus = GOOD;
             printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st) -> name);
@@ -233,7 +227,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
             printf("\n");
           }
         }
-        else if ( skill_target == 2 ){
+        else if ( skill_target == PLAYER2 ){
           if ( (****st2) -> badstatus == POISON ){
             (****st2) -> badstatus = GOOD;
             printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st2) -> name);
@@ -244,7 +238,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
             printf("\n");
           }
         }
-        else if ( skill_target == 3 ){
+        else if ( skill_target == PLAYER3 ){
           if ( (****st3) -> badstatus == POISON ){
             (****st3) -> badstatus = GOOD;
             printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st3) -> name);
@@ -258,17 +252,14 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
 
       }
     }
-    else if ( skill_user == 3 ){
+    else if ( skill_user == PLAYER3 ){
       printf("%s>>キュアポ\n", (****st3) -> name);
       sleep(1);
 
-      if ( (****st3) -> mp < 4 ){
-        printf("MP不足!\n");
-      }
-      else{
+      if ( check_playerMP(&st,4) == TRUE ){
         (****st3) -> mp -= 4;
 
-        if ( skill_target == 1 ){
+        if ( skill_target == PLAYER ){
           if ( (****st) -> badstatus == POISON ){
             (****st) -> badstatus = GOOD;
             printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st) -> name);
@@ -279,7 +270,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
             printf("\n");
           }
         }
-        else if ( skill_target == 2 ){
+        else if ( skill_target == PLAYER2 ){
           if ( (****st2) -> badstatus == POISON ){
             (****st2) -> badstatus = GOOD;
             printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st2) -> name);
@@ -290,7 +281,7 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
             printf("\n");
           }
         }
-        else if ( skill_target == 3 ){
+        else if ( skill_target == PLAYER3 ){
           if ( (****st3) -> badstatus == POISON ){
             (****st3) -> badstatus = GOOD;
             printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st3) -> name);
@@ -304,6 +295,58 @@ int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill ***
 
       }
     }
+  }
+  else if ( use_skill_count == RECOVER2 ){
+
+  }
+  else if ( use_skill_count == ENFA ){
+
+    if ( skill_user == PLAYER ){
+      if ( skill_target == ENEMY1 ){
+
+      }
+      else if ( skill_target == ENEMY2 ){
+
+      }
+      else if ( skill_target == ENEMY3 ){
+
+      }
+      else if ( skill_target == ENEMY4 ){
+
+      }
+    }
+    else if ( skill_user == PLAYER2 ){
+      if ( skill_target == ENEMY1 ){
+
+      }
+      else if ( skill_target == ENEMY2 ){
+
+      }
+      else if ( skill_target == ENEMY3 ){
+
+      }
+      else if ( skill_target == ENEMY4 ){
+
+      }
+    }
+    else if ( skill_user == PLAYER3 ){
+      if ( skill_target == ENEMY1 ){
+
+      }
+      else if ( skill_target == ENEMY2 ){
+
+      }
+      else if ( skill_target == ENEMY3 ){
+
+      }
+      else if ( skill_target == ENEMY4 ){
+
+      }
+    }
+    else{
+
+    }
+
   }
 
 }
@@ -413,6 +456,9 @@ int use_player_skill(Player ****st, Player ****st2, Player ****st3, P_skill ****
   if ( use_skill_count == RECOVER1 || use_skill_count == CUREPOISON ){
     skill_target = skill_target_select(&st, &st2, &st3, use_skill_count);
   }
+  else{
+
+  }
 
   if ( skill_target != NOPLAYER ){
     player_ability(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
@@ -421,7 +467,7 @@ int use_player_skill(Player ****st, Player ****st2, Player ****st3, P_skill ****
   return skill_target;
 }
 
-int check_skillID(Setting_skill *****setting_skill, int idx){
+void check_skillID(Setting_skill *****setting_skill, int idx){
 
   if ( (****setting_skill) -> set_skill[idx] == RECOVER1 ){
     printf("%d:ケディア 消費MP:3 (味方1人のHP小回復)\n", idx);

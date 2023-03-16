@@ -15,7 +15,12 @@ int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
   double eva_base, critical_base;
 
   eva_count = 0;
-  damage_base =( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - (***enemy) -> str;
+  if ( (***st) -> lv <= 3 ){
+    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - (***enemy) -> str;
+  }
+  else{
+    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 16 ) - (***enemy) -> str;
+  }
   if ( damage_base < 0 ){
     damage_base = 0;
     return -10;

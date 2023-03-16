@@ -700,10 +700,10 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
   int recover_point, beforehp;
 
   //傷薬
-  if ( item_number == 1 ){
+  if ( item_number == MEDICINE ){
     recover_point = 50;
 
-    if ( item_target == 1 ){
+    if ( item_target == PLAYER ){
       beforehp = (******st) -> hp;
       (******st) -> hp += recover_point;
       if ( (******st) -> hp >= (******st) -> maxhp ){
@@ -712,7 +712,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st) -> name, beforehp, (******st) -> maxhp, (******st) -> hp, (******st) -> maxhp);
       printf("\n");
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       beforehp = (******st2) -> hp;
       (******st2) -> hp += recover_point;
       if ( (******st2) -> hp >= (******st2) -> maxhp ){
@@ -721,7 +721,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st2) -> name, beforehp, (******st2) -> maxhp, (******st2) -> hp, (******st2) -> maxhp);
       printf("\n");
     }
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       beforehp = (******st3) -> hp;
       (******st3) -> hp += recover_point;
       if ( (******st3) -> hp >= (******st3) -> maxhp ){
@@ -731,9 +731,9 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       printf("\n");
     }
   }
-  else if ( item_number == 2 ){
+  else if ( item_number == LIFESTONE ){
 
-    if ( item_target == 1 ){
+    if ( item_target == PLAYER ){
       recover_point = (******st) -> maxhp * 0.25;
       beforehp = (******st) -> hp;
       (******st) -> hp += recover_point;
@@ -743,7 +743,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st) -> name, beforehp, (******st) -> maxhp, (******st) -> hp, (******st) -> maxhp);
       printf("\n");
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       recover_point = (******st2) -> maxhp * 0.25;
       beforehp = (******st2) -> hp;
       (******st2) -> hp += recover_point;
@@ -753,7 +753,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st2) -> name, beforehp, (******st2) -> maxhp, (******st2) -> hp, (******st2) -> maxhp);
       printf("\n");
     }
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       recover_point = (******st3) -> maxhp * 0.25;
       beforehp = (******st3) -> hp;
       (******st3) -> hp += recover_point;
@@ -763,28 +763,28 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st3) -> name, beforehp, (******st3) -> maxhp, (******st3) -> hp, (******st3) -> maxhp);
     }
   }
-  else if ( item_number == 3 ){  //宝玉
-    if ( item_target == 1 ){
+  else if ( item_number == BEAD ){  //宝玉
+    if ( item_target == PLAYER ){
       beforehp = (******st) -> hp;
       recover_point = (******st) -> maxhp;
       (******st) -> hp = recover_point;
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st) -> name, beforehp, (******st) -> maxhp, (******st) -> hp, (******st) -> maxhp);
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       beforehp = (******st2) -> hp;
       recover_point = (******st2) -> maxhp;
       (******st2) -> hp = recover_point;
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st2) -> name, beforehp, (******st2) -> maxhp, (******st2) -> hp, (******st2) -> maxhp);
     }
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       beforehp = (******st3) -> hp;
       recover_point = (******st3) -> maxhp;
       (******st3) -> hp = recover_point;
       printf("%s HP:%d/%d >> HP:%d/%d\n", (******st3) -> name, beforehp, (******st3) -> maxhp, (******st3) -> hp, (******st3) -> maxhp);
     }
   }
-  else if ( item_number == 4 ){
-    if ( item_target == 1 ){
+  else if ( item_number == ANTIPOISON ){
+    if ( item_target == PLAYER ){
       if ( (******st) -> badstatus == POISON ){
         (******st) -> badstatus = GOOD;
         printf("%s(POISON) >> %s(GOOD)\n", (******st) -> name, (******st) -> name);
@@ -794,7 +794,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       }
       printf("\n");
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       if ( (******st2) -> badstatus == POISON ){
         (******st2) -> badstatus = GOOD;
         printf("%s(POISON) >> %s(GOOD)\n", (******st2) -> name, (******st2) -> name);
@@ -804,7 +804,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       }
       printf("\n");
     }
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       if ( (******st3) -> badstatus == POISON ){
         (******st3) -> badstatus = GOOD;
         printf("%s(POISON) >> %s(GOOD)\n", (******st3) -> name, (******st3) -> name);
@@ -815,8 +815,8 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       printf("\n");
     }
   }
-  else if ( item_number == 5 ){
-    if ( item_target == 1 ){
+  else if ( item_number == ANTIPALYZE ){
+    if ( item_target == PLAYER ){
       if ( (******st) -> badstatus == PALYZE ){
         (******st) -> badstatus = GOOD;
         printf("%s(PALYZE) >> %s(GOOD)\n", (******st) -> name, (******st) -> name);
@@ -826,7 +826,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       }
       printf("\n");
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       if ( (******st2) -> badstatus == PALYZE ){
         (******st2) -> badstatus = GOOD;
         printf("%s(PALYZE) >> %s(GOOD)\n", (******st2) -> name, (******st2) -> name);
@@ -836,7 +836,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
       }
       printf("\n");
     }
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       if ( (******st3) -> badstatus == PALYZE ){
         (******st3) -> badstatus = GOOD;
         printf("%s(PALYZE) >> %s(GOOD)\n", (******st3) -> name, (******st3) -> name);
@@ -853,29 +853,29 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
   int item_number, item_target;
 
   if ( command == '1' ){
-    item_number = 1;
+    item_number = MEDICINE;
     item_target = menu_item_useselect(&st,&st2,&st3,&items);
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == 0 ){
+    if ( item_target == NOPLAYER ){
       //nothing
       return;
     }
-    else if ( item_target == 1 ){
+    else if ( item_target == PLAYER ){
       (*****items) -> medicine--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       (*****items) -> medicine--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
     //item_target = 3
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       (*****items) -> medicine--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
@@ -883,29 +883,29 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     }
   }
   else if ( command == '2' ){
-    item_number = 2;
+    item_number = LIFESTONE;
     item_target = menu_item_useselect(&st,&st2,&st3,&items);
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == 0 ){
+    if ( item_target == NOPLAYER ){
       //nothing
       return;
     }
-    else if ( item_target == 1 ){
+    else if ( item_target == PLAYER ){
       (*****items) -> lifestone--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       (*****items) -> lifestone--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
     //item_target = 3
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       (*****items) -> lifestone--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
@@ -913,29 +913,29 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     }
   }
   else if ( command == '3' ){
-    item_number = 3;
+    item_number = BEAD;
     item_target = menu_item_useselect(&st,&st2,&st3,&items);
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == 0 ){
+    if ( item_target == NOPLAYER ){
       //nothing
       return;
     }
-    else if ( item_target == 1 ){
+    else if ( item_target == PLAYER ){
       (*****items) -> bead--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       (*****items) -> bead--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
     //item_target = 3
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       (*****items) -> bead--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
@@ -943,29 +943,29 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     }
   }
   else if ( command == '4' ){
-    item_number = 4;
+    item_number = ANTIPOISON;
     item_target = menu_item_useselect(&st,&st2,&st3,&items);
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == 0 ){
+    if ( item_target == NOPLAYER ){
       //nothing
       return;
     }
-    else if ( item_target == 1 ){
+    else if ( item_target == PLAYER ){
       (*****items) -> antipoison--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       (*****items) -> antipoison--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
     //item_target = 3
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       (*****items) -> antipoison--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
@@ -973,29 +973,29 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     }
   }
   else if ( command == '5' ){
-    item_number = 5;
+    item_number = ANTIPALYZE;
     item_target = menu_item_useselect(&st,&st2,&st3,&items);
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == 0 ){
+    if ( item_target == NOPLAYER ){
       //nothing
       return;
     }
-    else if ( item_target == 1 ){
+    else if ( item_target == PLAYER ){
       (*****items) -> antipalyze--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
-    else if ( item_target == 2 ){
+    else if ( item_target == PLAYER2 ){
       (*****items) -> antipalyze--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
       return;
     }
     //item_target = 3
-    else if ( item_target == 3 ){
+    else if ( item_target == PLAYER3 ){
       (*****items) -> antipalyze--;
       menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
       printf("\n");
@@ -1445,19 +1445,30 @@ int learned_PhysicalSkill_list(P_skill ********player_skill){
   return 0;
 }
 
+void check_set_skillID(Setting_skill ********setting_skill, int idx){
+
+  if ( (*******setting_skill) -> set_skill[idx] == RECOVER1 ){
+    printf("%d:ケディア 消費MP:3 (味方1人のHP小回復)\n", idx);
+  }
+  else if ( (*******setting_skill) -> set_skill[idx] == CUREPOISON ){
+    printf("%d:キュアポ 消費MP:4 (味方1人のPOISON状態を回復)\n", idx);
+  }
+  else if ( (*******setting_skill) -> set_skill[idx] == RECOVER2 ){
+
+  }
+
+}
+
 void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_skill){
   int input;
   int count;
 
   count = 1;
 
-  if ( (******player_skill) -> recover1 == SETTING ){
-    printf("%d:ケディア 消費MP:3 (味方1人のHP小回復)\n", count);
-    count++;
-  }
-  if ( (******player_skill) -> cure_poison == SETTING ){
-    printf("%d:キュアポ 消費MP:4 (味方1人のPOISON状態を回復)\n",count);
-    count++;
+  for ( int i = 0; i < 10; i++ ){
+    if ( (******setting_skill) -> set_skill[i] != 0 ){
+      check_set_skillID(&setting_skill,i);
+    }
   }
 
   printf("\n");
@@ -1481,6 +1492,48 @@ void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_sk
 
     if ( input == '1' ){
       learned_PhysicalSkill_list(&player_skill);
+    }
+    else if ( input == '2' ){
+
+    }
+    else if ( input == '3' ){
+
+    }
+    else if ( input == '4' ){
+
+    }
+    else if ( input == '5' ){
+
+    }
+    else if ( input == '6' ){
+
+    }
+    else if ( input == '7' ){
+
+    }
+    else if ( input == '8' ){
+
+    }
+    else if ( input == '9' ){
+
+    }
+    else if ( input == 'a' ){
+
+    }
+    else if ( input == 'b' ){
+
+    }
+    else if ( input == 'd' ){
+
+    }
+    else if ( input == 'e' ){
+
+    }
+    else if ( input == 'c' ){
+      return;
+    }
+    else{
+
     }
 
   } while ( input != 'c' );
@@ -1569,9 +1622,33 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
 
 }
 
-void skill_menu(void){
+void skill_menu_list(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
 
-  printf("skill\n");
+}
+
+void skill_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3, Setting_skill *****setting_skill){
+  int input;
+
+  do{
+    printf("\n");
+    printf("スキルを使用する人を選択して下さい(終了する場合はcを入力)\n");
+    printf("1.%s\n", (****st) -> name);
+    printf("2.%s\n", (****st2) -> name);
+    printf("3.%s\n", (****st3) -> name);
+
+    input = _getch();
+
+    if ( input == '1' ){
+      skill_menu_list(&st,&player_skill,&setting_skill);
+    }
+    else if ( input == '2' ){
+      skill_menu_list(&st,&player_skill,&setting_skill);
+    }
+    else if ( input == '3' ){
+      skill_menu_list(&st,&player_skill,&setting_skill);
+    }
+
+  }while ( input != 'c' );
 }
 
 void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip){
@@ -1774,7 +1851,7 @@ void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****pla
       item_menu(&st,&st2,&st3,&items);
     }
     else if ( input == '2' ){
-      skill_menu();
+      skill_menu(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3,&setting_skill);
     }
     else if ( input == '3' ){
       equip_menu(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);

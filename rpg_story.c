@@ -392,7 +392,6 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki, Enemy *gremlin){
 
   int input;
-  int tmp;
 
   if ( st -> stage_clear == 1 ){
     /*printf("%s達は渡り廊下での戦いを終えて教室に戻ってきた。\n", st -> name);
@@ -467,7 +466,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     }
     else if ( input == '6' ){
       st -> stage_clear = 1.1;
-      school_save(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &items, &pEquip, &p2Equip, &p3Equip,&search);
+      school_save(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip,&search);
     }
 
   } while ( area -> boss2 == 0 );
