@@ -435,15 +435,62 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
             if ( skill_count != 0 ){
               do {
-                skill_target = NOPLAYER;
+                skill_target = NOTARGET;
                 printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
                 skill_command = _getch();
                 if ( skill_command == '0' ){
                   if ( (**setting_skill) -> set_skill[0] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[0];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -457,9 +504,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '1' ){
                   if ( (**setting_skill) -> set_skill[1] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[1];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -473,9 +567,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '2' ){
                   if ( (**setting_skill) -> set_skill[2] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[2];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -489,9 +630,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '3' ){
                   if ( (**setting_skill) -> set_skill[3] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[3];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -505,9 +693,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '4' ){
                   if ( (**setting_skill) -> set_skill[4] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[4];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -521,9 +756,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '5' ){
                   if ( (**setting_skill) -> set_skill[5] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[5];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -537,9 +819,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '6' ){
                   if ( (**setting_skill) -> set_skill[6] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[6];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -553,9 +882,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '7' ){
                   if ( (**setting_skill) -> set_skill[7] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[7];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -569,9 +945,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '8' ){
                   if ( (**setting_skill) -> set_skill[8] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[8];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -585,9 +1008,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '9' ){
                   if ( (**setting_skill) -> set_skill[9] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[9];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -602,7 +1072,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                   printf("\n");
                   break;
                 }
-              }while ( skill_user == NOPLAYER );    //skillを使うと数値は0ではない
+              }while ( skill_user == NOTARGET );    //skillを使うと数値は0ではない
             }
 
           }
@@ -980,15 +1450,62 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
             if ( skill_count != 0 ){
               do {
-                skill_target = NOPLAYER;
+                skill_target = NOTARGET;
                 printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
                 skill_command = _getch();
                 if ( skill_command == '0' ){
                   if ( (**setting_skill2) -> set_skill[0] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[0];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1002,9 +1519,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '1' ){
                   if ( (**setting_skill2) -> set_skill[1] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[1];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1018,9 +1582,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '2' ){
                   if ( (**setting_skill2) -> set_skill[2] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[2];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1034,9 +1645,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '3' ){
                   if ( (**setting_skill2) -> set_skill[3] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[3];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1050,9 +1708,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '4' ){
                   if ( (**setting_skill2) -> set_skill[4] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[4];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1066,9 +1771,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '5' ){
                   if ( (**setting_skill2) -> set_skill[5] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[5];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1082,9 +1834,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '6' ){
                   if ( (**setting_skill2) -> set_skill[6] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[6];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1098,9 +1897,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '7' ){
                   if ( (**setting_skill2) -> set_skill[7] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[7];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1114,9 +1960,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '8' ){
                   if ( (**setting_skill2) -> set_skill[8] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[8];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1130,9 +2023,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '9' ){
                   if ( (**setting_skill2) -> set_skill[9] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[9];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1147,7 +2087,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                   printf("\n");
                   break;
                 }
-              }while ( skill_user == NOPLAYER );    //skillを使うと数値は0ではない
+              }while ( skill_user == NOTARGET );    //skillを使うと数値は0ではない
             }
           }
           else if ( command == '3' ){  //防御コマンド
@@ -1521,15 +2461,62 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
             if ( skill_count != 0 ){
               do {
-                skill_target = NOPLAYER;
+                skill_target = NOTARGET;
                 printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
                 skill_command = _getch();
                 if ( skill_command == '0' ){
                   if ( (**setting_skill3) -> set_skill[0] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[0];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1543,9 +2530,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '1' ){
                   if ( (**setting_skill3) -> set_skill[1] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[1];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1559,9 +2593,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '2' ){
                   if ( (**setting_skill3) -> set_skill[2] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[2];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1575,9 +2656,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '3' ){
                   if ( (**setting_skill3) -> set_skill[3] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[3];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1591,9 +2719,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '4' ){
                   if ( (**setting_skill3) -> set_skill[4] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[4];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1607,9 +2782,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '5' ){
                   if ( (**setting_skill3) -> set_skill[5] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[5];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1623,9 +2845,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '6' ){
                   if ( (**setting_skill3) -> set_skill[6] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[6];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1639,9 +2908,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '7' ){
                   if ( (**setting_skill3) -> set_skill[7] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[7];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1655,9 +2971,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '8' ){
                   if ( (**setting_skill3) -> set_skill[8] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[8];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1671,9 +3034,56 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                 else if ( skill_command == '9' ){
                   if ( (**setting_skill3) -> set_skill[9] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[9];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
+                      if ( skill_target == ENEMY1 ){
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY2 ){
+                        if ( is_enemy_alive(&enemy1) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY3 ){
+                        if ( is_enemy_alive(&enemy2) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( skill_target == ENEMY4 ){
+                        if ( is_enemy_alive(&enemy3) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -1688,7 +3098,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                   printf("\n");
                   break;
                 }
-              }while ( skill_user == NOPLAYER );    //skillを使うと数値は0ではない
+              }while ( skill_user == NOTARGET );    //skillを使うと数値は0ではない
             }
           }
           else if ( command == '3' ){  //防御コマンド
@@ -1897,6 +3307,20 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
   printf("------RESULT------\n");
   printf("  EXP:%d GOLD:%d\n", result_exp, result_gold);
   printf("\n");
+
+  int battle_experience;
+  battle_experience = (**enemy) -> lv + (**enemy1) -> lv + (**enemy2) -> lv + (**enemy3) -> lv;
+
+  //スキルの熟練度チェック
+  if ( is_skill_learning(&player_skill) == TRUE ){
+    add_battleExperience(&st,&player_skill,battle_experience);
+  }
+  if ( is_skill_learning(&player_skill2) == TRUE ){
+    add_battleExperience(&st2,&player_skill2,battle_experience);
+  }
+  if ( is_skill_learning(&player_skill3) == TRUE ){
+    add_battleExperience(&st3,&player_skill3,battle_experience);
+  }
 
   //アイテムドロップ
   item_drop(&st,&st2,&st3,&enemy,&items,encount_pattern);

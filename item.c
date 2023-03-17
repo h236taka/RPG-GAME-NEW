@@ -283,7 +283,7 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //printf("item_number:%d\n", item_number);
       //printf("item_target:%d\n", item_target);
 
-      if ( item_target == NOPLAYER ){
+      if ( item_target == NOTARGET ){
         //nothing
         turn_decrease = 0.0;
       }
@@ -314,7 +314,7 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //printf("item_number:%d\n", item_number);
       //printf("item_target:%d\n", item_target);
 
-      if ( item_target == NOPLAYER ){
+      if ( item_target == NOTARGET ){
         //nothing
         turn_decrease = 0.0;
       }
@@ -344,7 +344,7 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //printf("item_number:%d\n", item_number);
       //printf("item_target:%d\n", item_target);
 
-      if ( item_target == NOPLAYER ){
+      if ( item_target == NOTARGET ){
         //nothing
         turn_decrease = 0.0;
       }
@@ -374,7 +374,7 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //printf("item_number:%d\n", item_number);
       //printf("item_target:%d\n", item_target);
 
-      if ( item_target == NOPLAYER ){
+      if ( item_target == NOTARGET ){
         //nothing
         turn_decrease = 0.0;
       }
@@ -404,7 +404,7 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //printf("item_number:%d\n", item_number);
       //printf("item_target:%d\n", item_target);
 
-      if ( item_target == NOPLAYER ){
+      if ( item_target == NOTARGET ){
         //nothing
         turn_decrease = 0.0;
       }

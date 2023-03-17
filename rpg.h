@@ -56,21 +56,22 @@ typedef enum {
   BATTLEONLY = 0,
   MENUONLY = 1,
   MENUANDBATTLE = 2,
-} Skilltype;
+} Skilltype1;
 
 typedef enum {
   PLAYER = 1,
   PLAYER2 = 2,
   PLAYER3 = 3,
-  NOPLAYER = 0,
-} Playerid;
-
-typedef enum {
-  ENEMY1 = 1,  //左端の敵
-  ENEMY2 = 2, //左から２番目
-  ENEMY3 = 3, //左から3番目
-  ENEMY4 = 4, //右端の敵
-} EnemyTarget;
+  NOTARGET = 0,
+  PARTY = 4,
+  ENEMY = 5,
+  PARTYALL = 6,
+  ENEMYALL = 7,
+  ENEMY1 = 8,  //左端の敵
+  ENEMY2 = 9, //左から２番目
+  ENEMY3 = 10, //左から3番目
+  ENEMY4 = 11, //右端の敵
+} PlayerAndEnemy;
 
 typedef enum {
   RECOVER1 = 1,
@@ -440,6 +441,10 @@ void map_menu(Map ***map, Area *****area, int area_data_line, int area_data_len,
 //map.c -> rpg_battle_same_enemy.c
 void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy ***enemy, int encount_pattern);
 
+int is_enemy_alive(Enemy ****enemy);
+
+int is_enemyCopy_alive(Enemy *enemy_copy);
+
 int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount);
 
 double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
@@ -451,6 +456,10 @@ void enemy_data_copy(Enemy ****enemy, Enemy *enemy_copy);
 int battle_escape(Player ****st);
 
 void poison_effect(Player ****st);
+
+int is_skill_learning(P_skill ****player_skill);
+
+void add_battleExperience(Player ****st, P_skill ****player_skill, int battle_experience);
 
 void player_badstatus_recover(Player ****st);
 
@@ -538,13 +547,31 @@ void encount_pattern6_layout(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2
 void encount_pattern7_layout(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3, int encount_pattern);
 
 //battle_skill.c ( about players and enemies skills function and to decide enemies move pattern)
-int check_playerMP(Player ******st, int skillMP);
+int check_playerMP(Player *****st, int skillMP);
 
-int player_ability(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, int use_skill_count, int skill_target, int skill_user);
+int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user);
 
-int skill_target_select(Player *****st, Player *****st2, Player *****st3, int use_skill_count);
+void player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****enemy, int use_skill_count);
 
-int use_player_skill(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, Setting_skill ****setting_skill, int skill_command, int skill_user);
+void player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *enemy_copy, int use_skill_count);
+
+int select_player_skillTarget(Player ****st, Player ****st2, Player ****st3);
+
+int use_player_skill(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, Setting_skill ****setting_skill, int skill_user);
+
+int select_encount_pattern2_skillTarget(Enemy ****enemy, Enemy *enemy_copy1);
+
+int select_encount_pattern3_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2);
+
+int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3);
+
+int select_encount_pattern5_skillTarget(Enemy ****enemy, Enemy ****enemy1);
+
+int select_encount_pattern6_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2);
+
+int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3);
+
+int who_is_skillTarget(int use_skill_count);
 
 void check_skillID(Setting_skill *****setting_skill, int idx);
 

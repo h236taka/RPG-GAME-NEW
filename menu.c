@@ -858,7 +858,7 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == NOPLAYER ){
+    if ( item_target == NOTARGET ){
       //nothing
       return;
     }
@@ -888,7 +888,7 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == NOPLAYER ){
+    if ( item_target == NOTARGET ){
       //nothing
       return;
     }
@@ -918,7 +918,7 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == NOPLAYER ){
+    if ( item_target == NOTARGET ){
       //nothing
       return;
     }
@@ -948,7 +948,7 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == NOPLAYER ){
+    if ( item_target == NOTARGET ){
       //nothing
       return;
     }
@@ -978,7 +978,7 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
     //printf("item_number:%d\n", item_number);
     //printf("item_target:%d\n", item_target);
 
-    if ( item_target == NOPLAYER ){
+    if ( item_target == NOTARGET ){
       //nothing
       return;
     }

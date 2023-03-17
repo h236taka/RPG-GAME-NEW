@@ -10,1468 +10,6 @@
 #include "rpg.h"
 //encountpatternが1~4のとき
 
-int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
-  int damage_base, damage, i, eva, critical, eva_count, max_damage, temp;
-  double eva_base, critical_base;
-
-  eva_count = 0;
-  if ( (***st) -> lv <= 3 ){
-    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - (***enemy) -> str;
-  }
-  else{
-    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 16 ) - (***enemy) -> str;
-  }
-  if ( damage_base < 0 ){
-    damage_base = 0;
-    return -10;
-  }
-  eva_base = 3 + ( (***enemy) -> agi * 0.1 ) + ( (***enemy) -> luk * 0.1 ) - ( (***st) -> agi * 0.2) - ( (***st) -> luk * 0.1);   //回避率計算
-
-  //麻痺状態では攻撃の命中率が下がる
-  if ( (***st) -> badstatus == PALYZE ){
-    eva_base += 50;
-    if ( eva_base > 100 ){
-      eva_base = 100;
-    }
-  }
-
-  //printf("before eva_base = %f\n", eva_base);
-  eva_base = round(eva_base);
-  //printf("after eva_base = %f\n", eva_base);
-
-  if ( eva_base < 3 ){
-    eva_base = 3;     //回避率最小値3%
-  }
-
-  eva = (rand() % ( 100 - 1 + 1 ) + 1);  //回避率の乱数
-  //printf("eva number = %d\n", eva);
-
-  for ( i = 3; i <= eva_base; i++ ){
-    if ( eva_base == i ){
-      if ( eva >= 1 && eva <= i ){   //回避率eva_base%
-        damage = 0;
-        eva_count++;
-      }
-    }
-  }
-
-  if ( eva_count == 0 ){
-    critical_base = 1 + ( (***st) -> luk * 0.2 ) + ( (***st) -> agi * 0.2 )- ( (***enemy) -> luk * 0.1 );  //critical率の計算
-    if ( critical_base < 1 ){
-      critical_base = 1;       //critical最小値1%
-    }
-    //printf("before critical_base = %f\n", critical_base);
-    critical_base = round(critical_base);
-    //printf("after critical_base = %f\n", critical_base);
-
-    critical = (rand() % ( 100 - 1 + 1 ) + 1);   //critical率の乱数
-    //printf("critical number = %d\n", critical);
-
-    //critical_base = 100;
-    for ( i = 1; i <= critical_base; i++ ){
-      if ( critical_base == i ){
-        if ( critical >= 1 && critical <= i ){   //回避率critical_base%
-          max_damage = damage_base * 1.5;   //ダメージの最大乱数はdamage_baseの1.5倍
-          damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base; //(rand()%(max - min + 1)) + min;
-          damage *= 2;     //criticalでダメージ2倍
-          damage += 100000;
-          return damage;
-        }
-      }
-    }
-
-    max_damage = damage_base * 1.3;
-
-    damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
-    //敵の耐性判断
-    if ( (***enemy) -> physical_attack == 150 ){     //物理攻撃1.5倍
-      damage *= 1.5;
-    }
-    else if ( (***enemy) -> physical_attack == 200 ){
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("WEAKNESS!!\n");
-      damage *= 2;
-    }
-    else if ( (***enemy) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
-      damage *= 0.8;
-    }
-    else if ( (***enemy) -> physical_attack == 50 ){  //物理攻撃半減
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("RESIST!\n");
-      damage *= 0.5;
-    }
-    else if ( (***enemy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("RESIST!\n");
-      damage *= 0.25;
-    }
-    else if ( (***enemy) -> physical_attack == -1 ){   //物理攻撃無効
-      damage = -1;
-      return damage;
-    }
-    else if ( (***enemy) -> physical_attack == -2 ){   //物理攻撃吸収
-      temp = damage;
-      damage = -2;
-      (***enemy) -> hp += temp;
-      if ( (***enemy) -> hp > (***enemy) -> maxhp ){
-        (***enemy) -> hp = (***enemy) -> maxhp;
-      }
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("Absorb!\n");
-      printf("%s:%dダメージ吸収\n", (***enemy) -> name, temp);
-      return damage;
-    }
-    else if ( (***enemy) -> physical_attack == -3 ){   //物理攻撃反射
-      temp = damage;
-      damage = -3;
-      (***st) -> hp -= temp;
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("Reflect!\n");
-      printf("%sは%dダメージを受けた\n", (***st) -> name, temp);
-      if ( (***st) -> hp <= 0 ){
-        (***st) -> hp = 0;
-        (***st) -> badstatus = DEAD;
-        sleep(1);
-        printf("%sは死んでしまった\n", (***st) -> name);
-      }
-
-      return damage;
-    }
-
-  }
-
-  if ( damage > 9999 ){
-    damage = 9999;
-  }
-
-  return damage;
-}
-
-double calculate_enemy_turn(double enemy_turn, double turn_decrease){
-
-  if ( turn_decrease == -1 ){  //ターンを1消費
-    if ( enemy_turn == 4 || enemy_turn == 3 || enemy_turn == 2 || enemy_turn == 1 ){
-      enemy_turn += turn_decrease;
-    }
-    else if ( enemy_turn == 4.4 ){
-      enemy_turn = 3.3;
-    }
-    else if ( enemy_turn == 4.3 ){
-      enemy_turn = 3.2;
-    }
-    else if ( enemy_turn == 4.2 ){
-      enemy_turn = 3.1;
-    }
-    else if ( enemy_turn == 4.1 ){
-      enemy_turn = 3.0;
-    }
-    else if ( enemy_turn == 3.3 ){
-      enemy_turn = 2.2;
-    }
-    else if ( enemy_turn == 3.2 ){
-      enemy_turn = 2.1;
-    }
-    else if ( enemy_turn == 3.1 ){
-      enemy_turn = 2.0;
-    }
-    else if ( enemy_turn == 2.2 ){
-      enemy_turn = 1.1;
-    }
-    else if ( enemy_turn == 2.1 ){
-      enemy_turn = 1.0;
-    }
-    else if ( enemy_turn == 1.1 ){
-      enemy_turn = 0.0;
-    }
-  }
-  else if ( turn_decrease == -2 ){
-    if ( enemy_turn == 4 || enemy_turn == 3 || enemy_turn == 2 || enemy_turn == 1 ){
-      enemy_turn += turn_decrease;
-    }
-    else if ( enemy_turn == 4.4 ){
-      enemy_turn = 2.2;
-    }
-    else if ( enemy_turn == 4.3 ){
-      enemy_turn = 2.1;
-    }
-    else if ( enemy_turn == 4.2 ){
-      enemy_turn = 2.0;
-    }
-    else if ( enemy_turn == 4.1 ){
-      enemy_turn = 2.0;
-    }
-    else if ( enemy_turn == 3.3 ){
-      enemy_turn = 1.1;
-    }
-    else if ( enemy_turn == 3.2 ){
-      enemy_turn = 1.0;
-    }
-    else if ( enemy_turn == 3.1 ){
-      enemy_turn == 1.0;
-    }
-    else if ( enemy_turn == 2.2 || enemy_turn == 2.1 || enemy_turn == 1.1 ){
-      enemy_turn = 0.0;
-    }
-  }
-  //turn増加
-  else if ( turn_decrease == 0.1 ){
-    if ( enemy_turn == 4 || enemy_turn == 3 || enemy_turn == 2 || enemy_turn == 1 ){
-      //printf("here\n");
-      enemy_turn += turn_decrease;
-      //printf("enemy_turn:%f\n", enemy_turn);
-    }
-    else if ( enemy_turn == 4.4 ){
-      enemy_turn = 3.3;
-    }
-    else if ( enemy_turn == 4.3 || enemy_turn == 4.2 || enemy_turn == 4.1 ){
-      enemy_turn += turn_decrease;
-    }
-    else if ( enemy_turn == 3.3 ){
-      enemy_turn = 3.2;
-    }
-    else if ( enemy_turn == 3.2 || enemy_turn == 3.1 ){
-      enemy_turn += turn_decrease;
-    }
-    else if ( enemy_turn == 2.2 ){
-      enemy_turn = 1.1;
-    }
-    else if ( enemy_turn == 2.1 ){
-      enemy_turn += turn_decrease;
-    }
-    else if ( enemy_turn == 1.1 ){
-      enemy_turn = 0.0;
-    }
-
-  }
-
-  return enemy_turn;
-}
-
-double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
-  int damage_base, damage, eva, critical, eva_count, critical_count, i, max_damage;
-  int temp, target_base, target;
-  double eva_base, critical_base, turn_decrease;
-
-  eva_count = 0;
-  critical_count = 0;
-  //damage_base = ( (****enemy) -> atk + (****enemy) -> lv ) * 5 - ( (****st) -> str + (****st) -> lv ) * 2;
-  printf("%sの攻撃!\n", (****enemy) -> name);
-  sleep(1);
-  //eva_base = 3 + ( (****st) -> agi * 0.2 ) + ( (****st) -> luk * 0.1 ) - ( (****enemy) -> agi * 0.1) - ( (****enemy) -> luk * 0.1);   //回避率計算
-
-  //攻撃する味方を選択
-  target_base = (rand() % ( 3 - 1 + 1 ) + 1); //各メンバーへの攻撃確率は33%
-  if ( target_base == 1 && (****st) -> badstatus == DEAD ){  //targetが死亡していたときtarget変更
-    if ( (****st2) -> badstatus == DEAD ){
-      target_base = 3;
-    }
-    else{
-      target_base = 2;
-    }
-  }
-  if ( target_base == 2 && (****st2) -> badstatus == DEAD ){
-    if ( (****st3) -> badstatus == DEAD ){
-      target_base = 1;
-    }
-    else{
-      target_base = 3;
-    }
-  }
-  if ( target_base == 3 && (****st3) -> badstatus == DEAD ){
-    if ( (****st) -> badstatus == DEAD ){
-      target_base = 2;
-    }
-    else{
-      target_base = 1;
-    }
-  }
-  if ( target_base == 1 ){  //主人公
-    if ( (****st) -> physical_attack == -1 ){  //物理攻撃無効
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
-      if ( damage_base < 0 ){
-        damage_base = 1;
-      }
-      max_damage = damage_base * 1.3;
-      damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
-      temp = damage;
-      damage = -2;
-      (****st) -> hp += temp;
-      if ( (****st) -> hp > (****st) -> maxhp ){
-        (****st) -> hp = (****st) -> maxhp;
-      }
-      printf("Absorb!\n");
-      sleep(1);
-      printf("%s<<%dダメージ吸収\n", (****st) -> name, temp);
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
-      if ( damage_base < 0 ){
-        damage_base = 1;
-      }
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -3;
-      (****enemy) -> hp -= temp;
-      printf("Reflect!\n");
-      sleep(1);
-      printf("%s<<%dダメージ\n", (****enemy) -> name, temp);
-      if ( (****enemy) -> hp <= 0 ){
-        (****enemy) -> hp = 0;
-        (****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (****enemy) -> name);
-      }
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else{
-      target = 1;   //主人公
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
-      if ( damage_base < 0 ){
-        damage_base = 1;
-      }
-      eva_base = 3 + ( (****st) -> agi * 0.2 ) + ( (****st) -> luk * 0.1 ) - ( (****enemy) -> agi * 0.1) - ( (****enemy) -> luk * 0.1);   //回避率計算
-    }
-  }
-  else if ( target_base == 2 ){   //2人目のメンバー
-    if ( (****st2) -> physical_attack == -1 ){  //物理攻撃無効
-      damage = -1;
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st2) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
-      if ( damage_base < 0 ){
-        damage_base = 1;
-      }
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -2;
-      (****st2) -> hp += temp;
-      if ( (****st2) -> hp > (****st2) -> maxhp ){
-        (****st2) -> hp = (****st2) -> maxhp;
-      }
-      printf("Absorb!\n");
-      sleep(1);
-      printf("%s<<%dダメージ吸収\n", (****st2) -> name, temp);
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st2) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
-      if ( damage_base < 0 ){
-        damage_base = 1;
-      }
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -3;
-      (****enemy) -> hp -= temp;
-      printf("Reflect!\n");
-      sleep(1);
-      printf("%s<<%dダメージ\n", (****enemy) -> name, temp);
-      if ( (****enemy) -> hp <= 0 ){
-        (****enemy) -> hp = 0;
-        (****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (****enemy) -> name);
-      }
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else{
-      target = 2;
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
-      if ( damage_base < 0 ){
-        damage_base = 1;
-      }
-      eva_base = 3 + ( (****st2) -> agi * 0.2 ) + ( (****st2) -> luk * 0.1 ) - ( (****enemy) -> agi * 0.1) - ( (****enemy) -> luk * 0.1);   //回避率計算
-    }
-  }
-  else if ( target_base == 3 ){   //３人目のメンバー
-    if ( (****st3) -> physical_attack == -1 ){  //物理攻撃無効
-      damage = -1;
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st3) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
-      if ( damage_base < 0 ){
-        damage_base = 1;
-      }
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -2;
-      (****st) -> hp += temp;
-      if ( (****st3) -> hp > (****st3) -> maxhp ){
-        (****st3) -> hp = (****st3) -> maxhp;
-      }
-      printf("Absorb!\n");
-      sleep(1);
-      printf("%s<<%dダメージ吸収\n", (****st3) -> name, temp);
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st3) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
-      if ( damage_base < 0 ){
-        damage_base = 1;
-      }
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -3;
-      (****enemy) -> hp -= temp;
-      printf("Reflect!\n");
-      sleep(1);
-      printf("%s<<%dダメージ\n", (****enemy) -> name, temp);
-      if ( (****enemy) -> hp <= 0 ){
-        (****enemy) -> hp = 0;
-        (****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (****enemy) -> name);
-      }
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else{
-      target = 3;
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
-      if ( damage_base < 0 ){
-        damage_base = 1;
-      }
-      eva_base = 3 + ( (****st3) -> agi * 0.2 ) + ( (****st3) -> luk * 0.1 ) - ( (****enemy) -> agi * 0.1) - ( (****enemy) -> luk * 0.1);   //回避率計算
-    }
-  }
-
-  //printf("target:%d\n", target);
-
-  //printf("before eva_base = %f\n", eva_base);
-  eva_base = round(eva_base);
-  //printf("after eva_base = %f\n", eva_base);
-
-  if ( eva_base < 3 ){
-    eva_base = 3;     //回避率最小値3%
-  }
-
-  eva = (rand() % ( 100 - 1 + 1 ) + 1);  //回避率の乱数
-  //printf("eva number = %d\n", eva);
-  for ( i = 3; i <= eva_base; i++ ){
-    if ( eva_base == i ){
-      if ( eva >= 1 && eva <= i ){   //回避率eva_base%
-        damage = 0;
-        printf("MISS!\n");
-        turn_decrease = -2;
-        enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        eva_count++;
-      }
-    }
-  }
-
-  if ( eva_count == 0 ){
-    if ( target == 1 ){
-      critical_base = 1 + ( (****enemy) -> luk * 0.2) - ( (****st) -> luk * 0.1);  //critical率の計算
-      if ( critical_base < 1 ){
-        critical_base = 1;       //critical最小値1%
-      }
-    }
-    else if ( target == 2 ){
-      critical_base = 1 + ( (****enemy) -> luk * 0.2) - ( (****st2) -> luk * 0.1);  //critical率の計算
-      if ( critical_base < 1 ){
-        critical_base = 1;       //critical最小値1%
-      }
-    }
-    else if ( target == 3 ){
-      critical_base = 1 + ( (****enemy) -> luk * 0.2) - ( (****st3) -> luk * 0.1);  //critical率の計算
-      if ( critical_base < 1 ){
-        critical_base = 1;       //critical最小値1%
-      }
-    }
-    //printf("before critical_base = %f\n", critical_base);
-    critical_base = round(critical_base);
-    //printf("after critical_base = %f\n", critical_base);
-
-    critical = (rand() % ( 100 - 1 + 1 ) + 1);   //critical率の乱数
-    //printf("critical number = %d\n", critical);
-
-    for ( i = 1; i <= critical_base; i++ ){
-      if ( critical_base == i ){
-        if ( critical >= 1 && critical <= i ){   //回避率critical_base%
-          max_damage = damage_base * 1.3;   //ダメージの最大乱数はdamage_baseの1.3倍
-          sleep(1);
-          printf("CRITICAL!!\n");
-          damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base; //(rand()%(max - min + 1)) + min;
-          damage *= 2;     //criticalでダメージ2倍
-          critical_count++;
-          turn_decrease = 0.1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-      }
-    }
-
-    max_damage = damage_base * 1.3;
-    if ( critical_count == 0 ){
-      damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
-      //味方の耐性判断
-      if ( target == 1 ){
-        if ( (****st) -> physical_attack == 100 ){
-          damage = damage;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 150 ){     //物理攻撃1.5倍
-          damage *= 1.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 200 ){
-          sleep(1);
-          printf("WEAKNESS!!\n");
-          damage *= 2;
-          turn_decrease = 0.1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
-          damage *= 0.8;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 50 ){  //物理攻撃半減
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.25;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-
-        if ( player_guard == 1 ){
-          damage /= 1.6;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-      }
-      else if ( target == 2 ){
-        if ( (****st2) -> physical_attack == 100 ){
-          damage = damage;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 150 ){     //物理攻撃1.5倍
-          damage *= 1.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 200 ){
-          sleep(1);
-          printf("WEAKNESS!!\n");
-          damage *= 2;
-          turn_decrease = 0.1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
-          damage *= 0.8;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 50 ){  //物理攻撃半減
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.25;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-
-        if ( player_guard2 == 1 ){
-          damage /= 1.6;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-      }
-      else if ( target == 3 ){
-        if ( (****st3) -> physical_attack == 100 ){
-          damage = damage;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 150 ){     //物理攻撃1.5倍
-          damage *= 1.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 200 ){
-          sleep(1);
-          printf("WEAKNESS!!\n");
-          damage *= 2;
-          turn_decrease = 0.1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
-          damage *= 0.8;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 50 ){  //物理攻撃半減
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.25;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-
-        if ( player_guard3 == 1 ){
-          damage /= 1.6;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-      }
-
-      if ( damage < 0 ){
-        damage = 1;
-      }
-    }
-
-    if ( target == 1 ){
-      if ( damage >= (****st) -> hp ){
-        sleep(1);
-        printf("%s<<%dダメージ\n", (****st) -> name, damage);
-        sleep(1);
-        printf("%sは死んでしまった!\n", (****st) -> name);
-        (****st) -> hp = 0;
-        (****st) -> badstatus = DEAD;
-      }
-      else{
-        printf("%s<<%dダメージ\n", (****st) -> name, damage);
-        (****st) -> hp -= damage;
-        if ( (****st) -> hp <= 0 ){
-          (****st) -> hp = 0;
-          (****st) -> badstatus = DEAD;
-        }
-      }
-    }
-    else if ( target == 2 ){
-      if ( damage >= (****st2) -> hp ){
-        sleep(1);
-        printf("%s<<%dダメージ\n", (****st2) -> name, damage);
-        sleep(1);
-        printf("%sは死んでしまった!\n", (****st2) -> name);
-        (****st2) -> hp = 0;
-        (****st2) -> badstatus = DEAD;
-      }
-      else{
-        printf("%s<<%dダメージ\n", (****st2) -> name, damage);
-        (****st2) -> hp -= damage;
-        if ( (****st2) -> hp <= 0 ){
-          (****st2) -> hp = 0;
-          (****st2) -> badstatus = DEAD;
-        }
-      }
-    }
-    else{
-      if ( damage >= (****st2) -> hp ){
-        sleep(1);
-        printf("%s<<%dダメージ\n", (****st3) -> name, damage);
-        sleep(1);
-        printf("%sは死んでしまった!\n", (****st3) -> name);
-        (****st3) -> hp = 0;
-        (****st3) -> badstatus = DEAD;
-      }
-      else{
-        printf("%s<<%dダメージ\n", (****st3) -> name, damage);
-        (****st3) -> hp -= damage;
-        if ( (****st3) -> hp <= 0 ){
-          (****st3) -> hp = 0;
-          (****st3) -> badstatus = DEAD;
-        }
-      }
-    }
-  }
-
-  player_guard = 0;
-  player_guard2 = 0;
-  player_guard3 = 0;
-
-  //printf("enemy_attack's enemy_turn:%f\n", enemy_turn);
-
-  return enemy_turn;
-}
-
-double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy **enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
-  int damage_base, damage, eva, critical, eva_count, critical_count, i, max_damage;
-  int temp, target_base, target;
-  double eva_base, critical_base, turn_decrease;
-
-  eva_count = 0;
-  critical_count = 0;
-  //damage_base = ( (****enemy) -> atk + (****enemy) -> lv ) * 5 - ( (****st) -> str + (****st) -> lv ) * 2;
-  printf("%sの攻撃!\n", (*enemy_copy1) -> name);
-  sleep(1);
-  //eva_base = 3 + ( (****st) -> agi * 0.2 ) + ( (****st) -> luk * 0.1 ) - ( (****enemy) -> agi * 0.1) - ( (****enemy) -> luk * 0.1);   //回避率計算
-
-  //攻撃する味方を選択
-  target_base = (rand() % ( 3 - 1 + 1 ) + 1); //各メンバーへの攻撃確率は33%
-  if ( target_base == 1 ){  //主人公
-    if ( (****st) -> physical_attack == -1 ){  //物理攻撃無効
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (*enemy_copy1) -> lv + (*enemy_copy1) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
-      max_damage = damage_base * 1.3;
-      damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
-      temp = damage;
-      damage = -2;
-      (****st) -> hp += temp;
-      if ( (****st) -> hp > (****st) -> maxhp ){
-        (****st) -> hp = (****st) -> maxhp;
-      }
-      printf("Absorb!\n");
-      sleep(1);
-      printf("%s<<%dダメージ吸収\n", (****st) -> name, temp);
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (*enemy_copy1) -> lv + (*enemy_copy1) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -3;
-      (*enemy_copy1) -> hp -= temp;
-      printf("Reflect!\n");
-      sleep(1);
-      printf("%s<<%dダメージ\n", (*enemy_copy1) -> name, temp);
-      if ( (*enemy_copy1) -> hp <= 0 ){
-        (*enemy_copy1) -> hp = 0;
-        (*enemy_copy1) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*enemy_copy1) -> name);
-      }
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else{
-      target = 1;   //主人公
-      damage_base = ( ( ( (*enemy_copy1) -> lv + (*enemy_copy1) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
-      eva_base = 3 + ( (****st) -> agi * 0.2 ) + ( (****st) -> luk * 0.1 ) - ( (*enemy_copy1) -> agi * 0.1) - ( (*enemy_copy1) -> luk * 0.1);   //回避率計算
-    }
-  }
-  else if ( target_base == 2 ){   //2人目のメンバー
-    if ( (****st2) -> physical_attack == -1 ){  //物理攻撃無効
-      damage = -1;
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st2) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (*enemy_copy1) -> lv + (*enemy_copy1) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -2;
-      (****st2) -> hp += temp;
-      if ( (****st2) -> hp > (****st2) -> maxhp ){
-        (****st2) -> hp = (****st2) -> maxhp;
-      }
-      printf("Absorb!\n");
-      sleep(1);
-      printf("%s<<%dダメージ吸収\n", (****st2) -> name, temp);
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st2) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (*enemy_copy1) -> lv + (*enemy_copy1) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -3;
-      (*enemy_copy1) -> hp -= temp;
-      printf("Reflect!\n");
-      sleep(1);
-      printf("%s<<%dダメージ\n", (*enemy_copy1) -> name, temp);
-      if ( (*enemy_copy1) -> hp <= 0 ){
-        (*enemy_copy1) -> hp = 0;
-        (*enemy_copy1) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*enemy_copy1) -> name);
-      }
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else{
-      target = 2;
-      damage_base = ( ( ( (*enemy_copy1) -> lv + (*enemy_copy1) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
-      eva_base = 3 + ( (****st2) -> agi * 0.2 ) + ( (****st2) -> luk * 0.1 ) - ( (*enemy_copy1) -> agi * 0.1) - ( (*enemy_copy1) -> luk * 0.1);   //回避率計算
-    }
-  }
-  else if ( target_base == 3 ){   //３人目のメンバー
-    if ( (****st3) -> physical_attack == -1 ){  //物理攻撃無効
-      damage = -1;
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st3) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (*enemy_copy1) -> lv + (*enemy_copy1) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -2;
-      (****st) -> hp += temp;
-      if ( (****st3) -> hp > (****st3) -> maxhp ){
-        (****st3) -> hp = (****st3) -> maxhp;
-      }
-      printf("Absorb!\n");
-      sleep(1);
-      printf("%s<<%dダメージ吸収\n", (****st3) -> name, temp);
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else if ( (****st3) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (*enemy_copy1) -> lv + (*enemy_copy1) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
-      max_damage = damage_base * 1.3;
-      temp = damage;
-      damage = -3;
-      (*enemy_copy1) -> hp -= temp;
-      printf("Reflect!\n");
-      sleep(1);
-      printf("%s<<%dダメージ\n", (*enemy_copy1) -> name, temp);
-      if ( (*enemy_copy1) -> hp <= 0 ){
-        (*enemy_copy1) -> hp = 0;
-        (*enemy_copy1) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*enemy_copy1) -> name);
-      }
-      turn_decrease = -2;
-      enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-      return enemy_turn;
-    }
-    else{
-      target = 3;
-      damage_base = ( ( ( (*enemy_copy1) -> lv + (*enemy_copy1) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
-      eva_base = 3 + ( (****st3) -> agi * 0.2 ) + ( (****st3) -> luk * 0.1 ) - ( (*enemy_copy1) -> agi * 0.1) - ( (*enemy_copy1) -> luk * 0.1);   //回避率計算
-    }
-  }
-
-  //printf("target:%d\n", target);
-
-  //printf("before eva_base = %f\n", eva_base);
-  eva_base = round(eva_base);
-  //printf("after eva_base = %f\n", eva_base);
-
-  if ( eva_base < 3 ){
-    eva_base = 3;     //回避率最小値3%
-  }
-
-  eva = (rand() % ( 100 - 1 + 1 ) + 1);  //回避率の乱数
-  //printf("eva number = %d\n", eva);
-
-  for ( i = 3; i <= eva_base; i++ ){
-    if ( eva_base == i ){
-      if ( eva >= 1 && eva <= i ){   //回避率eva_base%
-        damage = 0;
-        printf("MISS!\n");
-        eva_count++;
-        turn_decrease = -2;
-        enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        return enemy_turn;
-      }
-    }
-  }
-
-  if ( eva_count == 0 ){
-    if ( target == 1 ){
-      critical_base = 1 + ( (*enemy_copy1) -> luk * 0.2) - ( (****st) -> luk * 0.1);  //critical率の計算
-      if ( critical_base < 1 ){
-        critical_base = 1;       //critical最小値1%
-      }
-    }
-    else if ( target == 2 ){
-      critical_base = 1 + ( (*enemy_copy1) -> luk * 0.2) - ( (****st2) -> luk * 0.1);  //critical率の計算
-      if ( critical_base < 1 ){
-        critical_base = 1;       //critical最小値1%
-      }
-    }
-    else if ( target == 3 ){
-      critical_base = 1 + ( (*enemy_copy1) -> luk * 0.2) - ( (****st3) -> luk * 0.1);  //critical率の計算
-      if ( critical_base < 1 ){
-        critical_base = 1;       //critical最小値1%
-      }
-    }
-    //printf("before critical_base = %f\n", critical_base);
-    critical_base = round(critical_base);
-    //printf("after critical_base = %f\n", critical_base);
-
-    critical = (rand() % ( 100 - 1 + 1 ) + 1);   //critical率の乱数
-    //printf("critical number = %d\n", critical);
-
-    for ( i = 1; i <= critical_base; i++ ){
-      if ( critical_base == i ){
-        if ( critical >= 1 && critical <= i ){   //回避率critical_base%
-          max_damage = damage_base * 1.3;   //ダメージの最大乱数はdamage_baseの1.3倍
-          sleep(1);
-          printf("CRITICAL!!\n");
-          damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base; //(rand()%(max - min + 1)) + min;
-          damage *= 2;     //criticalでダメージ2倍
-          critical_count++;
-
-          turn_decrease = 0.1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-      }
-    }
-
-    max_damage = damage_base * 1.3;
-    if ( critical_count == 0 ){
-      damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
-      //味方の耐性判断
-      if ( target == 1 ){
-        if ( (****st) -> physical_attack == 100 ){
-          damage = damage;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 150 ){     //物理攻撃1.5倍
-          damage *= 1.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 200 ){
-          sleep(1);
-          printf("WEAKNESS!!\n");
-          damage *= 2;
-          turn_decrease = 0.1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
-          damage *= 0.8;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 50 ){  //物理攻撃半減
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.25;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-
-        if ( player_guard == 1 ){
-          damage /= 1.6;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-      }
-      else if ( target == 2 ){
-        if ( (****st2) -> physical_attack == 100 ){
-          damage = damage;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 150 ){     //物理攻撃1.5倍
-          damage *= 1.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 200 ){
-          sleep(1);
-          printf("WEAKNESS!!\n");
-          damage *= 2;
-          turn_decrease = 0.1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
-          damage *= 0.8;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 50 ){  //物理攻撃半減
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st2) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.25;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-
-        if ( player_guard2 == 1 ){
-          damage /= 1.6;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-
-      }
-      else if ( target == 3 ){
-        if ( (****st3) -> physical_attack == 100 ){
-          damage = damage;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 150 ){     //物理攻撃1.5倍
-          damage *= 1.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 200 ){
-          sleep(1);
-          printf("WEAKNESS!!\n");
-          damage *= 2;
-          turn_decrease = 0.1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
-          damage *= 0.8;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 50 ){  //物理攻撃半減
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.5;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-        else if ( (****st3) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-          sleep(1);
-          printf("RESIST!\n");
-          damage *= 0.25;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-
-        if ( player_guard3 == 1 ){
-          damage /= 1.6;
-          turn_decrease = -1;
-          enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
-        }
-      }
-    }
-
-    if ( target == 1 ){
-      if ( damage >= (****st) -> hp ){
-        sleep(1);
-        printf("%s<<%dダメージ\n", (****st) -> name, damage);
-        sleep(1);
-        printf("%sは死んでしまった!\n", (****st) -> name);
-        (****st) -> hp = 0;
-        (****st) -> badstatus = DEAD;
-      }
-      else{
-        printf("%s<<%dダメージ\n", (****st) -> name, damage);
-        (****st) -> hp -= damage;
-        if ( (****st) -> hp <= 0 ){
-          (****st) -> hp = 0;
-          (****st) -> badstatus = DEAD;
-        }
-      }
-    }
-    else if ( target == 2 ){
-      if ( damage >= (****st2) -> hp ){
-        sleep(1);
-        printf("%s<<%dダメージ\n", (****st2) -> name, damage);
-        sleep(1);
-        printf("%sは死んでしまった!\n", (****st2) -> name);
-        (****st2) -> hp = 0;
-        (****st2) -> badstatus = DEAD;
-      }
-      else{
-        printf("%s<<%dダメージ\n", (****st2) -> name, damage);
-        (****st2) -> hp -= damage;
-        if ( (****st2) -> hp <= 0 ){
-          (****st2) -> hp = 0;
-          (****st2) -> badstatus = DEAD;
-        }
-      }
-    }
-    else{
-      if ( damage >= (****st2) -> hp ){
-        sleep(1);
-        printf("%s<<%dダメージ\n", (****st3) -> name, damage);
-        sleep(1);
-        printf("%sは死んでしまった!\n", (****st3) -> name);
-        (****st3) -> hp = 0;
-        (****st3) -> badstatus = DEAD;
-      }
-      else{
-        printf("%s<<%dダメージ\n", (****st3) -> name, damage);
-        (****st3) -> hp -= damage;
-        if ( (****st3) -> hp <= 0 ){
-          (****st3) -> hp = 0;
-          (****st3) -> badstatus = DEAD;
-        }
-      }
-    }
-  }
-
-  player_guard = 0;
-  player_guard2 = 0;
-  player_guard3 = 0;
-
-  return enemy_turn;
-}
-
-void display_gameover(void){
-
-  sleep(1);
-  printf("・・・・・・\n");
-  sleep(2);
-  printf("あなた達には失望しましたよ\n");
-  sleep(2);
-  printf("やはり人間には荷が重すぎましたか・・・\n");
-  printf("\n");
-  sleep(1);
-  printf("\a");
-  printf("---------------\n");
-  printf("---GAME OVER---\n");
-  printf("---------------\n");
-
-  exit(EXIT_SUCCESS);
-}
-
-void poison_effect(Player ****st){
-  int poison_damage;
-
-  poison_damage = (***st) -> maxhp * 0.15;
-  (***st) -> hp -= poison_damage;
-  if ( (***st) -> hp <= 0 ){
-    printf("%sは毒により%dダメージを受けた!\n", (***st) -> name, poison_damage);
-    printf("%sは死んでしまった!\n");
-    (***st) -> badstatus = DEAD;
-  }
-  else{
-    printf("%sは毒により%dダメージを受けた!\n", (***st) -> name, poison_damage);
-  }
-}
-
-
-void enemy_data_copy(Enemy ****enemy, Enemy *enemy_copy){
-
-  strcpy(enemy_copy -> name, (***enemy) -> name);
-  enemy_copy -> hp = (***enemy) -> hp;
-  enemy_copy -> maxhp = (***enemy) -> maxhp;
-  enemy_copy -> mp = (***enemy) -> maxmp;
-  enemy_copy -> maxmp = (***enemy) -> maxmp;
-  enemy_copy -> atk = (***enemy) -> atk;
-  enemy_copy -> magic = (***enemy) -> magic;
-  enemy_copy -> str = (***enemy) -> str;
-  enemy_copy -> agi = (***enemy) -> agi;
-  enemy_copy -> luk = (***enemy) -> luk;
-  enemy_copy -> lv = (***enemy) -> lv;
-  enemy_copy -> exp = (***enemy) -> exp;
-  enemy_copy -> gold = (***enemy) -> gold;
-  enemy_copy -> badstatus = (***enemy) -> badstatus;
-  enemy_copy -> physical_attack = (***enemy) -> physical_attack;
-  enemy_copy -> gun_attack = (***enemy) -> gun_attack;
-  enemy_copy -> fire = (***enemy) -> fire;
-  enemy_copy -> ice = (***enemy) -> ice;
-  enemy_copy -> elec = (***enemy) -> elec;
-  enemy_copy -> wave = (***enemy) -> wave;
-  enemy_copy -> almighty = (***enemy) -> almighty;
-  enemy_copy -> death = (***enemy) -> death;
-  enemy_copy -> expel = (***enemy) -> expel;
-  enemy_copy -> poison = (***enemy) -> poison;
-  enemy_copy -> palyze = (***enemy) -> palyze;
-  enemy_copy -> charm = (***enemy) -> charm;
-  enemy_copy -> close = (***enemy) -> close;
-  enemy_copy -> stone = (***enemy) -> stone;
-  enemy_copy -> panic = (***enemy) -> panic;
-  enemy_copy -> sleep = (***enemy) -> sleep;
-  enemy_copy -> curse = (***enemy) -> curse;
-  enemy_copy -> boss_count = (***enemy) -> boss_count;
-  enemy_copy -> enemy_id = (***enemy) -> enemy_id;
-}
-
-//encount_pattern = 1; 敵１体
-//encount_pattern = 2; 同じ敵2体
-//encount_pattern = 3; 同じ敵３体
-//encount_pattern = 4; 同じ敵４体
-//encount_pattern = 5; 違う敵２体
-//encount_pattern = 6; 違う敵３体
-//encount_pattern = 7; 違う敵４体
-//encount_pattern = 8; 敵４体(敵２体を１グループとして２グループ)
-
-//未実装
-//encount_pattern = 9; 敵４体(同じ敵３体と違う敵１体)
-//encount_pattern = 10; 敵３体(同じ敵２体と違う敵１体)
-
-int battle_escape(Player ****st){
-  int escape, escape_count, i;
-  double escape_base;
-
-  escape_count = 0;
-  if ( escape_count == 0 ){  //逃走試行回数
-    escape_base = 35 + ( (***st) -> agi * 0.2 + (***st) -> luk * 0.2);   //逃走確率の最小値35% + 逃走を選択したキャラの速と運の値
-    escape_base = round(escape_base);
-    //printf("escape_base = %f\n", escape_base);
-    escape = (rand() % ( 100 - 1 + 1 ) + 1);
-    //printf("escape number = %d\n", escape);
-    for ( i = 35; i <= escape_base; i++ ){
-      if ( escape_base == i ){
-        if ( escape >= 1 && escape <= i ){
-          printf("逃走成功!!\n");
-          printf("%s達は戦闘から逃走した!\n", (***st) -> name);
-          return 1;
-        }
-        else{
-          printf("逃走失敗\n");
-          return -1;
-        }
-      }
-    }
-  }
-
-}
-
-//player_turnについては株式会社ATLUSのRPGで多く用いられているプレスターンバトルシステムを参考
-double calculate_player_turn(double player_turn, double turn_decrease){
-
-  if ( turn_decrease == -1 ){  //ターンを1消費
-    if ( player_turn == 3 || player_turn == 2 || player_turn == 1 || player_turn == 0 ){
-      player_turn += turn_decrease;
-    }
-    else if ( player_turn == 3.3 ){
-      player_turn = 2.2;
-    }
-    else if ( player_turn == 3.2 ){
-      player_turn = 2.1;
-    }
-    else if ( player_turn == 3.1 ){
-      player_turn = 2.0;
-    }
-    else if ( player_turn == 2.2 ){
-      player_turn = 1.1;
-    }
-    else if ( player_turn == 1.1 ){
-      player_turn = 0;
-    }
-    else if ( player_turn == 2.1 ){
-      player_turn = 1;
-    }
-  }
-  else if ( turn_decrease == -2 ){
-    if ( player_turn == 3 || player_turn == 2 || player_turn == 1 ){
-      player_turn += turn_decrease;
-      //printf("%f\n", player_turn);
-      if ( player_turn < 0 ){
-        player_turn = 0;
-      }
-    }
-    else if ( player_turn == 1.1 || player_turn == 2.1 || player_turn == 2.2 ){
-      player_turn = 0;
-    }
-    else if ( player_turn == 3.3 ){
-      player_turn = 1.1;
-    }
-    else if ( player_turn == 3.2 ){
-      player_turn = 1;
-    }
-    else if ( player_turn == 3.1 ){
-      player_turn = 1;
-    }
-  }
-  //プレスターン増加
-  else if ( turn_decrease == 0.1 ){
-    if ( player_turn == 3 || player_turn == 2 || player_turn == 1 ){
-      player_turn += turn_decrease;
-    }
-    else if ( player_turn == 1.1 ){
-      player_turn = 0;
-    }
-    else if ( player_turn == 2.1 ){
-      player_turn = 2.2;
-    }
-    else if ( player_turn == 2.2 ){
-      player_turn = 1.1;
-    }
-    else if ( player_turn == 3.1 ){
-      player_turn = 3.2;
-    }
-    else if ( player_turn == 3.2 ){
-      player_turn = 3.3;
-    }
-    else if ( player_turn == 3.3 ){
-      player_turn = 2.2;
-    }
-  }
-  //turn消費無し
-  else if ( turn_decrease == 0.0 ){
-    player_turn = player_turn;
-  }
-
-  return player_turn;
-}
-
-void display_player_turn(Player ****st, double player_turn){
-  //弱点を付くと〇が◎になる
-  //◎を0.1、２つ目の◎を0.2、３つ目の◎を0.3とカウント
-  if ( player_turn == 3.0 ){
-    printf("%sのTURN! (PLAYER TURN: 〇〇〇)\n", (***st) -> name);
-  }
-  else if ( player_turn == 2.0 ){
-    printf("%sのTURN! (PLAYER TURN: 〇〇)\n", (***st) -> name);
-  }
-  else if ( player_turn == 1.0 ){
-    printf("%sのTURN! (PLAYER TURN: 〇)\n", (***st) -> name);
-  }
-  else if ( player_turn == 1.1 ){
-    printf("%sのTURN! (PLAYER TURN: ◎)\n", (***st) -> name);
-  }
-  else if ( player_turn == 2.1 ){
-    printf("%sのTURN! (PLAYER TURN: ◎〇)\n", (***st) -> name);
-  }
-  else if ( player_turn == 2.2 ){
-    printf("%sのTURN! (PLAYER TURN: ◎◎)\n", (***st) -> name);
-  }
-  else if ( player_turn == 3.1 ){
-    printf("%sのTURN! (PLAYER TURN: ◎〇〇)\n", (***st) -> name);
-  }
-  else if ( player_turn == 3.2 ){
-    printf("%sのTURN! (PLAYER TURN: ◎◎〇)\n", (***st) -> name);
-  }
-  else if ( player_turn == 3.3 ){
-    printf("%sのTURN! (PLAYER TURN: ◎◎◎)\n", (***st) -> name);
-  }
-}
-
-void display_enemy_turn(Enemy ****enemy, double enemy_turn){
-
-  if ( enemy_turn == 4 ){
-    printf("%sのTURN! (ENEMY TURN: 〇〇〇〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 3 ){
-    printf("%sのTURN! (ENEMY TURN: 〇〇〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 2 ){
-    printf("%sのTURN! (ENEMY TURN: 〇〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 1 ){
-    printf("%sのTURN! (ENEMY TURN: 〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 4.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎〇〇〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 4.2 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎〇〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 4.3 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎◎〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 4.4 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎◎◎)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 3.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎〇〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 3.2 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 3.3 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎◎)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 2.2 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 2.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎〇)\n", (***enemy) -> name);
-  }
-  else if ( enemy_turn == 1.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎)\n", (***enemy) -> name);
-  }
-}
-
-void display_enemy_copy_turn(Enemy *enemy_copy1, double enemy_turn){
-
-  if ( enemy_turn == 4 ){
-    printf("%sのTURN! (ENEMY TURN: 〇〇〇〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 3 ){
-    printf("%sのTURN! (ENEMY TURN: 〇〇〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 2 ){
-    printf("%sのTURN! (ENEMY TURN: 〇〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 1 ){
-    printf("%sのTURN! (ENEMY TURN: 〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 4.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎〇〇〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 4.2 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎〇〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 4.3 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎◎〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 4.4 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎◎◎)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 3.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎〇〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 3.2 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 3.3 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎◎)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 2.2 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 2.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎〇)\n", enemy_copy1 -> name);
-  }
-  else if ( enemy_turn == 1.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎)\n", enemy_copy1 -> name);
-  }
-}
-
 int battle_error_enemydeadcount1(Enemy ****enemy){
   int enemy_deadcount;
 
@@ -1583,7 +121,7 @@ void player_badstatus_recover(Player ****st){
 //敵１種類の戦闘関数
 void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy ***enemy, int encount_pattern){  //構造体のポインタを引数にまたポインタ指定（ダブルポインタ)
 
-  int player_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
+  int player_damage, skill_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
   int enemy_deadcount, skill_count, use_skill_count, skill_reaction, recover_point, battle_display_condition_count, enemy_temp;
   int result_exp, result_gold;
   int command;
@@ -2388,15 +926,121 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
             if ( skill_count != 0 ){
               do {
-                skill_target = NOPLAYER;
+                skill_target = NOTARGET;
                 printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
                 skill_command = _getch();
                 if ( skill_command == '0' ){
                   if ( (**setting_skill) -> set_skill[0] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
 
-                    if ( skill_target != NOPLAYER ){
+                    use_skill_count = (**setting_skill) -> set_skill[0];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
+
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2410,9 +1054,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '1' ){
                   if ( (**setting_skill) -> set_skill[1] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[1];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2426,9 +1175,115 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '2' ){
                   if ( (**setting_skill) -> set_skill[2] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
 
-                    if ( skill_target != NOPLAYER ){
+                    use_skill_count = (**setting_skill) -> set_skill[2];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
+
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2442,9 +1297,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '3' ){
                   if ( (**setting_skill) -> set_skill[3] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[3];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2458,9 +1418,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '4' ){
                   if ( (**setting_skill) -> set_skill[4] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[4];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2474,9 +1539,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '5' ){
                   if ( (**setting_skill) -> set_skill[5] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[5];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2490,9 +1660,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '6' ){
                   if ( (**setting_skill) -> set_skill[6] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[6];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2506,9 +1781,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '7' ){
                   if ( (**setting_skill) -> set_skill[7] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[7];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2522,9 +1902,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '8' ){
                   if ( (**setting_skill) -> set_skill[8] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[8];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2538,9 +2023,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '9' ){
                   if ( (**setting_skill) -> set_skill[9] != 0 ){
                     skill_user = PLAYER;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill,&setting_skill,skill_command, skill_user);
+                    use_skill_count = (**setting_skill) -> set_skill[9];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st,&player_skill,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -2555,7 +2145,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                   printf("\n");
                   break;
                 }
-              }while ( skill_user == NOPLAYER );    //skillを使うと数値は0ではない
+              }while ( skill_user == NOTARGET );    //skillを使うと数値は0ではない
             }
 
           }
@@ -3334,15 +2924,120 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
             if ( skill_count != 0 ){
               do {
-                skill_target = NOPLAYER;
+                skill_target = NOTARGET;
                 printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
                 skill_command = _getch();
                 if ( skill_command == '0' ){
                   if ( (**setting_skill2) -> set_skill[0] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[0];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3356,9 +3051,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '1' ){
                   if ( (**setting_skill2) -> set_skill[1] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[1];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3372,9 +3172,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '2' ){
                   if ( (**setting_skill2) -> set_skill[2] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[2];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3388,9 +3293,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '3' ){
                   if ( (**setting_skill2) -> set_skill[3] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[3];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3404,9 +3414,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '4' ){
                   if ( (**setting_skill2) -> set_skill[4] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[4];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3420,9 +3535,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '5' ){
                   if ( (**setting_skill2) -> set_skill[5] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[5];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3436,9 +3656,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '6' ){
                   if ( (**setting_skill2) -> set_skill[6] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[6];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3452,9 +3777,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '7' ){
                   if ( (**setting_skill2) -> set_skill[7] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[7];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3468,9 +3898,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '8' ){
                   if ( (**setting_skill2) -> set_skill[8] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[8];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3484,9 +4019,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '9' ){
                   if ( (**setting_skill2) -> set_skill[9] != 0 ){
                     skill_user = PLAYER2;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_command, skill_user);
+                    use_skill_count = (**setting_skill2) -> set_skill[9];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st2,&player_skill2,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -3501,7 +4141,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                   printf("\n");
                   break;
                 }
-              }while ( skill_user == NOPLAYER );    //skillを使うと数値は0ではない
+              }while ( skill_user == NOTARGET );    //skillを使うと数値は0ではない
             }
           }
           else if ( command == '3' ){  //防御コマンド
@@ -4267,15 +4907,120 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
             if ( skill_count != 0 ){
               do {
-                skill_target = NOPLAYER;
+                skill_target = NOTARGET;
                 printf("使用したいSKILL番号を入力してください! (使用しない場合はcを入力してください)\n");
                 skill_command = _getch();
                 if ( skill_command == '0' ){
                   if ( (**setting_skill3) -> set_skill[0] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[0];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4289,9 +5034,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '1' ){
                   if ( (**setting_skill3) -> set_skill[1] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[1];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4305,9 +5155,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '2' ){
                   if ( (**setting_skill3) -> set_skill[2] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[2];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4321,9 +5276,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '3' ){
                   if ( (**setting_skill3) -> set_skill[3] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[3];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4337,9 +5397,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '4' ){
                   if ( (**setting_skill3) -> set_skill[4] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[4];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4353,9 +5518,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '5' ){
                   if ( (**setting_skill3) -> set_skill[5] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[5];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4369,9 +5639,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '6' ){
                   if ( (**setting_skill3) -> set_skill[6] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[6];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4385,9 +5760,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '7' ){
                   if ( (**setting_skill3) -> set_skill[7] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[7];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4401,9 +5881,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '8' ){
                   if ( (**setting_skill3) -> set_skill[8] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[8];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4417,9 +6002,114 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 else if ( skill_command == '9' ){
                   if ( (**setting_skill3) -> set_skill[9] != 0 ){
                     skill_user = PLAYER3;
-                    skill_target = use_player_skill(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_command, skill_user);
+                    use_skill_count = (**setting_skill3) -> set_skill[9];
+                    if ( who_is_skillTarget(use_skill_count) == PARTY ){
+                      skill_target = select_player_skillTarget(&st,&st2,&st3);
+                      if ( skill_target != NOTARGET ){
+                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                      }
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
 
-                    if ( skill_target != NOPLAYER ){
+                    }
+                    else if ( who_is_skillTarget(use_skill_count) == ENEMYALL ){
+
+                    }
+                    else{  //ENEMY
+                      if ( encount_pattern == 1 ){
+                        skill_target = ENEMY1;
+                        //enemyに対してスキルの使用関数
+                        if ( is_enemy_alive(&enemy) == TRUE ){
+                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                        }
+                        else{
+                          skill_target = NOTARGET;
+                        }
+                      }
+                      else if ( encount_pattern == 2 ){
+                        skill_target = select_encount_pattern2_skillTarget(&enemy,&enemy_copy1);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 3 ){
+                        skill_target = select_encount_pattern3_skillTarget(&enemy,&enemy_copy1,&enemy_copy2);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                      else if ( encount_pattern == 4 ){
+                        skill_target = select_encount_pattern4_skillTarget(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+                        if ( skill_target == ENEMY1 ){
+                          if ( is_enemy_alive(&enemy) == TRUE ){
+                            player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY2 ){
+                          if ( is_enemyCopy_alive(&enemy_copy1) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy1,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY3 ){
+                          if ( is_enemyCopy_alive(&enemy_copy2) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy2,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                        else if ( skill_target == ENEMY4 ){
+                          if ( is_enemyCopy_alive(&enemy_copy3) == TRUE ){
+                            player_skill_forEnemyCopy(&st3,&player_skill3,&enemy_copy3,use_skill_count);
+                          }
+                          else{
+                            skill_target = NOTARGET;
+                          }
+                        }
+                      }
+                    }
+
+                    if ( skill_target != NOTARGET ){
                       move_finish++;
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -4434,7 +6124,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                   printf("\n");
                   break;
                 }
-              }while ( skill_user == NOPLAYER );    //skillを使うと数値は0ではない
+              }while ( skill_user == NOTARGET );    //skillを使うと数値は0ではない
             }
           }
           else if ( command == '3' ){  //防御コマンド
@@ -4842,21 +6532,38 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
   result_exp = 0;
   result_gold = 0;
+  int battle_experience;
+
   if ( encount_pattern == 1 ){
     result_exp = (**enemy) -> exp;
     result_gold = (**enemy) -> gold;
+    battle_experience = (**enemy) -> lv;
   }
   else if ( encount_pattern == 2 ){
     result_exp = (**enemy) -> exp + enemy_copy1.exp;
     result_gold = (**enemy) -> gold + enemy_copy1.gold;
+    battle_experience = (**enemy) -> lv + enemy_copy1.lv;
   }
   else if ( encount_pattern == 3 ){
     result_exp = (**enemy) -> exp + enemy_copy1.exp + enemy_copy2.exp;
     result_gold = (**enemy) -> gold + enemy_copy1.gold + enemy_copy2.gold;
+    battle_experience = (**enemy) -> lv + enemy_copy1.lv + enemy_copy2.lv;
   }
   else if ( encount_pattern == 4 ){
     result_exp = (**enemy) -> exp + enemy_copy1.exp + enemy_copy2.exp + enemy_copy3.exp;
     result_gold = (**enemy) -> gold + enemy_copy1.gold + enemy_copy2.gold + enemy_copy3.gold;
+    battle_experience = (**enemy) -> lv + enemy_copy1.lv + enemy_copy2.lv + enemy_copy3.lv;
+  }
+
+  //スキルの熟練度チェック
+  if ( is_skill_learning(&player_skill) == TRUE ){
+    add_battleExperience(&st,&player_skill,battle_experience);
+  }
+  if ( is_skill_learning(&player_skill2) == TRUE ){
+    add_battleExperience(&st2,&player_skill2,battle_experience);
+  }
+  if ( is_skill_learning(&player_skill3) == TRUE ){
+    add_battleExperience(&st3,&player_skill3,battle_experience);
   }
 
   printf("\a");
