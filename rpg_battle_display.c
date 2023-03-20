@@ -483,6 +483,17 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '1' && command != '4' );
     }
+    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus == DEAD ){
+      do {
+        printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
+        printf("1.%s 3.%s\n", (***enemy) -> name, (***enemy2) -> name);
+        printf("\n");
+        command =  _getch();
+        if ( command == 'c' ){
+          break;
+        }
+      } while ( command != '1' && command != '3' );
+    }
   }
 
   if ( (***enemy1) -> badstatus != DEAD ){

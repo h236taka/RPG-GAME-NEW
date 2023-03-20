@@ -1539,6 +1539,25 @@ void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_sk
   } while ( input != 'c' );
 }
 
+//昇順にソート
+void sort_setting_skill(Setting_skill *******setting_skill){
+  int i, j, temp;
+
+  for ( i = 0; i < 10; i++ ){
+    for ( j = i+1; j < 10; j++ ){
+      if ( (******setting_skill) -> set_skill[i] > (******setting_skill) -> set_skill[j] ){
+        temp = (******setting_skill) -> set_skill[i];
+        (******setting_skill) -> set_skill[i] = (******setting_skill) -> set_skill[j];
+        (******setting_skill) -> set_skill[j] = temp;
+      }
+    }
+  }
+
+  for ( i = 0; i < 10; i++ ){
+    printf("%d\n", (******setting_skill) -> set_skill[i]);
+  }
+}
+
 void skill_set(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
   int input;
 
@@ -1553,6 +1572,8 @@ void skill_set(Player ******st, P_skill ******player_skill, Setting_skill ******
     input = _getch();
 
   } while ( input != 'c' );
+
+  sort_setting_skill(&setting_skill);
 
 }
 
@@ -1622,7 +1643,24 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
 
 }
 
+void check_skillMenuId(Setting_skill *******setting_skill, int idx){
+
+  if ( (******setting_skill) -> set_skill[idx] == RECOVER1 ){
+    printf("%d:ケディア 消費MP:3 (味方1人のHP小回復)\n", idx);
+  }
+  else if ( (******setting_skill) -> set_skill[idx] == CUREPOISON ){
+    printf("%d:キュアポ 消費MP:4 (味方1人のPOISON状態を回復)\n", idx);
+  }
+  else if ( (******setting_skill) -> set_skill[idx] == RECOVER2 ){
+    printf("%d:ケディアス\n");
+  }
+}
+
 void skill_menu_list(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
+
+  for ( int i = 0; i < 10; i++ ){
+    check_skillMenuId(&setting_skill,i);
+  }
 
 }
 

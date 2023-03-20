@@ -78,7 +78,15 @@ typedef enum {
   CUREPOISON = 2,
   RECOVER2 = 3,
   ENFA = 4,
-} Skillid;
+} Player_skillId;
+
+typedef enum {
+  E_QUAKE = 1,
+  E_ENFA = 2,
+  E_HYODO = 3,
+  E_VOLUA = 4,
+  E_WHIVE = 5,
+} Enemy_skillId;
 
 typedef enum {
   MEDICINE = 1,

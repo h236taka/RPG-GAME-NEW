@@ -17,7 +17,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
   int magic_power;
 
   //クエイク(全体攻撃)
-  if ( attack_skill_number == 1 ){
+  if ( attack_skill_number == E_QUAKE ){
 
     eva_count = 0;
     critical_count = 0;
@@ -166,7 +166,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
 
     }
   }
-  else if ( attack_skill_number == 2 ){  //エンファ
+  else if ( attack_skill_number == E_ENFA ){  //エンファ
     eva_count = 0;
     magic_power = 10;
 
@@ -292,7 +292,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
 
     }
   }
-  else if ( attack_skill_number == 3 ){  //ヒョウド
+  else if ( attack_skill_number == E_HYODO ){  //ヒョウド
     eva_count = 0;
     magic_power = 10;
 
@@ -418,7 +418,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
 
     }
   }
-  else if ( attack_skill_number == 4 ){  //ボルア
+  else if ( attack_skill_number == E_VOLUA ){  //ボルア
     eva_count = 0;
     magic_power = 10;
 
@@ -544,7 +544,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
 
     }
   }
-  else if ( attack_skill_number == 5 ){  //ウィーブ
+  else if ( attack_skill_number == E_WHIVE ){  //ウィーブ
     eva_count = 0;
     magic_power = 10;
 
