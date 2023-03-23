@@ -9,6 +9,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+extern int tempArray[SIZE];
+
 int is_enemy_alive(Enemy ****enemy){
 
   if ( (***enemy) -> badstatus != DEAD ){
@@ -28,7 +30,7 @@ int is_enemyCopy_alive(Enemy *enemy_copy){
   else{
     return FALSE;
   }
-  
+
 }
 
 int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
@@ -1495,16 +1497,25 @@ void display_enemy_copy_turn(Enemy *enemy_copy1, double enemy_turn){
 
 int is_skill_learning(P_skill ****player_skill){
 
+  //2回目以降の処理での判断
+  /*if ( tempArray[0] == TRUE ){
+    return TRUE;
+  }*/
+
   if ( (***player_skill) -> recover1[0] == LEARNING ){
+    tempArray[0] = TRUE;
     return TRUE;
   }
   else if ( (***player_skill) -> cure_poison[0] == LEARNING ){
+    tempArray[0] = TRUE;
     return TRUE;
   }
   else if ( (***player_skill) -> recover2[0] == LEARNING ){
+    tempArray[0] = TRUE;
     return TRUE;
   }
   else if ( (***player_skill) -> enfa[0] == LEARNING ){
+    tempArray[0] = TRUE;
     return TRUE;
   }
 
@@ -1518,6 +1529,7 @@ void add_battleExperience(Player ****st, P_skill ****player_skill, int battle_ex
     if ( (***player_skill) -> recover1[2] >= (***player_skill) -> recover1[3] ){
       printf("%sはケディアを習得した!!\n", (***st) -> name);
       (***player_skill) -> recover1[0] = LEARNED;
+      tempArray[0] = FALSE;
     }
   }
   else if ( (***player_skill) -> cure_poison[0] == LEARNING ){
@@ -1525,6 +1537,7 @@ void add_battleExperience(Player ****st, P_skill ****player_skill, int battle_ex
     if ( (***player_skill) -> cure_poison[2] >= (***player_skill) -> cure_poison[3] ){
       printf("%sはキュアポを習得した!!\n", (***st) -> name);
       (***player_skill) -> cure_poison[0] = LEARNED;
+      tempArray[0] = FALSE;
     }
   }
   else if ( (***player_skill) -> recover2[0] == LEARNING ){
@@ -1532,6 +1545,7 @@ void add_battleExperience(Player ****st, P_skill ****player_skill, int battle_ex
     if ( (***player_skill) -> recover2[2] >= (***player_skill) -> recover2[3] ){
       printf("%sはケディアスを習得した!!\n", (***st) -> name);
       (***player_skill) -> recover2[0] = LEARNED;
+      tempArray[0] = FALSE;
     }
   }
   else if ( (***player_skill) -> enfa[0] == LEARNING ){
@@ -1539,6 +1553,7 @@ void add_battleExperience(Player ****st, P_skill ****player_skill, int battle_ex
     if ( (***player_skill) -> enfa[2] >= (***player_skill) -> enfa[3] ){
       printf("%sはエンファを習得した!!\n", (***st) -> name);
       (***player_skill) -> enfa[0] = LEARNED;
+      tempArray[0] = FALSE;
     }
   }
 

@@ -1797,7 +1797,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
 
   if ( (***enemy) -> enemy_id == 3 || (***enemy) -> enemy_id == 7 ){  //bossゴブリン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
-    if ( enemy_move >= 1 && enemy_move <= 50 ){
+    if ( enemy_move >= 1 && enemy_move <= 40 ){
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);
     }
     else{
@@ -1896,7 +1896,7 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
   else if ( enemy_copy1 -> enemy_id == 7 ){
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
-    if ( enemy_move >= 1 && enemy_move <= 45 ){  //毒攻撃を使用する行動
+    if ( enemy_move >= 1 && enemy_move <= 45 ){
       enemy_turn = use_enemy_copy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy_copy1,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
     }
     else{

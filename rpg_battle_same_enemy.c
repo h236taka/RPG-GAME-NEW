@@ -8,6 +8,8 @@
 #include <math.h>
 #include <wchar.h>
 #include "rpg.h"
+
+extern int tempArray[SIZE];
 //encountpatternが1~4のとき
 
 int battle_error_enemydeadcount1(Enemy ****enemy){
@@ -6311,6 +6313,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //printf("%f\n", enemy_turn);
           sleep(1);
           enemy_turn = enemy_copy_attack_pattern(&st, &st2, &st3, &pEquip, &p2Equip, &p3Equip, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
+          //printf("OK!\n");
           sleep(1);
           //printf("%f\n", enemy_turn);
         }
@@ -6571,6 +6574,16 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   printf("%s達は戦闘に勝利した!\n", (**st) -> name);
   printf("------RESULT------\n");
   printf("  EXP:%d GOLD:%d\n", result_exp, result_gold);
+  printf("  EP:%d\n", battle_experience);
+  if ( is_skill_learning(&player_skill) == TRUE ){
+    add_battleExperience(&st,&player_skill,battle_experience);
+  }
+  if ( is_skill_learning(&player_skill2) == TRUE ){
+    add_battleExperience(&st2,&player_skill2,battle_experience);
+  }
+  if ( is_skill_learning(&player_skill3) == TRUE ){
+    add_battleExperience(&st3,&player_skill3,battle_experience);
+  }
   printf("\n");
 
   //アイテムドロップ

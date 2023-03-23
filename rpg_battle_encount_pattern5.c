@@ -11,6 +11,8 @@
 #include <mbctype.h>
 #include <mbstring.h>
 #include "rpg.h"
+
+extern int tempArray[SIZE];
 //encountpatternが5のとき
 
 int battle_error_enemydeadcount5(Enemy ****enemy, Enemy ****enemy1){
@@ -2413,9 +2415,11 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
 
   result_exp = 0;
   result_gold = 0;
+  int battle_experience = 0;
   if ( encount_pattern == 5 ){
     result_exp = (**enemy) -> exp + (**enemy1) -> exp;
     result_gold = (**enemy) -> gold + (**enemy1) -> gold;
+    battle_experience = (**enemy) -> lv + (**enemy1) -> lv;
   }
 
   printf("\a");
@@ -2423,7 +2427,20 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
   printf("%s達は戦闘に勝利した!\n", (**st) -> name);
   printf("------RESULT------\n");
   printf("  EXP:%d GOLD:%d\n", result_exp, result_gold);
+  printf("  EP:%d\n", battle_experience);
   printf("\n");
+
+  //スキルの熟練度チェック
+  if ( is_skill_learning(&player_skill) == TRUE ){
+    add_battleExperience(&st,&player_skill,battle_experience);
+  }
+  if ( is_skill_learning(&player_skill2) == TRUE ){
+    add_battleExperience(&st2,&player_skill2,battle_experience);
+  }
+  if ( is_skill_learning(&player_skill3) == TRUE ){
+    add_battleExperience(&st3,&player_skill3,battle_experience);
+  }
+
 
   //アイテムドロップ
   item_drop(&st,&st2,&st3,&enemy,&items,encount_pattern);

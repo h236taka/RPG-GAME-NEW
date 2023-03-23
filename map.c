@@ -1971,9 +1971,9 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
           encount_pattern = 5;
           game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin_normal, &kobalt, encount_pattern);
         }
-        else if ( enemy_appearance_per <= 75 ){ //ゴブリン2体
-          encount_pattern = 2;
-          game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin_normal, encount_pattern);
+        else if ( enemy_appearance_per <= 75 ){ //ゴブリン1体+オンモラキ1体
+          encount_pattern = 5;
+          game_battle_encount_pattern5(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin_normal, &onmoraki, encount_pattern);
         }
         else if ( enemy_appearance_per <= 85 ){  //スライム1体+ゾンビドッグ1体+コボルト1体+ゾンビ1体
           encount_pattern = 7;

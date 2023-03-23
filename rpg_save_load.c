@@ -538,6 +538,10 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
   Save_data_players save_data_players2;
   Save_data_players save_data_players3;
 
+  Save_data_player_skill save_data_player_skill;
+  Save_data_player_skill save_data_player_skill2;
+  Save_data_player_skill save_data_player_skill3;
+
   Save_data_items save_data_items;
 
   Save_data_equip save_data_pEquip;
@@ -695,6 +699,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fread(&save_data_players, sizeof(save_data_players), 1, fp);
             fread(&save_data_players2, sizeof(save_data_players2), 1, fp);
             fread(&save_data_players3, sizeof(save_data_players3), 1, fp);
+            fread(&save_data_player_skill, sizeof(save_data_player_skill), 1, fp);
+            fread(&save_data_player_skill2, sizeof(save_data_player_skill2), 1, fp);
+            fread(&save_data_player_skill3, sizeof(save_data_player_skill3), 1, fp);
             fread(&save_data_items, sizeof(save_data_items), 1, fp);
             fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
@@ -723,6 +730,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fread(&save_data_players, sizeof(Save_data_players), 1, fp);
             fread(&save_data_players2, sizeof(save_data_players2), 1, fp);
             fread(&save_data_players3, sizeof(save_data_players3), 1, fp);
+            fread(&save_data_player_skill, sizeof(save_data_player_skill), 1, fp);
+            fread(&save_data_player_skill2, sizeof(save_data_player_skill2), 1, fp);
+            fread(&save_data_player_skill3, sizeof(save_data_player_skill3), 1, fp);
             fread(&save_data_items, sizeof(save_data_items), 1, fp);
             fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
@@ -751,6 +761,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fread(&save_data_players, sizeof(Save_data_players), 1, fp);
             fread(&save_data_players2, sizeof(save_data_players2), 1, fp);
             fread(&save_data_players3, sizeof(save_data_players3), 1, fp);
+            fread(&save_data_player_skill, sizeof(save_data_player_skill), 1, fp);
+            fread(&save_data_player_skill2, sizeof(save_data_player_skill2), 1, fp);
+            fread(&save_data_player_skill3, sizeof(save_data_player_skill3), 1, fp);
             fread(&save_data_items, sizeof(save_data_items), 1, fp);
             fread(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fread(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
@@ -912,6 +925,30 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
     search -> search_item1 = Save_data_search.search_item1;
     //printf("medicine:%d個\n", save_data_items.medicine);
 
+    for ( int i = 0; i < 4; i++ ){
+      player_skill -> recover1[i] = save_data_player_skill.recover1[i];
+      player_skill2 -> recover1[i] = save_data_player_skill2.recover1[i];
+      player_skill3 -> recover1[i] = save_data_player_skill3.recover1[i];
+    }
+
+    for ( int i = 0; i < 4; i++ ){
+      player_skill -> cure_poison[i] = save_data_player_skill.cure_poison[i];
+      player_skill2 -> cure_poison[i] = save_data_player_skill2.cure_poison[i];
+      player_skill3 -> cure_poison[i] = save_data_player_skill3.cure_poison[i];
+    }
+
+    for ( int i = 0; i < 4; i++ ){
+      player_skill -> recover2[i] = save_data_player_skill.recover2[i];
+      player_skill2 -> recover2[i] = save_data_player_skill2.recover2[i];
+      player_skill3 -> recover2[i] = save_data_player_skill3.recover2[i];
+    }
+
+    for ( int i = 0; i < 4; i++ ){
+      player_skill -> enfa[i] = save_data_player_skill.enfa[i];
+      player_skill2 -> enfa[i] = save_data_player_skill2.enfa[i];
+      player_skill3 -> enfa[i] = save_data_player_skill3.enfa[i];
+    }
+
     for ( int i = 0; i < 10; i++ ){
       setting_skill -> set_skill[i] = save_data_setting_skill.set_skill[i];
     }
@@ -1010,7 +1047,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       save_data_players2.sumexp = st2 -> sumexp;
       save_data_players2.nextexp = st2 -> nextexp;
       save_data_players2.leftoverexp = st2 -> leftoverexp;
-      save_data_players2.gold = st -> gold;
+      save_data_players2.gold = 0;
       save_data_players2.badstatus = st2 -> badstatus;
       save_data_players2.physical_attack = st2 -> physical_attack;
       save_data_players2.gun_attack = st2 -> gun_attack;
@@ -1029,8 +1066,8 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       save_data_players2.panic = st2 -> panic;
       save_data_players2.sleep = st2 -> sleep;
       save_data_players2.curse = st2 -> curse;
-      save_data_players2.stage_clear = -1;
-      save_data_players2.playtime = -1;
+      save_data_players2.stage_clear = 0;
+      save_data_players2.playtime = 0;
 
       //３人目のセーブデータの書き込み
       strcpy(save_data_players3.name, st3 -> name);
@@ -1048,7 +1085,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       save_data_players3.sumexp = st3 -> sumexp;
       save_data_players3.nextexp = st3 -> nextexp;
       save_data_players3.leftoverexp = st3 -> leftoverexp;
-      save_data_players3.gold = st3 -> gold;
+      save_data_players3.gold = 0;
       save_data_players3.badstatus = st3 -> badstatus;
       save_data_players3.physical_attack = st3 -> physical_attack;
       save_data_players3.gun_attack = st3 -> gun_attack;
@@ -1067,8 +1104,8 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       save_data_players3.panic = st3 -> panic;
       save_data_players3.sleep = st3 -> sleep;
       save_data_players3.curse = st3 -> curse;
-      save_data_players3.stage_clear = -1;
-      save_data_players3.playtime = -1;
+      save_data_players3.stage_clear = 0;
+      save_data_players3.playtime = 0;
 
       save_data_items.medicine = items -> medicine;
       save_data_items.lifestone = items -> lifestone;
@@ -1090,6 +1127,30 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
       save_data_p3Equip.isEquip = p3Equip -> isEquip;
 
       Save_data_search.search_item1 = search -> search_item1;
+
+      for ( int i = 0; i < 4; i++ ){
+        save_data_player_skill.recover1[i] = player_skill -> recover1[i];
+        save_data_player_skill2.recover1[i] = player_skill2 -> recover1[i];
+        save_data_player_skill2.recover1[i] = player_skill3 -> recover1[i];
+      }
+
+      for ( int i = 0; i < 4; i++ ){
+        save_data_player_skill.cure_poison[i] = player_skill -> cure_poison[i];
+        save_data_player_skill2.cure_poison[i] = player_skill2 -> cure_poison[i];
+        save_data_player_skill3.cure_poison[i] = player_skill3 -> cure_poison[i];
+      }
+
+      for ( int i = 0; i < 4; i++ ){
+        save_data_player_skill.recover2[i] = player_skill -> recover2[i];
+        save_data_player_skill2.recover2[i] = player_skill2 -> recover2[i];
+        save_data_player_skill3.recover2[i] = player_skill3 -> recover2[i];
+      }
+
+      for ( int i = 0; i < 4; i++ ){
+        save_data_player_skill.enfa[i] = player_skill -> enfa[i];
+        save_data_player_skill2.enfa[i] = player_skill2 -> enfa[i];
+        save_data_player_skill3.enfa[i] = player_skill3 -> enfa[i];
+      }
 
       for ( int i = 0; i < 10; i++ ){
         save_data_setting_skill.set_skill[i] = setting_skill -> set_skill[i];
@@ -1129,6 +1190,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fwrite(&save_data_players, sizeof(save_data_players), 1, fp);
             fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
             fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
+            fwrite(&save_data_player_skill, sizeof(save_data_player_skill), 1, fp);
+            fwrite(&save_data_player_skill2, sizeof(save_data_player_skill2), 1, fp);
+            fwrite(&save_data_player_skill3, sizeof(save_data_player_skill3), 1, fp);
             fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
             fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
@@ -1157,6 +1221,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
             fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
             fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
+            fwrite(&save_data_player_skill, sizeof(save_data_player_skill), 1, fp);
+            fwrite(&save_data_player_skill2, sizeof(save_data_player_skill2), 1, fp);
+            fwrite(&save_data_player_skill3, sizeof(save_data_player_skill3), 1, fp);
             fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
             fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
@@ -1184,6 +1251,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
             fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
             fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
             fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
+            fwrite(&save_data_player_skill, sizeof(save_data_player_skill), 1, fp);
+            fwrite(&save_data_player_skill2, sizeof(save_data_player_skill2), 1, fp);
+            fwrite(&save_data_player_skill3, sizeof(save_data_player_skill3), 1, fp);
             fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
             fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
             fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
@@ -1231,6 +1301,10 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
   Save_data_players save_data_players;
   Save_data_players save_data_players2;
   Save_data_players save_data_players3;
+
+  Save_data_player_skill save_data_player_skill;
+  Save_data_player_skill save_data_player_skill2;
+  Save_data_player_skill save_data_player_skill3;
 
   Save_data_items save_data_items;
 
@@ -1445,7 +1519,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     save_data_players2.sumexp = (*st2) -> sumexp;
     save_data_players2.nextexp = (*st2) -> nextexp;
     save_data_players2.leftoverexp = (*st2) -> leftoverexp;
-    save_data_players2.gold = -1;
+    save_data_players2.gold = 0;
     save_data_players2.badstatus = (*st2) -> badstatus;
     save_data_players2.physical_attack = (*st2) -> physical_attack;
     save_data_players2.gun_attack = (*st2) -> gun_attack;
@@ -1464,8 +1538,8 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     save_data_players2.panic = (*st2) -> panic;
     save_data_players2.sleep = (*st2) -> sleep;
     save_data_players2.curse = (*st2) -> curse;
-    save_data_players2.stage_clear = -1;
-    save_data_players2.playtime = -1;
+    save_data_players2.stage_clear = 0;
+    save_data_players2.playtime = 0;
 
     //３人目のセーブデータの書き込み
     strcpy(save_data_players3.name, (*st3) -> name);
@@ -1483,7 +1557,7 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     save_data_players3.sumexp = (*st3) -> sumexp;
     save_data_players3.nextexp = (*st3) -> nextexp;
     save_data_players3.leftoverexp = (*st3) -> leftoverexp;
-    save_data_players3.gold = -1;
+    save_data_players3.gold = 0;
     save_data_players3.badstatus = (*st3) -> badstatus;
     save_data_players3.physical_attack = (*st3) -> physical_attack;
     save_data_players3.gun_attack = (*st3) -> gun_attack;
@@ -1502,8 +1576,8 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     save_data_players3.panic = (*st3) -> panic;
     save_data_players3.sleep = (*st3) -> sleep;
     save_data_players3.curse = (*st3) -> curse;
-    save_data_players3.stage_clear = -1;
-    save_data_players3.playtime = -1;
+    save_data_players3.stage_clear = 0;
+    save_data_players3.playtime = 0;
 
     save_data_items.medicine = (*items) -> medicine;
     save_data_items.lifestone = (*items) -> lifestone;
@@ -1523,6 +1597,30 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
     save_data_p3Equip.isEquip = (*p3Equip) -> isEquip;
 
     Save_data_search.search_item1 = (*search) -> search_item1;
+
+    for ( int i = 0; i < 4; i++ ){
+      save_data_player_skill.recover1[i] = (*player_skill) -> recover1[i] ;
+      save_data_player_skill2.recover1[i] = (*player_skill2) -> recover1[i];
+      save_data_player_skill2.recover1[i] = (*player_skill3) -> recover1[i];
+    }
+
+    for ( int i = 0; i < 4; i++ ){
+      save_data_player_skill.cure_poison[i] = (*player_skill) -> cure_poison[i];
+      save_data_player_skill2.cure_poison[i] = (*player_skill2) -> cure_poison[i];
+      save_data_player_skill3.cure_poison[i] = (*player_skill3) -> cure_poison[i];
+    }
+
+    for ( int i = 0; i < 4; i++ ){
+      save_data_player_skill.recover2[i] = (*player_skill) -> recover2[i];
+      save_data_player_skill2.recover2[i] = (*player_skill2) -> recover2[i];
+      save_data_player_skill3.recover2[i] = (*player_skill3) -> recover2[i];
+    }
+
+    for ( int i = 0; i < 4; i++ ){
+      save_data_player_skill.enfa[i] = (*player_skill) -> enfa[i];
+      save_data_player_skill2.enfa[i] = (*player_skill2) -> enfa[i];
+      save_data_player_skill3.enfa[i] = (*player_skill3) -> enfa[i];
+    }
 
     for ( int i = 0; i < 10; i++ ){
       save_data_setting_skill.set_skill[i] = (*setting_skill) -> set_skill[i];
@@ -1562,6 +1660,9 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
           fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
           fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
           fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
+          fwrite(&save_data_player_skill, sizeof(save_data_player_skill), 1, fp);
+          fwrite(&save_data_player_skill2, sizeof(save_data_player_skill2), 1, fp);
+          fwrite(&save_data_player_skill3, sizeof(save_data_player_skill3), 1, fp);
           fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
           fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
           fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
@@ -1584,6 +1685,9 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
           fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
           fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
           fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
+          fwrite(&save_data_player_skill, sizeof(save_data_player_skill), 1, fp);
+          fwrite(&save_data_player_skill2, sizeof(save_data_player_skill2), 1, fp);
+          fwrite(&save_data_player_skill3, sizeof(save_data_player_skill3), 1, fp);
           fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
           fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
           fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);
@@ -1606,6 +1710,9 @@ void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill
           fwrite(&save_data_players, sizeof(Save_data_players), 1, fp);
           fwrite(&save_data_players2, sizeof(save_data_players2), 1, fp);
           fwrite(&save_data_players3, sizeof(save_data_players3), 1, fp);
+          fwrite(&save_data_player_skill, sizeof(save_data_player_skill), 1, fp);
+          fwrite(&save_data_player_skill2, sizeof(save_data_player_skill2), 1, fp);
+          fwrite(&save_data_player_skill3, sizeof(save_data_player_skill3), 1, fp);
           fwrite(&save_data_items, sizeof(save_data_items), 1, fp);
           fwrite(&save_data_pEquip, sizeof(save_data_pEquip), 1, fp);
           fwrite(&save_data_p2Equip, sizeof(save_data_p2Equip), 1, fp);

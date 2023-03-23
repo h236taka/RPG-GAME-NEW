@@ -11,6 +11,8 @@
 #include <mbctype.h>
 #include <mbstring.h>
 #include "rpg.h"
+
+extern int tempArray[SIZE];
 //encountpatternが7のとき
 
 int battle_error_enemydeadcount7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3){
@@ -3301,15 +3303,17 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
   result_exp = (**enemy) -> exp + (**enemy1) -> exp + (**enemy2) -> exp + (**enemy3) -> exp;
   result_gold = (**enemy) -> gold + (**enemy1) -> gold + (**enemy2) -> gold + (**enemy3) -> gold;
 
+  int battle_experience;
+  battle_experience = (**enemy) -> lv + (**enemy1) -> lv + (**enemy2) -> lv + (**enemy3) -> lv;
+
   printf("\a");
   sleep(1);
   printf("%s達は戦闘に勝利した!\n", (**st) -> name);
   printf("------RESULT------\n");
   printf("  EXP:%d GOLD:%d\n", result_exp, result_gold);
+  printf("  EP:%d\n", battle_experience);
   printf("\n");
 
-  int battle_experience;
-  battle_experience = (**enemy) -> lv + (**enemy1) -> lv + (**enemy2) -> lv + (**enemy3) -> lv;
 
   //スキルの熟練度チェック
   if ( is_skill_learning(&player_skill) == TRUE ){

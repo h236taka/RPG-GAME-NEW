@@ -8,6 +8,8 @@
 #include <wchar.h>
 #include "rpg.h"
 
+extern int tempArray[SIZE];
+
 //細かな機能
 
 void Debug_Mode(Player *st, Player *st2, Player *st3){
@@ -190,7 +192,7 @@ void check_RecoverSkill_state(P_skill *****player_skill, int num){
 
 }
 
-int procedure_getFireSkill(int input, P_skill *****player_skill, int money ){
+int procedure_getFireSkill(int input, P_skill *****player_skill, int money){
 
   if ( input == '0' ){
     if ( (****player_skill) -> enfa[0] == NOT_LEARNING ){
@@ -201,9 +203,13 @@ int procedure_getFireSkill(int input, P_skill *****player_skill, int money ){
       else{
         printf("ヘルメス「エンファについて学ぶが良い！」\n");
         (****player_skill) -> enfa[0] = LEARNING;
-        (****player_skill) -> enfa[3] = 70;
+        (****player_skill) -> enfa[3] = 2;
         return LEARNING;
       }
+    }
+    else if ( (****player_skill) -> enfa[0] == LEARNING ){
+      printf("このスキルは習得中です!\n");
+      return LEARNING;
     }
     else{
       printf("既にMASTERしています!\n");
@@ -245,6 +251,10 @@ int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money){
         return LEARNING;
       }
     }
+    else if ( (****player_skill) -> recover1[0] == LEARNING ){
+      printf("このスキルは習得中です!\n");
+      return LEARNING;
+    }
     else{
       printf("既にMASTERしています!\n");
       return LEARNED;
@@ -262,6 +272,10 @@ int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money){
         return LEARNING;
       }
     }
+    else if ( (****player_skill) -> cure_poison[0] == LEARNING ){
+      printf("このスキルは習得中です!\n");
+      return LEARNING;
+    }
     else{
       printf("既にMASTERしています!\n");
       return LEARNED;
@@ -278,6 +292,10 @@ int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money){
         (****player_skill) -> recover2[0] = LEARNING;
         return LEARNING;
       }
+    }
+    else if ( (****player_skill) -> recover2[0] == LEARNING ){
+      printf("このスキルは習得中です!\n");
+      return LEARNING;
     }
     else{
       printf("既にMASTERしています!\n");
@@ -517,6 +535,7 @@ void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, 
           money = getSkillAll(&st3,&player_skill3,money);
           (*st) -> gold = money;
         }
+        tempArray[0] = FALSE;
 
       } while ( input != 'c' );
 

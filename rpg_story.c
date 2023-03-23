@@ -377,7 +377,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
   printf("\n");
   sleep(2);
 
-  map_tutorial();
+  //map_tutorial();
   sleep(1);
   area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &slime, &kobalt, &goblin);
 
@@ -448,7 +448,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     printf("\n");
     printf("%sはどうしますか?\n", st -> name);
     input = school_command();
-
+    
     if ( input == '1' ){
       goTo_infirmary(&st,&st2,&st3,&items);
     }

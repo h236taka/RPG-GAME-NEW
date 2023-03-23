@@ -16,6 +16,12 @@
 time_t start_time, end_time;
 int play_time;
 
+int tempArray[SIZE] = {0};  //処理量削減のための配列
+/* tempArray[0]はスキルがLEARNINGになっているかの一時的な情報を保持
+
+
+*/
+
 int main(void){
   int load, input;   //input:プレイヤーの入力
   Player player;

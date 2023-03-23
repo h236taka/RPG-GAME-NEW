@@ -32,6 +32,8 @@
 #define SLEEP 8
 #define CURSE 9
 
+#define SIZE 3
+
 //型定義
 
 //列挙型
@@ -150,11 +152,18 @@ skill[1] : MENUONLY or BATTLEONLY or MENUANDBATTLE
 skill[2] : このスキルに関して獲得した熟練度
 skill[3] : 獲得に必要な熟練度*/
 typedef struct player_skill {   //値が1ならば習得済み
-  int recover1[3]; //ケディア
-  int cure_poison[3]; //毒治療
-  int recover2[3]; //ケディアス
-  int enfa[3]; //エンファ
+  int recover1[4]; //ケディア
+  int cure_poison[4]; //毒治療
+  int recover2[4]; //ケディアス
+  int enfa[4]; //エンファ
 } P_skill;
+
+typedef struct save_data_player_skill {
+  int recover1[4]; //ケディア
+  int cure_poison[4]; //毒治療
+  int recover2[4]; //ケディアス
+  int enfa[4]; //エンファ
+} Save_data_player_skill;
 
 typedef struct setting_skill {  //setting済みのスキル
   int set_skill[10];  //10種類のスキルをセット可能
@@ -411,6 +420,10 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
 void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items ******items, int command);
 
 void check_set_skillID(Setting_skill ********setting_skill, int idx);
+
+int learned_PhysicalSkill_list(P_skill ********player_skill, Setting_skill ********setting_skill);
+
+int learned_FireSkill_list(P_skill ********player_skill, Setting_skill ********setting_skill);
 
 void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_skill);
 

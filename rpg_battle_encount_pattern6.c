@@ -11,6 +11,8 @@
 #include <mbctype.h>
 #include <mbstring.h>
 #include "rpg.h"
+
+extern int tempArray[SIZE];
 //encountpatternが6のとき
 
 int battle_error_enemydeadcount6(Enemy ****enemy, Enemy ****enemy1, Enemy****enemy2){
@@ -2850,6 +2852,14 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
   int battle_experience;
   battle_experience = (**enemy) -> lv + (**enemy1) -> lv + (**enemy2) -> lv;
 
+  printf("\a");
+  sleep(1);
+  printf("%s達は戦闘に勝利した!\n", (**st) -> name);
+  printf("------RESULT------\n");
+  printf("  EXP:%d GOLD:%d\n", result_exp, result_gold);
+  printf("  EP:%d\n", battle_experience);
+  printf("\n");
+
   //スキルの熟練度チェック
   if ( is_skill_learning(&player_skill) == TRUE ){
     add_battleExperience(&st,&player_skill,battle_experience);
@@ -2860,13 +2870,6 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
   if ( is_skill_learning(&player_skill3) == TRUE ){
     add_battleExperience(&st3,&player_skill3,battle_experience);
   }
-
-  printf("\a");
-  sleep(1);
-  printf("%s達は戦闘に勝利した!\n", (**st) -> name);
-  printf("------RESULT------\n");
-  printf("  EXP:%d GOLD:%d\n", result_exp, result_gold);
-  printf("\n");
 
   //アイテムドロップ
   item_drop(&st,&st2,&st3,&enemy,&items,encount_pattern);

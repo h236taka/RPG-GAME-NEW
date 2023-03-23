@@ -1440,7 +1440,68 @@ int skill_count_check(int count){
   return count;
 }
 
-int learned_PhysicalSkill_list(P_skill ********player_skill){
+int set_player_skill(Setting_skill *********setting_skill, int skillID){
+  int input;
+
+  for ( int i = 0; i < 10; i++ ){
+    if ( (********setting_skill) -> set_skill[i] == 0 ){
+      (********setting_skill) -> set_skill[i] = skillID;
+      return TRUE;
+    }
+  }
+  //スキル枠に空きがない場合
+  printf("\n");
+  printf("スキルは全てセットされています...\n");
+  printf("セットされているスキルを変更しますか?\n");
+  printf("1.Yes 2.No\n");
+  input = _getch();
+
+  if ( input == '1' ){
+
+
+    printf("スキルを変更しました!\n");
+    return TRUE;
+  }
+  else{
+    printf("スキルの変更を中止しました...\n");
+    return FALSE;
+  }
+  printf("\n");
+
+}
+
+int learned_PhysicalSkill_list(P_skill ********player_skill, Setting_skill ********setting_skill){
+
+  return 0;
+}
+
+int learned_FireSkill_list(P_skill ********player_skill, Setting_skill ********setting_skill){
+  int input;
+
+  do{
+    if ( (*******player_skill) -> enfa[0] == LEARNED ){
+      printf("0:エンファ 消費MP:4 (単体に火炎小ダメージ)\n");
+    }
+    else if ( (*******player_skill) -> enfa[0] == SETTING ){
+      printf("0:エンファ セット済み\n");
+    }
+    else if ( (*******player_skill) -> enfa[0] == LEARNING ){
+      printf("0:エンファ 習得中\n");
+    }
+
+    printf("\n");
+    printf("セットしたいスキルを選んでください(セットが終了したらcを入力してください)\n");
+
+    input = _getch();
+
+    if ( input == '0' && (*******player_skill) -> enfa[0] == LEARNED ){
+      if ( set_player_skill(&setting_skill,ENFA) == TRUE ){
+        (*******player_skill) -> enfa[0] = SETTING;
+      }
+
+    }
+
+  }while ( input != 'c' );
 
   return 0;
 }
@@ -1455,6 +1516,9 @@ void check_set_skillID(Setting_skill ********setting_skill, int idx){
   }
   else if ( (*******setting_skill) -> set_skill[idx] == RECOVER2 ){
 
+  }
+  else if ( (*******setting_skill) -> set_skill[idx] == ENFA ){
+    printf("%d:エンファ 消費MP:4 (単体に火炎小ダメージ)\n", idx);
   }
 
 }
@@ -1487,14 +1551,19 @@ void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_sk
     printf("b.状態異常スキル   ");
     printf("d.属性防御スキル   ");
     printf("e.自動効果スキル\n");
+    printf("\n");
 
     input = _getch();
 
+    if ( input == 'c' ){
+      return;
+    }
+
     if ( input == '1' ){
-      learned_PhysicalSkill_list(&player_skill);
+      learned_PhysicalSkill_list(&player_skill,&setting_skill);
     }
     else if ( input == '2' ){
-
+      learned_FireSkill_list(&player_skill,&setting_skill);
     }
     else if ( input == '3' ){
 
@@ -1529,14 +1598,12 @@ void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_sk
     else if ( input == 'e' ){
 
     }
-    else if ( input == 'c' ){
-      return;
-    }
     else{
 
     }
 
   } while ( input != 'c' );
+
 }
 
 //昇順にソート
@@ -1561,17 +1628,13 @@ void sort_setting_skill(Setting_skill *******setting_skill){
 void skill_set(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
   int input;
 
-  do {
-    printf("\n");
-    printf("<<<SET>>>\n");
+  printf("\n");
+  printf("<<<SET>>>\n");
 
-    printf("---%s's skill---\n", (*****st) -> name);
+  printf("---%s's skill---\n", (*****st) -> name);
 
-    set_skill_list(&player_skill,&setting_skill);
+  set_skill_list(&player_skill,&setting_skill);
 
-    input = _getch();
-
-  } while ( input != 'c' );
 
   sort_setting_skill(&setting_skill);
 
@@ -1653,6 +1716,9 @@ void check_skillMenuId(Setting_skill *******setting_skill, int idx){
   }
   else if ( (******setting_skill) -> set_skill[idx] == RECOVER2 ){
     printf("%d:ケディアス\n");
+  }
+  else if ( (******setting_skill) -> set_skill[idx] == ENFA ){
+    printf("%d:エンファ 消費MP:4 (単体に火炎小ダメージ)\n", idx);
   }
 }
 
@@ -1878,7 +1944,7 @@ void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****pla
 
     printf(" LV:%d", (***st) -> lv);
     printf("                  LV:%d", (***st2) -> lv);
-    printf("                     LV:%d", (***st3) -> lv);
+    printf("                      LV:%d", (***st3) -> lv);
     printf("\n");
 
     printf("メニュー終了時はcを押してください!\n");
