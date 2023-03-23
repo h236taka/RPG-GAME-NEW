@@ -12,7 +12,7 @@
 extern int tempArray[SIZE];
 //encountpatternが1~4のとき
 
-int battle_error_enemydeadcount1(Enemy ****enemy){
+int check_enemyDeadCount1(Enemy ****enemy){
   int enemy_deadcount;
 
   if ( (***enemy) -> badstatus == DEAD ){
@@ -25,7 +25,7 @@ int battle_error_enemydeadcount1(Enemy ****enemy){
   return enemy_deadcount;
 }
 
-int battle_error_enemydeadcount2(Enemy ****enemy, Enemy *enemy_copy1){
+int check_enemyDeadCount2(Enemy ****enemy, Enemy *enemy_copy1){
   int enemy_deadcount;
 
   enemy_deadcount = 2;
@@ -46,7 +46,7 @@ int battle_error_enemydeadcount2(Enemy ****enemy, Enemy *enemy_copy1){
   return enemy_deadcount;
 }
 
-int battle_error_enemydeadcount3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2){
+int check_enemyDeadCount3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2){
   int enemy_deadcount;
 
   enemy_deadcount = 3;
@@ -74,7 +74,7 @@ int battle_error_enemydeadcount3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
   return enemy_deadcount;
 }
 
-int battle_error_enemydeadcount4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3){
+int check_enemyDeadCount4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3){
   int enemy_deadcount;
 
   enemy_deadcount = 4;
@@ -2201,16 +2201,16 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
             if ( encount_pattern == 1 ){
-              enemy_deadcount = battle_error_enemydeadcount1(&enemy);
+              enemy_deadcount = check_enemyDeadCount1(&enemy);
             }
             else if ( encount_pattern == 2 ){
-              enemy_deadcount = battle_error_enemydeadcount2(&enemy,&enemy_copy1);
+              enemy_deadcount = check_enemyDeadCount2(&enemy,&enemy_copy1);
             }
             else if ( encount_pattern == 3 ){
-              enemy_deadcount = battle_error_enemydeadcount3(&enemy,&enemy_copy1,&enemy_copy2);
+              enemy_deadcount = check_enemyDeadCount3(&enemy,&enemy_copy1,&enemy_copy2);
             }
             else if ( encount_pattern == 4 ){
-              enemy_deadcount = battle_error_enemydeadcount4(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+              enemy_deadcount = check_enemyDeadCount4(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
             }
 
             printf("コマンドを正しく入力してください\n");
@@ -4194,10 +4194,10 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
             if ( encount_pattern == 1 ){
-              enemy_deadcount = battle_error_enemydeadcount1(&enemy);
+              enemy_deadcount = check_enemyDeadCount1(&enemy);
             }
             else if ( encount_pattern == 2 ){
-              enemy_deadcount = battle_error_enemydeadcount2(&enemy,&enemy_copy1);
+              enemy_deadcount = check_enemyDeadCount2(&enemy,&enemy_copy1);
             }
             printf("コマンドを正しく入力してください\n");
             system("pause");
@@ -6176,16 +6176,16 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
             if ( encount_pattern == 1 ){
-              enemy_deadcount = battle_error_enemydeadcount1(&enemy);
+              enemy_deadcount = check_enemyDeadCount1(&enemy);
             }
             else if ( encount_pattern == 2 ){
-              enemy_deadcount = battle_error_enemydeadcount2(&enemy,&enemy_copy1);
+              enemy_deadcount = check_enemyDeadCount2(&enemy,&enemy_copy1);
             }
             else if ( encount_pattern == 3 ){
-              enemy_deadcount = battle_error_enemydeadcount3(&enemy,&enemy_copy1,&enemy_copy2);
+              enemy_deadcount = check_enemyDeadCount3(&enemy,&enemy_copy1,&enemy_copy2);
             }
             else if ( encount_pattern == 4 ){
-              enemy_deadcount = battle_error_enemydeadcount4(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
+              enemy_deadcount = check_enemyDeadCount4(&enemy,&enemy_copy1,&enemy_copy2,&enemy_copy3);
             }
 
             printf("コマンドを正しく入力してください\n");

@@ -448,7 +448,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     printf("\n");
     printf("%sはどうしますか?\n", st -> name);
     input = school_command();
-    
+
     if ( input == '1' ){
       goTo_infirmary(&st,&st2,&st3,&items);
     }
@@ -466,7 +466,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     }
     else if ( input == '6' ){
       st -> stage_clear = 1.1;
-      school_save(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip,&search);
+      save_inSchool(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip,&search);
     }
 
   } while ( area -> boss2 == 0 );

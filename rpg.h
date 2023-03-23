@@ -315,13 +315,13 @@ void check_AutoMapFile();
 
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load);
 
-void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search);
+void save_inSchool(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search);
 
 long long int getFileSize(const char *fileName);
 
-void copy_savedata();
+void copy_saveData();
 
-void delete_savedata();
+void delete_saveData();
 
 void delete_AUtoMapFile();
 
@@ -403,9 +403,9 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 //about menu function in map.c
 void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, P_skill ****player_skill2, P_skill ****player_skill3, Setting_skill ****setting_skill, Setting_skill ****setting_skill2, Setting_skill ****setting_skill3, Items ****items, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, Map **map, Area ****area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]);
 
-void menu_hp_graphycal_display(Player *****st, Player *****st2, Player *****st3);
+void display_graphycalHP_for_menu(Player *****st, Player *****st2, Player *****st3);
 
-void menu_mp_graphycal_display(Player *****st, Player *****st2, Player *****st3);
+void display_graphycalMP_for_menu(Player *****st, Player *****st2, Player *****st3);
 
 void menu_display_condition(Player *****st, int battle_display_condition_count);
 
@@ -504,19 +504,19 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 void enemy_full_recover7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3);
 
 //to check enemy_deadcount
-int battle_error_enemydeadcount1(Enemy ****enemy);
+int check_enemyDeadCount1(Enemy ****enemy);
 
-int battle_error_enemydeadcount2(Enemy ****enemy, Enemy *enemy_copy1);
+int check_enemyDeadCount2(Enemy ****enemy, Enemy *enemy_copy1);
 
-int battle_error_enemydeadcount3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2);
+int check_enemyDeadCount3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2);
 
-int battle_error_enemydeadcount4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3);
+int check_enemyDeadCount4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3);
 
-int battle_error_enemydeadcount5(Enemy ****enemy, Enemy ****enemy1);
+int check_enemyDeadCount5(Enemy ****enemy, Enemy ****enemy1);
 
-int battle_error_enemydeadcount6(Enemy ****enemy, Enemy ****enemy1, Enemy****enemy2);
+int check_enemyDeadCount6(Enemy ****enemy, Enemy ****enemy1, Enemy****enemy2);
 
-int battle_error_enemydeadcount7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3);
+int check_enemyDeadCount7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3);
 
 //about battle turns in rpg_battle.c (playerの行動ごとに消費するターン数を計算)
 double calculate_player_turn(double player_turn, double turn_decrease);

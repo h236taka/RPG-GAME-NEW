@@ -32,7 +32,7 @@ long long int getFileSize(const char *fileName){
   return st.st_size;
 }
 
-void copy_savedata(){
+void copy_saveData(){
   int input, result;
   FILE *fpSrc;
   FILE *fpDest;
@@ -352,7 +352,7 @@ void copy_savedata(){
   } while( input != 'c' );
 }
 
-void delete_savedata(){
+void delete_saveData(){
   int input;
   FILE *fp;
 
@@ -1290,7 +1290,7 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
 
 }
 
-void school_save(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search){
+void save_inSchool(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search){
 
   int save_count, load_count, input, savedata_num, savedata_lv1, savedata_lv2, savedata_lv3, temp, hours, minutes;
   char savedata_name1[7], savedata_name2[7], savedata_name3[7];

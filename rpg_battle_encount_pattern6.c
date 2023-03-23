@@ -15,7 +15,7 @@
 extern int tempArray[SIZE];
 //encountpatternが6のとき
 
-int battle_error_enemydeadcount6(Enemy ****enemy, Enemy ****enemy1, Enemy****enemy2){
+int check_enemyDeadCount6(Enemy ****enemy, Enemy ****enemy1, Enemy****enemy2){
   int enemy_deadcount;
 
   enemy_deadcount = 3;
@@ -978,7 +978,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
             if ( encount_pattern == 6 ){
-              enemy_deadcount = battle_error_enemydeadcount6(&enemy,&enemy1,&enemy2);
+              enemy_deadcount = check_enemyDeadCount6(&enemy,&enemy1,&enemy2);
             }
 
             printf("コマンドを正しく入力してください\n");
@@ -1853,7 +1853,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
             if ( encount_pattern == 6 ){
-              enemy_deadcount = battle_error_enemydeadcount6(&enemy,&enemy1,&enemy2);
+              enemy_deadcount = check_enemyDeadCount6(&enemy,&enemy1,&enemy2);
             }
             printf("コマンドを正しく入力してください\n");
             system("pause");
@@ -2717,7 +2717,7 @@ void game_battle_encount_pattern6(Player ***st, Player ***st2, Player ***st3, P_
           //イレギュラーな入力が行われるとenemy_deadcountの値が最大までインクリメントされてしまうのでこの処理を追加
           else{
             if ( encount_pattern == 6 ){
-              enemy_deadcount = battle_error_enemydeadcount6(&enemy,&enemy1,&enemy2);
+              enemy_deadcount = check_enemyDeadCount6(&enemy,&enemy1,&enemy2);
             }
 
             printf("コマンドを正しく入力してください\n");

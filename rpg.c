@@ -87,10 +87,10 @@ int main(void){
       save_load(&player, &player2, &player3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, load);
     }
     else if ( input == '3' ){
-      delete_savedata();
+      delete_saveData();
     }
     else if ( input == '4' ){
-      copy_savedata();
+      copy_saveData();
     }
     else if ( input == '5' ){
       delete_AUtoMapFile();

@@ -15,7 +15,7 @@ static int p3Equip_temp;
 
 //マップ上で開くメニュー画面
 
-void menu_hp_graphycal_display(Player *****st, Player *****st2, Player *****st3){
+void display_graphycalHP_for_menu(Player *****st, Player *****st2, Player *****st3){
   printf(" ------------");
   printf("           ------------");
   printf("              ------------\n");
@@ -128,7 +128,7 @@ void menu_hp_graphycal_display(Player *****st, Player *****st2, Player *****st3)
 
 }
 
-void menu_mp_graphycal_display(Player *****st, Player *****st2, Player *****st3){
+void display_graphycalMP_for_menu(Player *****st, Player *****st2, Player *****st3){
 
   printf(" ------------");
   printf("           ------------");
@@ -2424,9 +2424,9 @@ void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****pla
     printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d          HP:%d/%d MP:%d/%d\n", (***st) -> hp, (***st) -> maxhp, (***st) -> mp, (***st) -> maxmp, (***st2) -> hp, (***st2) -> maxhp, (***st2) -> mp, (***st2) -> maxmp, (***st3) -> hp, (***st3) -> maxhp, (***st3) -> mp, (***st3) -> maxmp);
 
     //HPをグラフィックに表現
-    menu_hp_graphycal_display(&st,&st2,&st3);
+    display_graphycalHP_for_menu(&st,&st2,&st3);
     //MPをグラフィックに表現
-    menu_mp_graphycal_display(&st,&st2,&st3);
+    display_graphycalMP_for_menu(&st,&st2,&st3);
 
     //partyの状態異常ステータスを表示
     battle_display_condition_count = 0;
