@@ -535,7 +535,6 @@ void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, 
           money = getSkillAll(&st3,&player_skill3,money);
           (*st) -> gold = money;
         }
-        tempArray[0] = FALSE;
 
       } while ( input != 'c' );
 

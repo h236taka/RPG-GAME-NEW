@@ -165,7 +165,7 @@ void menu_mp_graphycal_display(Player *****st, Player *****st2, Player *****st3)
     printf(" |/|        |");
   }
   else{
-      //死亡時はHPゲージ表示なし
+    //死亡時はHPゲージ表示なし
   }
 
   if ( (****st2) -> mp == (****st2) -> maxmp ){
@@ -199,7 +199,7 @@ void menu_mp_graphycal_display(Player *****st, Player *****st2, Player *****st3)
     printf("           |/|        |");
   }
   else{
-      //死亡時はHPゲージ表示なし
+    //死亡時はHPゲージ表示なし
   }
 
   if ( (****st3) -> mp == (****st3) -> maxmp ){
@@ -233,7 +233,7 @@ void menu_mp_graphycal_display(Player *****st, Player *****st2, Player *****st3)
     printf("              |/|        |\n");
   }
   else{
-      //死亡時はHPゲージ表示なし
+    //死亡時はHPゲージ表示なし
   }
 
   printf(" ------------");
@@ -790,7 +790,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
         printf("%s(POISON) >> %s(GOOD)\n", (******st) -> name, (******st) -> name);
       }
       else{
-        printf("無効果!\n");
+        printf("%s:無効果!\n", (******st) -> name);
       }
       printf("\n");
     }
@@ -800,7 +800,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
         printf("%s(POISON) >> %s(GOOD)\n", (******st2) -> name, (******st2) -> name);
       }
       else{
-        printf("無効果!\n");
+        printf("%s:無効果!\n", (******st2) -> name);
       }
       printf("\n");
     }
@@ -810,7 +810,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
         printf("%s(POISON) >> %s(GOOD)\n", (******st3) -> name, (******st3) -> name);
       }
       else{
-        printf("無効果!\n");
+        printf("%s無効果!\n", (******st3) -> name);
       }
       printf("\n");
     }
@@ -822,7 +822,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
         printf("%s(PALYZE) >> %s(GOOD)\n", (******st) -> name, (******st) -> name);
       }
       else{
-        printf("無効果!\n");
+        printf("%s:無効果!\n", (******st) -> name);
       }
       printf("\n");
     }
@@ -832,7 +832,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
         printf("%s(PALYZE) >> %s(GOOD)\n", (******st2) -> name, (******st2) -> name);
       }
       else{
-        printf("無効果!\n");
+        printf("%s:無効果!\n", (******st2) -> name);
       }
       printf("\n");
     }
@@ -842,7 +842,7 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
         printf("%s(PALYZE) >> %s(GOOD)\n", (******st3) -> name, (******st3) -> name);
       }
       else{
-        printf("無効果!\n");
+        printf("%s:無効果!\n", (******st3) -> name);
       }
       printf("\n");
     }
@@ -1143,126 +1143,126 @@ void equip_effect(Player *******st, int input, Equip *******pEquip, Equip ******
   int hpTemp, mpTemp;
 
   /*if ( pEquip_temp == (******pEquip) -> isEquip ){
-    return;
-  }
-  else if ( p2Equip_temp == (******p2Equip) -> isEquip ){
-    return;
-  }
-  else if ( p3Equip_temp == (******p3Equip) -> isEquip ){
-    return;
-  }*/
+  return;
+}
+else if ( p2Equip_temp == (******p2Equip) -> isEquip ){
+return;
+}
+else if ( p3Equip_temp == (******p3Equip) -> isEquip ){
+return;
+}*/
 
-  if ( input == '1' ){  //player1
-    if ( pEquip_temp == 0 ){
-      if ( (******pEquip) -> isEquip == 1 ){
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp += (int)(hpTemp * 0.05);
-      }
-      else if ( (******pEquip) -> isEquip == 2 ){
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp += (int)(mpTemp * 0.05);
-      }
+if ( input == '1' ){  //player1
+  if ( pEquip_temp == 0 ){
+    if ( (******pEquip) -> isEquip == 1 ){
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp += (int)(hpTemp * 0.05);
     }
-    else if ( pEquip_temp == 1 ){
-      if ( (******pEquip) -> isEquip == 0 ){
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp -= (int)(hpTemp * 0.05);
-      }
-      else if ( (******pEquip) -> isEquip == 2 ){
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp -= (int)(hpTemp * 0.05);
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp += (int)(mpTemp * 0.05);
-      }
-    }
-    else if ( pEquip_temp == 2 ){
-      if ( (******pEquip) -> isEquip == 0 ){
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp -= (int)(mpTemp * 0.05);
-      }
-      else if ( (******pEquip) -> isEquip == 1 ){
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp -= (int)(mpTemp * 0.05);
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp += (int)(hpTemp * 0.05);
-      }
+    else if ( (******pEquip) -> isEquip == 2 ){
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp += (int)(mpTemp * 0.05);
     }
   }
-  else if ( input == '2' ){  //player2
-    if ( p2Equip_temp == 0 ){
-      if ( (******p2Equip) -> isEquip == 1 ){
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp += (int)(hpTemp * 0.05);
-      }
-      else if ( (******pEquip) -> isEquip == 2 ){
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp += (int)(mpTemp * 0.05);
-      }
+  else if ( pEquip_temp == 1 ){
+    if ( (******pEquip) -> isEquip == 0 ){
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp -= (int)(hpTemp * 0.05);
     }
-    else if ( p2Equip_temp == 1 ){
-      if ( (******p2Equip) -> isEquip == 0 ){
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp -= (int)(hpTemp * 0.05);
-      }
-      else if ( (******p2Equip) -> isEquip == 2 ){
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp -= (int)(hpTemp * 0.05);
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp += (int)(mpTemp * 0.05);
-      }
-    }
-    else if ( p2Equip_temp == 2 ){
-      if ( (******p2Equip) -> isEquip == 0 ){
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp -= (int)(mpTemp * 0.05);
-      }
-      else if ( (******p2Equip) -> isEquip == 1 ){
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp -= (int)(mpTemp * 0.05);
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp += (int)(hpTemp * 0.05);
-      }
+    else if ( (******pEquip) -> isEquip == 2 ){
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp -= (int)(hpTemp * 0.05);
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp += (int)(mpTemp * 0.05);
     }
   }
-  else if ( input == '3' ){  //player3
-    if ( p3Equip_temp == 0 ){
-      if ( (******p3Equip) -> isEquip == 1 ){
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp += (int)(hpTemp * 0.05);
-      }
-      else if ( (******pEquip) -> isEquip == 2 ){
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp += (int)(mpTemp * 0.05);
-      }
+  else if ( pEquip_temp == 2 ){
+    if ( (******pEquip) -> isEquip == 0 ){
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp -= (int)(mpTemp * 0.05);
     }
-    else if ( p3Equip_temp == 1 ){
-      if ( (******p3Equip) -> isEquip == 0 ){
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp -= (int)(hpTemp * 0.05);
-      }
-      else if ( (******p3Equip) -> isEquip == 2 ){
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp -= (int)(hpTemp * 0.05);
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp += (int)(mpTemp * 0.05);
-      }
-    }
-    else if ( p3Equip_temp == 2 ){
-      if ( (******p3Equip) -> isEquip == 0 ){
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp -= (int)(mpTemp * 0.05);
-      }
-      else if ( (******p3Equip) -> isEquip == 1 ){
-        mpTemp = (******st) -> maxmp;
-        (******st) -> maxmp -= (int)(mpTemp * 0.05);
-        hpTemp = (******st) -> maxhp;
-        (******st) -> maxhp += (int)(hpTemp * 0.05);
-      }
+    else if ( (******pEquip) -> isEquip == 1 ){
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp -= (int)(mpTemp * 0.05);
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp += (int)(hpTemp * 0.05);
     }
   }
-  else{
-    return;
+}
+else if ( input == '2' ){  //player2
+  if ( p2Equip_temp == 0 ){
+    if ( (******p2Equip) -> isEquip == 1 ){
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp += (int)(hpTemp * 0.05);
+    }
+    else if ( (******pEquip) -> isEquip == 2 ){
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp += (int)(mpTemp * 0.05);
+    }
   }
+  else if ( p2Equip_temp == 1 ){
+    if ( (******p2Equip) -> isEquip == 0 ){
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp -= (int)(hpTemp * 0.05);
+    }
+    else if ( (******p2Equip) -> isEquip == 2 ){
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp -= (int)(hpTemp * 0.05);
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp += (int)(mpTemp * 0.05);
+    }
+  }
+  else if ( p2Equip_temp == 2 ){
+    if ( (******p2Equip) -> isEquip == 0 ){
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp -= (int)(mpTemp * 0.05);
+    }
+    else if ( (******p2Equip) -> isEquip == 1 ){
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp -= (int)(mpTemp * 0.05);
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp += (int)(hpTemp * 0.05);
+    }
+  }
+}
+else if ( input == '3' ){  //player3
+  if ( p3Equip_temp == 0 ){
+    if ( (******p3Equip) -> isEquip == 1 ){
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp += (int)(hpTemp * 0.05);
+    }
+    else if ( (******pEquip) -> isEquip == 2 ){
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp += (int)(mpTemp * 0.05);
+    }
+  }
+  else if ( p3Equip_temp == 1 ){
+    if ( (******p3Equip) -> isEquip == 0 ){
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp -= (int)(hpTemp * 0.05);
+    }
+    else if ( (******p3Equip) -> isEquip == 2 ){
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp -= (int)(hpTemp * 0.05);
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp += (int)(mpTemp * 0.05);
+    }
+  }
+  else if ( p3Equip_temp == 2 ){
+    if ( (******p3Equip) -> isEquip == 0 ){
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp -= (int)(mpTemp * 0.05);
+    }
+    else if ( (******p3Equip) -> isEquip == 1 ){
+      mpTemp = (******st) -> maxmp;
+      (******st) -> maxmp -= (int)(mpTemp * 0.05);
+      hpTemp = (******st) -> maxhp;
+      (******st) -> maxhp += (int)(hpTemp * 0.05);
+    }
+  }
+}
+else{
+  return;
+}
 
 }
 
@@ -1440,7 +1440,109 @@ int skill_count_check(int count){
   return count;
 }
 
-int set_player_skill(Setting_skill *********setting_skill, int skillID){
+void change_set_player_skill_list(Setting_skill ***********setting_skill, int idx){
+
+  if ( (**********setting_skill) -> set_skill[idx] == RECOVER1 ){
+    printf("%d:ケディア\n", idx);
+  }
+  else if ( (**********setting_skill) -> set_skill[idx] == CUREPOISON ){
+    printf("%d:キュアポ\n", idx);
+  }
+  else if ( (**********setting_skill) -> set_skill[idx] == RECOVER2 ){
+    printf("%d:ケディアス\n", idx);
+  }
+  else if ( (**********setting_skill) -> set_skill[idx] == ENFA ){
+    printf("%dエンファ\n", idx);
+  }
+
+}
+
+void change_set_player_skill(P_skill ***********player_skill, Setting_skill ***********setting_skill, int afterSkillID, int input){
+  int beforeSkillID = 0;
+
+  if ( (**********setting_skill) -> set_skill[input] == RECOVER1 ){
+    beforeSkillID = RECOVER1;
+  }
+  else if ( (**********setting_skill) -> set_skill[input] == CUREPOISON ){
+    beforeSkillID = CUREPOISON;
+  }
+  else if ( (**********setting_skill) -> set_skill[input] == RECOVER2 ){
+    beforeSkillID = RECOVER2;
+  }
+  else if ( (**********setting_skill) -> set_skill[input] == ENFA ){
+    beforeSkillID = ENFA;
+  }
+
+  (**********setting_skill) -> set_skill[input] = afterSkillID;
+
+  if ( beforeSkillID == RECOVER1 ){
+    (**********player_skill) -> recover1[0] = LEARNED;
+  }
+  else if ( beforeSkillID == CUREPOISON ){
+    (**********player_skill) -> cure_poison[0] = LEARNED;
+  }
+  else if ( beforeSkillID == RECOVER2 ){
+    (**********player_skill) -> recover2[0] = LEARNED;
+  }
+  else if ( beforeSkillID == ENFA ){
+    (**********player_skill) -> enfa[0] = LEARNED;
+  }
+
+}
+
+void input_change_set_player_skill(P_skill **********player_skill, Setting_skill **********setting_skill, int skillID){
+  int input;
+
+  for ( int i = 0; i < 10; i++ ){
+    change_set_player_skill_list(&setting_skill,i);
+  }
+
+  printf("どのスキルを変更しますか?\n");
+  input = _getch();
+
+  if ( input == '0' ){
+    input = 0;
+    change_set_player_skill(&player_skill,&setting_skill,skillID,input);
+  }
+  else if ( input == '1' ){
+    input = 1;
+    change_set_player_skill(&player_skill,&setting_skill,skillID,input);
+  }
+  else if ( input == '2' ){
+    input = 2;
+    change_set_player_skill(&player_skill,&setting_skill,skillID,input);
+  }
+  else if ( input == '3' ){
+    input = 4;
+    change_set_player_skill(&player_skill,&setting_skill,skillID,input);
+  }
+  else if ( input == '5' ){
+    input = 5;
+    change_set_player_skill(&player_skill,&setting_skill,skillID,input);
+  }
+  else if ( input == '6' ){
+    input = 6;
+    change_set_player_skill(&player_skill,&setting_skill,skillID,input);
+  }
+  else if ( input == '7' ){
+    input = 7;
+    change_set_player_skill(&player_skill,&setting_skill,skillID,input);
+  }
+  else if ( input == '8' ){
+    input = 8;
+    change_set_player_skill(&player_skill,&setting_skill,skillID,input);
+  }
+  else if ( input == '9' ){
+    input = 9;
+    change_set_player_skill(&player_skill,&setting_skill,skillID,input);
+  }
+  else{
+    printf("スキルの変更を中止しました!\n");
+  }
+
+}
+
+int set_player_skill(P_skill *********player_skill, Setting_skill *********setting_skill, int skillID){
   int input;
 
   for ( int i = 0; i < 10; i++ ){
@@ -1457,8 +1559,7 @@ int set_player_skill(Setting_skill *********setting_skill, int skillID){
   input = _getch();
 
   if ( input == '1' ){
-
-
+    input_change_set_player_skill(&player_skill,&setting_skill,skillID);
     printf("スキルを変更しました!\n");
     return TRUE;
   }
@@ -1495,7 +1596,7 @@ int learned_FireSkill_list(P_skill ********player_skill, Setting_skill ********s
     input = _getch();
 
     if ( input == '0' && (*******player_skill) -> enfa[0] == LEARNED ){
-      if ( set_player_skill(&setting_skill,ENFA) == TRUE ){
+      if ( set_player_skill(&player_skill,&setting_skill,ENFA) == TRUE ){
         (*******player_skill) -> enfa[0] = SETTING;
       }
 
@@ -1628,15 +1729,14 @@ void sort_setting_skill(Setting_skill *******setting_skill){
 void skill_set(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
   int input;
 
+  sort_setting_skill(&setting_skill);
+
   printf("\n");
   printf("<<<SET>>>\n");
 
   printf("---%s's skill---\n", (*****st) -> name);
 
   set_skill_list(&player_skill,&setting_skill);
-
-
-  sort_setting_skill(&setting_skill);
 
 }
 
@@ -1722,18 +1822,413 @@ void check_skillMenuId(Setting_skill *******setting_skill, int idx){
   }
 }
 
-void skill_menu_list(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
+int select_skill_target_from_menu(Player ********st, Player ********st2, Player ********st3, int skillID){
+  int input;
+
+  if ( skillID == RECOVER2 ){
+    return PARTYALL;
+  }
+  /*else if ( skillID == 死亡者に作用するスキル)*/
+  else{
+    printf("\n");
+    printf("誰にスキルを使用しますか?\n");
+    if ( (*******st) -> badstatus != DEAD ){
+      printf("1:%s\n", (*******st) -> name);
+    }
+    if ( (*******st2) -> badstatus != DEAD ){
+      printf("2:%s\n", (*******st2) -> name);
+    }
+    if ( (*******st3) -> badstatus != DEAD ){
+      printf("3:%s\n", (*******st3) -> name);
+    }
+
+    input = _getch();
+
+    if ( input == '1' && (*******st) -> badstatus != DEAD ){
+      return PLAYER;
+    }
+    else if ( input == '2' && (*******st2) -> badstatus != DEAD ){
+      return PLAYER2;
+    }
+    else if ( input == '3' && (*******st3) -> badstatus != DEAD ){
+      return PLAYER3;
+    }
+    else{
+      printf("スキルの使用を中止します...\n");
+      return NOTARGET;
+    }
+  }
+
+}
+
+int check_playerMP_from_menu(Player *********st, int skillMP){
+
+  if ( (********st) -> mp < skillMP ){
+    printf("MP不足!\n");
+    return FALSE;
+  }
+  else{
+    return TRUE;
+  }
+}
+
+void use_skill_from_menu(Player ********st, Player ********st2, Player ********st3, int skill_user, int skill_target, int skillID){
+  int base, recover_point, beforehp;
+
+  if ( skillID == RECOVER1 ){
+    if ( skill_user == PLAYER ){
+      printf("%s>>ケディア\n", (*******st) -> name);
+      sleep(1);
+      if ( check_playerMP_from_menu(&st,3) == TRUE ){
+        (*******st) -> mp -= 3;
+
+        base = 25;
+        recover_point = (rand() % ( base + (*******st) -> magic * 3 + (*******st) -> luk - base + 1) ) + base; //(rand()%(max - min + 1)) + min;
+
+        if ( skill_target == PLAYER ){
+          beforehp = (*******st) -> hp;
+
+          (*******st) -> hp += recover_point;
+          if ( (*******st) -> hp >= (*******st) -> maxhp ){
+            (*******st) -> hp = (*******st) -> maxhp;
+          }
+
+          printf("%s: HP:%d/%d >> HP:%d/%d\n", (*******st) -> name, beforehp, (*******st) -> maxhp, (*******st) -> hp, (*******st) -> maxhp);
+          printf("\n");
+        }
+        else if ( skill_target == PLAYER2 ){
+          beforehp = (*******st2) -> hp;
+
+          (*******st2) -> hp += recover_point;
+          if ( (*******st2) -> hp >= (*******st2) -> maxhp ){
+            (*******st2) -> hp = (*******st2) -> maxhp;
+          }
+
+          printf("%s: HP:%d/%d >> HP:%d/%d\n", (*******st2) -> name, beforehp, (*******st2) -> maxhp, (*******st2) -> hp, (*******st2) -> maxhp);
+          printf("\n");
+        }
+        else if ( skill_target == PLAYER3 ){
+          beforehp = (*******st3) -> hp;
+
+          (*******st3) -> hp += recover_point;
+          if ( (*******st3) -> hp >= (*******st3) -> maxhp ){
+            (*******st3) -> hp = (*******st3) -> maxhp;
+          }
+
+          printf("%s: HP:%d/%d >> HP:%d/%d\n", (*******st3) -> name, beforehp, (*******st3) -> maxhp, (*******st3) -> hp, (*******st3) -> maxhp);
+          printf("\n");
+        }
+      }
+    }
+    else if ( skill_user == PLAYER2 ){
+      printf("%s>>ケディア\n", (*******st2) -> name);
+      sleep(1);
+      if ( check_playerMP_from_menu(&st2,3) == TRUE ){
+        (*******st2) -> mp -= 3;
+
+        base = 25;
+        recover_point = (rand() % ( base + (*******st2) -> magic * 3 + (*******st2) -> luk - base + 1) ) + base; //(rand()%(max - min + 1)) + min;
+
+        if ( skill_target == PLAYER ){
+          beforehp = (*******st) -> hp;
+
+          (*******st) -> hp += recover_point;
+          if ( (*******st) -> hp >= (*******st) -> maxhp ){
+            (*******st) -> hp = (*******st) -> maxhp;
+          }
+
+          printf("%s: HP:%d/%d >> HP:%d/%d\n", (*******st) -> name, beforehp, (*******st) -> maxhp, (*******st) -> hp, (*******st) -> maxhp);
+          printf("\n");
+        }
+        else if ( skill_target == PLAYER2 ){
+          beforehp = (*******st2) -> hp;
+
+          (*******st2) -> hp += recover_point;
+          if ( (*******st2) -> hp >= (*******st2) -> maxhp ){
+            (*******st2) -> hp = (*******st2) -> maxhp;
+          }
+
+          printf("%s: HP:%d/%d >> HP:%d/%d\n", (*******st2) -> name, beforehp, (*******st2) -> maxhp, (*******st2) -> hp, (*******st2) -> maxhp);
+          printf("\n");
+        }
+        else if ( skill_target == PLAYER3 ){
+          beforehp = (*******st3) -> hp;
+
+          (*******st3) -> hp += recover_point;
+          if ( (*******st3) -> hp >= (*******st3) -> maxhp ){
+            (*******st3) -> hp = (*******st3) -> maxhp;
+          }
+
+          printf("%s: HP:%d/%d >> HP:%d/%d\n", (*******st3) -> name, beforehp, (*******st3) -> maxhp, (*******st3) -> hp, (*******st3) -> maxhp);
+          printf("\n");
+        }
+      }
+    }
+    else if ( skill_user == PLAYER3 ){
+      printf("%s>>ケディア\n", (*******st3) -> name);
+      sleep(1);
+      if ( check_playerMP_from_menu(&st3,3) == TRUE ){
+        (*******st3) -> mp -= 3;
+
+        base = 25;
+        recover_point = (rand() % ( base + (*******st3) -> magic * 3 + (*******st3) -> luk - base + 1) ) + base; //(rand()%(max - min + 1)) + min;
+
+        if ( skill_target == PLAYER ){
+          beforehp = (*******st) -> hp;
+
+          (*******st) -> hp += recover_point;
+          if ( (*******st) -> hp >= (*******st) -> maxhp ){
+            (*******st) -> hp = (*******st) -> maxhp;
+          }
+
+          printf("%s: HP:%d/%d >> HP:%d/%d\n", (*******st) -> name, beforehp, (*******st) -> maxhp, (*******st) -> hp, (*******st) -> maxhp);
+          printf("\n");
+        }
+        else if ( skill_target == PLAYER2 ){
+          beforehp = (*******st2) -> hp;
+
+          (*******st2) -> hp += recover_point;
+          if ( (*******st2) -> hp >= (*******st2) -> maxhp ){
+            (*******st2) -> hp = (*******st2) -> maxhp;
+          }
+
+          printf("%s: HP:%d/%d >> HP:%d/%d\n", (*******st2) -> name, beforehp, (*******st2) -> maxhp, (*******st2) -> hp, (*******st2) -> maxhp);
+          printf("\n");
+        }
+        else if ( skill_target == PLAYER3 ){
+          beforehp = (*******st3) -> hp;
+
+          (*******st3) -> hp += recover_point;
+          if ( (*******st3) -> hp >= (*******st3) -> maxhp ){
+            (*******st3) -> hp = (*******st3) -> maxhp;
+          }
+
+          printf("%s: HP:%d/%d >> HP:%d/%d\n", (*******st3) -> name, beforehp, (*******st3) -> maxhp, (*******st3) -> hp, (*******st3) -> maxhp);
+          printf("\n");
+        }
+      }
+    }
+  }
+  else if ( skillID == CUREPOISON ){
+    if ( skill_user == PLAYER ){
+      printf("%s>>キュアポ\n", (*******st) -> name);
+      sleep(1);
+
+      if ( check_playerMP_from_menu(&st,4) == TRUE ){
+        (*******st) -> mp -= 4;
+
+        if ( skill_target == PLAYER ){
+          if ( (*******st) -> badstatus == POISON ){
+            (*******st) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (*******st) -> name);
+            printf("\n");
+          }
+          else{
+            printf("%s:無効果\n", (*******st) -> name);
+            printf("\n");
+          }
+        }
+        else if ( skill_target == PLAYER2 ){
+          if ( (*******st2) -> badstatus == POISON ){
+            (*******st2) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (*******st2) -> name);
+            printf("\n");
+          }
+          else{
+            printf("%s:無効果\n", (*******st2) -> name);
+            printf("\n");
+          }
+        }
+        else if ( skill_target == PLAYER3 ){
+          if ( (*******st3) -> badstatus == POISON ){
+            (*******st3) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (*******st3) -> name);
+            printf("\n");
+          }
+          else{
+            printf("%s:無効果\n", (*******st3) -> name);
+            printf("\n");
+          }
+        }
+
+      }
+    }
+    else if ( skill_user == PLAYER2 ){
+      printf("%s>>キュアポ\n", (*******st2) -> name);
+      sleep(1);
+
+      if ( check_playerMP_from_menu(&st2,4) == TRUE ){
+        (*******st2) -> mp -= 4;
+
+        if ( skill_target == PLAYER ){
+          if ( (*******st) -> badstatus == POISON ){
+            (*******st) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (*******st) -> name);
+            printf("\n");
+          }
+          else{
+            printf("%s:無効果\n", (*******st) -> name);
+            printf("\n");
+          }
+        }
+        else if ( skill_target == PLAYER2 ){
+          if ( (*******st2) -> badstatus == POISON ){
+            (*******st2) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (*******st2) -> name);
+            printf("\n");
+          }
+          else{
+            printf("%s:無効果\n", (*******st2) -> name);
+            printf("\n");
+          }
+        }
+        else if ( skill_target == PLAYER3 ){
+          if ( (*******st3) -> badstatus == POISON ){
+            (*******st3) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (*******st3) -> name);
+            printf("\n");
+          }
+          else{
+            printf("%s:無効果\n", (*******st3) -> name);
+            printf("\n");
+          }
+        }
+
+      }
+    }
+    else if ( skill_user == PLAYER3 ){
+      printf("%s>>キュアポ\n", (*******st3) -> name);
+      sleep(1);
+
+      if ( check_playerMP_from_menu(&st3,4) == TRUE ){
+        (*******st3) -> mp -= 4;
+
+        if ( skill_target == PLAYER ){
+          if ( (*******st) -> badstatus == POISON ){
+            (*******st) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (*******st) -> name);
+            printf("\n");
+          }
+          else{
+            printf("%s:無効果\n", (*******st) -> name);
+            printf("\n");
+          }
+        }
+        else if ( skill_target == PLAYER2 ){
+          if ( (*******st2) -> badstatus == POISON ){
+            (*******st2) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (*******st2) -> name);
+            printf("\n");
+          }
+          else{
+            printf("%s:無効果\n", (*******st2) -> name);
+            printf("\n");
+          }
+        }
+        else if ( skill_target == PLAYER3 ){
+          if ( (*******st3) -> badstatus == POISON ){
+            (*******st3) -> badstatus = GOOD;
+            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (*******st3) -> name);
+            printf("\n");
+          }
+          else{
+            printf("%s:無効果\n", (*******st3) -> name);
+            printf("\n");
+          }
+        }
+
+      }
+    }
+  }
+
+}
+
+void procedure_skill_from_menu(Player *******st, Player *******st2, Player *******st3, P_skill *******player_skill, Setting_skill *******setting_skill, int input, int skill_user){
+  int skill_target;
+  int skillID;
+
+  if ( (******setting_skill) -> set_skill[input] == RECOVER1 ){
+    printf("OK\n");
+    skill_target = select_skill_target_from_menu(&st,&st2,&st3,RECOVER1);
+    skillID = RECOVER1;
+  }
+  else if ( (******setting_skill) -> set_skill[input] == CUREPOISON ){
+    skill_target = select_skill_target_from_menu(&st,&st2,&st3,CUREPOISON);
+    skillID = CUREPOISON;
+  }
+  else if ( (******setting_skill) -> set_skill[input] == RECOVER2 ){
+    skill_target = select_skill_target_from_menu(&st,&st2,&st3,RECOVER2);
+    skillID = RECOVER2;
+  }
+
+  use_skill_from_menu(&st,&st2,&st3,skill_user,skill_target,skillID);
+
+}
+
+void skill_menu_list(Player ******st, Player ******st2, Player ******st3, P_skill ******player_skill, Setting_skill ******setting_skill, int skill_user){
+  int input;
+
+  printf("<<<skill>>>\n");
 
   for ( int i = 0; i < 10; i++ ){
     check_skillMenuId(&setting_skill,i);
+  }
+
+  printf("使用したいスキルを選択してください(使用しない場合はcを入力)\n");
+  input = _getch();
+
+  if ( input == '0' && (*****setting_skill) -> set_skill[0] != 0 ){
+    input = 0;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else if ( input == '1' && (*****setting_skill) -> set_skill[1] != 0 ){
+    input = 1;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else if ( input == '2' && (*****setting_skill) -> set_skill[2] != 0 ){
+    input = 2;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else if ( input == '3' && (*****setting_skill) -> set_skill[3] != 0 ){
+    input = 3;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else if ( input == '4' && (*****setting_skill) -> set_skill[4] != 0 ){
+    input = 4;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else if ( input == '5' && (*****setting_skill) -> set_skill[5] != 0 ){
+    input = 5;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else if ( input == '6' && (*****setting_skill) -> set_skill[6] != 0 ){
+    input = 6;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else if ( input == '7' && (*****setting_skill) -> set_skill[7] != 0 ){
+    input = 7;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else if ( input == '8' && (*****setting_skill) -> set_skill[8] != 0 ){
+    input = 8;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else if ( input == '9' && (*****setting_skill) -> set_skill[9] != 0 ){
+    input = 9;
+    procedure_skill_from_menu(&st,&st2,&st3,&player_skill,&setting_skill,input,skill_user);
+  }
+  else{
+    printf("スキルの使用を中止しました!\n");
   }
 
 }
 
 void skill_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3, Setting_skill *****setting_skill){
   int input;
+  int skill_user;
 
   do{
+    printf("<<<skill>>>\n");
     printf("\n");
     printf("スキルを使用する人を選択して下さい(終了する場合はcを入力)\n");
     printf("1.%s\n", (****st) -> name);
@@ -1742,14 +2237,18 @@ void skill_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****p
 
     input = _getch();
 
+    printf("\n");
     if ( input == '1' ){
-      skill_menu_list(&st,&player_skill,&setting_skill);
+      skill_user = PLAYER;
+      skill_menu_list(&st,&st2,&st3,&player_skill,&setting_skill,skill_user);
     }
     else if ( input == '2' ){
-      skill_menu_list(&st,&player_skill,&setting_skill);
+      skill_user = PLAYER2;
+      skill_menu_list(&st,&st2,&st3,&player_skill,&setting_skill,skill_user);
     }
     else if ( input == '3' ){
-      skill_menu_list(&st,&player_skill,&setting_skill);
+      skill_user = PLAYER3;
+      skill_menu_list(&st,&st2,&st3,&player_skill,&setting_skill,skill_user);
     }
 
   }while ( input != 'c' );
