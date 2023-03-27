@@ -15,9 +15,85 @@ int check_playerMP(Player *****st, int skillMP){
     return FALSE;
   }
   else{
+    (****st) -> mp -= skillMP;
     return TRUE;
   }
 
+}
+
+void skillEffect_RECOVER1_forBattle(Player *****st, Player *****st2, Player *****st3, int skill_target, int recover_point){
+  int beforehp;
+
+  if ( skill_target == PLAYER ){
+    beforehp = (****st) -> hp;
+
+    (****st) -> hp += recover_point;
+    if ( (****st) -> hp >= (****st) -> maxhp ){
+      (****st) -> hp = (****st) -> maxhp;
+    }
+
+    printf("%s: HP:%d/%d >> HP:%d/%d\n", (****st) -> name, beforehp, (****st) -> maxhp, (****st) -> hp, (****st) -> maxhp);
+    printf("\n");
+  }
+  else if ( skill_target == PLAYER2 ){
+    beforehp = (****st2) -> hp;
+
+    (****st2) -> hp += recover_point;
+    if ( (****st2) -> hp >= (****st2) -> maxhp ){
+      (****st2) -> hp = (****st2) -> maxhp;
+    }
+
+    printf("%s: HP:%d/%d >> HP:%d/%d\n", (****st2) -> name, beforehp, (****st2) -> maxhp, (****st2) -> hp, (****st2) -> maxhp);
+    printf("\n");
+  }
+  else if ( skill_target == PLAYER3 ){
+    beforehp = (****st3) -> hp;
+
+    (****st3) -> hp += recover_point;
+    if ( (****st3) -> hp >= (****st3) -> maxhp ){
+      (****st3) -> hp = (****st3) -> maxhp;
+    }
+
+    printf("%s: HP:%d/%d >> HP:%d/%d\n", (****st3) -> name, beforehp, (****st3) -> maxhp, (****st3) -> hp, (****st3) -> maxhp);
+    printf("\n");
+  }
+}
+
+void skillEffect_CUREPOISON_forBattle(Player *****st, Player *****st2, Player *****st3, int skill_target){
+
+  if ( skill_target == PLAYER ){
+    if ( (****st) -> badstatus == POISON ){
+      (****st) -> badstatus = GOOD;
+      printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st) -> name);
+      printf("\n");
+    }
+    else{
+      printf("無効果\n");
+      printf("\n");
+    }
+  }
+  else if ( skill_target == PLAYER2 ){
+    if ( (****st2) -> badstatus == POISON ){
+      (****st2) -> badstatus = GOOD;
+      printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st2) -> name);
+      printf("\n");
+    }
+    else{
+      printf("無効果\n");
+      printf("\n");
+    }
+  }
+  else if ( skill_target == PLAYER3 ){
+    if ( (****st3) -> badstatus == POISON ){
+      (****st3) -> badstatus = GOOD;
+      printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (****st3) -> name);
+      printf("\n");
+    }
+    else{
+      printf("無効果\n");
+      printf("\n");
+    }
+  }
 }
 
 int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user){
@@ -32,45 +108,9 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
       sleep(1);
 
       if ( check_playerMP(&st,3) == TRUE ){
-        (***st) -> mp -= 3;
-
         base = 25;
         recover_point = (rand() % ( base + (***st) -> magic * 3 + (***st) -> luk - base + 1) ) + base; //(rand()%(max - min + 1)) + min;
-
-        if ( skill_target == PLAYER ){
-          beforehp = (***st) -> hp;
-
-          (***st) -> hp += recover_point;
-          if ( (***st) -> hp >= (***st) -> maxhp ){
-            (***st) -> hp = (***st) -> maxhp;
-          }
-
-          printf("%s: HP:%d/%d >> HP:%d/%d\n", (***st) -> name, beforehp, (***st) -> maxhp, (***st) -> hp, (***st) -> maxhp);
-          printf("\n");
-        }
-        else if ( skill_target == PLAYER2 ){
-          beforehp = (***st2) -> hp;
-
-          (***st2) -> hp += recover_point;
-          if ( (***st2) -> hp >= (***st2) -> maxhp ){
-            (***st2) -> hp = (***st2) -> maxhp;
-          }
-
-          printf("%s: HP:%d/%d >> HP:%d/%d\n", (***st2) -> name, beforehp, (***st2) -> maxhp, (***st2) -> hp, (***st2) -> maxhp);
-          printf("\n");
-        }
-        else if ( skill_target == PLAYER3 ){
-          beforehp = (***st3) -> hp;
-
-          (***st3) -> hp += recover_point;
-          if ( (***st3) -> hp >= (***st3) -> maxhp ){
-            (***st3) -> hp = (***st3) -> maxhp;
-          }
-
-          printf("%s: HP:%d/%d >> HP:%d/%d\n", (***st3) -> name, beforehp, (***st3) -> maxhp, (***st3) -> hp, (***st3) -> maxhp);
-          printf("\n");
-        }
-
+        skillEffect_RECOVER1_forBattle(&st,&st2,&st3,skill_target,recover_point);
       }
     }
     else if ( skill_user == PLAYER2 ){
@@ -78,45 +118,9 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
       sleep(1);
 
       if ( check_playerMP(&st2,3) == TRUE ){
-        (***st2) -> mp -= 3;
-
         base = 25;
         recover_point = (rand() % ( base + (***st2) -> magic * 3 + (***st2) -> luk - base + 1) ) + base; //(rand()%(max - min + 1)) + min;
-
-        if ( skill_target == PLAYER ){
-          beforehp = (***st) -> hp;
-
-          (***st) -> hp += recover_point;
-          if ( (***st) -> hp >= (***st) -> maxhp ){
-            (***st) -> hp = (***st) -> maxhp;
-          }
-
-          printf("%s: HP:%d/%d >> HP:%d/%d\n", (***st) -> name, beforehp, (***st) -> maxhp, (***st) -> hp, (***st) -> maxhp);
-          printf("\n");
-        }
-        else if ( skill_target == PLAYER2 ){
-          beforehp = (***st2) -> hp;
-
-          (***st2) -> hp += recover_point;
-          if ( (***st2) -> hp >= (***st2) -> maxhp ){
-            (***st2) -> hp = (***st2) -> maxhp;
-          }
-
-          printf("%s: HP:%d/%d >> HP:%d/%d\n", (***st2) -> name, beforehp, (***st2) -> maxhp, (***st2) -> hp, (***st2) -> maxhp);
-          printf("\n");
-        }
-        else if ( skill_target == PLAYER3 ){
-          beforehp = (***st3) -> hp;
-
-          (***st3) -> hp += recover_point;
-          if ( (***st3) -> hp >= (***st3) -> maxhp ){
-            (***st3) -> hp = (***st3) -> maxhp;
-          }
-
-          printf("%s: HP:%d/%d >> HP:%d/%d\n", (***st3) -> name, beforehp, (***st3) -> maxhp, (***st3) -> hp, (***st3) -> maxhp);
-          printf("\n");
-        }
-
+        skillEffect_RECOVER1_forBattle(&st,&st2,&st3,skill_target,recover_point);
       }
     }
     else if ( skill_user == PLAYER3 ){
@@ -124,48 +128,11 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
       sleep(1);
 
       if ( check_playerMP(&st3,3) == TRUE ){
-        (***st3) -> mp -= 3;
-
         base = 25;
         recover_point = (rand() % ( base + (***st3) -> magic * 3 + (***st3) -> luk - base + 1) ) + base; //(rand()%(max - min + 1)) + min;
-
-        if ( skill_target == PLAYER ){
-          beforehp = (***st) -> hp;
-
-          (***st) -> hp += recover_point;
-          if ( (***st) -> hp >= (***st) -> maxhp ){
-            (***st) -> hp = (***st) -> maxhp;
-          }
-
-          printf("%s: HP:%d/%d >> HP:%d/%d\n", (***st) -> name, beforehp, (***st) -> maxhp, (***st) -> hp, (***st) -> maxhp);
-          printf("\n");
-        }
-        else if ( skill_target == PLAYER2 ){
-          beforehp = (***st2) -> hp;
-
-          (***st2) -> hp += recover_point;
-          if ( (***st2) -> hp >= (***st2) -> maxhp ){
-            (***st2) -> hp = (***st2) -> maxhp;
-          }
-
-          printf("%s: HP:%d/%d >> HP:%d/%d\n", (***st2) -> name, beforehp, (***st2) -> maxhp, (***st2) -> hp, (***st2) -> maxhp);
-          printf("\n");
-        }
-        else if ( skill_target == PLAYER3 ){
-          beforehp = (***st3) -> hp;
-
-          (***st3) -> hp += recover_point;
-          if ( (***st3) -> hp >= (***st3) -> maxhp ){
-            (***st3) -> hp = (***st3) -> maxhp;
-          }
-
-          printf("%s: HP:%d/%d >> HP:%d/%d\n", (***st3) -> name, beforehp, (***st3) -> maxhp, (***st3) -> hp, (***st3) -> maxhp);
-          printf("\n");
-        }
-
+        skillEffect_RECOVER1_forBattle(&st,&st2,&st3,skill_target,recover_point);
       }
     }
-
   }
   else if ( use_skill_count == CUREPOISON ){  //キュアポ
     //skill使用者
@@ -174,42 +141,7 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
       sleep(1);
 
       if ( check_playerMP(&st,4) == TRUE ){
-        (***st) -> mp -= 4;
-
-        if ( skill_target == PLAYER ){
-          if ( (***st) -> badstatus == POISON ){
-            (***st) -> badstatus = GOOD;
-            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st) -> name);
-            printf("\n");
-          }
-          else{
-            printf("無効果\n");
-            printf("\n");
-          }
-        }
-        else if ( skill_target == PLAYER2 ){
-          if ( (***st2) -> badstatus == POISON ){
-            (***st2) -> badstatus = GOOD;
-            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st2) -> name);
-            printf("\n");
-          }
-          else{
-            printf("無効果\n");
-            printf("\n");
-          }
-        }
-        else if ( skill_target == PLAYER3 ){
-          if ( (***st3) -> badstatus == POISON ){
-            (***st3) -> badstatus = GOOD;
-            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st3) -> name);
-            printf("\n");
-          }
-          else{
-            printf("無効果\n");
-            printf("\n");
-          }
-        }
-
+        skillEffect_CUREPOISON_forBattle(&st,&st2,&st3,skill_target);
       }
     }
     else if ( skill_user == PLAYER2 ){
@@ -217,42 +149,7 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
       sleep(1);
 
       if ( check_playerMP(&st2,4) == TRUE ){
-        (***st2) -> mp -= 4;
-
-        if ( skill_target == PLAYER ){
-          if ( (***st) -> badstatus == POISON ){
-            (***st) -> badstatus = GOOD;
-            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st) -> name);
-            printf("\n");
-          }
-          else{
-            printf("無効果\n");
-            printf("\n");
-          }
-        }
-        else if ( skill_target == PLAYER2 ){
-          if ( (***st2) -> badstatus == POISON ){
-            (***st2) -> badstatus = GOOD;
-            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st2) -> name);
-            printf("\n");
-          }
-          else{
-            printf("無効果\n");
-            printf("\n");
-          }
-        }
-        else if ( skill_target == PLAYER3 ){
-          if ( (***st3) -> badstatus == POISON ){
-            (***st3) -> badstatus = GOOD;
-            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st3) -> name);
-            printf("\n");
-          }
-          else{
-            printf("無効果\n");
-            printf("\n");
-          }
-        }
-
+        skillEffect_CUREPOISON_forBattle(&st,&st2,&st3,skill_target);
       }
     }
     else if ( skill_user == PLAYER3 ){
@@ -260,42 +157,7 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
       sleep(1);
 
       if ( check_playerMP(&st3,4) == TRUE ){
-        (***st3) -> mp -= 4;
-
-        if ( skill_target == PLAYER ){
-          if ( (***st) -> badstatus == POISON ){
-            (***st) -> badstatus = GOOD;
-            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st) -> name);
-            printf("\n");
-          }
-          else{
-            printf("無効果\n");
-            printf("\n");
-          }
-        }
-        else if ( skill_target == PLAYER2 ){
-          if ( (***st2) -> badstatus == POISON ){
-            (***st2) -> badstatus = GOOD;
-            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st2) -> name);
-            printf("\n");
-          }
-          else{
-            printf("無効果\n");
-            printf("\n");
-          }
-        }
-        else if ( skill_target == PLAYER3 ){
-          if ( (***st3) -> badstatus == POISON ){
-            (***st3) -> badstatus = GOOD;
-            printf("%s: STATUS(POISON) >> STATUS(GOOD)\n", (***st3) -> name);
-            printf("\n");
-          }
-          else{
-            printf("無効果\n");
-            printf("\n");
-          }
-        }
-
+        skillEffect_CUREPOISON_forBattle(&st,&st2,&st3,skill_target);
       }
     }
   }
