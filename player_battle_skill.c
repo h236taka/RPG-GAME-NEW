@@ -167,7 +167,7 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
   }
 
   turn_decrease = -1;
-  
+
   return turn_decrease;
 }
 
@@ -178,6 +178,10 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****ene
   int damage_base, max_damage, temp, damage;
 
   if ( use_skill_count == ENFA ){
+    if ( check_playerMP(&st,4) != TRUE ){
+      return -1;
+    }
+
     printf("%s>>エンファ\n", (***st) -> name);
     sleep(1);
     printf("%sは小さな火球を飛ばした!\n", (***st) -> name);
@@ -211,7 +215,7 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****ene
       turn_decrease = -2;
     }
     else if ( (***enemy) -> fire == -3 ){  //火炎攻撃反射
-      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 3 );
+      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 2 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -230,7 +234,7 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****ene
       turn_decrease = -2;
     }
     else{
-      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 3 );
+      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 2 );
       //printf("damage_base:%d\n", damage_base);
       if ( damage_base < 0 ){
         damage_base = 1;
@@ -315,6 +319,10 @@ int player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *en
   int damage_base, max_damage, temp, damage;
 
   if ( use_skill_count == ENFA ){
+    if ( check_playerMP(&st,4) != TRUE ){
+      return -1;
+    }
+
     printf("%s>>エンファ\n", (***st) -> name);
     sleep(1);
     printf("%sは小さな火球を飛ばした!\n", (***st) -> name);
@@ -348,7 +356,7 @@ int player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *en
       turn_decrease = -2;
     }
     else if ( enemy_copy -> fire == -3 ){  //火炎攻撃反射
-      damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 3 );
+      damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 2 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -367,7 +375,7 @@ int player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *en
       turn_decrease = -2;
     }
     else{
-      damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 3 );
+      damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 2 );
       //printf("damage_base:%d\n", damage_base);
       if ( damage_base < 0 ){
         damage_base = 1;
@@ -1357,6 +1365,9 @@ void check_skillID(Setting_skill *****setting_skill, int idx){
   }
   else if ( (****setting_skill) -> set_skill[idx] == CUREPOISON ){
     printf("%d:キュアポ 消費MP:4 (味方1人のPOISON状態を回復)\n", idx);
+  }
+  else if ( (****setting_skill) -> set_skill[idx] == ENFA ){
+    printf("%d:エンファ 消費MP:4 (単体に火炎小ダメージ)\n", idx);
   }
 
 }
