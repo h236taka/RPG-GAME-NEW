@@ -97,6 +97,7 @@ void skillEffect_CUREPOISON_forBattle(Player *****st, Player *****st2, Player **
 }
 
 int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user){
+  int turn_decrease;
   int recover_point, base, beforehp;
   int damage;
 
@@ -164,20 +165,283 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
   else if ( use_skill_count == RECOVER2 ){
 
   }
+
+  turn_decrease = -1;
+  
+  return turn_decrease;
 }
 
-void player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****enemy, int use_skill_count){
+int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****enemy, int use_skill_count){
+  int turn_decrease;
+  int eva_count, eva_base;
+  int magic_power;
+  int damage_base, max_damage, temp, damage;
 
   if ( use_skill_count == ENFA ){
+    printf("%s>>エンファ\n", (***st) -> name);
+    sleep(1);
+    printf("%sは小さな火球を飛ばした!\n", (***st) -> name);
+    sleep(1);
+
+    eva_count = 0;
+    magic_power = 10;
+
+    if ( (***enemy) -> fire == -1 ){  //火炎攻撃無効
+      sleep(1);
+      printf("%s<<BLOCK!\n", (***enemy) -> name);
+
+      turn_decrease = -2;
+    }
+    else if ( (***enemy) -> fire == -2 ){  //火炎攻撃吸収
+      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 2 );
+      if ( damage_base < 0 ){
+        damage_base = 1;
+      }
+      max_damage = damage_base * 1.3;
+      damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+      temp = damage;
+      damage = -2;
+      (***enemy) -> hp += temp;
+      if ( (***enemy) -> hp > (***enemy) -> maxhp ){
+        (***enemy) -> hp = (***enemy) -> maxhp;
+      }
+      printf("Absorb!\n");
+      sleep(1);
+      printf("%s<<%dダメージ吸収\n", (***enemy) -> name, temp);
+      turn_decrease = -2;
+    }
+    else if ( (***enemy) -> fire == -3 ){  //火炎攻撃反射
+      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 3 );
+      if ( damage_base < 0 ){
+        damage_base = 1;
+      }
+      max_damage = damage_base * 1.3;
+      temp = damage;
+      damage = -3;
+      (***st) -> hp -= temp;
+      printf("Reflect!\n");
+      sleep(1);
+      printf("%s<<%dダメージ\n", (***st) -> name, temp);
+      if ( (***st) -> hp <= 0 ){
+        (***st) -> hp = 0;
+        (***st) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (***st) -> name);
+      }
+      turn_decrease = -2;
+    }
+    else{
+      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 3 );
+      //printf("damage_base:%d\n", damage_base);
+      if ( damage_base < 0 ){
+        damage_base = 1;
+      }
+      //回避率5%
+      eva_base = 5 + ( (***enemy) -> agi * 0.2 ) + ( (***enemy) -> luk * 0.1 ) - ( (***st) -> agi * 0.1) - ( (***st) -> luk * 0.1);   //回避率計算
+
+      eva_base = round(eva_base);
+
+      if ( eva_base < 5 ){
+        eva_base = 5;     //回避率最小値5%
+      }
+
+      max_damage = damage_base * 1.3;
+      damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
+      //printf("damage:%d\n", damage);
+      //printf("damage:%d\n", damage);
+      //耐性判断
+      if ( (***enemy) -> fire == 100 ){
+        damage = damage;
+        turn_decrease = -1;
+      }
+      else if ( (***enemy) -> fire == 150 ){     //火炎攻撃1.5倍
+        damage *= 1.5;
+        turn_decrease = -1;
+      }
+      else if ( (***enemy) -> fire == 200 ){
+        sleep(1);
+        printf("WEAKNESS!!\n");
+        damage *= 2;
+        turn_decrease = 0.1;
+      }
+      else if ( (***enemy) -> fire == 80 ){  //火炎攻撃ダメージ80%
+        damage *= 0.8;
+        turn_decrease = -1;
+      }
+      else if ( (***enemy) -> fire == 50 ){  //火炎攻撃半減
+        sleep(1);
+        printf("RESIST!\n");
+        damage *= 0.5;
+        turn_decrease = -1;
+      }
+      else if ( (***enemy) -> fire == 25 ){  //火炎攻撃ダメージ25%
+        sleep(1);
+        printf("RESIST!\n");
+        damage *= 0.25;
+        turn_decrease = -1;
+      }
+
+      if ( damage < 0 ){
+        damage = 1;
+      }
+
+      if ( damage >= (***enemy) -> hp ){
+        sleep(1);
+        printf("%s<<%dダメージ\n", (***enemy) -> name, damage);
+        sleep(1);
+        printf("%sは死んでしまった!\n", (***enemy) -> name);
+        (***enemy) -> hp = 0;
+        (***enemy) -> badstatus = DEAD;
+      }
+      else{
+        printf("%s<<%dダメージ\n", (***enemy) -> name, damage);
+        (***enemy) -> hp -= damage;
+        if ( (***enemy) -> hp <= 0 ){
+          (***enemy) -> hp = 0;
+          (***enemy) -> badstatus = DEAD;
+        }
+      }
+
+    }
 
   }
+
+  return turn_decrease;
 }
 
-void player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *enemy_copy, int use_skill_count){
+int player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *enemy_copy, int use_skill_count){
+  int turn_decrease;
+  int eva_count, eva_base;
+  int magic_power;
+  int damage_base, max_damage, temp, damage;
 
   if ( use_skill_count == ENFA ){
+    printf("%s>>エンファ\n", (***st) -> name);
+    sleep(1);
+    printf("%sは小さな火球を飛ばした!\n", (***st) -> name);
+    sleep(1);
 
+    eva_count = 0;
+    magic_power = 10;
+
+    if ( enemy_copy -> fire == -1 ){  //火炎攻撃無効
+      sleep(1);
+      printf("%s<<BLOCK!\n", enemy_copy -> name);
+
+      turn_decrease = -2;
+    }
+    else if ( enemy_copy -> fire == -2 ){  //火炎攻撃吸収
+      damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 2 );
+      if ( damage_base < 0 ){
+        damage_base = 1;
+      }
+      max_damage = damage_base * 1.3;
+      damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+      temp = damage;
+      damage = -2;
+      enemy_copy -> hp += temp;
+      if ( enemy_copy -> hp > enemy_copy -> maxhp ){
+        enemy_copy -> hp = enemy_copy -> maxhp;
+      }
+      printf("Absorb!\n");
+      sleep(1);
+      printf("%s<<%dダメージ吸収\n", enemy_copy -> name, temp);
+      turn_decrease = -2;
+    }
+    else if ( enemy_copy -> fire == -3 ){  //火炎攻撃反射
+      damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 3 );
+      if ( damage_base < 0 ){
+        damage_base = 1;
+      }
+      max_damage = damage_base * 1.3;
+      temp = damage;
+      damage = -3;
+      (***st) -> hp -= temp;
+      printf("Reflect!\n");
+      sleep(1);
+      printf("%s<<%dダメージ\n", (***st) -> name, temp);
+      if ( (***st) -> hp <= 0 ){
+        (***st) -> hp = 0;
+        (***st) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (***st) -> name);
+      }
+      turn_decrease = -2;
+    }
+    else{
+      damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 3 );
+      //printf("damage_base:%d\n", damage_base);
+      if ( damage_base < 0 ){
+        damage_base = 1;
+      }
+      //回避率5%
+      eva_base = 5 + ( enemy_copy -> agi * 0.2 ) + ( enemy_copy -> luk * 0.1 ) - ( (***st) -> agi * 0.1) - ( (***st) -> luk * 0.1);   //回避率計算
+
+      eva_base = round(eva_base);
+
+      if ( eva_base < 5 ){
+        eva_base = 5;     //回避率最小値5%
+      }
+
+      max_damage = damage_base * 1.3;
+      damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
+      //printf("damage:%d\n", damage);
+      //printf("damage:%d\n", damage);
+      //耐性判断
+      if ( enemy_copy -> fire == 100 ){
+        damage = damage;
+        turn_decrease = -1;
+      }
+      else if ( enemy_copy -> fire == 150 ){     //火炎攻撃1.5倍
+        damage *= 1.5;
+        turn_decrease = -1;
+      }
+      else if ( enemy_copy -> fire == 200 ){
+        sleep(1);
+        printf("WEAKNESS!!\n");
+        damage *= 2;
+        turn_decrease = 0.1;
+      }
+      else if ( enemy_copy -> fire == 80 ){  //火炎攻撃ダメージ80%
+        damage *= 0.8;
+        turn_decrease = -1;
+      }
+      else if ( enemy_copy -> fire == 50 ){  //火炎攻撃半減
+        sleep(1);
+        printf("RESIST!\n");
+        damage *= 0.5;
+        turn_decrease = -1;
+      }
+      else if ( enemy_copy -> fire == 25 ){  //火炎攻撃ダメージ25%
+        sleep(1);
+        printf("RESIST!\n");
+        damage *= 0.25;
+        turn_decrease = -1;
+      }
+
+      if ( damage < 0 ){
+        damage = 1;
+      }
+
+      if ( damage >= enemy_copy -> hp ){
+        sleep(1);
+        printf("%s<<%dダメージ\n", enemy_copy -> name, damage);
+        sleep(1);
+        printf("%sは死んでしまった!\n", enemy_copy -> name);
+        enemy_copy -> hp = 0;
+        enemy_copy -> badstatus = DEAD;
+      }
+      else{
+        printf("%s<<%dダメージ\n", enemy_copy -> name, damage);
+        enemy_copy -> hp -= damage;
+        if ( enemy_copy -> hp <= 0 ){
+          enemy_copy -> hp = 0;
+          enemy_copy -> badstatus = DEAD;
+        }
+      }
+
+    }
   }
+
+  return turn_decrease;
 }
 
 int select_player_skillTarget(Player ****st, Player ****st2, Player ****st3){

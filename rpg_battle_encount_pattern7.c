@@ -447,7 +447,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -460,7 +460,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -468,7 +468,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -476,7 +476,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -484,7 +484,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -494,7 +494,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -510,7 +509,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -523,7 +522,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -531,7 +530,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -539,7 +538,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -547,7 +546,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -557,7 +556,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -573,7 +571,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -586,7 +584,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -594,7 +592,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -602,7 +600,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -610,7 +608,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -620,7 +618,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -636,7 +633,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -649,7 +646,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -657,7 +654,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -665,7 +662,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -673,7 +670,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -683,7 +680,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -699,7 +695,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -712,7 +708,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -720,7 +716,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -728,7 +724,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -736,7 +732,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -746,7 +742,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -762,7 +757,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -775,7 +770,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -783,7 +778,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -791,7 +786,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -799,7 +794,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -809,7 +804,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -825,7 +819,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -838,7 +832,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -846,7 +840,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -854,7 +848,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -862,7 +856,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -872,7 +866,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -888,7 +881,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -901,7 +894,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -909,7 +902,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -917,7 +910,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -925,7 +918,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -935,7 +928,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -951,7 +943,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -964,7 +956,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -972,7 +964,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -980,7 +972,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -988,7 +980,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -998,7 +990,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1014,7 +1005,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1027,7 +1018,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1035,7 +1026,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1043,7 +1034,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1051,7 +1042,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st,&player_skill,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1061,7 +1052,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1462,7 +1452,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1475,7 +1465,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1483,7 +1473,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1491,7 +1481,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1499,7 +1489,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1509,7 +1499,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1525,7 +1514,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1538,7 +1527,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1546,7 +1535,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1554,7 +1543,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1562,7 +1551,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1572,7 +1561,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1588,7 +1576,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1601,7 +1589,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1609,7 +1597,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1617,7 +1605,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1625,7 +1613,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1635,7 +1623,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1651,7 +1638,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1664,7 +1651,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1672,7 +1659,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1680,7 +1667,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1688,7 +1675,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1698,7 +1685,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1714,7 +1700,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1727,7 +1713,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1735,7 +1721,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1743,7 +1729,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1751,7 +1737,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1761,7 +1747,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1777,7 +1762,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1790,7 +1775,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1798,7 +1783,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1806,7 +1791,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1814,7 +1799,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1824,7 +1809,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1840,7 +1824,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1853,7 +1837,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1861,7 +1845,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1869,7 +1853,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1877,7 +1861,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1887,7 +1871,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1903,7 +1886,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1916,7 +1899,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1924,7 +1907,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1932,7 +1915,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1940,7 +1923,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1950,7 +1933,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -1966,7 +1948,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -1979,7 +1961,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1987,7 +1969,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -1995,7 +1977,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2003,7 +1985,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2013,7 +1995,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2029,7 +2010,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill2,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2042,7 +2023,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2050,7 +2031,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2058,7 +2039,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2066,7 +2047,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st2,&player_skill2,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2076,7 +2057,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2473,7 +2453,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2486,7 +2466,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2494,7 +2474,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2502,7 +2482,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2510,7 +2490,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2520,7 +2500,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2536,7 +2515,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2549,7 +2528,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2557,7 +2536,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2565,7 +2544,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2573,7 +2552,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2583,7 +2562,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2599,7 +2577,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2612,7 +2590,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2620,7 +2598,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2628,7 +2606,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2636,7 +2614,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2646,7 +2624,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2662,7 +2639,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2675,7 +2652,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2683,7 +2660,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2691,7 +2668,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2699,7 +2676,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2709,7 +2686,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2725,7 +2701,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2738,7 +2714,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2746,7 +2722,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2754,7 +2730,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2762,7 +2738,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2772,7 +2748,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2788,7 +2763,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2801,7 +2776,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2809,7 +2784,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2817,7 +2792,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2825,7 +2800,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2835,7 +2810,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2851,7 +2825,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2864,7 +2838,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2872,7 +2846,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2880,7 +2854,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2888,7 +2862,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2898,7 +2872,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2914,7 +2887,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2927,7 +2900,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2935,7 +2908,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2943,7 +2916,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2951,7 +2924,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2961,7 +2934,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -2977,7 +2949,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -2990,7 +2962,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -2998,7 +2970,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -3006,7 +2978,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -3014,7 +2986,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -3024,7 +2996,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
@@ -3040,7 +3011,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                     if ( who_is_skillTarget(use_skill_count) == PARTY ){
                       skill_target = select_player_skillTarget(&st,&st2,&st3);
                       if ( skill_target != NOTARGET ){
-                        player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
+                        turn_decrease = player_skill_forParty(&st,&st2,&st3,&player_skill3,use_skill_count,skill_target,skill_user);
                       }
                     }
                     else if ( who_is_skillTarget(use_skill_count) == PARTYALL ){
@@ -3053,7 +3024,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       skill_target = select_encount_pattern7_skillTarget(&enemy,&enemy1,&enemy2,&enemy3);
                       if ( skill_target == ENEMY1 ){
                         if ( is_enemy_alive(&enemy) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -3061,7 +3032,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY2 ){
                         if ( is_enemy_alive(&enemy1) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy1,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -3069,7 +3040,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY3 ){
                         if ( is_enemy_alive(&enemy2) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy2,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -3077,7 +3048,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
                       }
                       else if ( skill_target == ENEMY4 ){
                         if ( is_enemy_alive(&enemy3) == TRUE ){
-                          player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
+                          turn_decrease = player_skill_forEnemy(&st3,&player_skill3,&enemy3,use_skill_count);
                         }
                         else{
                           skill_target = NOTARGET;
@@ -3087,7 +3058,6 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
                     if ( skill_target != NOTARGET ){
                       move_finish++;
-                      turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
                     else{
