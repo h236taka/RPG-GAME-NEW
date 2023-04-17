@@ -229,7 +229,7 @@ void map_tutorial(void){
   printf("\n");
 }
 
-void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *slime, Enemy *kobalt, Enemy *goblin){
+void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area){
 
   st -> hp = 30;
   st -> maxhp = 30;
@@ -379,7 +379,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
 
   //map_tutorial();
   sleep(1);
-  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &slime, &kobalt, &goblin);
+  area1_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search);
 
   sleep(2);
 
@@ -389,7 +389,7 @@ void game_story1(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_
   full_recover(&st,&st2,&st3);
 }
 
-void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area, Enemy *zombie, Enemy *slime, Enemy *goblin_normal, Enemy *kobalt, Enemy *zombiedog, Enemy *onmoraki, Enemy *gremlin){
+void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area){
 
   int input;
 
@@ -459,7 +459,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
       goTo_labo(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3);
     }
     else if ( input == '4' ){
-      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &zombie,&slime,&goblin_normal,&kobalt,&zombiedog,&onmoraki,&gremlin);
+      area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search);
     }
     else if ( input == '5' ){
       exit(EXIT_SUCCESS);
@@ -473,9 +473,44 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
 
   printf("\a");
   printf("---STAGE2 CLEARED!!---\n");
-  st -> stage_clear  = 2;
+  st -> stage_clear = 2;
 
   st -> hp = st -> maxhp;
   st -> mp = st -> maxmp;
+
+}
+
+void game_story3(Player *st, Player *st2, Player * st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, Area *area){
+  int input;
+
+  if ( st -> stage_clear == 2 ){
+    printf("\n");
+    printf("%sが図書館を出たところで%sの頭上から威厳のある声が響き渡る・・・\n", st -> name, st -> name);
+    sleep(2);
+    printf("？？？「図書館を解放しましたか。」\n");
+    sleep(2);
+    printf("？？？「やはりあなたたちは見込みがある人たちだ。」\n");
+    sleep(2);
+    printf("%s「この声は!」\n", st2 -> name);
+    sleep(2);
+    printf("？？？「覚えていてくれているようで嬉しいですよ。」\n");
+    sleep(2);
+    printf("%s「何で学校が悪魔の巣窟になっているんですか?」\n", st3 -> name);
+    sleep(2);
+    printf("？？？「それは追々分かる事ですよ。」\n");
+    sleep(2);
+    printf("？？？「それはさておき、どうやら次は校舎2Fに強力な気配を感じます・・・」\n");
+    sleep(2);
+    printf("？？？「あなた方には期待していますよ。」\n");
+    sleep(2);
+    printf("%s「ちょっと、話を・・・」\n", st2 -> name);
+    sleep(2);
+    printf("威厳のある声は聞こえなくなった\n");
+    sleep(2);
+    printf("%s「%s,校舎2Fに何か手がかりがあるかもしれないから行ってみよう!」\n", st3 -> name, st -> name);
+    sleep(1);
+    printf("\n");
+  }
+
 
 }

@@ -10,27 +10,27 @@
 //バトルに関するUI
 
 //encount_pattern = 2
-int player_normal_attack_target2(Enemy ****enemy, Enemy *enemy_copy1){
+int player_normal_attack_target2(Enemy **enemy, Enemy *enemy_copy1){
   int command;
 
-  if ( (***enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD ){
     printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s\n", (***enemy) -> name, enemy_copy1 -> name);
+    printf("1.%s 2.%s\n", (*enemy) -> name, enemy_copy1 -> name);
     printf("\n");
-    command =  _getch();
+    command = _getch();
   }
-  if ( (***enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus == DEAD ){
     do {
       printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-      printf("1.%s\n", (***enemy) -> name);
+      printf("1.%s\n", (*enemy) -> name);
       printf("\n");
-      command =  _getch();
+      command = _getch();
       if ( command == 'c' ){
         break;
       }
     } while ( command != '1' );
   }
-  if ( (***enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus != DEAD ){
     do {
       printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
       printf("2.%s\n", enemy_copy1 -> name);
@@ -45,20 +45,20 @@ int player_normal_attack_target2(Enemy ****enemy, Enemy *enemy_copy1){
   return command;
 }
 
-int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2){
+int player_normal_attack_target3(Enemy **enemy, Enemy *enemy_copy1, Enemy *enemy_copy2){
   int command;
 
-  if ( (***enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD ){
     printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s 3.%s\n", (***enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name);
+    printf("1.%s 2.%s 3.%s\n", (*enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name);
     printf("\n");
     command =  _getch();
   }
-  if ( (***enemy) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD ){
     if ( enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s\n", (***enemy) -> name, enemy_copy1 -> name);
+        printf("1.%s 2.%s\n", (*enemy) -> name, enemy_copy1 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -69,7 +69,7 @@ int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 3.%s\n", (***enemy) -> name, enemy_copy2 -> name);
+        printf("1.%s 3.%s\n", (*enemy) -> name, enemy_copy2 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -80,7 +80,7 @@ int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s\n", (***enemy) -> name);
+        printf("1.%s\n", (*enemy) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -90,7 +90,7 @@ int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     }
   }
   if ( enemy_copy1 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s 3.%s\n", enemy_copy1 -> name, enemy_copy2 -> name);
@@ -101,7 +101,7 @@ int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
         }
       } while ( command != '2' && command != '3' );
     }
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s\n", enemy_copy1 -> name);
@@ -114,7 +114,7 @@ int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     }
   }
   if ( enemy_copy2 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
         printf("3.%s\n", enemy_copy2 -> name);
@@ -130,21 +130,21 @@ int player_normal_attack_target3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
   return command;
 }
 
-int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3){
+int player_normal_attack_target4(Enemy **enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3){
   int command;
 
-  if ( (***enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
     printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s 3.%s 4.%s\n", (***enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name, enemy_copy3 -> name);
+    printf("1.%s 2.%s 3.%s 4.%s\n", (*enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name, enemy_copy3 -> name);
     printf("\n");
     command =  _getch();
   }
 
-  if ( (***enemy) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD ){
     if ( enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s 4.%s\n", (***enemy) -> name, enemy_copy1 -> name, enemy_copy3 -> name);
+        printf("1.%s 2.%s 4.%s\n", (*enemy) -> name, enemy_copy1 -> name, enemy_copy3 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -155,7 +155,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     if ( enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s 3.%s\n", (***enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name);
+        printf("1.%s 2.%s 3.%s\n", (*enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -166,7 +166,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     if ( enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s\n", (***enemy) -> name, enemy_copy1 -> name);
+        printf("1.%s 2.%s\n", (*enemy) -> name, enemy_copy1 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -177,7 +177,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s\n", (***enemy) -> name);
+        printf("1.%s\n", (*enemy) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -188,7 +188,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 3.%s 4.%s\n", (***enemy) -> name, enemy_copy2 -> name, enemy_copy3 -> name);
+        printf("1.%s 3.%s 4.%s\n", (*enemy) -> name, enemy_copy2 -> name, enemy_copy3 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -199,7 +199,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 4.%s\n", (***enemy) -> name, enemy_copy3 -> name);
+        printf("1.%s 4.%s\n", (*enemy) -> name, enemy_copy3 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -210,7 +210,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
   }
 
   if ( enemy_copy1 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s 3.%s 4.%s\n", enemy_copy1 -> name, enemy_copy2 -> name, enemy_copy3 -> name);
@@ -221,7 +221,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
         }
       } while ( command != '2' && command != '3' && command != '4' );
     }
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s 3.%s\n", enemy_copy1 -> name, enemy_copy2 -> name);
@@ -232,7 +232,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
         }
       } while ( command != '2' && command != '3' );
     }
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
       do{
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s 4.%s\n", enemy_copy1 -> name, enemy_copy3 -> name);
@@ -243,7 +243,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
         }
       }while( command != '2' && command != '4' );
     }
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s\n", enemy_copy1 -> name);
@@ -256,7 +256,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     }
   }
   if ( enemy_copy2 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
         printf("3.%s 4.%s\n", enemy_copy2 -> name, enemy_copy3 -> name);
@@ -269,7 +269,7 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
     }
   }
   if ( enemy_copy3 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
         printf("4.%s\n", enemy_copy3 -> name);
@@ -286,19 +286,19 @@ int player_normal_attack_target4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *ene
 }
 
 //encount_pattern = 5
-int player_normal_attack_target5(Enemy ****enemy, Enemy ****enemy1){
+int player_normal_attack_target5(Enemy **enemy, Enemy **enemy1){
   int command;
 
-  if ( (***enemy) -> badstatus != DEAD && (***enemy1) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && (*enemy1) -> badstatus != DEAD ){
     printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s\n", (***enemy) -> name, (***enemy1) -> name);
+    printf("1.%s 2.%s\n", (*enemy) -> name, (*enemy1) -> name);
     printf("\n");
     command =  _getch();
   }
-  if ( (***enemy) -> badstatus != DEAD && (***enemy1) -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && (*enemy1) -> badstatus == DEAD ){
     do {
       printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-      printf("1.%s\n", (***enemy) -> name);
+      printf("1.%s\n", (*enemy) -> name);
       printf("\n");
       command =  _getch();
       if ( command == 'c' ){
@@ -306,10 +306,10 @@ int player_normal_attack_target5(Enemy ****enemy, Enemy ****enemy1){
       }
     } while ( command != '1' );
   }
-  if ( (***enemy) -> badstatus == DEAD && (***enemy1) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus == DEAD && (*enemy1) -> badstatus != DEAD ){
     do {
       printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-      printf("2.%s\n", (***enemy1) -> name);
+      printf("2.%s\n", (*enemy1) -> name);
       printf("\n");
       command =  _getch();
       if ( command == 'c' ){
@@ -321,20 +321,20 @@ int player_normal_attack_target5(Enemy ****enemy, Enemy ****enemy1){
   return command;
 }
 
-int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2){
+int player_normal_attack_target6(Enemy **enemy, Enemy **enemy1, Enemy **enemy2){
   int command;
 
-  if ( (***enemy) -> badstatus != DEAD && (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus != DEAD ){
     printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s 3.%s\n", (***enemy) -> name, (***enemy1) -> name, (***enemy2) -> name);
+    printf("1.%s 2.%s 3.%s\n", (*enemy) -> name, (*enemy1) -> name, (*enemy2) -> name);
     printf("\n");
     command =  _getch();
   }
-  if ( (***enemy) -> badstatus != DEAD ){
-    if ( (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s\n", (***enemy) -> name, (***enemy1) -> name);
+        printf("1.%s 2.%s\n", (*enemy) -> name, (*enemy1) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -342,10 +342,10 @@ int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '1' && command != '2' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 3.%s\n", (***enemy) -> name, (***enemy2) -> name);
+        printf("1.%s 3.%s\n", (*enemy) -> name, (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -353,10 +353,10 @@ int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '1' && command != '3' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s\n", (***enemy) -> name);
+        printf("1.%s\n", (*enemy) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -365,11 +365,11 @@ int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
       } while ( command != '1' );
     }
   }
-  if ( (***enemy1) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD ){
+  if ( (*enemy1) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s 3.%s\n", (***enemy1) -> name, (***enemy2) -> name);
+        printf("2.%s 3.%s\n", (*enemy1) -> name, (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -377,10 +377,10 @@ int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '2' && command != '3' );
     }
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s\n", (***enemy1) -> name);
+        printf("2.%s\n", (*enemy1) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -389,11 +389,11 @@ int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
       } while ( command != '2' );
     }
   }
-  if ( (***enemy2) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy1) -> badstatus == DEAD ){
+  if ( (*enemy2) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy1) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("3.%s\n", (***enemy2) -> name);
+        printf("3.%s\n", (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -406,21 +406,21 @@ int player_normal_attack_target6(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
   return command;
 }
 
-int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3){
+int player_normal_attack_target7(Enemy **enemy, Enemy **enemy1, Enemy **enemy2, Enemy **enemy3){
   int command;
 
-  if ( (***enemy) -> badstatus != DEAD && (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus != DEAD ){
     printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s 3.%s 4.%s\n", (***enemy) -> name, (***enemy1) -> name, (***enemy2) -> name, (***enemy3) -> name);
+    printf("1.%s 2.%s 3.%s 4.%s\n", (*enemy) -> name, (*enemy1) -> name, (*enemy2) -> name, (*enemy3) -> name);
     printf("\n");
     command =  _getch();
   }
 
-  if ( (***enemy) -> badstatus != DEAD ){
-    if ( (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s 4.%s\n", (***enemy) -> name, (***enemy1) -> name, (***enemy3) -> name);
+        printf("1.%s 2.%s 4.%s\n", (*enemy) -> name, (*enemy1) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -428,10 +428,10 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '1' && command != '2' && command != '4' );
     }
-    if ( (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s 3.%s\n", (***enemy) -> name, (***enemy1) -> name, (***enemy2) -> name);
+        printf("1.%s 2.%s 3.%s\n", (*enemy) -> name, (*enemy1) -> name, (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -439,10 +439,10 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '1' && command != '2' && command != '3' );
     }
-    if ( (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s\n", (***enemy) -> name, (***enemy1) -> name);
+        printf("1.%s 2.%s\n", (*enemy) -> name, (*enemy1) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -450,10 +450,10 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '1' && command != '2' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s\n", (***enemy) -> name);
+        printf("1.%s\n", (*enemy) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -461,10 +461,10 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '1' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 3.%s 4.%s\n", (***enemy) -> name, (***enemy2) -> name, (***enemy3) -> name);
+        printf("1.%s 3.%s 4.%s\n", (*enemy) -> name, (*enemy2) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -472,10 +472,10 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '1' && command != '3' && command != '4' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 4.%s\n", (***enemy) -> name, (***enemy3) -> name);
+        printf("1.%s 4.%s\n", (*enemy) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -483,10 +483,10 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '1' && command != '4' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 3.%s\n", (***enemy) -> name, (***enemy2) -> name);
+        printf("1.%s 3.%s\n", (*enemy) -> name, (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -496,11 +496,11 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
     }
   }
 
-  if ( (***enemy1) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus != DEAD ){
+  if ( (*enemy1) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus != DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s 3.%s 4.%s\n", (***enemy1) -> name, (***enemy2) -> name, (***enemy3) -> name);
+        printf("2.%s 3.%s 4.%s\n", (*enemy1) -> name, (*enemy2) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -508,10 +508,10 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '2' && command != '3' && command != '4' );
     }
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s 3.%s\n", (***enemy1) -> name, (***enemy2) -> name);
+        printf("2.%s 3.%s\n", (*enemy1) -> name, (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -519,10 +519,10 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       } while ( command != '2' && command != '3' );
     }
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus != DEAD ){
       do{
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s 4.%s\n", (***enemy1) -> name, (***enemy3) -> name);
+        printf("2.%s 4.%s\n", (*enemy1) -> name, (*enemy3) -> name);
         printf("\n");
         command = _getch();
         if ( command == 'c' ){
@@ -530,10 +530,10 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
         }
       }while( command != '2' && command != '4' );
     }
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s\n", (***enemy1) -> name);
+        printf("2.%s\n", (*enemy1) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -542,11 +542,22 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
       } while ( command != '2' );
     }
   }
-  if ( (***enemy2) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy1) -> badstatus == DEAD && (***enemy3) -> badstatus != DEAD ){
+  if ( (*enemy2) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy1) -> badstatus == DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("3.%s 4.%s\n", (***enemy2) -> name, (***enemy3) -> name);
+        printf("3.%s\n", (*enemy2) -> name);
+        printf("\n");
+        command =  _getch();
+        if ( command == 'c' ){
+          break;
+        }
+      } while ( command != '3' );
+    }
+    if ( (*enemy) -> badstatus == DEAD && (*enemy1) -> badstatus == DEAD && (*enemy3) -> badstatus != DEAD ){
+      do {
+        printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
+        printf("3.%s 4.%s\n", (*enemy2) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -555,11 +566,11 @@ int player_normal_attack_target7(Enemy ****enemy, Enemy ****enemy1, Enemy ****en
       } while ( command != '3' && command != '4' );
     }
   }
-  if ( (***enemy3) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD ){
+  if ( (*enemy3) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD ){
       do {
         printf("攻撃する対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("4.%s\n", (***enemy3) -> name);
+        printf("4.%s\n", (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -899,68 +910,68 @@ void battle_display_condition(Player ****st, int battle_display_condition_count)
   }
 }
 
-void encount_pattern1_layout(Enemy ****enemy, int encount_pattern){
-  if ( (***enemy) -> badstatus == GOOD ){
-    printf("                         %s(GOOD)\n", (***enemy) -> name);
+void encount_pattern1_layout(Enemy **enemy, int encount_pattern){
+  if ( (*enemy) -> badstatus == GOOD ){
+    printf("                         %s(GOOD)\n", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == POISON ){
-    printf("                         %s(POISON)\n", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == POISON ){
+    printf("                         %s(POISON)\n", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PALYZE ){
-    printf("                         %s(PALYZE)\n", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PALYZE ){
+    printf("                         %s(PALYZE)\n", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CHARM ){
-    printf("                         %s(CHARM)\n", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CHARM ){
+    printf("                         %s(CHARM)\n", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CLOSE ){
-    printf("                         %s(CLOSE)\n", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CLOSE ){
+    printf("                         %s(CLOSE)\n", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == STONE ){
-    printf("                         %s(STONE)\n", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == STONE ){
+    printf("                         %s(STONE)\n", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PANIC ){
-    printf("                         %s(PANIC)\n", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PANIC ){
+    printf("                         %s(PANIC)\n", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == SLEEP ){
-    printf("                         %s(SLEEP)\n", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == SLEEP ){
+    printf("                         %s(SLEEP)\n", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CURSE ){
-    printf("                         %s(CURSE)\n", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CURSE ){
+    printf("                         %s(CURSE)\n", (*enemy) -> name);
   }
   printf("\n");
 }
 
-void encount_pattern2_layout(Enemy ****enemy, Enemy *enemy_copy1, int encount_pattern){
+void encount_pattern2_layout(Enemy **enemy, Enemy *enemy_copy1, int encount_pattern){
 
-  if ( (***enemy) -> badstatus == GOOD ){
-    printf("             %s(GOOD)", (***enemy) -> name);
+  if ( (*enemy) -> badstatus == GOOD ){
+    printf("             %s(GOOD)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == DEAD ){
+  else if ( (*enemy) -> badstatus == DEAD ){
     printf("                     ");
   }
-  else if ( (***enemy) -> badstatus == POISON ){
-    printf("             %s(POISON)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == POISON ){
+    printf("             %s(POISON)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PALYZE ){
-    printf("             %s(PALYZE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PALYZE ){
+    printf("             %s(PALYZE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CHARM ){
-    printf("             %s(CHARM)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CHARM ){
+    printf("             %s(CHARM)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CLOSE ){
-    printf("             %s(CLOSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CLOSE ){
+    printf("             %s(CLOSE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == STONE ){
-    printf("             %s(STONE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == STONE ){
+    printf("             %s(STONE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PANIC ){
-    printf("             %s(PANIC)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PANIC ){
+    printf("             %s(PANIC)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == SLEEP ){
-    printf("             %s(SLEEP)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == SLEEP ){
+    printf("             %s(SLEEP)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CURSE ){
-    printf("             %s(CURSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CURSE ){
+    printf("             %s(CURSE)", (*enemy) -> name);
   }
 
   if ( enemy_copy1 -> badstatus == GOOD ){
@@ -998,37 +1009,37 @@ void encount_pattern2_layout(Enemy ****enemy, Enemy *enemy_copy1, int encount_pa
 
 }
 
-void encount_pattern3_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, int encount_pattern){
+void encount_pattern3_layout(Enemy **enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, int encount_pattern){
 
-  if ( (***enemy) -> badstatus == GOOD ){
-    printf("  %s(GOOD)", (***enemy) -> name);
+  if ( (*enemy) -> badstatus == GOOD ){
+    printf("  %s(GOOD)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == DEAD ){
+  else if ( (*enemy) -> badstatus == DEAD ){
     printf("          ");
   }
-  else if ( (***enemy) -> badstatus == POISON ){
-    printf("  %s(POISON)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == POISON ){
+    printf("  %s(POISON)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PALYZE ){
-    printf("  %s(PALYZE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PALYZE ){
+    printf("  %s(PALYZE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CHARM ){
-    printf("  %s(CHARM)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CHARM ){
+    printf("  %s(CHARM)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CLOSE ){
-    printf("  %s(CLOSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CLOSE ){
+    printf("  %s(CLOSE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == STONE ){
-    printf("  %s(STONE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == STONE ){
+    printf("  %s(STONE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PANIC ){
-    printf("  %s(PANIC)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PANIC ){
+    printf("  %s(PANIC)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == SLEEP ){
-    printf("  %s(SLEEP)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == SLEEP ){
+    printf("  %s(SLEEP)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CURSE ){
-    printf("  %s(CURSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CURSE ){
+    printf("  %s(CURSE)", (*enemy) -> name);
   }
 
   if ( enemy_copy1 -> badstatus == GOOD ){
@@ -1097,37 +1108,37 @@ void encount_pattern3_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_c
 
 }
 
-void encount_pattern4_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3, int encount_pattern){
+void encount_pattern4_layout(Enemy **enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3, int encount_pattern){
 
-  if ( (***enemy) -> badstatus == GOOD ){
-    printf("  %s(GOOD)", (***enemy) -> name);
+  if ( (*enemy) -> badstatus == GOOD ){
+    printf("  %s(GOOD)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == DEAD ){
+  else if ( (*enemy) -> badstatus == DEAD ){
     printf("          ");
   }
-  else if ( (***enemy) -> badstatus == POISON ){
-    printf("  %s(POISON)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == POISON ){
+    printf("  %s(POISON)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PALYZE ){
-    printf("  %s(PALYZE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PALYZE ){
+    printf("  %s(PALYZE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CHARM ){
-    printf("  %s(CHARM)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CHARM ){
+    printf("  %s(CHARM)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CLOSE ){
-    printf("  %s(CLOSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CLOSE ){
+    printf("  %s(CLOSE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == STONE ){
-    printf("  %s(STONE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == STONE ){
+    printf("  %s(STONE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PANIC ){
-    printf("  %s(PANIC)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PANIC ){
+    printf("  %s(PANIC)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == SLEEP ){
-    printf("  %s(SLEEP)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == SLEEP ){
+    printf("  %s(SLEEP)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CURSE ){
-    printf("  %s(CURSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CURSE ){
+    printf("  %s(CURSE)", (*enemy) -> name);
   }
 
   if ( enemy_copy1 -> badstatus == GOOD ){
@@ -1227,294 +1238,294 @@ void encount_pattern4_layout(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_c
 
 }
 
-void encount_pattern5_layout(Enemy ****enemy, Enemy ****enemy1, int encount_pattern){
-  if ( (***enemy) -> badstatus == GOOD ){
-    printf("             %s(GOOD)", (***enemy) -> name);
+void encount_pattern5_layout(Enemy **enemy, Enemy **enemy1, int encount_pattern){
+  if ( (*enemy) -> badstatus == GOOD ){
+    printf("             %s(GOOD)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == DEAD ){
+  else if ( (*enemy) -> badstatus == DEAD ){
     printf("                     ");
   }
-  else if ( (***enemy) -> badstatus == POISON ){
-    printf("             %s(POISON)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == POISON ){
+    printf("             %s(POISON)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PALYZE ){
-    printf("             %s(PALYZE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PALYZE ){
+    printf("             %s(PALYZE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CHARM ){
-    printf("             %s(CHARM)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CHARM ){
+    printf("             %s(CHARM)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CLOSE ){
-    printf("             %s(CLOSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CLOSE ){
+    printf("             %s(CLOSE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == STONE ){
-    printf("             %s(STONE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == STONE ){
+    printf("             %s(STONE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PANIC ){
-    printf("             %s(PANIC)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PANIC ){
+    printf("             %s(PANIC)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == SLEEP ){
-    printf("             %s(SLEEP)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == SLEEP ){
+    printf("             %s(SLEEP)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CURSE ){
-    printf("             %s(CURSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CURSE ){
+    printf("             %s(CURSE)", (*enemy) -> name);
   }
 
-  if ( (***enemy1) -> badstatus == GOOD ){
-    printf("             %s(GOOD)\n", (***enemy1) -> name);
+  if ( (*enemy1) -> badstatus == GOOD ){
+    printf("             %s(GOOD)\n", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == DEAD ){
+  else if ( (*enemy1) -> badstatus == DEAD ){
     printf("                     \n");
   }
-  else if ( (***enemy1) -> badstatus == POISON ){
-    printf("             %s(POISON)\n", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == POISON ){
+    printf("             %s(POISON)\n", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == PALYZE ){
-    printf("             %s(PALYZE)\n", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == PALYZE ){
+    printf("             %s(PALYZE)\n", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == CHARM ){
-    printf("             %s(CHARM)\n", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == CHARM ){
+    printf("             %s(CHARM)\n", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == CLOSE ){
-    printf("             %s(CLOSE)\n", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == CLOSE ){
+    printf("             %s(CLOSE)\n", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == STONE ){
-    printf("             %s(STONE)\n", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == STONE ){
+    printf("             %s(STONE)\n", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == PANIC ){
-    printf("             %s(PANIC)\n", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == PANIC ){
+    printf("             %s(PANIC)\n", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == SLEEP ){
-    printf("             %s(SLEEP)\n", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == SLEEP ){
+    printf("             %s(SLEEP)\n", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == CURSE ){
-    printf("             %s(CURSE)\n", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == CURSE ){
+    printf("             %s(CURSE)\n", (*enemy1) -> name);
   }
 
   printf("\n");
 }
 
-void encount_pattern6_layout(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, int encount_pattern){
+void encount_pattern6_layout(Enemy **enemy, Enemy **enemy1, Enemy **enemy2, int encount_pattern){
 
-  if ( (***enemy) -> badstatus == GOOD ){
-    printf("  %s(GOOD)", (***enemy) -> name);
+  if ( (*enemy) -> badstatus == GOOD ){
+    printf("  %s(GOOD)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == DEAD ){
+  else if ( (*enemy) -> badstatus == DEAD ){
     printf("          ");
   }
-  else if ( (***enemy) -> badstatus == POISON ){
-    printf("  %s(POISON)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == POISON ){
+    printf("  %s(POISON)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PALYZE ){
-    printf("  %s(PALYZE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PALYZE ){
+    printf("  %s(PALYZE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CHARM ){
-    printf("  %s(CHARM)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CHARM ){
+    printf("  %s(CHARM)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CLOSE ){
-    printf("  %s(CLOSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CLOSE ){
+    printf("  %s(CLOSE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == STONE ){
-    printf("  %s(STONE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == STONE ){
+    printf("  %s(STONE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PANIC ){
-    printf("  %s(PANIC)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PANIC ){
+    printf("  %s(PANIC)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == SLEEP ){
-    printf("  %s(SLEEP)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == SLEEP ){
+    printf("  %s(SLEEP)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CURSE ){
-    printf("  %s(CURSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CURSE ){
+    printf("  %s(CURSE)", (*enemy) -> name);
   }
 
-  if ( (***enemy1) -> badstatus == GOOD ){
-    printf("          %s(GOOD)", (***enemy1) -> name);
+  if ( (*enemy1) -> badstatus == GOOD ){
+    printf("          %s(GOOD)", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == DEAD ){
+  else if ( (*enemy1) -> badstatus == DEAD ){
     printf("                  ");
   }
-  else if ( (***enemy1) -> badstatus == POISON ){
-    printf("          %s(POISON)", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == POISON ){
+    printf("          %s(POISON)", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == PALYZE ){
-    printf("          %s(PALYZE)", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == PALYZE ){
+    printf("          %s(PALYZE)", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == CHARM ){
-    printf("          %s(CHARM)", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == CHARM ){
+    printf("          %s(CHARM)", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == CLOSE ){
-    printf("          %s(CLOSE)", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == CLOSE ){
+    printf("          %s(CLOSE)", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == STONE ){
-    printf("          %s(STONE)", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == STONE ){
+    printf("          %s(STONE)", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == PANIC ){
-    printf("          %s(PANIC)", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == PANIC ){
+    printf("          %s(PANIC)", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == SLEEP ){
-    printf("          %s(SLEEP)", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == SLEEP ){
+    printf("          %s(SLEEP)", (*enemy1) -> name);
   }
-  else if ( (***enemy1) -> badstatus == CURSE ){
-    printf("          %s(CURSE)", (***enemy1) -> name);
+  else if ( (*enemy1) -> badstatus == CURSE ){
+    printf("          %s(CURSE)", (*enemy1) -> name);
   }
 
-  if ( (***enemy2) -> badstatus == GOOD ){
-    printf("          %s(GOOD)\n", (***enemy2) -> name);
+  if ( (*enemy2) -> badstatus == GOOD ){
+    printf("          %s(GOOD)\n", (*enemy2) -> name);
   }
-  else if ( (***enemy2) -> badstatus == DEAD ){
+  else if ( (*enemy2) -> badstatus == DEAD ){
     printf("                  \n");
   }
-  else if ( (***enemy2) -> badstatus == POISON ){
-    printf("          %s(POISON)\n", (***enemy2) -> name);
+  else if ( (*enemy2) -> badstatus == POISON ){
+    printf("          %s(POISON)\n", (*enemy2) -> name);
   }
-  else if ( (***enemy2) -> badstatus == PALYZE ){
-    printf("          %s(PALYZE)\n", (***enemy2) -> name);
+  else if ( (*enemy2) -> badstatus == PALYZE ){
+    printf("          %s(PALYZE)\n", (*enemy2) -> name);
   }
-  else if ( (***enemy2) -> badstatus == CHARM ){
-    printf("          %s(CHARM)\n", (***enemy2) -> name);
+  else if ( (*enemy2) -> badstatus == CHARM ){
+    printf("          %s(CHARM)\n", (*enemy2) -> name);
   }
-  else if ( (***enemy2) -> badstatus == CLOSE ){
-    printf("          %s(CLOSE)\n", (***enemy2) -> name);
+  else if ( (*enemy2) -> badstatus == CLOSE ){
+    printf("          %s(CLOSE)\n", (*enemy2) -> name);
   }
-  else if ( (***enemy2) -> badstatus == STONE ){
-    printf("          %s(STONE)\n", (***enemy2) -> name);
+  else if ( (*enemy2) -> badstatus == STONE ){
+    printf("          %s(STONE)\n", (*enemy2) -> name);
   }
-  else if ( (***enemy2) -> badstatus == PANIC ){
-    printf("          %s(PANIC)\n", (***enemy2) -> name);
+  else if ( (*enemy2) -> badstatus == PANIC ){
+    printf("          %s(PANIC)\n", (*enemy2) -> name);
   }
-  else if ( (***enemy2) -> badstatus == SLEEP ){
-    printf("          %s(SLEEP)\n", (***enemy2) -> name);
+  else if ( (*enemy2) -> badstatus == SLEEP ){
+    printf("          %s(SLEEP)\n", (*enemy2) -> name);
   }
-  else if ( (***enemy2) -> badstatus == CURSE ){
-    printf("          %s(CURSE)\n", (***enemy2) -> name);
+  else if ( (*enemy2) -> badstatus == CURSE ){
+    printf("          %s(CURSE)\n", (*enemy2) -> name);
   }
 
   printf("\n");
 }
 
-void encount_pattern7_layout(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3, int encount_pattern){
+void encount_pattern7_layout(Enemy **enemy, Enemy **enemy1, Enemy **enemy2, Enemy **enemy3, int encount_pattern){
 
-  if ( (***enemy) -> badstatus == GOOD ){
-    printf("  %s(GOOD)", (***enemy) -> name);
+  if ( (*enemy) -> badstatus == GOOD ){
+    printf("  %s(GOOD)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == DEAD ){
+  else if ( (*enemy) -> badstatus == DEAD ){
     printf("          ");
   }
-  else if ( (***enemy) -> badstatus == POISON ){
-    printf("  %s(POISON)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == POISON ){
+    printf("  %s(POISON)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PALYZE ){
-    printf("  %s(PALYZE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PALYZE ){
+    printf("  %s(PALYZE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CHARM ){
-    printf("  %s(CHARM)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CHARM ){
+    printf("  %s(CHARM)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CLOSE ){
-    printf("  %s(CLOSE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == CLOSE ){
+    printf("  %s(CLOSE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == STONE ){
-    printf("  %s(STONE)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == STONE ){
+    printf("  %s(STONE)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == PANIC ){
-    printf("  %s(PANIC)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == PANIC ){
+    printf("  %s(PANIC)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == SLEEP ){
-    printf("  %s(SLEEP)", (***enemy) -> name);
+  else if ( (*enemy) -> badstatus == SLEEP ){
+    printf("  %s(SLEEP)", (*enemy) -> name);
   }
-  else if ( (***enemy) -> badstatus == CURSE ){
-    printf("  %s(CURSE)", (***enemy) -> name);
-  }
-
-  if ( (***enemy1) -> badstatus == GOOD ){
-    printf("          %s(GOOD)", (***enemy1) -> name);
-  }
-  else if ( (***enemy1) -> badstatus == DEAD ){
-    printf("                  ");
-  }
-  else if ( (***enemy1) -> badstatus == POISON ){
-    printf("          %s(POISON)", (***enemy1) -> name);
-  }
-  else if ( (***enemy1) -> badstatus == PALYZE ){
-    printf("          %s(PALYZE)", (***enemy1) -> name);
-  }
-  else if ( (***enemy1) -> badstatus == CHARM ){
-    printf("          %s(CHARM)", (***enemy1) -> name);
-  }
-  else if ( (***enemy1) -> badstatus == CLOSE ){
-    printf("          %s(CLOSE)", (***enemy1) -> name);
-  }
-  else if ( (***enemy1) -> badstatus == STONE ){
-    printf("          %s(STONE)", (***enemy1) -> name);
-  }
-  else if ( (***enemy1) -> badstatus == PANIC ){
-    printf("          %s(PANIC)", (***enemy1) -> name);
-  }
-  else if ( (***enemy1) -> badstatus == SLEEP ){
-    printf("          %s(SLEEP)", (***enemy1) -> name);
-  }
-  else if ( (***enemy1) -> badstatus == CURSE ){
-    printf("          %s(CURSE)", (***enemy1) -> name);
+  else if ( (*enemy) -> badstatus == CURSE ){
+    printf("  %s(CURSE)", (*enemy) -> name);
   }
 
-  if ( (***enemy2) -> badstatus == GOOD ){
-    printf("          %s(GOOD)", (***enemy2) -> name);
+  if ( (*enemy1) -> badstatus == GOOD ){
+    printf("          %s(GOOD)", (*enemy1) -> name);
   }
-  else if ( (***enemy2) -> badstatus == DEAD ){
+  else if ( (*enemy1) -> badstatus == DEAD ){
     printf("                  ");
   }
-  else if ( (***enemy2) -> badstatus == POISON ){
-    printf("          %s(POISON)", (***enemy2) -> name);
+  else if ( (*enemy1) -> badstatus == POISON ){
+    printf("          %s(POISON)", (*enemy1) -> name);
   }
-  else if ( (***enemy2) -> badstatus == PALYZE ){
-    printf("          %s(PALYZE)", (***enemy2) -> name);
+  else if ( (*enemy1) -> badstatus == PALYZE ){
+    printf("          %s(PALYZE)", (*enemy1) -> name);
   }
-  else if ( (***enemy2) -> badstatus == CHARM ){
-    printf("          %s(CHARM)", (***enemy2) -> name);
+  else if ( (*enemy1) -> badstatus == CHARM ){
+    printf("          %s(CHARM)", (*enemy1) -> name);
   }
-  else if ( (***enemy2) -> badstatus == CLOSE ){
-    printf("          %s(CLOSE)", (***enemy2) -> name);
+  else if ( (*enemy1) -> badstatus == CLOSE ){
+    printf("          %s(CLOSE)", (*enemy1) -> name);
   }
-  else if ( (***enemy2) -> badstatus == STONE ){
-    printf("          %s(STONE)", (***enemy2) -> name);
+  else if ( (*enemy1) -> badstatus == STONE ){
+    printf("          %s(STONE)", (*enemy1) -> name);
   }
-  else if ( (***enemy2) -> badstatus == PANIC ){
-    printf("          %s(PANIC)", (***enemy2) -> name);
+  else if ( (*enemy1) -> badstatus == PANIC ){
+    printf("          %s(PANIC)", (*enemy1) -> name);
   }
-  else if ( (***enemy2) -> badstatus == SLEEP ){
-    printf("          %s(SLEEP)", (***enemy2) -> name);
+  else if ( (*enemy1) -> badstatus == SLEEP ){
+    printf("          %s(SLEEP)", (*enemy1) -> name);
   }
-  else if ( (***enemy2) -> badstatus == CURSE ){
-    printf("          %s(CURSE)", (***enemy2) -> name);
+  else if ( (*enemy1) -> badstatus == CURSE ){
+    printf("          %s(CURSE)", (*enemy1) -> name);
   }
 
-  if ( (***enemy3) -> badstatus == GOOD ){
-    printf("          %s(GOOD)\n", (***enemy3) -> name);
+  if ( (*enemy2) -> badstatus == GOOD ){
+    printf("          %s(GOOD)", (*enemy2) -> name);
   }
-  else if ( (***enemy3) -> badstatus == DEAD ){
+  else if ( (*enemy2) -> badstatus == DEAD ){
     printf("                  ");
   }
-  else if ( (***enemy3) -> badstatus == POISON ){
-    printf("          %s(POISON)\n", (***enemy3) -> name);
+  else if ( (*enemy2) -> badstatus == POISON ){
+    printf("          %s(POISON)", (*enemy2) -> name);
   }
-  else if ( (***enemy3) -> badstatus == PALYZE ){
-    printf("          %s(PALYZE)\n", (***enemy3) -> name);
+  else if ( (*enemy2) -> badstatus == PALYZE ){
+    printf("          %s(PALYZE)", (*enemy2) -> name);
   }
-  else if ( (***enemy3) -> badstatus == CHARM ){
-    printf("          %s(CHARM)\n", (***enemy3) -> name);
+  else if ( (*enemy2) -> badstatus == CHARM ){
+    printf("          %s(CHARM)", (*enemy2) -> name);
   }
-  else if ( (***enemy3) -> badstatus == CLOSE ){
-    printf("          %s(CLOSE)\n", (***enemy3) -> name);
+  else if ( (*enemy2) -> badstatus == CLOSE ){
+    printf("          %s(CLOSE)", (*enemy2) -> name);
   }
-  else if ( (***enemy3) -> badstatus == STONE ){
-    printf("          %s(STONE)\n", (***enemy3) -> name);
+  else if ( (*enemy2) -> badstatus == STONE ){
+    printf("          %s(STONE)", (*enemy2) -> name);
   }
-  else if ( (***enemy3) -> badstatus == PANIC ){
-    printf("          %s(PANIC)\n", (***enemy3) -> name);
+  else if ( (*enemy2) -> badstatus == PANIC ){
+    printf("          %s(PANIC)", (*enemy2) -> name);
   }
-  else if ( (***enemy3) -> badstatus == SLEEP ){
-    printf("          %s(SLEEP)\n", (***enemy3) -> name);
+  else if ( (*enemy2) -> badstatus == SLEEP ){
+    printf("          %s(SLEEP)", (*enemy2) -> name);
   }
-  else if ( (***enemy3) -> badstatus == CURSE ){
-    printf("          %s(CURSE)\n", (***enemy3) -> name);
+  else if ( (*enemy2) -> badstatus == CURSE ){
+    printf("          %s(CURSE)", (*enemy2) -> name);
+  }
+
+  if ( (*enemy3) -> badstatus == GOOD ){
+    printf("          %s(GOOD)\n", (*enemy3) -> name);
+  }
+  else if ( (*enemy3) -> badstatus == DEAD ){
+    printf("                  ");
+  }
+  else if ( (*enemy3) -> badstatus == POISON ){
+    printf("          %s(POISON)\n", (*enemy3) -> name);
+  }
+  else if ( (*enemy3) -> badstatus == PALYZE ){
+    printf("          %s(PALYZE)\n", (*enemy3) -> name);
+  }
+  else if ( (*enemy3) -> badstatus == CHARM ){
+    printf("          %s(CHARM)\n", (*enemy3) -> name);
+  }
+  else if ( (*enemy3) -> badstatus == CLOSE ){
+    printf("          %s(CLOSE)\n", (*enemy3) -> name);
+  }
+  else if ( (*enemy3) -> badstatus == STONE ){
+    printf("          %s(STONE)\n", (*enemy3) -> name);
+  }
+  else if ( (*enemy3) -> badstatus == PANIC ){
+    printf("          %s(PANIC)\n", (*enemy3) -> name);
+  }
+  else if ( (*enemy3) -> badstatus == SLEEP ){
+    printf("          %s(SLEEP)\n", (*enemy3) -> name);
+  }
+  else if ( (*enemy3) -> badstatus == CURSE ){
+    printf("          %s(CURSE)\n", (*enemy3) -> name);
   }
 
   printf("\n");

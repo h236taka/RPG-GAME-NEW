@@ -15,18 +15,18 @@
 extern int tempArray[SIZE];
 //encountpatternが5のとき
 
-int check_enemyDeadCount5(Enemy ****enemy, Enemy ****enemy1){
+int check_enemyDeadCount5(Enemy **enemy, Enemy **enemy1){
   int enemy_deadcount;
 
   enemy_deadcount = 2;
-  if ( (***enemy) -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus == DEAD ){
     //nothing
   }
   else{
     enemy_deadcount--;
   }
 
-  if ( (***enemy1) -> badstatus == DEAD ){
+  if ( (*enemy1) -> badstatus == DEAD ){
     //nothing
   }
   else{
@@ -36,18 +36,18 @@ int check_enemyDeadCount5(Enemy ****enemy, Enemy ****enemy1){
   return enemy_deadcount;
 }
 
-void enemy_full_recover5(Enemy ****enemy, Enemy ****enemy1){
+void enemy_full_recover5(Enemy **enemy, Enemy **enemy1){
 
-  (***enemy) -> badstatus = GOOD;
-  (***enemy1) -> badstatus = GOOD;
-  (***enemy) -> hp = (***enemy) -> maxhp;
-  (***enemy) -> mp = (***enemy) -> maxmp;
-  (***enemy1) -> hp = (***enemy1) -> maxhp;
-  (***enemy1) -> mp = (***enemy1) -> maxmp;
+  (*enemy) -> badstatus = GOOD;
+  (*enemy1) -> badstatus = GOOD;
+  (*enemy) -> hp = (*enemy) -> maxhp;
+  (*enemy) -> mp = (*enemy) -> maxmp;
+  (*enemy1) -> hp = (*enemy1) -> maxhp;
+  (*enemy1) -> mp = (*enemy1) -> maxmp;
 }
 
 //encount_pattern = 5;
-void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy ***enemy, Enemy ***enemy1, int encount_pattern){
+void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy *enemy, Enemy *enemy1, int encount_pattern){
 
   int player_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
   int enemy_deadcount, skill_count, use_skill_count, skill_reaction, recover_point, battle_display_condition_count, enemy_temp;
@@ -57,24 +57,24 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
   int skill_target, skill_user;
   double player_turn, enemy_turn, turn_decrease, enemy_turn_temp;
 
-  if ( (**enemy) -> boss_count == 0 ){
+  if ( enemy -> boss_count == 0 ){
     printf("<<<<<<NORMAL BATTLE>>>>>>\n");
     printf("\a");
     sleep(1);
     if ( encount_pattern == 5 ){  //違う敵2体
-      printf("%sと%sが現れた!\n", (**enemy) -> name, (**enemy1) -> name);
+      printf("%sと%sが現れた!\n", enemy -> name, enemy1 -> name);
       enemy_temp = 2;
       sleep(1);
     }
     printf("\n");
     sleep(1);
   }
-  else if ( (**enemy) -> boss_count == 2 ){
+  else if ( enemy -> boss_count == 2 ){
     printf("------MID BOSS BATTLE------\n");
     printf("\a");
     sleep(1);
     if ( encount_pattern == 5 ){
-      printf("%sと%sが現れた!\n", (**enemy) -> name, (**enemy1) -> name);
+      printf("%sと%sが現れた!\n", enemy -> name, enemy1 -> name);
       enemy_temp = 2;
       sleep(1);
     }
@@ -87,7 +87,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
     sleep(1);
     printf("\a");
     if ( encount_pattern == 5 ){
-      printf("%sと%sが現れた!\n", (**enemy) -> name, (**enemy1) -> name);
+      printf("%sと%sが現れた!\n", enemy -> name, enemy1 -> name);
       enemy_temp = 2;
       sleep(1);
     }
@@ -181,7 +181,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -211,15 +211,15 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -240,7 +240,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy1) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy1 -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -270,15 +270,15 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy1) -> hp ){
-                    printf("%sを倒した!\n", (**enemy1) -> name);
+                  if ( player_damage >= enemy1 -> hp ){
+                    printf("%sを倒した!\n", enemy1 -> name);
                     enemy_deadcount++;
-                    (**enemy1) -> badstatus = DEAD;
+                    enemy1 -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy1) -> hp -= player_damage;
+                      enemy1 -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -791,7 +791,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
 
           }
           else if ( command == '5' ){  //逃走する
-            if ( (**enemy) -> boss_count == 0 ){
+            if ( enemy -> boss_count == 0 ){
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st) == 1 ){
@@ -912,7 +912,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -942,15 +942,15 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -971,7 +971,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy1) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy1 -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -1001,15 +1001,15 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy1) -> hp ){
-                    printf("%sを倒した!\n", (**enemy1) -> name);
+                  if ( player_damage >= enemy1 -> hp ){
+                    printf("%sを倒した!\n", enemy1 -> name);
                     enemy_deadcount++;
-                    (**enemy1) -> badstatus = DEAD;
+                    enemy1 -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy1) -> hp -= player_damage;
+                      enemy1 -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -1520,7 +1520,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
 
           }
           else if ( command == '5' ){  //逃走する
-            if ( (**enemy) -> boss_count == 0 ){
+            if ( enemy -> boss_count == 0 ){
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st2) == 1 ){
@@ -1638,7 +1638,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -1668,15 +1668,15 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -1697,7 +1697,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy1) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy1 -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -1727,15 +1727,15 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy1) -> hp ){
-                    printf("%sを倒した!\n", (**enemy1) -> name);
+                  if ( player_damage >= enemy1 -> hp ){
+                    printf("%sを倒した!\n", enemy1 -> name);
                     enemy_deadcount++;
-                    (**enemy1) -> badstatus = DEAD;
+                    enemy1 -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy1) -> hp -= player_damage;
+                      enemy1 -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -2244,7 +2244,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
 
           }
           else if ( command == '5' ){  //逃走する
-            if ( (**enemy) -> boss_count == 0 ){
+            if ( enemy -> boss_count == 0 ){
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st3) == 1 ){
@@ -2304,10 +2304,10 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
     //敵の攻撃
     do {
       enemy_turn = 2;
-      if ( (**enemy) -> badstatus == DEAD ){
+      if ( enemy -> badstatus == DEAD ){
         enemy_turn--;
       }
-      if ( (**enemy1) -> badstatus == DEAD ){
+      if ( enemy1 -> badstatus == DEAD ){
         enemy_turn--;
       }
       //printf("enemy_turn:%f\n", enemy_turn);
@@ -2336,9 +2336,9 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
       battle_display_condition_count++;
       battle_display_condition(&st3, battle_display_condition_count);
       printf("\n");
-      //printf("enemy's badstatus:%d\n", (**enemy) -> badstatus);
+      //printf("enemy's badstatus:%d\n", enemy -> badstatus);
       //printf("enemy_copy1's badstatus:%d\n", enemy_copy1.badstatus);
-      if ( (**enemy) -> badstatus != DEAD ){
+      if ( enemy -> badstatus != DEAD ){
         display_enemy_turn(&enemy, enemy_turn);
         //enemyの攻撃
         //printf("%f\n", enemy_turn);
@@ -2356,7 +2356,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
         break;
       }
 
-      if ( (**enemy1) -> badstatus != DEAD ){
+      if ( enemy1 -> badstatus != DEAD ){
         sleep(1);
         display_enemy_turn(&enemy1, enemy_turn);
         //enemyの攻撃
@@ -2387,9 +2387,9 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
   result_gold = 0;
   int battle_experience = 0;
   if ( encount_pattern == 5 ){
-    result_exp = (**enemy) -> exp + (**enemy1) -> exp;
-    result_gold = (**enemy) -> gold + (**enemy1) -> gold;
-    battle_experience = (**enemy) -> lv + (**enemy1) -> lv;
+    result_exp = enemy -> exp + enemy1 -> exp;
+    result_gold = enemy -> gold + enemy1 -> gold;
+    battle_experience = enemy -> lv + enemy1 -> lv;
   }
 
   printf("\a");

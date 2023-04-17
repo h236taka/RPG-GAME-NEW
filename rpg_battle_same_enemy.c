@@ -12,10 +12,10 @@
 extern int tempArray[SIZE];
 //encountpatternが1~4のとき
 
-int check_enemyDeadCount1(Enemy ****enemy){
+int check_enemyDeadCount1(Enemy **enemy){
   int enemy_deadcount;
 
-  if ( (***enemy) -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus == DEAD ){
     //nothing
   }
   else{
@@ -25,11 +25,11 @@ int check_enemyDeadCount1(Enemy ****enemy){
   return enemy_deadcount;
 }
 
-int check_enemyDeadCount2(Enemy ****enemy, Enemy *enemy_copy1){
+int check_enemyDeadCount2(Enemy **enemy, Enemy *enemy_copy1){
   int enemy_deadcount;
 
   enemy_deadcount = 2;
-  if ( (***enemy) -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus == DEAD ){
     //nothing
   }
   else{
@@ -46,11 +46,11 @@ int check_enemyDeadCount2(Enemy ****enemy, Enemy *enemy_copy1){
   return enemy_deadcount;
 }
 
-int check_enemyDeadCount3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2){
+int check_enemyDeadCount3(Enemy **enemy, Enemy *enemy_copy1, Enemy *enemy_copy2){
   int enemy_deadcount;
 
   enemy_deadcount = 3;
-  if ( (***enemy) -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus == DEAD ){
     //nothing
   }
   else{
@@ -74,11 +74,11 @@ int check_enemyDeadCount3(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy
   return enemy_deadcount;
 }
 
-int check_enemyDeadCount4(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3){
+int check_enemyDeadCount4(Enemy **enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3){
   int enemy_deadcount;
 
   enemy_deadcount = 4;
-  if ( (***enemy) -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus == DEAD ){
     //nothing
   }
   else{
@@ -121,7 +121,7 @@ void player_badstatus_recover(Player ****st){
 }
 
 //敵１種類の戦闘関数
-void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy ***enemy, int encount_pattern){  //構造体のポインタを引数にまたポインタ指定（ダブルポインタ)
+void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy *enemy, int encount_pattern){  //構造体のポインタを引数にまたポインタ指定（ダブルポインタ)
 
   int player_damage, skill_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
   int enemy_deadcount, skill_count, use_skill_count, skill_reaction, recover_point, battle_display_condition_count, enemy_temp;
@@ -135,28 +135,28 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   Enemy enemy_copy2;
   Enemy enemy_copy3;
 
-  if ( (**enemy) -> boss_count == 0 ){
+  if ( enemy -> boss_count == 0 ){
     printf("------NORMAL BATTLE------\n");
     printf("\a");
     sleep(1);
     if ( encount_pattern == 1 ){
-      printf("%sが現れた!\n", (**enemy) -> name);
+      printf("%sが現れた!\n", enemy -> name);
       enemy_temp = 1;
       sleep(1);
     }
     else if ( encount_pattern == 2 ){   //同じ敵2体
-      printf("%sが２体が現れた!\n", (**enemy) -> name);
+      printf("%sが２体が現れた!\n", enemy -> name);
       enemy_temp = 2;
       enemy_data_copy(&enemy,&enemy_copy1);
     }
     else if ( encount_pattern == 3 ){   //同じ敵３体
-      printf("%sが３体が現れた!\n", (**enemy) -> name);
+      printf("%sが３体が現れた!\n", enemy -> name);
       enemy_temp = 3;
       enemy_data_copy(&enemy,&enemy_copy1);
       enemy_data_copy(&enemy,&enemy_copy2);
     }
     else if ( encount_pattern == 4 ){   //同じ敵４体
-      printf("%sが４体が現れた!\n", (**enemy) -> name);
+      printf("%sが４体が現れた!\n", enemy -> name);
       enemy_temp = 4;
       enemy_data_copy(&enemy,&enemy_copy1);
       enemy_data_copy(&enemy,&enemy_copy2);
@@ -165,28 +165,28 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     printf("\n");
     sleep(1);
   }
-  else if ( (**enemy) -> boss_count == 2 ){
+  else if ( enemy -> boss_count == 2 ){
     printf("------MID BOSS BATTLE------\n");
     printf("\a");
     sleep(1);
     if ( encount_pattern == 1 ){
-      printf("%sが現れた!\n", (**enemy) -> name);
+      printf("%sが現れた!\n", enemy -> name);
       enemy_temp = 1;
       sleep(1);
     }
     else if ( encount_pattern == 2 ){   //同じ敵2体
-      printf("%sが２体が現れた!\n", (**enemy) -> name);
+      printf("%sが２体が現れた!\n", enemy -> name);
       enemy_temp = 2;
       enemy_data_copy(&enemy,&enemy_copy1);
     }
     else if ( encount_pattern == 3 ){   //同じ敵３体
-      printf("%sが３体が現れた!\n", (**enemy) -> name);
+      printf("%sが３体が現れた!\n", enemy -> name);
       enemy_temp = 3;
       enemy_data_copy(&enemy,&enemy_copy1);
       enemy_data_copy(&enemy,&enemy_copy2);
     }
     else if ( encount_pattern == 4 ){   //同じ敵４体
-      printf("%sが４体が現れた!\n", (**enemy) -> name);
+      printf("%sが４体が現れた!\n", enemy -> name);
       enemy_temp = 4;
       enemy_data_copy(&enemy,&enemy_copy1);
       enemy_data_copy(&enemy,&enemy_copy2);
@@ -200,7 +200,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     sleep(1);
     printf("\a");
     if ( encount_pattern == 1 ){
-      printf("%sが現れた!\n", (**enemy) -> name);
+      printf("%sが現れた!\n", enemy -> name);
       enemy_temp = 1;
       sleep(1);
     }
@@ -304,8 +304,8 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                   turn_decrease = -1;
                   player_turn = calculate_player_turn(player_turn, turn_decrease);
                 }
-                printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
-                if ( (**enemy) -> physical_attack == 200 ){ //弱点をついた時
+                printf("%s<<%dダメージ\n", enemy -> name, player_damage);
+                if ( enemy -> physical_attack == 200 ){ //弱点をついた時
 
                 }
                 sleep(1);
@@ -338,15 +338,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 printf("攻撃はかすりともしない!\n");
               }
 
-              if ( player_damage >= (**enemy) -> hp ){
-                printf("%sを倒した!\n", (**enemy) -> name);
+              if ( player_damage >= enemy -> hp ){
+                printf("%sを倒した!\n", enemy -> name);
                 enemy_deadcount++;
-                (**enemy) -> badstatus = DEAD;
+                enemy -> badstatus = DEAD;
                 //printf("enemy_deadcount:%d", enemy_deadcount);
               }
               else{
                 if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                  (**enemy) -> hp -= player_damage;
+                  enemy -> hp -= player_damage;
                 }
               }
               move_finish++;
@@ -372,7 +372,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -402,15 +402,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -431,7 +431,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -504,7 +504,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -534,15 +534,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -563,7 +563,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -622,7 +622,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -694,7 +694,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -724,15 +724,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -753,7 +753,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -812,7 +812,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -871,7 +871,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st) -> name);
@@ -2164,7 +2164,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
           }
           else if ( command == '5' ){  //逃走する
-            if ( (**enemy) -> boss_count == 0 ){
+            if ( enemy -> boss_count == 0 ){
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st) == 1 ){
@@ -2294,7 +2294,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                   turn_decrease = -1;
                   player_turn = calculate_player_turn(player_turn, turn_decrease);
                 }
-                printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                printf("%s<<%dダメージ\n", enemy -> name, player_damage);
               }
               else if ( player_damage == 0 ){
                 printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -2324,15 +2324,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 printf("攻撃はかすりともしない!\n");
               }
 
-              if ( player_damage >= (**enemy) -> hp ){
-                printf("%sを倒した!\n", (**enemy) -> name);
+              if ( player_damage >= enemy -> hp ){
+                printf("%sを倒した!\n", enemy -> name);
                 enemy_deadcount++;
-                (**enemy) -> badstatus = DEAD;
+                enemy -> badstatus = DEAD;
                 //printf("enemy_deadcount:%d\n", enemy_deadcount);
               }
               else{
                 if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                  (**enemy) -> hp -= player_damage;
+                  enemy -> hp -= player_damage;
                 }
               }
               move_finish++;
@@ -2359,7 +2359,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -2389,15 +2389,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -2418,7 +2418,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     sleep(1);
@@ -2490,7 +2490,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -2520,15 +2520,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
 
@@ -2550,7 +2550,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -2609,7 +2609,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -2681,7 +2681,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -2711,15 +2711,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -2740,7 +2740,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -2799,7 +2799,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -2858,7 +2858,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st2) -> name);
@@ -4147,7 +4147,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
           }
           else if ( command == '5' ){  //逃走する
-            if ( (**enemy) -> boss_count == 0 ){
+            if ( enemy -> boss_count == 0 ){
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st2) == 1 ){
@@ -4268,7 +4268,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                   turn_decrease = -1;
                   player_turn = calculate_player_turn(player_turn, turn_decrease);
                 }
-                printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                printf("%s<<%dダメージ\n", enemy -> name, player_damage);
               }
               else if ( player_damage == 0 ){
                 printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -4298,15 +4298,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                 printf("攻撃はかすりともしない!\n");
               }
 
-              if ( player_damage >= (**enemy) -> hp ){
-                printf("%sを倒した!\n", (**enemy) -> name);
+              if ( player_damage >= enemy -> hp ){
+                printf("%sを倒した!\n", enemy -> name);
                 enemy_deadcount++;
-                (**enemy) -> badstatus = DEAD;
+                enemy -> badstatus = DEAD;
                 //printf("enemy_deadcount:%d", enemy_deadcount);
               }
               else{
                 if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                  (**enemy) -> hp -= player_damage;
+                  enemy -> hp -= player_damage;
                 }
               }
               move_finish++;
@@ -4333,7 +4333,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -4363,15 +4363,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -4392,7 +4392,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -4465,7 +4465,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -4495,15 +4495,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -4524,7 +4524,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -4583,7 +4583,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -4655,7 +4655,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -4685,15 +4685,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                     printf("攻撃はかすりともしない!\n");
                   }
 
-                  if ( player_damage >= (**enemy) -> hp ){
-                    printf("%sを倒した!\n", (**enemy) -> name);
+                  if ( player_damage >= enemy -> hp ){
+                    printf("%sを倒した!\n", enemy -> name);
                     enemy_deadcount++;
-                    (**enemy) -> badstatus = DEAD;
+                    enemy -> badstatus = DEAD;
                     //printf("enemy_deadcount:%d", enemy_deadcount);
                   }
                   else{
                     if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      (**enemy) -> hp -= player_damage;
+                      enemy -> hp -= player_damage;
                     }
                   }
                   move_finish++;
@@ -4714,7 +4714,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -4773,7 +4773,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -4832,7 +4832,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
                       turn_decrease = -1;
                       player_turn = calculate_player_turn(player_turn, turn_decrease);
                     }
-                    printf("%s<<%dダメージ\n", (**enemy) -> name, player_damage);
+                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
                   }
                   else if ( player_damage == 0 ){
                     printf("%s>>通常攻撃!\n", (**st3) -> name);
@@ -6119,7 +6119,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
           }
           else if ( command == '5' ){  //逃走する
-            if ( (**enemy) -> boss_count == 0 ){
+            if ( enemy -> boss_count == 0 ){
               printf("逃走中・・・\n");
               sleep(2);
               if ( battle_escape(&st3) == 1 ){
@@ -6224,7 +6224,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
       }
       else if ( encount_pattern == 2 ){
         enemy_turn = 2;
-        if ( (**enemy) -> badstatus == DEAD ){
+        if ( enemy -> badstatus == DEAD ){
           enemy_turn--;
         }
         if ( enemy_copy1.badstatus == DEAD ){
@@ -6256,9 +6256,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         battle_display_condition_count++;
         battle_display_condition(&st3, battle_display_condition_count);
         printf("\n");
-        //printf("enemy's badstatus:%d\n", (**enemy) -> badstatus);
+        //printf("enemy's badstatus:%d\n", enemy -> badstatus);
         //printf("enemy_copy1's badstatus:%d\n", enemy_copy1.badstatus);
-        if ( (**enemy) -> badstatus != DEAD ){
+        if ( enemy -> badstatus != DEAD ){
           display_enemy_turn(&enemy, enemy_turn);
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
@@ -6298,7 +6298,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
       }
       else if ( encount_pattern == 3 ){
         enemy_turn = 3;
-        if ( (**enemy) -> badstatus == DEAD ){
+        if ( enemy -> badstatus == DEAD ){
           enemy_turn--;
         }
         if ( enemy_copy1.badstatus == DEAD ){
@@ -6329,9 +6329,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         battle_display_condition_count++;
         battle_display_condition(&st3, battle_display_condition_count);
         printf("\n");
-        //printf("enemy's badstatus:%d\n", (**enemy) -> badstatus);
+        //printf("enemy's badstatus:%d\n", enemy -> badstatus);
         //printf("enemy_copy1's badstatus:%d\n", enemy_copy1.badstatus);
-        if ( (**enemy) -> badstatus != DEAD ){
+        if ( enemy -> badstatus != DEAD ){
           display_enemy_turn(&enemy, enemy_turn);
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
@@ -6380,7 +6380,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
       }
       else if ( encount_pattern == 4 ){
         enemy_turn = 4;
-        if ( (**enemy) -> badstatus == DEAD ){
+        if ( enemy -> badstatus == DEAD ){
           enemy_turn--;
         }
         if ( enemy_copy1.badstatus == DEAD ){
@@ -6414,9 +6414,9 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         battle_display_condition_count++;
         battle_display_condition(&st3, battle_display_condition_count);
         printf("\n");
-        //printf("enemy's badstatus:%d\n", (**enemy) -> badstatus);
+        //printf("enemy's badstatus:%d\n", enemy -> badstatus);
         //printf("enemy_copy1's badstatus:%d\n", enemy_copy1.badstatus);
-        if ( (**enemy) -> badstatus != DEAD ){
+        if ( enemy -> badstatus != DEAD ){
           display_enemy_turn(&enemy, enemy_turn);
           //enemyの攻撃
           //printf("%f\n", enemy_turn);
@@ -6498,34 +6498,34 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
   }while( enemy_deadcount != enemy_temp || ( (**st) -> badstatus != DEAD && (**st2) -> badstatus != DEAD && (**st3) -> badstatus != DEAD ) );
 
-  (**enemy) -> badstatus = GOOD;  //敵の状態をGOODに戻す
+  enemy -> badstatus = GOOD;  //敵の状態をGOODに戻す
   enemy_copy1.badstatus = GOOD;
-  (**enemy) -> hp = (**enemy) -> maxhp;
-  (**enemy) -> mp = (**enemy) -> maxmp;
+  enemy -> hp = enemy -> maxhp;
+  enemy -> mp = enemy -> maxmp;
 
   result_exp = 0;
   result_gold = 0;
   int battle_experience;
 
   if ( encount_pattern == 1 ){
-    result_exp = (**enemy) -> exp;
-    result_gold = (**enemy) -> gold;
-    battle_experience = (**enemy) -> lv;
+    result_exp = enemy -> exp;
+    result_gold = enemy -> gold;
+    battle_experience = enemy -> lv;
   }
   else if ( encount_pattern == 2 ){
-    result_exp = (**enemy) -> exp + enemy_copy1.exp;
-    result_gold = (**enemy) -> gold + enemy_copy1.gold;
-    battle_experience = (**enemy) -> lv + enemy_copy1.lv;
+    result_exp = enemy -> exp + enemy_copy1.exp;
+    result_gold = enemy -> gold + enemy_copy1.gold;
+    battle_experience = enemy -> lv + enemy_copy1.lv;
   }
   else if ( encount_pattern == 3 ){
-    result_exp = (**enemy) -> exp + enemy_copy1.exp + enemy_copy2.exp;
-    result_gold = (**enemy) -> gold + enemy_copy1.gold + enemy_copy2.gold;
-    battle_experience = (**enemy) -> lv + enemy_copy1.lv + enemy_copy2.lv;
+    result_exp = enemy -> exp + enemy_copy1.exp + enemy_copy2.exp;
+    result_gold = enemy -> gold + enemy_copy1.gold + enemy_copy2.gold;
+    battle_experience = enemy -> lv + enemy_copy1.lv + enemy_copy2.lv;
   }
   else if ( encount_pattern == 4 ){
-    result_exp = (**enemy) -> exp + enemy_copy1.exp + enemy_copy2.exp + enemy_copy3.exp;
-    result_gold = (**enemy) -> gold + enemy_copy1.gold + enemy_copy2.gold + enemy_copy3.gold;
-    battle_experience = (**enemy) -> lv + enemy_copy1.lv + enemy_copy2.lv + enemy_copy3.lv;
+    result_exp = enemy -> exp + enemy_copy1.exp + enemy_copy2.exp + enemy_copy3.exp;
+    result_gold = enemy -> gold + enemy_copy1.gold + enemy_copy2.gold + enemy_copy3.gold;
+    battle_experience = enemy -> lv + enemy_copy1.lv + enemy_copy2.lv + enemy_copy3.lv;
   }
 
   //スキルの熟練度チェック

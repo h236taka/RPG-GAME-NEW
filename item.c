@@ -455,14 +455,14 @@ int item_drop_caluculate(int i, int drop_base, int drop_per){ //ドロップし�
   return drop_count;
 }
 
-void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy ****enemy, Items ****items, int encount_pattern){
+void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy **enemy, Items ****items, int encount_pattern){
   int i, drop_per, drop_count, loop;
   double drop_base;
 
   loop = 0;
   drop_count = 0;
   //スライム
-  if ( (***enemy) -> enemy_id == SLIME ){
+  if ( (*enemy) -> enemy_id == SLIME ){
     if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
       while ( loop != encount_pattern ){
         drop_base = 10;  //drop最低率は10%
@@ -510,7 +510,7 @@ void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy ****enemy, I
 
   }
   //コボルト
-  else if ( (***enemy) -> enemy_id = KOBALT ){
+  else if ( (*enemy) -> enemy_id = KOBALT ){
     if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
       while ( loop != encount_pattern ){
         drop_base = 15;  //drop最低率は15%
@@ -557,7 +557,7 @@ void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy ****enemy, I
     }
 
   }
-  else if ( (***enemy) -> enemy_id == ZOMIBIE ){
+  else if ( (*enemy) -> enemy_id == ZOMIBIE ){
     if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
       while ( loop != encount_pattern ){
         drop_base = 15;
@@ -603,7 +603,7 @@ void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy ****enemy, I
       (***items) -> antipalyze += drop_count;
     }
   }
-  else if ( (***enemy) -> enemy_id == ONMORAKI ){
+  else if ( (*enemy) -> enemy_id == ONMORAKI ){
     if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
       while ( loop != encount_pattern ){
         drop_base = 8;

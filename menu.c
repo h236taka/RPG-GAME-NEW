@@ -1708,28 +1708,23 @@ void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_sk
 }
 
 //昇順にソート
-void sort_setting_skill(Setting_skill *******setting_skill){
+void sort_setting_skill(Setting_skill ******setting_skill){
   int i, j, temp;
 
   for ( i = 0; i < 10; i++ ){
     for ( j = i+1; j < 10; j++ ){
-      if ( (******setting_skill) -> set_skill[i] > (******setting_skill) -> set_skill[j] ){
-        temp = (******setting_skill) -> set_skill[i];
-        (******setting_skill) -> set_skill[i] = (******setting_skill) -> set_skill[j];
-        (******setting_skill) -> set_skill[j] = temp;
+      if ( (*****setting_skill) -> set_skill[i] > (*****setting_skill) -> set_skill[j] ){
+        temp = (*****setting_skill) -> set_skill[i];
+        (*****setting_skill) -> set_skill[i] = (*****setting_skill) -> set_skill[j];
+        (*****setting_skill) -> set_skill[j] = temp;
       }
     }
   }
 
-  for ( i = 0; i < 10; i++ ){
-    printf("%d\n", (******setting_skill) -> set_skill[i]);
-  }
 }
 
 void skill_set(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill){
   int input;
-
-  sort_setting_skill(&setting_skill);
 
   printf("\n");
   printf("<<<SET>>>\n");
@@ -2193,12 +2188,15 @@ void set_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****pla
 
     if ( input == '1' ){
       skill_set(&st,&player_skill,&setting_skill);
+      sort_setting_skill(&setting_skill);
     }
     else if ( input == '2' ){
       skill_set(&st2,&player_skill2,&setting_skill2);
+      sort_setting_skill(&setting_skill2);
     }
     else if ( input == '3' ){
       skill_set(&st3,&player_skill3,&setting_skill3);
+      sort_setting_skill(&setting_skill3);
     }
     else{
       //nothing

@@ -1497,10 +1497,14 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 }
 
 
-void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **slime, Enemy **kobalt, Enemy **goblin){
+void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search){
   int area_data_len, area_data_line, enemy_count, encount_pattern, clear_count;
 
   Map map;
+  //name hp, maxhp, mp, maxmp, atk, magic, str, agi, luk, lv, exp, gold, badstatus, physical_attack, gun_attack, fire, ice, elec, wave, almighty, death, expel, poison, palyze, charm, close, stone, panic, sleep, curse, boss_count, enemy_id
+  Enemy slime = {"スライム", 10, 10, 0, 0, 2, 1, 1, 1, 1, 1, 5, 30, 0, 150, 100, 200, 100, 100, 100, 100, 100, 200, 100, 100, 100, 100, 100, 100, 100, 100, 0, 1};
+  Enemy kobalt = {"コボルト", 20, 20, 0, 0, 2, 1, 2, 1, 1, 2, 10, 55, 0, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 2};
+  Enemy goblin = {"ゴブリン", 65, 65, 0, 0, 3, 1, 2, 2, 1, 3, 25, 500, 0, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1, 3}; //boss
 
   int area_data[16][3] = {
     {-1, 0, -1},   //event2
@@ -1645,10 +1649,10 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     if ( map.x == 1 && map.y == 12 && (*area) -> event1a == 0 ){
       printf("突然目の前に敵が現れた!\n");
       encount_pattern = 2;
-      (*slime) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
+      slime.boss_count = 2;  //通常の敵を強制戦闘用に変更
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, encount_pattern);
 
-      (*slime) -> boss_count = 0;  //元に戻す
+      slime.boss_count = 0;  //元に戻す
       (*area) -> event1a = 1;
 
       sleep(1);
@@ -1665,11 +1669,11 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     if ( map.x == 1 && map.y == 9 && (*area) -> event1b == 0 ){
       printf("突然目の前に敵が現れた!\n");
       encount_pattern = 3;
-      (*slime) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
+      slime.boss_count = 2;  //通常の敵を強制戦闘用に変更
 
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &slime, encount_pattern);
 
-      (*slime) -> boss_count = 0;  //元に戻す
+      slime.boss_count = 0;  //元に戻す
       (*area) -> event1b = 1;
 
       battle_to_map = 1;
@@ -1680,11 +1684,11 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
     if ( map.x == 1 && map.y == 5 && (*area) -> event1c == 0 ){
       printf("突然目の前に敵が現れた!\n");
       encount_pattern = 1;
-      (*kobalt) -> boss_count = 2;  //通常の敵を強制戦闘用に変更
+      kobalt.boss_count = 2;  //通常の敵を強制戦闘用に変更
 
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &kobalt, encount_pattern);
 
-      (*kobalt) -> boss_count = 0;  //元に戻す
+      kobalt.boss_count = 0;  //元に戻す
       (*area) -> event1c = 1;
 
       battle_to_map = 1;
@@ -1729,7 +1733,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
 
 }
 
-void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search, Enemy **zombie, Enemy **slime, Enemy **goblin_normal, Enemy **kobalt, Enemy **zombiedog, Enemy **onmoraki, Enemy **gremlin){
+void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3, Setting_skill **setting_skill, Setting_skill **setting_skill2, Setting_skill **setting_skill3, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip, SearchDangeon **search){
 
   int area_data_len, area_data_line;
   int i, j, file_output;
@@ -1737,6 +1741,16 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   int enemy_appearance_per;
   Map map;
   FILE *fp;
+
+  //name hp, maxhp, mp, maxmp, atk, magic, str, agi, luk, lv, exp, gold, badstatus, physical_attack, gun_attack, fire, ice, elec, wave, almighty, death, expel, poison, palyze, charm, close, stone, panic, sleep, curse, boss_count, enemy_id
+  Enemy slime = {"スライム", 10, 10, 0, 0, 2, 1, 1, 1, 1, 1, 5, 30, 0, 150, 100, 200, 100, 100, 100, 100, 100, 200, 100, 100, 100, 100, 100, 100, 100, 100, 0, 1};
+  Enemy kobalt = {"コボルト", 20, 20, 0, 0, 2, 1, 2, 1, 1, 2, 10, 55, 0, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 2};
+  Enemy zombiedog = {"ゾンビドッグ", 30, 30, 0, 0, 2, 1, 3, 5, 1, 3, 8, 45, 0, 100, 100, 200, 200, 100, 100, 100, -1, 200, 100, 100, 100, 100, 100, 100, 100, 100, 0, 4};
+  Enemy ghoul = {"グール", 30, 30, 10, 10, 1, 1, 1, 1, 1, 2, 10, 60, 0, 100, 100, 150, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 5};
+  Enemy zombie = {"ゾンビ", 55, 55, 12, 12, 3, 1, 3, 2, 1, 2, 6, 40, 0, 100, 100, 200, 100, 200, 100, 100, -1, 200, 100, 100, 100, 100, 100, 100, 100, -1, 0, 6};
+  Enemy goblin_normal = {"ゴブリン", 70, 70, 0, 0, 3, 1, 3, 2, 1, 3, 10, 70, 0, 100, 150, 100, 100, 100, 200, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 7};  //通常敵
+  Enemy onmoraki = {"オンモラキ", 50, 50, 15, 15, 2, 3, 2, 3, 2, 4, 12, 65, 0, 80, 100, -1, 200, 100, 100, 100, -1, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 8};
+  Enemy gremlin = {"グレムリン", 350, 350, 500, 500, 4, 5, 4, 5, 5, 6, 100, 800, 0, 100, 100, 200, 200, 100, 100, 100, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 9}; //boss
 
   int area_data[27][10] = {
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -2058,28 +2072,8 @@ void save_autoMap(Area ***area, int area_data_line, int area_data_len, int autom
   int i, j;
   FILE *fp;
 
-  do {
-    printf("マップデータを記録しますか?\n");
-    printf("1.YES 2.NO\n");
+  if ( (**area) -> dangeonId == 2 ){
+    save_area2(area_data_line,area_data_len,automap_area);
+  }
 
-    input = _getch();
-
-    if ( input == '1' ){
-      printf("マップデータの記録を開始します...\n");
-
-      if ( (**area) -> dangeonId == 2 ){
-        save_area2(area_data_line,area_data_len,automap_area);
-      }
-      return;
-
-    }
-    else if ( input == '2' ){
-      printf("マップデータの記録を中止しました...\n");
-    }
-    else{
-      printf("1か2を入力してください\n");
-    }
-
-    printf("\n");
-  } while ( input != '2' );
 }

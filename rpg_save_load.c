@@ -375,6 +375,8 @@ void delete_saveData(){
         fclose(fp);
         if ( remove(file) == 0 ){
           printf("セーブデータ1を削除しました!\n");
+          input = 1;
+          delete_AUtoMapFile(input);
           fp = fopen( "SaveData/save1.dat", "wb+");
         }
         else{
@@ -395,6 +397,8 @@ void delete_saveData(){
         fclose(fp);
         if ( remove(file) == 0 ){
           printf("セーブデータ2を削除しました!\n");
+          input = 2;
+          delete_AUtoMapFile(input);
           fp = fopen( "SaveData/save2.dat", "wb+");
         }
         else{
@@ -415,6 +419,8 @@ void delete_saveData(){
         fclose(fp);
         if ( remove(file) == 0 ){
           printf("セーブデータ3を削除しました!\n");
+          input = 3;
+          delete_AUtoMapFile(input);
           fp = fopen( "SaveData/save3.dat", "wb+");
         }
         else{
@@ -452,73 +458,61 @@ void check_AutoMapFile(){
   fclose(fp);
 }
 
-void delete_AUtoMapFile(){
+void delete_AUtoMapFile(int input){
   FILE *fp;
-  int input;
-
-  printf("1.セーブデータ1.図書館1F\n");
-  printf("2.セーブデータ2.図書館1F\n");
-  printf("3.セーブデータ3.図書館1F\n");
-  printf("削除したいマップデータを選択してください(決定する場合はエンターキーを入力し、終了する場合は0を入力し、エンターキーを押してください)\n");
-  printf("マップデータ:No.");
-  scanf("%d", &input);
-
-  if ( input == 0 ){
-    exit(EXIT_SUCCESS);
-  }
 
   if ( input == 1 ){
-    const char *file = "AutoMapArea2/saveFile1_AutoMapArea2.dat";
+    char *file = "AutoMapArea2/saveFile1_AutoMapArea2.dat";
     if ( ( fp = fopen( "AutoMapArea2/saveFile1_AutoMapArea2.dat", "rb" ) ) == NULL ){
-      printf("マップデータは存在しません...\n");
+      //printf("マップデータは存在しません...\n");
       fclose(fp);
       exit(EXIT_SUCCESS);
     }
     else{
       fclose(fp);
       if ( remove(file) == 0 ){
-        printf("マップデータを削除しました!\n");
+        //printf("マップデータを削除しました!\n");
       }
       else{
-        printf("マップデータを削除できませんでした...\n");
+        //printf("マップデータを削除できませんでした...\n");
       }
       fclose(fp);
       exit(EXIT_SUCCESS);
     }
   }
   else if ( input == 2 ){
-    const char *file = "AutoMapArea2/saveFile2_AutoMapArea2.dat";
+    char *file = "AutoMapArea2/saveFile2_AutoMapArea2.dat";
     if ( ( fp = fopen( "AutoMapArea2/saveFile2_AutoMapArea2.dat", "rb" ) ) == NULL ){
-      printf("マップデータは存在しません...\n");
+      ///printf("マップデータは存在しません...\n");
       fclose(fp);
       exit(EXIT_SUCCESS);
     }
     else{
       fclose(fp);
       if ( remove(file) == 0 ){
-        printf("マップデータを削除しました!\n");
+        //printf("マップデータを削除しました!\n");
       }
       else{
-        printf("マップデータを削除できませんでした...\n");
+        //printf("マップデータを削除できませんでした...\n");
       }
       fclose(fp);
       exit(EXIT_SUCCESS);
     }
   }
   else if ( input == 3 ){
-    const char *file = "AutoMapArea2/saveFile3_AutoMapArea2.dat";
+    char *file = "AutoMapArea2/saveFile3_AutoMapArea2.dat";
     if ( ( fp = fopen( "AutoMapArea2/saveFile3_AutoMapArea2.dat", "rb" ) ) == NULL ){
-      printf("マップデータは存在しません...\n");
+      //printf("マップデータは存在しません...\n");
       fclose(fp);
       exit(EXIT_SUCCESS);
     }
     else{
       fclose(fp);
       if ( remove(file) == 0 ){
-        printf("マップデータを削除しました!\n");
+        //printf("マップデータを削除しました!\n");
       }
       else{
-        printf("マップデータを削除できませんでした...\n");
+        //printf("マップデータを削除できませんでした...\n");
       }
       fclose(fp);
       exit(EXIT_SUCCESS);

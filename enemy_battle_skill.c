@@ -9,7 +9,7 @@
 
 //敵と味方のスキルに関する機能
 
-double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, Enemy ******enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number){
+double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, Enemy ****enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number){
 
   double attack_skill_count;
   int damage_base, damage, eva, critical, eva_count, critical_count, i, max_damage, temp;
@@ -29,7 +29,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (*****enemy) -> lv + (*****enemy) -> atk ) * 32 ) / 15 ) / 2;
+      damage_base = ( ( ( (***enemy) -> lv + (***enemy) -> atk ) * 32 ) / 15 ) / 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -47,30 +47,30 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (*****enemy) -> lv + (*****enemy) -> atk ) * 32 ) / 15 ) / 2;
+      damage_base = ( ( ( (***enemy) -> lv + (***enemy) -> atk ) * 32 ) / 15 ) / 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       max_damage = damage_base * 1.3;
       temp = damage;
       damage = -3;
-      (*****enemy) -> hp -= temp;
+      (***enemy) -> hp -= temp;
       printf("Reflect!\n");
       sleep(1);
-      printf("%s<<%dダメージ\n", (*****enemy) -> name, temp);
-      if ( (*****enemy) -> hp <= 0 ){
-        (*****enemy) -> hp = 0;
-        (*****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*****enemy) -> name);
+      printf("%s<<%dダメージ\n", (***enemy) -> name, temp);
+      if ( (***enemy) -> hp <= 0 ){
+        (***enemy) -> hp = 0;
+        (***enemy) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (***enemy) -> name);
       }
       attack_skill_count = -2;
     }
     else{
-      damage_base = ( ( ( (*****enemy) -> lv + (*****enemy) -> atk ) * 32 ) / 15 ) / 2;
+      damage_base = ( ( ( (***enemy) -> lv + (***enemy) -> atk ) * 32 ) / 15 ) / 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
-      eva_base = 3 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (*****enemy) -> agi * 0.1) - ( (*****enemy) -> luk * 0.1);   //回避率計算
+      eva_base = 3 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (***enemy) -> agi * 0.1) - ( (***enemy) -> luk * 0.1);   //回避率計算
 
       eva_base = round(eva_base);
 
@@ -78,7 +78,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
         eva_base = 3;     //回避率最小値3%
       }
 
-      critical_base = 5 + ( (*****enemy) -> luk * 0.2) - ( (*****st) -> luk * 0.1);  //critical率の計算
+      critical_base = 5 + ( (***enemy) -> luk * 0.2) - ( (*****st) -> luk * 0.1);  //critical率の計算
       if ( critical_base < 5 ){
         critical_base = 5;       //critical最小値5%
       }
@@ -177,7 +177,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> fire == -2 ){  //火炎攻撃吸収
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 2 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 2 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -195,32 +195,32 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> fire == -3 ){  //火炎攻撃反射
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       max_damage = damage_base * 1.3;
       temp = damage;
       damage = -3;
-      (*****enemy) -> hp -= temp;
+      (***enemy) -> hp -= temp;
       printf("Reflect!\n");
       sleep(1);
-      printf("%s<<%dダメージ\n", (*****enemy) -> name, temp);
-      if ( (*****enemy) -> hp <= 0 ){
-        (*****enemy) -> hp = 0;
-        (*****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*****enemy) -> name);
+      printf("%s<<%dダメージ\n", (***enemy) -> name, temp);
+      if ( (***enemy) -> hp <= 0 ){
+        (***enemy) -> hp = 0;
+        (***enemy) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (***enemy) -> name);
       }
       attack_skill_count = -2;
     }
     else{
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       //printf("damage_base:%d\n", damage_base);
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       //回避率5%
-      eva_base = 5 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (*****enemy) -> agi * 0.1) - ( (*****enemy) -> luk * 0.1);   //回避率計算
+      eva_base = 5 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (***enemy) -> agi * 0.1) - ( (***enemy) -> luk * 0.1);   //回避率計算
 
       eva_base = round(eva_base);
 
@@ -303,7 +303,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> ice == -2 ){  //氷結攻撃吸収
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -321,32 +321,32 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> ice == -3 ){  //氷結攻撃反射
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       max_damage = damage_base * 1.3;
       temp = damage;
       damage = -3;
-      (*****enemy) -> hp -= temp;
+      (***enemy) -> hp -= temp;
       printf("Reflect!\n");
       sleep(1);
-      printf("%s<<%dダメージ\n", (*****enemy) -> name, temp);
-      if ( (*****enemy) -> hp <= 0 ){
-        (*****enemy) -> hp = 0;
-        (*****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*****enemy) -> name);
+      printf("%s<<%dダメージ\n", (***enemy) -> name, temp);
+      if ( (***enemy) -> hp <= 0 ){
+        (***enemy) -> hp = 0;
+        (***enemy) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (***enemy) -> name);
       }
       attack_skill_count = -2;
     }
     else{
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       //printf("damage_base:%d\n", damage_base);
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       //回避率5%
-      eva_base = 5 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (*****enemy) -> agi * 0.1) - ( (*****enemy) -> luk * 0.1);   //回避率計算
+      eva_base = 5 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (***enemy) -> agi * 0.1) - ( (***enemy) -> luk * 0.1);   //回避率計算
 
       eva_base = round(eva_base);
 
@@ -429,7 +429,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> elec == -2 ){  //電撃攻撃吸収
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -447,32 +447,32 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> elec == -3 ){  //電撃攻撃反射
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       max_damage = damage_base * 1.3;
       temp = damage;
       damage = -3;
-      (*****enemy) -> hp -= temp;
+      (***enemy) -> hp -= temp;
       printf("Reflect!\n");
       sleep(1);
-      printf("%s<<%dダメージ\n", (*****enemy) -> name, temp);
-      if ( (*****enemy) -> hp <= 0 ){
-        (*****enemy) -> hp = 0;
-        (*****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*****enemy) -> name);
+      printf("%s<<%dダメージ\n", (***enemy) -> name, temp);
+      if ( (***enemy) -> hp <= 0 ){
+        (***enemy) -> hp = 0;
+        (***enemy) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (***enemy) -> name);
       }
       attack_skill_count = -2;
     }
     else{
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       //printf("damage_base:%d\n", damage_base);
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       //回避率5%
-      eva_base = 5 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (*****enemy) -> agi * 0.1) - ( (*****enemy) -> luk * 0.1);   //回避率計算
+      eva_base = 5 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (***enemy) -> agi * 0.1) - ( (***enemy) -> luk * 0.1);   //回避率計算
 
       eva_base = round(eva_base);
 
@@ -555,7 +555,7 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> wave == -2 ){  //衝撃攻撃吸収
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -573,32 +573,32 @@ double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equ
       attack_skill_count = -2;
     }
     else if ( (*****st) -> wave == -3 ){  //衝撃攻撃反射
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       max_damage = damage_base * 1.3;
       temp = damage;
       damage = -3;
-      (*****enemy) -> hp -= temp;
+      (***enemy) -> hp -= temp;
       printf("Reflect!\n");
       sleep(1);
-      printf("%s<<%dダメージ\n", (*****enemy) -> name, temp);
-      if ( (*****enemy) -> hp <= 0 ){
-        (*****enemy) -> hp = 0;
-        (*****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*****enemy) -> name);
+      printf("%s<<%dダメージ\n", (***enemy) -> name, temp);
+      if ( (***enemy) -> hp <= 0 ){
+        (***enemy) -> hp = 0;
+        (***enemy) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (***enemy) -> name);
       }
       attack_skill_count = -2;
     }
     else{
-      damage_base = ( magic_power * (*****enemy) -> magic ) / ( (*****st) -> magic * 3 );
+      damage_base = ( magic_power * (***enemy) -> magic ) / ( (*****st) -> magic * 3 );
       //printf("damage_base:%d\n", damage_base);
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       //回避率5%
-      eva_base = 5 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (*****enemy) -> agi * 0.1) - ( (*****enemy) -> luk * 0.1);   //回避率計算
+      eva_base = 5 + ( (*****st) -> agi * 0.2 ) + ( (*****st) -> luk * 0.1 ) - ( (***enemy) -> agi * 0.1) - ( (***enemy) -> luk * 0.1);   //回避率計算
 
       eva_base = round(eva_base);
 
@@ -721,7 +721,7 @@ int enemy_skill_target(Player ******st, Player ******st2, Player ******st3){
 }
 
 //enemyのskillに関わる関数 skill_reaction = 1ならダメージに関係するskill skill_reactionが0ならダメージに関係しないskill
-double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
+double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip, Enemy ***enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
   int enemy_move, badstatus_per, badstatus_count, recover_point;
   int target_base;
   double turn_decrease;
@@ -732,10 +732,10 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
   badstatus_count = 0; //badstatusになったか判定 1はbadstatusになったということ
 
   //ゴブリン
-  if ( (****enemy) -> enemy_id == 3 || (****enemy) -> enemy_id == 7 ){
-    printf("%s>>クエイク\n", (****enemy) -> name);
+  if ( (**enemy) -> enemy_id == 3 || (**enemy) -> enemy_id == 7 ){
+    printf("%s>>クエイク\n", (**enemy) -> name);
     sleep(1);
-    printf("%sは地面を大きく揺らした!\n", (****enemy) -> name);
+    printf("%sは地面を大きく揺らした!\n", (**enemy) -> name);
     sleep(1);
 
     attack_skill_number = 1;
@@ -757,12 +757,12 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     }
   }
   //グール
-  else if ( (****enemy) -> enemy_id == 5 ){
+  else if ( (**enemy) -> enemy_id == 5 ){
     target_base = enemy_skill_target(&st,&st2,&st3);
 
     badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
     //printf("badstatus_per:%d\n", badstatus_per);
-    printf("%s>>ポイゾガ\n", (****enemy) -> name);
+    printf("%s>>ポイゾガ\n", (**enemy) -> name);
     if ( badstatus_per >= 1 && badstatus_per <= 35 ){
       if ( target_base == 1 ){
 
@@ -972,12 +972,12 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     }
   }
   //ゾンビ
-  else if ( (****enemy) -> enemy_id == 6 ){
+  else if ( (**enemy) -> enemy_id == 6 ){
     target_base = enemy_skill_target(&st,&st2,&st3);
 
     badstatus_per = (rand() % ( 100 - 1 + 1) ) + 1; //状態異常乱数生成(1~100)
     //printf("badstatus_per:%d\n", badstatus_per);
-    printf("%s>>パララズ\n", (****enemy) -> name);
+    printf("%s>>パララズ\n", (**enemy) -> name);
     if ( badstatus_per >= 1 && badstatus_per <= 35 ){
       if ( target_base == 1 ){
 
@@ -1189,11 +1189,11 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     turn_decrease = -1;
     enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
-  else if ( (****enemy) -> enemy_id == 8 ){  //オンモラキ
+  else if ( (**enemy) -> enemy_id == 8 ){  //オンモラキ
     target_base = enemy_skill_target(&st,&st2,&st3);
-    printf("%s>>エンファ\n", (****enemy) -> name);
+    printf("%s>>エンファ\n", (**enemy) -> name);
     sleep(1);
-    printf("%sは小さな火球を飛ばした!\n", (****enemy) -> name);
+    printf("%sは小さな火球を飛ばした!\n", (**enemy) -> name);
     sleep(1);
 
     attack_skill_number = 2;
@@ -1224,14 +1224,14 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     }
 
   }
-  else if ( (****enemy) -> enemy_id == 9 ){
+  else if ( (**enemy) -> enemy_id == 9 ){
     target_base = enemy_skill_target(&st,&st2,&st3);
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
 
     if ( enemy_move >= 1 && enemy_move <= 25 ){
-      printf("%s>>エンファ\n", (****enemy) -> name);
+      printf("%s>>エンファ\n", (**enemy) -> name);
       sleep(1);
-      printf("%sは小さな火球を飛ばした!\n", (****enemy) -> name);
+      printf("%sは小さな火球を飛ばした!\n", (**enemy) -> name);
       sleep(1);
       attack_skill_number = 2;
 
@@ -1246,9 +1246,9 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
       }
     }
     else if ( enemy_move <= 50 ){
-      printf("%s>>ヒョウド\n", (****enemy) -> name);
+      printf("%s>>ヒョウド\n", (**enemy) -> name);
       sleep(1);
-      printf("%sは小さな氷塊を飛ばした!\n", (****enemy) -> name);
+      printf("%sは小さな氷塊を飛ばした!\n", (**enemy) -> name);
       sleep(1);
       attack_skill_number = 3;
 
@@ -1263,9 +1263,9 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
       }
     }
     else if ( enemy_move <= 75 ){
-      printf("%s>>ボルア\n", (****enemy) -> name);
+      printf("%s>>ボルア\n", (**enemy) -> name);
       sleep(1);
-      printf("%sは小さな稲妻を放った!\n", (****enemy) -> name);
+      printf("%sは小さな稲妻を放った!\n", (**enemy) -> name);
       sleep(1);
       attack_skill_number = 4;
 
@@ -1280,9 +1280,9 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
       }
     }
     else if ( enemy_move <= 100 ){
-      printf("%s>>ウィーブ\n", (****enemy) -> name);
+      printf("%s>>ウィーブ\n", (**enemy) -> name);
       sleep(1);
-      printf("%sは小さな衝撃波を放った!\n", (****enemy) -> name);
+      printf("%sは小さな衝撃波を放った!\n", (**enemy) -> name);
       sleep(1);
       attack_skill_number = 5;
 
@@ -1313,14 +1313,14 @@ double use_enemy_skill(Player *****st, Player *****st2, Player *****st3, Equip *
     }
 
   }
-  else if ( (****enemy) -> enemy_id == 101 ){    //回復:LV1
-    recover_point = (rand() % ( 20 + (****enemy) -> magic * 3 - 20 + 1) ) + 20; //回復量20 ~ 20 + (***enemy) -> magic * 3
-    printf("%s>>ケディア\n", (****enemy) -> name);
-    (****enemy) -> hp +=  recover_point;
-    if ( (****enemy) -> hp >= (****enemy) -> maxhp ){
-      (****enemy) -> hp = (****enemy) -> maxhp;
+  else if ( (**enemy) -> enemy_id == 101 ){    //回復:LV1
+    recover_point = (rand() % ( 20 + (**enemy) -> magic * 3 - 20 + 1) ) + 20; //回復量20 ~ 20 + (***enemy) -> magic * 3
+    printf("%s>>ケディア\n", (**enemy) -> name);
+    (**enemy) -> hp +=  recover_point;
+    if ( (**enemy) -> hp >= (**enemy) -> maxhp ){
+      (**enemy) -> hp = (**enemy) -> maxhp;
     }
-    printf("%sのHPが%d回復した!\n", (****enemy) -> name, recover_point);
+    printf("%sのHPが%d回復した!\n", (**enemy) -> name, recover_point);
     turn_decrease = -1;
     enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
   }
@@ -1791,11 +1791,11 @@ double use_enemy_copy_skill(Player *****st, Player *****st2, Player *****st3, Eq
   return enemy_turn;
 }
 
-double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, Enemy ****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
+double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, Enemy **enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
 
   int enemy_move;
 
-  if ( (***enemy) -> enemy_id == 3 || (***enemy) -> enemy_id == 7 ){  //bossゴブリン
+  if ( (*enemy) -> enemy_id == 3 || (*enemy) -> enemy_id == 7 ){  //bossゴブリン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
     if ( enemy_move >= 1 && enemy_move <= 40 ){
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);
@@ -1805,7 +1805,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
     }
   }
   //グール
-  else if ( (***enemy) -> enemy_id == 5 ){
+  else if ( (*enemy) -> enemy_id == 5 ){
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 40 ){  //毒攻撃を使用する行動
@@ -1815,7 +1815,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( (***enemy) -> enemy_id == 6 ){  //ゾンビ
+  else if ( (*enemy) -> enemy_id == 6 ){  //ゾンビ
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 35 ){  //麻痺攻撃を使用する行動
@@ -1825,7 +1825,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( (***enemy) -> enemy_id == 8 ){  //オンモラキ
+  else if ( (*enemy) -> enemy_id == 8 ){  //オンモラキ
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
     //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
@@ -1836,7 +1836,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( (***enemy) -> enemy_id == 9 ){  //グレムリン
+  else if ( (*enemy) -> enemy_id == 9 ){  //グレムリン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
 
     if ( enemy_move >= 1 && enemy_move <= 88 ){  //skill
@@ -1846,11 +1846,11 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( (***enemy) -> enemy_id == 101 ){    //skill(回復:LV1)を持つ敵の攻撃パターン
+  else if ( (*enemy) -> enemy_id == 101 ){    //skill(回復:LV1)を持つ敵の攻撃パターン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 45 ){  //回復:LV1を使用する行動
-      if ( (***enemy) -> hp <= (***enemy) -> maxhp * 0.6 ){
+      if ( (*enemy) -> hp <= (*enemy) -> maxhp * 0.6 ){
         enemy_turn = use_enemy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);  //skillがダメージを与えるskillならば１ そうでなければ0
       }
     }

@@ -171,7 +171,7 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
   return turn_decrease;
 }
 
-int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****enemy, int use_skill_count){
+int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy **enemy, int use_skill_count){
   int turn_decrease;
   int eva_count, eva_base;
   int magic_power;
@@ -190,14 +190,14 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****ene
     eva_count = 0;
     magic_power = 10;
 
-    if ( (***enemy) -> fire == -1 ){  //火炎攻撃無効
+    if ( (*enemy) -> fire == -1 ){  //火炎攻撃無効
       sleep(1);
-      printf("%s<<BLOCK!\n", (***enemy) -> name);
+      printf("%s<<BLOCK!\n", (*enemy) -> name);
 
       turn_decrease = -2;
     }
-    else if ( (***enemy) -> fire == -2 ){  //火炎攻撃吸収
-      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 2 );
+    else if ( (*enemy) -> fire == -2 ){  //火炎攻撃吸収
+      damage_base = ( magic_power * (***st) -> magic ) / ( (*enemy) -> magic * 2 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -205,17 +205,17 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****ene
       damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
       temp = damage;
       damage = -2;
-      (***enemy) -> hp += temp;
-      if ( (***enemy) -> hp > (***enemy) -> maxhp ){
-        (***enemy) -> hp = (***enemy) -> maxhp;
+      (*enemy) -> hp += temp;
+      if ( (*enemy) -> hp > (*enemy) -> maxhp ){
+        (*enemy) -> hp = (*enemy) -> maxhp;
       }
       printf("Absorb!\n");
       sleep(1);
-      printf("%s<<%dダメージ吸収\n", (***enemy) -> name, temp);
+      printf("%s<<%dダメージ吸収\n", (*enemy) -> name, temp);
       turn_decrease = -2;
     }
-    else if ( (***enemy) -> fire == -3 ){  //火炎攻撃反射
-      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 2 );
+    else if ( (*enemy) -> fire == -3 ){  //火炎攻撃反射
+      damage_base = ( magic_power * (***st) -> magic ) / ( (*enemy) -> magic * 2 );
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -234,13 +234,13 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****ene
       turn_decrease = -2;
     }
     else{
-      damage_base = ( magic_power * (***st) -> magic ) / ( (***enemy) -> magic * 2 );
+      damage_base = ( magic_power * (***st) -> magic ) / ( (*enemy) -> magic * 2 );
       //printf("damage_base:%d\n", damage_base);
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       //回避率5%
-      eva_base = 5 + ( (***enemy) -> agi * 0.2 ) + ( (***enemy) -> luk * 0.1 ) - ( (***st) -> agi * 0.1) - ( (***st) -> luk * 0.1);   //回避率計算
+      eva_base = 5 + ( (*enemy) -> agi * 0.2 ) + ( (*enemy) -> luk * 0.1 ) - ( (***st) -> agi * 0.1) - ( (***st) -> luk * 0.1);   //回避率計算
 
       eva_base = round(eva_base);
 
@@ -253,31 +253,31 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****ene
       //printf("damage:%d\n", damage);
       //printf("damage:%d\n", damage);
       //耐性判断
-      if ( (***enemy) -> fire == 100 ){
+      if ( (*enemy) -> fire == 100 ){
         damage = damage;
         turn_decrease = -1;
       }
-      else if ( (***enemy) -> fire == 150 ){     //火炎攻撃1.5倍
+      else if ( (*enemy) -> fire == 150 ){     //火炎攻撃1.5倍
         damage *= 1.5;
         turn_decrease = -1;
       }
-      else if ( (***enemy) -> fire == 200 ){
+      else if ( (*enemy) -> fire == 200 ){
         sleep(1);
         printf("WEAKNESS!!\n");
         damage *= 2;
         turn_decrease = 0.1;
       }
-      else if ( (***enemy) -> fire == 80 ){  //火炎攻撃ダメージ80%
+      else if ( (*enemy) -> fire == 80 ){  //火炎攻撃ダメージ80%
         damage *= 0.8;
         turn_decrease = -1;
       }
-      else if ( (***enemy) -> fire == 50 ){  //火炎攻撃半減
+      else if ( (*enemy) -> fire == 50 ){  //火炎攻撃半減
         sleep(1);
         printf("RESIST!\n");
         damage *= 0.5;
         turn_decrease = -1;
       }
-      else if ( (***enemy) -> fire == 25 ){  //火炎攻撃ダメージ25%
+      else if ( (*enemy) -> fire == 25 ){  //火炎攻撃ダメージ25%
         sleep(1);
         printf("RESIST!\n");
         damage *= 0.25;
@@ -288,20 +288,20 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy ****ene
         damage = 1;
       }
 
-      if ( damage >= (***enemy) -> hp ){
+      if ( damage >= (*enemy) -> hp ){
         sleep(1);
-        printf("%s<<%dダメージ\n", (***enemy) -> name, damage);
+        printf("%s<<%dダメージ\n", (*enemy) -> name, damage);
         sleep(1);
-        printf("%sは死んでしまった!\n", (***enemy) -> name);
-        (***enemy) -> hp = 0;
-        (***enemy) -> badstatus = DEAD;
+        printf("%sは死んでしまった!\n", (*enemy) -> name);
+        (*enemy) -> hp = 0;
+        (*enemy) -> badstatus = DEAD;
       }
       else{
-        printf("%s<<%dダメージ\n", (***enemy) -> name, damage);
-        (***enemy) -> hp -= damage;
-        if ( (***enemy) -> hp <= 0 ){
-          (***enemy) -> hp = 0;
-          (***enemy) -> badstatus = DEAD;
+        printf("%s<<%dダメージ\n", (*enemy) -> name, damage);
+        (*enemy) -> hp -= damage;
+        if ( (*enemy) -> hp <= 0 ){
+          (*enemy) -> hp = 0;
+          (*enemy) -> badstatus = DEAD;
         }
       }
 
@@ -514,13 +514,13 @@ int select_player_skillTarget(Player ****st, Player ****st2, Player ****st3){
   return skill_target;
 }
 
-int select_encount_pattern2_skillTarget(Enemy ****enemy, Enemy *enemy_copy1){
+int select_encount_pattern2_skillTarget(Enemy **enemy, Enemy *enemy_copy1){
   int skill_target;
   int command;
 
-  if ( (***enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD ){
     printf("対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s\n", (***enemy) -> name, enemy_copy1 -> name);
+    printf("1.%s 2.%s\n", (*enemy) -> name, enemy_copy1 -> name);
     printf("\n");
     command =  _getch();
     if ( command == 'c' ){
@@ -534,10 +534,10 @@ int select_encount_pattern2_skillTarget(Enemy ****enemy, Enemy *enemy_copy1){
     }
 
   }
-  if ( (***enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus == DEAD ){
     do {
       printf("対象を選んでください(戻る場合はcを入力してください)\n");
-      printf("1.%s\n", (***enemy) -> name);
+      printf("1.%s\n", (*enemy) -> name);
       printf("\n");
       command =  _getch();
       if ( command == 'c' ){
@@ -546,7 +546,7 @@ int select_encount_pattern2_skillTarget(Enemy ****enemy, Enemy *enemy_copy1){
       skill_target = ENEMY1;
     } while ( command != '1' );
   }
-  if ( (***enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus != DEAD ){
     do {
       printf("対象を選んでください(戻る場合はcを入力してください)\n");
       printf("2.%s\n", enemy_copy1 -> name);
@@ -562,13 +562,13 @@ int select_encount_pattern2_skillTarget(Enemy ****enemy, Enemy *enemy_copy1){
   return skill_target;
 }
 
-int select_encount_pattern3_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2){
+int select_encount_pattern3_skillTarget(Enemy **enemy, Enemy *enemy_copy1, Enemy *enemy_copy2){
   int skill_target;
   int command;
 
-  if ( (***enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD ){
     printf("対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s 3.%s\n", (***enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name);
+    printf("1.%s 2.%s 3.%s\n", (*enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name);
     printf("\n");
     command =  _getch();
     if ( command == 'c' ){
@@ -584,11 +584,11 @@ int select_encount_pattern3_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
       skill_target = ENEMY3;
     }
   }
-  if ( (***enemy) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD ){
     if ( enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s\n", (***enemy) -> name, enemy_copy1 -> name);
+        printf("1.%s 2.%s\n", (*enemy) -> name, enemy_copy1 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -605,7 +605,7 @@ int select_encount_pattern3_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 3.%s\n", (***enemy) -> name, enemy_copy2 -> name);
+        printf("1.%s 3.%s\n", (*enemy) -> name, enemy_copy2 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -622,7 +622,7 @@ int select_encount_pattern3_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s\n", (***enemy) -> name);
+        printf("1.%s\n", (*enemy) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -635,7 +635,7 @@ int select_encount_pattern3_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     }
   }
   if ( enemy_copy1 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s 3.%s\n", enemy_copy1 -> name, enemy_copy2 -> name);
@@ -652,7 +652,7 @@ int select_encount_pattern3_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
         }
       } while ( command != '2' && command != '3' );
     }
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s\n", enemy_copy1 -> name);
@@ -668,7 +668,7 @@ int select_encount_pattern3_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     }
   }
   if ( enemy_copy2 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
         printf("3.%s\n", enemy_copy2 -> name);
@@ -687,13 +687,13 @@ int select_encount_pattern3_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
   return skill_target;
 }
 
-int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3){
+int select_encount_pattern4_skillTarget(Enemy **enemy, Enemy *enemy_copy1, Enemy *enemy_copy2, Enemy *enemy_copy3){
   int skill_target;
   int command;
 
-  if ( (***enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
     printf("対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s 3.%s 4.%s\n", (***enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name, enemy_copy3 -> name);
+    printf("1.%s 2.%s 3.%s 4.%s\n", (*enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name, enemy_copy3 -> name);
     printf("\n");
     command =  _getch();
     if ( command == 'c' ){
@@ -713,11 +713,11 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     }
   }
 
-  if ( (***enemy) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD ){
     if ( enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s 4.%s\n", (***enemy) -> name, enemy_copy1 -> name, enemy_copy3 -> name);
+        printf("1.%s 2.%s 4.%s\n", (*enemy) -> name, enemy_copy1 -> name, enemy_copy3 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -737,7 +737,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     if ( enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s 3.%s\n", (***enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name);
+        printf("1.%s 2.%s 3.%s\n", (*enemy) -> name, enemy_copy1 -> name, enemy_copy2 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -757,7 +757,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     if ( enemy_copy1 -> badstatus != DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s\n", (***enemy) -> name, enemy_copy1 -> name);
+        printf("1.%s 2.%s\n", (*enemy) -> name, enemy_copy1 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -774,7 +774,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s\n", (***enemy) -> name);
+        printf("1.%s\n", (*enemy) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -788,7 +788,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 3.%s 4.%s\n", (***enemy) -> name, enemy_copy2 -> name, enemy_copy3 -> name);
+        printf("1.%s 3.%s 4.%s\n", (*enemy) -> name, enemy_copy2 -> name, enemy_copy3 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -808,7 +808,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     if ( enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 4.%s\n", (***enemy) -> name, enemy_copy3 -> name);
+        printf("1.%s 4.%s\n", (*enemy) -> name, enemy_copy3 -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -822,7 +822,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
   }
 
   if ( enemy_copy1 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s 3.%s 4.%s\n", enemy_copy1 -> name, enemy_copy2 -> name, enemy_copy3 -> name);
@@ -842,7 +842,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
         }
       } while ( command != '2' && command != '3' && command != '4' );
     }
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus != DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s 3.%s\n", enemy_copy1 -> name, enemy_copy2 -> name);
@@ -859,7 +859,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
         }
       } while ( command != '2' && command != '3' );
     }
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
       do{
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s 4.%s\n", enemy_copy1 -> name, enemy_copy3 -> name);
@@ -876,7 +876,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
         }
       }while( command != '2' && command != '4' );
     }
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD && enemy_copy3 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
         printf("2.%s\n", enemy_copy1 -> name);
@@ -892,7 +892,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     }
   }
   if ( enemy_copy2 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD && enemy_copy3 -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
         printf("3.%s 4.%s\n", enemy_copy2 -> name, enemy_copy3 -> name);
@@ -911,7 +911,7 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
     }
   }
   if ( enemy_copy3 -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && enemy_copy1 -> badstatus == DEAD && enemy_copy2 -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
         printf("4.%s\n", enemy_copy3 -> name);
@@ -930,13 +930,13 @@ int select_encount_pattern4_skillTarget(Enemy ****enemy, Enemy *enemy_copy1, Ene
   return skill_target;
 }
 
-int select_encount_pattern5_skillTarget(Enemy ****enemy, Enemy ****enemy1){
+int select_encount_pattern5_skillTarget(Enemy **enemy, Enemy **enemy1){
   int command;
   int skill_target;
 
-  if ( (***enemy) -> badstatus != DEAD && (***enemy1) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && (*enemy1) -> badstatus != DEAD ){
     printf("対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s\n", (***enemy) -> name, (***enemy1) -> name);
+    printf("1.%s 2.%s\n", (*enemy) -> name, (*enemy1) -> name);
     printf("\n");
     command =  _getch();
     if ( command == 'c' ){
@@ -949,10 +949,10 @@ int select_encount_pattern5_skillTarget(Enemy ****enemy, Enemy ****enemy1){
       skill_target = ENEMY2;
     }
   }
-  if ( (***enemy) -> badstatus != DEAD && (***enemy1) -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && (*enemy1) -> badstatus == DEAD ){
     do {
       printf("対象を選んでください(戻る場合はcを入力してください)\n");
-      printf("1.%s\n", (***enemy) -> name);
+      printf("1.%s\n", (*enemy) -> name);
       printf("\n");
       command =  _getch();
       if ( command == 'c' ){
@@ -963,10 +963,10 @@ int select_encount_pattern5_skillTarget(Enemy ****enemy, Enemy ****enemy1){
       }
     } while ( command != '1' );
   }
-  if ( (***enemy) -> badstatus == DEAD && (***enemy1) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus == DEAD && (*enemy1) -> badstatus != DEAD ){
     do {
       printf("対象を選んでください(戻る場合はcを入力してください)\n");
-      printf("2.%s\n", (***enemy1) -> name);
+      printf("2.%s\n", (*enemy1) -> name);
       printf("\n");
       command =  _getch();
       if ( command == 'c' ){
@@ -981,13 +981,13 @@ int select_encount_pattern5_skillTarget(Enemy ****enemy, Enemy ****enemy1){
   return skill_target;
 }
 
-int select_encount_pattern6_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2){
+int select_encount_pattern6_skillTarget(Enemy **enemy, Enemy **enemy1, Enemy **enemy2){
   int command;
   int skill_target;
 
-  if ( (***enemy) -> badstatus != DEAD && (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus != DEAD ){
     printf("対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s 3.%s\n", (***enemy) -> name, (***enemy1) -> name, (***enemy2) -> name);
+    printf("1.%s 2.%s 3.%s\n", (*enemy) -> name, (*enemy1) -> name, (*enemy2) -> name);
     printf("\n");
     command =  _getch();
     if ( command == 'c' ){
@@ -1003,11 +1003,11 @@ int select_encount_pattern6_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
       return ENEMY3;
     }
   }
-  if ( (***enemy) -> badstatus != DEAD ){
-    if ( (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus == DEAD ){
+  if ( (*enemy) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s\n", (***enemy) -> name, (***enemy1) -> name);
+        printf("1.%s 2.%s\n", (*enemy) -> name, (*enemy1) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1021,10 +1021,10 @@ int select_encount_pattern6_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '1' && command != '2' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 3.%s\n", (***enemy) -> name, (***enemy2) -> name);
+        printf("1.%s 3.%s\n", (*enemy) -> name, (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1038,10 +1038,10 @@ int select_encount_pattern6_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '1' && command != '3' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s\n", (***enemy) -> name);
+        printf("1.%s\n", (*enemy) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1053,11 +1053,11 @@ int select_encount_pattern6_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
       } while ( command != '1' );
     }
   }
-  if ( (***enemy1) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD ){
+  if ( (*enemy1) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s 3.%s\n", (***enemy1) -> name, (***enemy2) -> name);
+        printf("2.%s 3.%s\n", (*enemy1) -> name, (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1071,10 +1071,10 @@ int select_encount_pattern6_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '2' && command != '3' );
     }
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s\n", (***enemy1) -> name);
+        printf("2.%s\n", (*enemy1) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1086,11 +1086,11 @@ int select_encount_pattern6_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
       } while ( command != '2' );
     }
   }
-  if ( (***enemy2) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy1) -> badstatus == DEAD ){
+  if ( (*enemy2) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy1) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("3.%s\n", (***enemy2) -> name);
+        printf("3.%s\n", (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1104,13 +1104,13 @@ int select_encount_pattern6_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
   }
 }
 
-int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy ****enemy2, Enemy ****enemy3){
+int select_encount_pattern7_skillTarget(Enemy **enemy, Enemy **enemy1, Enemy **enemy2, Enemy **enemy3){
   int command;
   int skill_target;
 
-  if ( (***enemy) -> badstatus != DEAD && (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD && (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus != DEAD ){
     printf("対象を選んでください(戻る場合はcを入力してください)\n");
-    printf("1.%s 2.%s 3.%s 4.%s\n", (***enemy) -> name, (***enemy1) -> name, (***enemy2) -> name, (***enemy3) -> name);
+    printf("1.%s 2.%s 3.%s 4.%s\n", (*enemy) -> name, (*enemy1) -> name, (*enemy2) -> name, (*enemy3) -> name);
     printf("\n");
     command =  _getch();
     if ( command == 'c' ){
@@ -1130,11 +1130,11 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
     }
   }
 
-  if ( (***enemy) -> badstatus != DEAD ){
-    if ( (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s 4.%s\n", (***enemy) -> name, (***enemy1) -> name, (***enemy3) -> name);
+        printf("1.%s 2.%s 4.%s\n", (*enemy) -> name, (*enemy1) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1151,10 +1151,10 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '1' && command != '2' && command != '4' );
     }
-    if ( (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s 3.%s\n", (***enemy) -> name, (***enemy1) -> name, (***enemy2) -> name);
+        printf("1.%s 2.%s 3.%s\n", (*enemy) -> name, (*enemy1) -> name, (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1171,10 +1171,10 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '1' && command != '2' && command != '3' );
     }
-    if ( (***enemy1) -> badstatus != DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy1) -> badstatus != DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 2.%s\n", (***enemy) -> name, (***enemy1) -> name);
+        printf("1.%s 2.%s\n", (*enemy) -> name, (*enemy1) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1188,10 +1188,10 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '1' && command != '2' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s\n", (***enemy) -> name);
+        printf("1.%s\n", (*enemy) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1202,10 +1202,10 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '1' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 3.%s 4.%s\n", (***enemy) -> name, (***enemy2) -> name, (***enemy3) -> name);
+        printf("1.%s 3.%s 4.%s\n", (*enemy) -> name, (*enemy2) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1222,10 +1222,10 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '1' && command != '3' && command != '4' );
     }
-    if ( (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus != DEAD ){
+    if ( (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("1.%s 4.%s\n", (***enemy) -> name, (***enemy3) -> name);
+        printf("1.%s 4.%s\n", (*enemy) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1241,11 +1241,11 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
     }
   }
 
-  if ( (***enemy1) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus != DEAD ){
+  if ( (*enemy1) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s 3.%s 4.%s\n", (***enemy1) -> name, (***enemy2) -> name, (***enemy3) -> name);
+        printf("2.%s 3.%s 4.%s\n", (*enemy1) -> name, (*enemy2) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1262,10 +1262,10 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '2' && command != '3' && command != '4' );
     }
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus != DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus != DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s 3.%s\n", (***enemy1) -> name, (***enemy2) -> name);
+        printf("2.%s 3.%s\n", (*enemy1) -> name, (*enemy2) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1273,10 +1273,10 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       } while ( command != '2' && command != '3' );
     }
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus != DEAD ){
       do{
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s 4.%s\n", (***enemy1) -> name, (***enemy3) -> name);
+        printf("2.%s 4.%s\n", (*enemy1) -> name, (*enemy3) -> name);
         printf("\n");
         command = _getch();
         if ( command == 'c' ){
@@ -1290,10 +1290,10 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
         }
       }while( command != '2' && command != '4' );
     }
-    if ( (***enemy) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD && (***enemy3) -> badstatus == DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD && (*enemy3) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("2.%s\n", (***enemy1) -> name);
+        printf("2.%s\n", (*enemy1) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1306,11 +1306,11 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
       } while ( command != '2' );
     }
   }
-  if ( (***enemy2) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy1) -> badstatus == DEAD && (***enemy3) -> badstatus != DEAD ){
+  if ( (*enemy2) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy1) -> badstatus == DEAD && (*enemy3) -> badstatus != DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("3.%s 4.%s\n", (***enemy2) -> name, (***enemy3) -> name);
+        printf("3.%s 4.%s\n", (*enemy2) -> name, (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){
@@ -1325,11 +1325,11 @@ int select_encount_pattern7_skillTarget(Enemy ****enemy, Enemy ****enemy1, Enemy
       } while ( command != '3' && command != '4' );
     }
   }
-  if ( (***enemy3) -> badstatus != DEAD ){
-    if ( (***enemy) -> badstatus == DEAD && (***enemy1) -> badstatus == DEAD && (***enemy2) -> badstatus == DEAD ){
+  if ( (*enemy3) -> badstatus != DEAD ){
+    if ( (*enemy) -> badstatus == DEAD && (*enemy1) -> badstatus == DEAD && (*enemy2) -> badstatus == DEAD ){
       do {
         printf("対象を選んでください(戻る場合はcを入力してください)\n");
-        printf("4.%s\n", (***enemy3) -> name);
+        printf("4.%s\n", (*enemy3) -> name);
         printf("\n");
         command =  _getch();
         if ( command == 'c' ){

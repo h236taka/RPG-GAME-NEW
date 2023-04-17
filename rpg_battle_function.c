@@ -11,9 +11,9 @@
 
 extern int tempArray[SIZE];
 
-int is_enemy_alive(Enemy ****enemy){
+int is_enemy_alive(Enemy **enemy){
 
-  if ( (***enemy) -> badstatus != DEAD ){
+  if ( (*enemy) -> badstatus != DEAD ){
     return TRUE;
   }
   else{
@@ -33,22 +33,22 @@ int is_enemyCopy_alive(Enemy *enemy_copy){
 
 }
 
-int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
+int player_attack(Player ****st, Enemy **enemy, int *enemy_deadcount){
   int damage_base, damage, i, eva, critical, eva_count, max_damage, temp;
   double eva_base, critical_base;
 
   eva_count = 0;
   if ( (***st) -> lv <= 3 ){
-    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - (***enemy) -> str;
+    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - (*enemy) -> str;
   }
   else{
-    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 16 ) - (***enemy) -> str;
+    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 16 ) - (*enemy) -> str;
   }
   if ( damage_base < 0 ){
     damage_base = 0;
     return -10;
   }
-  eva_base = 3 + ( (***enemy) -> agi * 0.1 ) + ( (***enemy) -> luk * 0.1 ) - ( (***st) -> agi * 0.2) - ( (***st) -> luk * 0.1);   //回避率計算
+  eva_base = 3 + ( (*enemy) -> agi * 0.1 ) + ( (*enemy) -> luk * 0.1 ) - ( (***st) -> agi * 0.2) - ( (***st) -> luk * 0.1);   //回避率計算
 
   //麻痺状態では攻撃の命中率が下がる
   if ( (***st) -> badstatus == PALYZE ){
@@ -79,7 +79,7 @@ int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
   }
 
   if ( eva_count == 0 ){
-    critical_base = 1 + ( (***st) -> luk * 0.2 ) + ( (***st) -> agi * 0.2 )- ( (***enemy) -> luk * 0.1 );  //critical率の計算
+    critical_base = 1 + ( (***st) -> luk * 0.2 ) + ( (***st) -> agi * 0.2 )- ( (*enemy) -> luk * 0.1 );  //critical率の計算
     if ( critical_base < 1 ){
       critical_base = 1;       //critical最小値1%
     }
@@ -107,48 +107,48 @@ int player_attack(Player ****st, Enemy ****enemy, int *enemy_deadcount){
 
     damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
     //敵の耐性判断
-    if ( (***enemy) -> physical_attack == 150 ){     //物理攻撃1.5倍
+    if ( (*enemy) -> physical_attack == 150 ){     //物理攻撃1.5倍
       damage *= 1.5;
     }
-    else if ( (***enemy) -> physical_attack == 200 ){
+    else if ( (*enemy) -> physical_attack == 200 ){
       printf("%sの通常攻撃!\n", (***st) -> name);
       sleep(1);
       printf("WEAKNESS!!\n");
       damage *= 2;
     }
-    else if ( (***enemy) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
+    else if ( (*enemy) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
       damage *= 0.8;
     }
-    else if ( (***enemy) -> physical_attack == 50 ){  //物理攻撃半減
+    else if ( (*enemy) -> physical_attack == 50 ){  //物理攻撃半減
       printf("%sの通常攻撃!\n", (***st) -> name);
       sleep(1);
       printf("RESIST!\n");
       damage *= 0.5;
     }
-    else if ( (***enemy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
+    else if ( (*enemy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
       printf("%sの通常攻撃!\n", (***st) -> name);
       sleep(1);
       printf("RESIST!\n");
       damage *= 0.25;
     }
-    else if ( (***enemy) -> physical_attack == -1 ){   //物理攻撃無効
+    else if ( (*enemy) -> physical_attack == -1 ){   //物理攻撃無効
       damage = -1;
       return damage;
     }
-    else if ( (***enemy) -> physical_attack == -2 ){   //物理攻撃吸収
+    else if ( (*enemy) -> physical_attack == -2 ){   //物理攻撃吸収
       temp = damage;
       damage = -2;
-      (***enemy) -> hp += temp;
-      if ( (***enemy) -> hp > (***enemy) -> maxhp ){
-        (***enemy) -> hp = (***enemy) -> maxhp;
+      (*enemy) -> hp += temp;
+      if ( (*enemy) -> hp > (*enemy) -> maxhp ){
+        (*enemy) -> hp = (*enemy) -> maxhp;
       }
       printf("%sの通常攻撃!\n", (***st) -> name);
       sleep(1);
       printf("Absorb!\n");
-      printf("%s:%dダメージ吸収\n", (***enemy) -> name, temp);
+      printf("%s:%dダメージ吸収\n", (*enemy) -> name, temp);
       return damage;
     }
-    else if ( (***enemy) -> physical_attack == -3 ){   //物理攻撃反射
+    else if ( (*enemy) -> physical_attack == -3 ){   //物理攻撃反射
       temp = damage;
       damage = -3;
       (***st) -> hp -= temp;
@@ -275,7 +275,7 @@ double calculate_enemy_turn(double enemy_turn, double turn_decrease){
   return enemy_turn;
 }
 
-double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy *****enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
+double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ***enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn){
   int damage_base, damage, eva, critical, eva_count, critical_count, i, max_damage;
   int temp, target_base, target;
   double eva_base, critical_base, turn_decrease;
@@ -283,7 +283,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
   eva_count = 0;
   critical_count = 0;
   //damage_base = ( (****enemy) -> atk + (****enemy) -> lv ) * 5 - ( (****st) -> str + (****st) -> lv ) * 2;
-  printf("%sの攻撃!\n", (****enemy) -> name);
+  printf("%sの攻撃!\n", (**enemy) -> name);
   sleep(1);
   //eva_base = 3 + ( (****st) -> agi * 0.2 ) + ( (****st) -> luk * 0.1 ) - ( (****enemy) -> agi * 0.1) - ( (****enemy) -> luk * 0.1);   //回避率計算
 
@@ -320,7 +320,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
       return enemy_turn;
     }
     else if ( (****st) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
+      damage_base = ( ( ( (**enemy) -> lv + (**enemy) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -340,21 +340,21 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
       return enemy_turn;
     }
     else if ( (****st) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
+      damage_base = ( ( ( (**enemy) -> lv + (**enemy) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       max_damage = damage_base * 1.3;
       temp = damage;
       damage = -3;
-      (****enemy) -> hp -= temp;
+      (**enemy) -> hp -= temp;
       printf("Reflect!\n");
       sleep(1);
-      printf("%s<<%dダメージ\n", (****enemy) -> name, temp);
-      if ( (****enemy) -> hp <= 0 ){
-        (****enemy) -> hp = 0;
-        (****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (****enemy) -> name);
+      printf("%s<<%dダメージ\n", (**enemy) -> name, temp);
+      if ( (**enemy) -> hp <= 0 ){
+        (**enemy) -> hp = 0;
+        (**enemy) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (**enemy) -> name);
       }
       turn_decrease = -2;
       enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -362,11 +362,11 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
     }
     else{
       target = 1;   //主人公
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
+      damage_base = ( ( ( (**enemy) -> lv + (**enemy) -> atk ) * 32 ) / 15 ) - (****st) -> str * 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
-      eva_base = 3 + ( (****st) -> agi * 0.2 ) + ( (****st) -> luk * 0.1 ) - ( (****enemy) -> agi * 0.1) - ( (****enemy) -> luk * 0.1);   //回避率計算
+      eva_base = 3 + ( (****st) -> agi * 0.2 ) + ( (****st) -> luk * 0.1 ) - ( (**enemy) -> agi * 0.1) - ( (**enemy) -> luk * 0.1);   //回避率計算
     }
   }
   else if ( target_base == 2 ){   //2人目のメンバー
@@ -377,7 +377,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
       return enemy_turn;
     }
     else if ( (****st2) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
+      damage_base = ( ( ( (**enemy) -> lv + (**enemy) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -396,21 +396,21 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
       return enemy_turn;
     }
     else if ( (****st2) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
+      damage_base = ( ( ( (**enemy) -> lv + (**enemy) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       max_damage = damage_base * 1.3;
       temp = damage;
       damage = -3;
-      (****enemy) -> hp -= temp;
+      (**enemy) -> hp -= temp;
       printf("Reflect!\n");
       sleep(1);
-      printf("%s<<%dダメージ\n", (****enemy) -> name, temp);
-      if ( (****enemy) -> hp <= 0 ){
-        (****enemy) -> hp = 0;
-        (****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (****enemy) -> name);
+      printf("%s<<%dダメージ\n", (**enemy) -> name, temp);
+      if ( (**enemy) -> hp <= 0 ){
+        (**enemy) -> hp = 0;
+        (**enemy) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (**enemy) -> name);
       }
       turn_decrease = -2;
       enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -418,11 +418,11 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
     }
     else{
       target = 2;
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
+      damage_base = ( ( ( (**enemy) -> lv + (**enemy) -> atk ) * 32 ) / 15 ) - (****st2) -> str * 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
-      eva_base = 3 + ( (****st2) -> agi * 0.2 ) + ( (****st2) -> luk * 0.1 ) - ( (****enemy) -> agi * 0.1) - ( (****enemy) -> luk * 0.1);   //回避率計算
+      eva_base = 3 + ( (****st2) -> agi * 0.2 ) + ( (****st2) -> luk * 0.1 ) - ( (**enemy) -> agi * 0.1) - ( (**enemy) -> luk * 0.1);   //回避率計算
     }
   }
   else if ( target_base == 3 ){   //３人目のメンバー
@@ -433,7 +433,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
       return enemy_turn;
     }
     else if ( (****st3) -> physical_attack == -2 ){  //物理攻撃吸収
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
+      damage_base = ( ( ( (**enemy) -> lv + (**enemy) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
@@ -452,21 +452,21 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
       return enemy_turn;
     }
     else if ( (****st3) -> physical_attack == -3 ){  //物理攻撃反射
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
+      damage_base = ( ( ( (**enemy) -> lv + (**enemy) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
       max_damage = damage_base * 1.3;
       temp = damage;
       damage = -3;
-      (****enemy) -> hp -= temp;
+      (**enemy) -> hp -= temp;
       printf("Reflect!\n");
       sleep(1);
-      printf("%s<<%dダメージ\n", (****enemy) -> name, temp);
-      if ( (****enemy) -> hp <= 0 ){
-        (****enemy) -> hp = 0;
-        (****enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (****enemy) -> name);
+      printf("%s<<%dダメージ\n", (**enemy) -> name, temp);
+      if ( (**enemy) -> hp <= 0 ){
+        (**enemy) -> hp = 0;
+        (**enemy) -> badstatus = DEAD;
+        printf("%sは倒れた\n", (**enemy) -> name);
       }
       turn_decrease = -2;
       enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -474,11 +474,11 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
     }
     else{
       target = 3;
-      damage_base = ( ( ( (****enemy) -> lv + (****enemy) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
+      damage_base = ( ( ( (**enemy) -> lv + (**enemy) -> atk ) * 32 ) / 15 ) - (****st3) -> str * 2;
       if ( damage_base < 0 ){
         damage_base = 1;
       }
-      eva_base = 3 + ( (****st3) -> agi * 0.2 ) + ( (****st3) -> luk * 0.1 ) - ( (****enemy) -> agi * 0.1) - ( (****enemy) -> luk * 0.1);   //回避率計算
+      eva_base = 3 + ( (****st3) -> agi * 0.2 ) + ( (****st3) -> luk * 0.1 ) - ( (**enemy) -> agi * 0.1) - ( (**enemy) -> luk * 0.1);   //回避率計算
     }
   }
 
@@ -508,19 +508,19 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ****
 
   if ( eva_count == 0 ){
     if ( target == 1 ){
-      critical_base = 1 + ( (****enemy) -> luk * 0.2) - ( (****st) -> luk * 0.1);  //critical率の計算
+      critical_base = 1 + ( (**enemy) -> luk * 0.2) - ( (****st) -> luk * 0.1);  //critical率の計算
       if ( critical_base < 1 ){
         critical_base = 1;       //critical最小値1%
       }
     }
     else if ( target == 2 ){
-      critical_base = 1 + ( (****enemy) -> luk * 0.2) - ( (****st2) -> luk * 0.1);  //critical率の計算
+      critical_base = 1 + ( (**enemy) -> luk * 0.2) - ( (****st2) -> luk * 0.1);  //critical率の計算
       if ( critical_base < 1 ){
         critical_base = 1;       //critical最小値1%
       }
     }
     else if ( target == 3 ){
-      critical_base = 1 + ( (****enemy) -> luk * 0.2) - ( (****st3) -> luk * 0.1);  //critical率の計算
+      critical_base = 1 + ( (**enemy) -> luk * 0.2) - ( (****st3) -> luk * 0.1);  //critical率の計算
       if ( critical_base < 1 ){
         critical_base = 1;       //critical最小値1%
       }
@@ -1214,41 +1214,41 @@ void poison_effect(Player ****st){
 }
 
 
-void enemy_data_copy(Enemy ****enemy, Enemy *enemy_copy){
+void enemy_data_copy(Enemy **enemy, Enemy *enemy_copy){
 
-  strcpy(enemy_copy -> name, (***enemy) -> name);
-  enemy_copy -> hp = (***enemy) -> hp;
-  enemy_copy -> maxhp = (***enemy) -> maxhp;
-  enemy_copy -> mp = (***enemy) -> maxmp;
-  enemy_copy -> maxmp = (***enemy) -> maxmp;
-  enemy_copy -> atk = (***enemy) -> atk;
-  enemy_copy -> magic = (***enemy) -> magic;
-  enemy_copy -> str = (***enemy) -> str;
-  enemy_copy -> agi = (***enemy) -> agi;
-  enemy_copy -> luk = (***enemy) -> luk;
-  enemy_copy -> lv = (***enemy) -> lv;
-  enemy_copy -> exp = (***enemy) -> exp;
-  enemy_copy -> gold = (***enemy) -> gold;
-  enemy_copy -> badstatus = (***enemy) -> badstatus;
-  enemy_copy -> physical_attack = (***enemy) -> physical_attack;
-  enemy_copy -> gun_attack = (***enemy) -> gun_attack;
-  enemy_copy -> fire = (***enemy) -> fire;
-  enemy_copy -> ice = (***enemy) -> ice;
-  enemy_copy -> elec = (***enemy) -> elec;
-  enemy_copy -> wave = (***enemy) -> wave;
-  enemy_copy -> almighty = (***enemy) -> almighty;
-  enemy_copy -> death = (***enemy) -> death;
-  enemy_copy -> expel = (***enemy) -> expel;
-  enemy_copy -> poison = (***enemy) -> poison;
-  enemy_copy -> palyze = (***enemy) -> palyze;
-  enemy_copy -> charm = (***enemy) -> charm;
-  enemy_copy -> close = (***enemy) -> close;
-  enemy_copy -> stone = (***enemy) -> stone;
-  enemy_copy -> panic = (***enemy) -> panic;
-  enemy_copy -> sleep = (***enemy) -> sleep;
-  enemy_copy -> curse = (***enemy) -> curse;
-  enemy_copy -> boss_count = (***enemy) -> boss_count;
-  enemy_copy -> enemy_id = (***enemy) -> enemy_id;
+  strcpy(enemy_copy -> name, (*enemy) -> name);
+  enemy_copy -> hp = (*enemy) -> hp;
+  enemy_copy -> maxhp = (*enemy) -> maxhp;
+  enemy_copy -> mp = (*enemy) -> maxmp;
+  enemy_copy -> maxmp = (*enemy) -> maxmp;
+  enemy_copy -> atk = (*enemy) -> atk;
+  enemy_copy -> magic = (*enemy) -> magic;
+  enemy_copy -> str = (*enemy) -> str;
+  enemy_copy -> agi = (*enemy) -> agi;
+  enemy_copy -> luk = (*enemy) -> luk;
+  enemy_copy -> lv = (*enemy) -> lv;
+  enemy_copy -> exp = (*enemy) -> exp;
+  enemy_copy -> gold = (*enemy) -> gold;
+  enemy_copy -> badstatus = (*enemy) -> badstatus;
+  enemy_copy -> physical_attack = (*enemy) -> physical_attack;
+  enemy_copy -> gun_attack = (*enemy) -> gun_attack;
+  enemy_copy -> fire = (*enemy) -> fire;
+  enemy_copy -> ice = (*enemy) -> ice;
+  enemy_copy -> elec = (*enemy) -> elec;
+  enemy_copy -> wave = (*enemy) -> wave;
+  enemy_copy -> almighty = (*enemy) -> almighty;
+  enemy_copy -> death = (*enemy) -> death;
+  enemy_copy -> expel = (*enemy) -> expel;
+  enemy_copy -> poison = (*enemy) -> poison;
+  enemy_copy -> palyze = (*enemy) -> palyze;
+  enemy_copy -> charm = (*enemy) -> charm;
+  enemy_copy -> close = (*enemy) -> close;
+  enemy_copy -> stone = (*enemy) -> stone;
+  enemy_copy -> panic = (*enemy) -> panic;
+  enemy_copy -> sleep = (*enemy) -> sleep;
+  enemy_copy -> curse = (*enemy) -> curse;
+  enemy_copy -> boss_count = (*enemy) -> boss_count;
+  enemy_copy -> enemy_id = (*enemy) -> enemy_id;
 }
 
 //encount_pattern = 1; 敵１体
@@ -1403,49 +1403,49 @@ void display_player_turn(Player ****st, double player_turn){
   }
 }
 
-void display_enemy_turn(Enemy ****enemy, double enemy_turn){
+void display_enemy_turn(Enemy **enemy, double enemy_turn){
 
   if ( enemy_turn == 4 ){
-    printf("%sのTURN! (ENEMY TURN: 〇〇〇〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: 〇〇〇〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 3 ){
-    printf("%sのTURN! (ENEMY TURN: 〇〇〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: 〇〇〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 2 ){
-    printf("%sのTURN! (ENEMY TURN: 〇〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: 〇〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 1 ){
-    printf("%sのTURN! (ENEMY TURN: 〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: 〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 4.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎〇〇〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎〇〇〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 4.2 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎〇〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎◎〇〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 4.3 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎◎〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎◎◎〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 4.4 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎◎◎)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎◎◎◎)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 3.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎〇〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎〇〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 3.2 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎◎〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 3.3 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎◎)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎◎◎)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 2.2 ){
-    printf("%sのTURN! (ENEMY TURN: ◎◎)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎◎)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 2.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎〇)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎〇)\n", (*enemy) -> name);
   }
   else if ( enemy_turn == 1.1 ){
-    printf("%sのTURN! (ENEMY TURN: ◎)\n", (***enemy) -> name);
+    printf("%sのTURN! (ENEMY TURN: ◎)\n", (*enemy) -> name);
   }
 }
 
