@@ -50,12 +50,13 @@ void enemy_full_recover5(Enemy **enemy, Enemy **enemy1){
 void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy *enemy, Enemy *enemy1, int encount_pattern){
 
   int player_damage, enemy_damage, enemy_move, player_guard, player_guard2, player_guard3, move_finish;
-  int enemy_deadcount, skill_count, use_skill_count, skill_reaction, recover_point, battle_display_condition_count, enemy_temp;
+  int skill_count, use_skill_count, skill_reaction, recover_point, battle_display_condition_count, enemy_temp;
   int result_exp, result_gold;
   int command;
   int skill_command;
   int skill_target, skill_user;
   double player_turn, enemy_turn, turn_decrease, enemy_turn_temp;
+  int enemy_deadcount;
 
   if ( enemy -> boss_count == 0 ){
     printf("<<<<<<NORMAL BATTLE>>>>>>\n");
@@ -156,6 +157,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
         else{
           display_player_turn(&st, player_turn);
           printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
+          //printf("enemy_deadcount:%d\n", enemy_deadcount);
           printf("\n");
           printf("1~6を入力してください\n");
           command =  _getch();
@@ -166,121 +168,13 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                 command = player_normal_attack_target5(&enemy,&enemy1);
 
                 if ( command == '1' ){
-                  player_damage = player_attack(&st, &enemy, &enemy_deadcount);
-                  if ( player_damage > 0 ){
-                    printf("%s>>通常攻撃!\n", (**st) -> name);
-                    sleep(1);
-                    if ( player_damage > 99000 ){
-                      player_damage -= 100000;
-                      printf("CRITICAL!\n");
-                      turn_decrease = 0.1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                      sleep(1);
-                    }
-                    else{
-                      turn_decrease = -1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    }
-                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
-                  }
-                  else if ( player_damage == 0 ){
-                    printf("%s>>通常攻撃!\n", (**st) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Miss!\n", (**st) -> name); //回避時
-                  }
-                  else if ( player_damage == -1 ){
-                    printf("%s>>通常攻撃!\n", (**st) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("BLOCK!\n");
-                  }
-                  else if ( player_damage == -2 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -3 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -10 ){
-                    printf("%s>>通常攻撃!\n", (**st) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("攻撃はかすりともしない!\n");
-                  }
-
-                  if ( player_damage >= enemy -> hp ){
-                    printf("%sを倒した!\n", enemy -> name);
-                    enemy_deadcount++;
-                    enemy -> badstatus = DEAD;
-                    //printf("enemy_deadcount:%d", enemy_deadcount);
-                  }
-                  else{
-                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      enemy -> hp -= player_damage;
-                    }
-                  }
+                  turn_decrease = player_attack_for_enemy(&st, &enemy, &enemy_deadcount);
+                  player_turn = calculate_player_turn(player_turn, turn_decrease);
                   move_finish++;
                 }
                 else if ( command == '2' ){
-                  player_damage = player_attack(&st, &enemy1, &enemy_deadcount);  //本当はenemy_copy1だがenemy_copy1はenemyと同じステータス
-                  if ( player_damage > 0 ){
-                    printf("%s>>通常攻撃!\n", (**st) -> name);
-                    sleep(1);
-                    if ( player_damage > 99000 ){
-                      player_damage -= 100000;
-                      printf("CRITICAL!\n");
-                      turn_decrease = 0.1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                      sleep(1);
-                    }
-                    else{
-                      turn_decrease = -1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    }
-                    printf("%s<<%dダメージ\n", enemy1 -> name, player_damage);
-                  }
-                  else if ( player_damage == 0 ){
-                    printf("%s>>通常攻撃!\n", (**st) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Miss!\n", (**st) -> name); //回避時
-                  }
-                  else if ( player_damage == -1 ){
-                    printf("%s>>通常攻撃!\n", (**st) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("BLOCK!\n");
-                  }
-                  else if ( player_damage == -2 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -3 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -10 ){
-                    printf("%sの通常攻撃!\n", (**st) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("攻撃はかすりともしない!\n");
-                  }
-
-                  if ( player_damage >= enemy1 -> hp ){
-                    printf("%sを倒した!\n", enemy1 -> name);
-                    enemy_deadcount++;
-                    enemy1 -> badstatus = DEAD;
-                    //printf("enemy_deadcount:%d", enemy_deadcount);
-                  }
-                  else{
-                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      enemy1 -> hp -= player_damage;
-                    }
-                  }
+                  turn_decrease = player_attack_for_enemy(&st, &enemy1, &enemy_deadcount);
+                  player_turn = calculate_player_turn(player_turn, turn_decrease);
                   move_finish++;
                 }
                 else if ( command == 'c' ){
@@ -290,6 +184,8 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                   printf("1か２を入力してください\n");
                 }
               }while ( command != '1' && command != '2' );
+
+              enemy_deadcount = check_enemyDeadCount5(&enemy,&enemy1);
             }
 
           }
@@ -887,6 +783,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
           //printf("%f\n", player_turn);
           display_player_turn(&st2, player_turn);
           printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
+          //printf("enemy_deadcount:%d\n", enemy_deadcount);
           printf("\n");
           printf("1~6を入力してください\n");
           command =  _getch();
@@ -897,121 +794,13 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                 command = player_normal_attack_target5(&enemy,&enemy1);
 
                 if ( command == '1' ){
-                  player_damage = player_attack(&st2, &enemy, &enemy_deadcount);
-                  if ( player_damage > 0 ){
-                    printf("%s>>通常攻撃!\n", (**st2) -> name);
-                    sleep(1);
-                    if ( player_damage > 99000 ){
-                      player_damage -= 100000;
-                      printf("CRITICAL!\n");
-                      turn_decrease = 0.1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                      sleep(1);
-                    }
-                    else{
-                      turn_decrease = -1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    }
-                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
-                  }
-                  else if ( player_damage == 0 ){
-                    printf("%s>>通常攻撃!\n", (**st2) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Miss!\n", (**st2) -> name); //回避時
-                  }
-                  else if ( player_damage == -1 ){
-                    printf("%s>>通常攻撃!\n", (**st2) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("BLOCK!\n");
-                  }
-                  else if ( player_damage == -2 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -3 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -10 ){
-                    printf("%s>>通常攻撃!\n", (**st2) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("攻撃はかすりともしない!\n");
-                  }
-
-                  if ( player_damage >= enemy -> hp ){
-                    printf("%sを倒した!\n", enemy -> name);
-                    enemy_deadcount++;
-                    enemy -> badstatus = DEAD;
-                    //printf("enemy_deadcount:%d", enemy_deadcount);
-                  }
-                  else{
-                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      enemy -> hp -= player_damage;
-                    }
-                  }
+                  turn_decrease = player_attack_for_enemy(&st2, &enemy, &enemy_deadcount);
+                  player_turn = calculate_player_turn(player_turn, turn_decrease);
                   move_finish++;
                 }
                 else if ( command == '2' ){
-                  player_damage = player_attack(&st2, &enemy1, &enemy_deadcount);  //本当はenemy_copy1だがenemy_copy1はenemyと同じステータス
-                  if ( player_damage > 0 ){
-                    printf("%s>>通常攻撃!\n", (**st2) -> name);
-                    sleep(1);
-                    if ( player_damage > 99000 ){
-                      player_damage -= 100000;
-                      printf("CRITICAL!\n");
-                      turn_decrease = 0.1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                      sleep(1);
-                    }
-                    else{
-                      turn_decrease = -1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    }
-                    printf("%s<<%dダメージ\n", enemy1 -> name, player_damage);
-                  }
-                  else if ( player_damage == 0 ){
-                    printf("%s>>通常攻撃!\n", (**st2) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Miss!\n", (**st2) -> name); //回避時
-                  }
-                  else if ( player_damage == -1 ){
-                    printf("%s>>通常攻撃!\n", (**st2) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("BLOCK!\n");
-                  }
-                  else if ( player_damage == -2 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -3 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -10 ){
-                    printf("%sの通常攻撃!\n", (**st2) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("攻撃はかすりともしない!\n");
-                  }
-
-                  if ( player_damage >= enemy1 -> hp ){
-                    printf("%sを倒した!\n", enemy1 -> name);
-                    enemy_deadcount++;
-                    enemy1 -> badstatus = DEAD;
-                    //printf("enemy_deadcount:%d", enemy_deadcount);
-                  }
-                  else{
-                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      enemy1 -> hp -= player_damage;
-                    }
-                  }
+                  turn_decrease = player_attack_for_enemy(&st2, &enemy1, &enemy_deadcount);
+                  player_turn = calculate_player_turn(player_turn, turn_decrease);
                   move_finish++;
                 }
                 else if ( command == 'c' ){
@@ -1021,6 +810,8 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                   printf("1か２を入力してください\n");
                 }
               }while ( command != '1' && command != '2' );
+
+              enemy_deadcount = check_enemyDeadCount5(&enemy,&enemy1);
             }
 
           }
@@ -1613,6 +1404,7 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
           //printf("%f\n", player_turn);
           display_player_turn(&st3, player_turn);
           printf("1.ATTACK 2.SKILL 3.GUARD 4.ITEMS 5.ESCAPE 6.NEXT TURN\n");
+          //printf("enemy_deadcount:%d\n", enemy_deadcount);
           printf("\n");
           printf("1~6を入力してください\n");
           command =  _getch();
@@ -1623,121 +1415,13 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                 command = player_normal_attack_target5(&enemy,&enemy1);
 
                 if ( command == '1' ){
-                  player_damage = player_attack(&st3, &enemy, &enemy_deadcount);
-                  if ( player_damage > 0 ){
-                    printf("%s>>通常攻撃!\n", (**st3) -> name);
-                    sleep(1);
-                    if ( player_damage > 99000 ){
-                      player_damage -= 100000;
-                      printf("CRITICAL!\n");
-                      turn_decrease = 0.1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                      sleep(1);
-                    }
-                    else{
-                      turn_decrease = -1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    }
-                    printf("%s<<%dダメージ\n", enemy -> name, player_damage);
-                  }
-                  else if ( player_damage == 0 ){
-                    printf("%s>>通常攻撃!\n", (**st3) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Miss!\n", (**st3) -> name); //回避時
-                  }
-                  else if ( player_damage == -1 ){
-                    printf("%s>>通常攻撃!\n", (**st3) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("BLOCK!\n");
-                  }
-                  else if ( player_damage == -2 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -3 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -10 ){
-                    printf("%s>>通常攻撃!\n", (**st3) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("攻撃はかすりともしない!\n");
-                  }
-
-                  if ( player_damage >= enemy -> hp ){
-                    printf("%sを倒した!\n", enemy -> name);
-                    enemy_deadcount++;
-                    enemy -> badstatus = DEAD;
-                    //printf("enemy_deadcount:%d", enemy_deadcount);
-                  }
-                  else{
-                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      enemy -> hp -= player_damage;
-                    }
-                  }
+                  turn_decrease = player_attack_for_enemy(&st3, &enemy, &enemy_deadcount);
+                  player_turn = calculate_player_turn(player_turn, turn_decrease);
                   move_finish++;
                 }
                 else if ( command == '2' ){
-                  player_damage = player_attack(&st3, &enemy1, &enemy_deadcount);  //本当はenemy_copy1だがenemy_copy1はenemyと同じステータス
-                  if ( player_damage > 0 ){
-                    printf("%s>>通常攻撃!\n", (**st3) -> name);
-                    sleep(1);
-                    if ( player_damage > 99000 ){
-                      player_damage -= 100000;
-                      printf("CRITICAL!\n");
-                      turn_decrease = 0.1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                      sleep(1);
-                    }
-                    else{
-                      turn_decrease = -1;
-                      player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    }
-                    printf("%s<<%dダメージ\n", enemy1 -> name, player_damage);
-                  }
-                  else if ( player_damage == 0 ){
-                    printf("%s>>通常攻撃!\n", (**st3) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("Miss!\n", (**st3) -> name); //回避時
-                  }
-                  else if ( player_damage == -1 ){
-                    printf("%s>>通常攻撃!\n", (**st3) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("BLOCK!\n");
-                  }
-                  else if ( player_damage == -2 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -3 ){
-                    //処理なし
-                  }
-                  else if ( player_damage == -10 ){
-                    printf("%sの通常攻撃!\n", (**st3) -> name);
-                    sleep(1);
-                    turn_decrease = -2;
-                    player_turn = calculate_player_turn(player_turn, turn_decrease);
-                    printf("攻撃はかすりともしない!\n");
-                  }
-
-                  if ( player_damage >= enemy1 -> hp ){
-                    printf("%sを倒した!\n", enemy1 -> name);
-                    enemy_deadcount++;
-                    enemy1 -> badstatus = DEAD;
-                    //printf("enemy_deadcount:%d", enemy_deadcount);
-                  }
-                  else{
-                    if ( player_damage != -1 && player_damage != -2 && player_damage != -3 ){
-                      enemy1 -> hp -= player_damage;
-                    }
-                  }
+                  turn_decrease = player_attack_for_enemy(&st3, &enemy1, &enemy_deadcount);
+                  player_turn = calculate_player_turn(player_turn, turn_decrease);
                   move_finish++;
                 }
                 else if ( command == 'c' ){
@@ -1747,6 +1431,8 @@ void game_battle_encount_pattern5(Player ***st, Player ***st2, Player ***st3, P_
                   printf("1か２を入力してください\n");
                 }
               }while ( command != '1' && command != '2' );
+
+              enemy_deadcount = check_enemyDeadCount5(&enemy,&enemy1);
             }
           }
           else if ( command == '2' ){ //skillコマンド

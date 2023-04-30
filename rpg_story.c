@@ -444,6 +444,16 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
   full_recover(&st,&st2,&st3);
 
   do{
+    /*player_skill -> volua[0] = NOT_LEARNING;
+    player_skill -> volua[1] = BATTLEONLY;
+    player_skill -> volua[2] = 0;
+    player_skill -> volua[3] = 2;
+
+    player_skill -> whive[0] = NOT_LEARNING;
+    player_skill -> whive[1] = BATTLEONLY;
+    player_skill -> whive[2] = 0;
+    player_skill -> whive[3] = 2;*/
+
     sleep(1);
     printf("\n");
     printf("%sはどうしますか?\n", st -> name);
@@ -475,8 +485,7 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
   printf("---STAGE2 CLEARED!!---\n");
   st -> stage_clear = 2;
 
-  st -> hp = st -> maxhp;
-  st -> mp = st -> maxmp;
+  full_recover(&st,&st2,&st3);
 
 }
 
@@ -511,6 +520,43 @@ void game_story3(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     sleep(1);
     printf("\n");
   }
+
+  do{
+    sleep(1);
+    printf("\n");
+    printf("%sはどうしますか?\n", st -> name);
+    input = school_command();
+
+    if ( input == '1' ){
+      goTo_infirmary(&st,&st2,&st3,&items);
+    }
+    else if ( input == '2' ){
+      goTo_artRoom(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
+    }
+    else if ( input == '3' ){
+      goTo_labo(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3);
+    }
+    else if ( input == '4' ){
+      printf("どこに行きますか?\n");
+      printf("1.図書館\n");
+      printf("2.校舎2F\n");
+      input = _getch();
+
+      if ( input == '1' ){
+        area2_map(&area, &st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search);
+      }
+      else if ( input == '2' ){
+        //area3_map(&area,&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3,&setting_skill,&setting_skill2,&setting_skill3,&items,&pEquip,&p2Equip,&p3Equip,&search);
+      }
+    }
+    else if ( input == '5' ){
+      exit(EXIT_SUCCESS);
+    }
+    else if ( input == '6' ){
+      st -> stage_clear = 1.1;
+      save_inSchool(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip,&search);
+    }
+  } while ( area -> boss3 == 0 );
 
 
 }

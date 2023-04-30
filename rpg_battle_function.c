@@ -33,11 +33,233 @@ int is_enemyCopy_alive(Enemy *enemy_copy){
 
 }
 
-int player_attack(Player ****st, Enemy **enemy, int *enemy_deadcount){
-  int damage_base, damage, i, eva, critical, eva_count, max_damage, temp;
-  double eva_base, critical_base;
+int calculate_evaPer(int eva_base, int eva){
+  int turn_decrease;
 
-  eva_count = 0;
+  for ( int i = 1; i <= eva_base; i++ ){
+    if ( i == eva ){
+      printf("MISS!\n");
+      turn_decrease = -2;
+      return turn_decrease; //TRUE
+    }
+  }
+
+  return FALSE; //回避行動がない(FALSE)
+}
+
+double calculate_criticalPer(int critical_base, int critical){
+  double turn_decrease;
+
+  for ( int i = 1; i <= critical_base; i++ ){
+    if ( i == critical ){
+      printf("CRITICAL!\n");
+      turn_decrease = 0.1;
+      return turn_decrease; //TRUE
+    }
+  }
+
+  return FALSE; //クリティカルではない(FALSE)
+}
+
+void is_damaged_by_playerAttack(Player ******st, Enemy ****enemy, int ***enemy_deadcount, int damage){
+
+  if ( damage >= (***enemy) -> hp ){
+    printf("%s<<%dダメージ\n", (***enemy) -> name, damage);
+    sleep(1);
+    printf("%sは%sを倒した!\n", (*****st) -> name, (***enemy) -> name);
+    (***enemy) -> hp = 0;
+    (***enemy) -> badstatus = DEAD;
+    ***enemy_deadcount++;
+  }
+  else{
+    printf("%s<<%dダメージ\n", (***enemy) -> name, damage);
+    (***enemy) -> hp -= damage;
+    if ( (***enemy) -> hp <= 0 ){
+      (***enemy) -> hp = 0;
+      (***enemy) -> badstatus = DEAD;
+      ***enemy_deadcount++;
+      printf("%sは%sを倒した!\n", (*****st) -> name, (***enemy) -> name);
+    }
+  }
+
+}
+
+void is_damaged_by_playerAttack_forEnemyCopy(Player ******st, Enemy ***enemy_copy, int ***enemy_deadcount, int damage){
+
+  if ( damage >= (**enemy_copy) -> hp ){
+    printf("%s<<%dダメージ\n", (**enemy_copy) -> name, damage);
+    sleep(1);
+    printf("%sは%sを倒した!\n", (*****st) -> name, (**enemy_copy) -> name);
+    (**enemy_copy) -> hp = 0;
+    (**enemy_copy) -> badstatus = DEAD;
+    ***enemy_deadcount++;
+  }
+  else{
+    printf("%s<<%dダメージ\n", (**enemy_copy) -> name, damage);
+    (**enemy_copy) -> hp -= damage;
+    if ( (**enemy_copy) -> hp <= 0 ){
+      (**enemy_copy) -> hp = 0;
+      (**enemy_copy) -> badstatus = DEAD;
+      ***enemy_deadcount++;
+      printf("%sは%sを倒した!\n", (*****st) -> name, (**enemy_copy) -> name);
+    }
+  }
+
+}
+
+double check_enemy_normalAttackResist(Player *****st, Enemy ***enemy, int **enemy_deadcount, int damage){
+  double turn_decrease;
+
+  if ( (**enemy) -> physical_attack == BLOCK ){  //物理攻撃無効
+    sleep(1);
+    printf("%s<<BLOCK!\n", (**enemy) -> name);
+    turn_decrease = -2;
+    return turn_decrease;
+  }
+  else if ( (**enemy) -> physical_attack == ABSORB ){  //物理攻撃吸収
+    (**enemy) -> hp += damage;
+    if ( (**enemy) -> hp > (**enemy) -> maxhp ){
+      (**enemy) -> hp = (**enemy) -> maxhp;
+    }
+    printf("ABSORB!\n");
+    sleep(1);
+    printf("%s<<%dダメージ吸収\n", (**enemy) -> name, damage);
+    turn_decrease = TURNCHAGE;
+    return turn_decrease;
+  }
+  else if ( (**enemy) -> physical_attack == REFLECT ){  //物理攻撃反射
+    printf("REFLECT!\n");
+    sleep(1);
+    printf("%s<<%dダメージ反射\n", (****st) -> name, damage);
+    if ( (****st) -> hp <= 0 ){
+      (****st) -> hp = 0;
+      (****st) -> badstatus = DEAD;
+      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+    }
+    turn_decrease = TURNCHAGE;
+    return turn_decrease;
+  }
+  else if ( (**enemy) -> physical_attack == 100 ){
+    sleep(1);
+    damage = damage;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> physical_attack == 120 ){
+    damage *= 1.2;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> physical_attack == 150 ){     //物理攻撃1.5倍
+    damage *= 1.5;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> physical_attack == 200 ){
+    sleep(1);
+    printf("WEAKNESS!!\n");
+    damage *= 2;
+    turn_decrease = 0.1;
+  }
+  else if ( (**enemy) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
+    damage *= 0.8;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> physical_attack == 50 ){  //物理攻撃半減
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.5;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.25;
+    turn_decrease = -1;
+  }
+
+  is_damaged_by_playerAttack(&st,&enemy,&enemy_deadcount,damage);
+
+  return turn_decrease;
+}
+
+double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, int **enemy_deadcount, int damage){
+  double turn_decrease;
+
+  if ( (*enemy_copy) -> physical_attack == BLOCK ){  //物理攻撃無効
+    sleep(1);
+    printf("%s<<BLOCK!\n", (*enemy_copy) -> name);
+    turn_decrease = -2;
+    return turn_decrease;
+  }
+  else if ( (*enemy_copy) -> physical_attack == ABSORB ){  //物理攻撃吸収
+    (*enemy_copy) -> hp += damage;
+    if ( (*enemy_copy) -> hp > (*enemy_copy) -> maxhp ){
+      (*enemy_copy) -> hp = (*enemy_copy) -> maxhp;
+    }
+    printf("ABSORB!\n");
+    sleep(1);
+    printf("%s<<%dダメージ吸収\n", (*enemy_copy) -> name, damage);
+    turn_decrease = TURNCHAGE;
+    return turn_decrease;
+  }
+  else if ( (*enemy_copy) -> physical_attack == REFLECT ){  //物理攻撃反射
+    printf("REFLECT!\n");
+    sleep(1);
+    printf("%s<<%dダメージ反射\n", (****st) -> name, damage);
+    if ( (****st) -> hp <= 0 ){
+      (****st) -> hp = 0;
+      (****st) -> badstatus = DEAD;
+      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+    }
+    turn_decrease = TURNCHAGE;
+    return turn_decrease;
+  }
+  else if ( (*enemy_copy) -> physical_attack == 100 ){
+    sleep(1);
+    damage = damage;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> physical_attack == 120 ){
+    damage *= 1.2;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> physical_attack == 150 ){     //物理攻撃1.5倍
+    damage *= 1.5;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> physical_attack == 200 ){
+    sleep(1);
+    printf("WEAKNESS!!\n");
+    damage *= 2;
+    turn_decrease = 0.1;
+  }
+  else if ( (*enemy_copy) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
+    damage *= 0.8;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> physical_attack == 50 ){  //物理攻撃半減
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.5;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.25;
+    turn_decrease = -1;
+  }
+
+  is_damaged_by_playerAttack_forEnemyCopy(&st,&enemy_copy,&enemy_deadcount,damage);
+
+  return turn_decrease;
+}
+
+double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcount){
+  int damage_base, damage, i, eva, critical, max_damage, temp;
+  double eva_base, critical_base;
+  double turn_decrease;
+
+  printf("%s>>通常攻撃!\n", (***st) -> name);
+
   if ( (***st) -> lv <= 3 ){
     damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - (*enemy) -> str;
   }
@@ -45,8 +267,7 @@ int player_attack(Player ****st, Enemy **enemy, int *enemy_deadcount){
     damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 16 ) - (*enemy) -> str;
   }
   if ( damage_base < 0 ){
-    damage_base = 0;
-    return -10;
+    damage_base = 1;
   }
   eva_base = 3 + ( (*enemy) -> agi * 0.1 ) + ( (*enemy) -> luk * 0.1 ) - ( (***st) -> agi * 0.2) - ( (***st) -> luk * 0.1);   //回避率計算
 
@@ -69,110 +290,161 @@ int player_attack(Player ****st, Enemy **enemy, int *enemy_deadcount){
   eva = (rand() % ( 100 - 1 + 1 ) + 1);  //回避率の乱数
   //printf("eva number = %d\n", eva);
 
-  for ( i = 3; i <= eva_base; i++ ){
-    if ( eva_base == i ){
-      if ( eva >= 1 && eva <= i ){   //回避率eva_base%
-        damage = 0;
-        eva_count++;
-      }
-    }
+  turn_decrease = calculate_evaPer(eva_base,eva);
+  if ( turn_decrease == -2 ){
+    return turn_decrease;
   }
 
-  if ( eva_count == 0 ){
-    critical_base = 1 + ( (***st) -> luk * 0.2 ) + ( (***st) -> agi * 0.2 )- ( (*enemy) -> luk * 0.1 );  //critical率の計算
-    if ( critical_base < 1 ){
-      critical_base = 1;       //critical最小値1%
+  critical_base = 1 + ( (***st) -> luk * 0.2 ) + ( (***st) -> agi * 0.2 )- ( (*enemy) -> luk * 0.1 );  //critical率の計算
+  if ( critical_base < 1 ){
+    critical_base = 1;       //critical最小値1%
+  }
+  //printf("before critical_base = %f\n", critical_base);
+  critical_base = round(critical_base);
+  //printf("after critical_base = %f\n", critical_base);
+
+  critical = (rand() % ( 100 - 1 + 1 ) + 1);   //critical率の乱数
+  //printf("critical number = %d\n", critical);
+
+  turn_decrease = calculate_criticalPer(critical_base, critical);
+  if ( turn_decrease == 0.1 ){
+    max_damage = damage_base * 1.5;   //ダメージの最大乱数はdamage_baseの1.5倍
+    sleep(1);
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base; //(rand()%(max - min + 1)) + min;
+    damage *= 2;     //criticalでダメージ2倍
+    if ( damage > 9999 ){
+      damage = 9999;
     }
-    //printf("before critical_base = %f\n", critical_base);
-    critical_base = round(critical_base);
-    //printf("after critical_base = %f\n", critical_base);
-
-    critical = (rand() % ( 100 - 1 + 1 ) + 1);   //critical率の乱数
-    //printf("critical number = %d\n", critical);
-
-    //critical_base = 100;
-    for ( i = 1; i <= critical_base; i++ ){
-      if ( critical_base == i ){
-        if ( critical >= 1 && critical <= i ){   //回避率critical_base%
-          max_damage = damage_base * 1.5;   //ダメージの最大乱数はdamage_baseの1.5倍
-          damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base; //(rand()%(max - min + 1)) + min;
-          damage *= 2;     //criticalでダメージ2倍
-          damage += 100000;
-          return damage;
-        }
+    //is_damaged_by_playerAttack(&st,&enemy,damage);pointerの数が合わないため下に直接ダメージ計算プログラムを記述
+    if ( damage >= (*enemy) -> hp ){
+      sleep(1);
+      printf("%s<<%dダメージ\n", (*enemy) -> name, damage);
+      sleep(1);
+      printf("%sは%sを倒した!\n", (***st) -> name, (*enemy) -> name);
+      (*enemy) -> hp = 0;
+      (*enemy) -> badstatus = DEAD;
+      *enemy_deadcount++;
+    }
+    else{
+      printf("%s<<%dダメージ\n", (*enemy) -> name, damage);
+      (*enemy) -> hp -= damage;
+      if ( (*enemy) -> hp <= 0 ){
+        (*enemy) -> hp = 0;
+        (*enemy) -> badstatus = DEAD;
+        printf("%sは%sを倒した!\n", (***st) -> name, (*enemy) -> name);
+        *enemy_deadcount++;
       }
     }
-
-    max_damage = damage_base * 1.3;
-
-    damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
-    //敵の耐性判断
-    if ( (*enemy) -> physical_attack == 150 ){     //物理攻撃1.5倍
-      damage *= 1.5;
-    }
-    else if ( (*enemy) -> physical_attack == 200 ){
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("WEAKNESS!!\n");
-      damage *= 2;
-    }
-    else if ( (*enemy) -> physical_attack == 80 ){  //物理攻撃ダメージ80%
-      damage *= 0.8;
-    }
-    else if ( (*enemy) -> physical_attack == 50 ){  //物理攻撃半減
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("RESIST!\n");
-      damage *= 0.5;
-    }
-    else if ( (*enemy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("RESIST!\n");
-      damage *= 0.25;
-    }
-    else if ( (*enemy) -> physical_attack == -1 ){   //物理攻撃無効
-      damage = -1;
-      return damage;
-    }
-    else if ( (*enemy) -> physical_attack == -2 ){   //物理攻撃吸収
-      temp = damage;
-      damage = -2;
-      (*enemy) -> hp += temp;
-      if ( (*enemy) -> hp > (*enemy) -> maxhp ){
-        (*enemy) -> hp = (*enemy) -> maxhp;
-      }
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("Absorb!\n");
-      printf("%s:%dダメージ吸収\n", (*enemy) -> name, temp);
-      return damage;
-    }
-    else if ( (*enemy) -> physical_attack == -3 ){   //物理攻撃反射
-      temp = damage;
-      damage = -3;
-      (***st) -> hp -= temp;
-      printf("%sの通常攻撃!\n", (***st) -> name);
-      sleep(1);
-      printf("Reflect!\n");
-      printf("%sは%dダメージを受けた\n", (***st) -> name, temp);
-      if ( (***st) -> hp <= 0 ){
-        (***st) -> hp = 0;
-        (***st) -> badstatus = DEAD;
-        sleep(1);
-        printf("%sは死んでしまった\n", (***st) -> name);
-      }
-
-      return damage;
-    }
-
+    return turn_decrease;
   }
 
+  max_damage = damage_base * 1.3;
+
+  damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
   if ( damage > 9999 ){
     damage = 9999;
   }
+  //敵の耐性判断
+  turn_decrease = check_enemy_normalAttackResist(&st,&enemy,&enemy_deadcount,damage);
 
-  return damage;
+  return turn_decrease;
+}
+
+double player_attack_for_enemyCopy(Player ****st, Enemy *enemy_copy, int *enemy_deadcount){
+  int damage_base, damage, i, eva, critical, max_damage, temp;
+  double eva_base, critical_base;
+  double turn_decrease;
+
+  if ( (***st) -> lv <= 3 ){
+    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - enemy_copy -> str;
+  }
+  else{
+    damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 16 ) - enemy_copy -> str;
+  }
+  if ( damage_base < 0 ){
+    damage_base = 1;
+  }
+  eva_base = 3 + ( enemy_copy -> agi * 0.1 ) + ( enemy_copy -> luk * 0.1 ) - ( enemy_copy -> agi * 0.2) - ( enemy_copy -> luk * 0.1);   //回避率計算
+
+  //麻痺状態では攻撃の命中率が下がる
+  if ( (***st) -> badstatus == PALYZE ){
+    eva_base += 50;
+    if ( eva_base > 100 ){
+      eva_base = 100;
+    }
+  }
+
+  //printf("before eva_base = %f\n", eva_base);
+  eva_base = round(eva_base);
+  //printf("after eva_base = %f\n", eva_base);
+
+  if ( eva_base < 3 ){
+    eva_base = 3;     //回避率最小値3%
+  }
+
+  eva = (rand() % ( 100 - 1 + 1 ) + 1);  //回避率の乱数
+  //printf("eva number = %d\n", eva);
+
+  turn_decrease = calculate_evaPer(eva_base,eva);
+  if ( turn_decrease == -2 ){
+    return turn_decrease;
+  }
+
+  critical_base = 1 + ( (***st) -> luk * 0.2 ) + ( (***st) -> agi * 0.2 )- ( enemy_copy -> luk * 0.1 );  //critical率の計算
+  if ( critical_base < 1 ){
+    critical_base = 1;       //critical最小値1%
+  }
+  //printf("before critical_base = %f\n", critical_base);
+  critical_base = round(critical_base);
+  //printf("after critical_base = %f\n", critical_base);
+
+  critical = (rand() % ( 100 - 1 + 1 ) + 1);   //critical率の乱数
+  //printf("critical number = %d\n", critical);
+
+  turn_decrease = calculate_criticalPer(critical_base, critical);
+  if ( turn_decrease == 0.1 ){
+    printf("%s>>通常攻撃!\n", (***st) -> name);
+    sleep(1);
+    max_damage = damage_base * 1.5;   //ダメージの最大乱数はdamage_baseの1.5倍
+    sleep(1);
+    printf("CRITICAL!!\n");
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base; //(rand()%(max - min + 1)) + min;
+    damage *= 2;     //criticalでダメージ2倍
+    if ( damage > 9999 ){
+      damage = 9999;
+    }
+    if ( damage >= enemy_copy -> hp ){
+      sleep(1);
+      printf("%s<<%dダメージ\n", enemy_copy -> name, damage);
+      sleep(1);
+      printf("%sは%sを倒した!\n", (***st) -> name, enemy_copy -> name);
+      enemy_copy -> hp = 0;
+      enemy_copy -> badstatus = DEAD;
+      *enemy_deadcount++;
+    }
+    else{
+      printf("%s<<%dダメージ\n", enemy_copy -> name, damage);
+      enemy_copy -> hp -= damage;
+      if ( enemy_copy -> hp <= 0 ){
+        enemy_copy -> hp = 0;
+        enemy_copy -> badstatus = DEAD;
+        printf("%sは%sを倒した!\n", (***st) -> name, enemy_copy -> name);
+        *enemy_deadcount++;
+      }
+    }
+    return turn_decrease;
+  }
+
+  max_damage = damage_base * 1.3;
+
+  damage = (rand() % ( max_damage - damage_base + 1) ) + damage_base; //(rand()%(max - min + 1)) + min;
+  if ( damage > 9999 ){
+    damage = 9999;
+  }
+  //敵の耐性判断
+  turn_decrease = check_enemyCopy_normalAttackResist(&st,&enemy_copy,&enemy_deadcount,damage);
+
+  return turn_decrease;
 }
 
 double calculate_enemy_turn(double enemy_turn, double turn_decrease){
@@ -241,6 +513,9 @@ double calculate_enemy_turn(double enemy_turn, double turn_decrease){
       enemy_turn = 0.0;
     }
   }
+  else if ( turn_decrease == TURNCHAGE ){
+    enemy_turn = 0.0;
+  }
   //turn増加
   else if ( turn_decrease == 0.1 ){
     if ( enemy_turn == 4 || enemy_turn == 3 || enemy_turn == 2 || enemy_turn == 1 ){
@@ -269,7 +544,6 @@ double calculate_enemy_turn(double enemy_turn, double turn_decrease){
     else if ( enemy_turn == 1.1 ){
       enemy_turn = 0.0;
     }
-
   }
 
   return enemy_turn;
@@ -1339,6 +1613,9 @@ double calculate_player_turn(double player_turn, double turn_decrease){
       player_turn = 1;
     }
   }
+  else if ( turn_decrease == TURNCHAGE ){
+    player_turn = 0.0;
+  }
   //プレスターン増加
   else if ( turn_decrease == 0.1 ){
     if ( player_turn == 3 || player_turn == 2 || player_turn == 1 ){
@@ -1499,23 +1776,23 @@ int is_skill_learning(P_skill ****player_skill){
 
   //2回目以降の処理での判断
   /*if ( tempArray[0] == TRUE ){
-    return TRUE;
-  }*/
+  return TRUE;
+}*/
 
-  if ( (***player_skill) -> recover1[0] == LEARNING ){
-    return TRUE;
-  }
-  else if ( (***player_skill) -> cure_poison[0] == LEARNING ){
-    return TRUE;
-  }
-  else if ( (***player_skill) -> recover2[0] == LEARNING ){
-    return TRUE;
-  }
-  else if ( (***player_skill) -> enfa[0] == LEARNING ){
-    return TRUE;
-  }
+if ( (***player_skill) -> recover1[0] == LEARNING ){
+  return TRUE;
+}
+else if ( (***player_skill) -> cure_poison[0] == LEARNING ){
+  return TRUE;
+}
+else if ( (***player_skill) -> recover2[0] == LEARNING ){
+  return TRUE;
+}
+else if ( (***player_skill) -> enfa[0] == LEARNING ){
+  return TRUE;
+}
 
-  return FALSE;
+return FALSE;
 }
 
 void add_battleExperience(Player ****st, P_skill ****player_skill, int battle_experience){

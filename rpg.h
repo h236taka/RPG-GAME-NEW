@@ -76,10 +76,30 @@ typedef enum {
 } PlayerAndEnemy;
 
 typedef enum {
+  WEAKNESS = 200,
+  NORMAL150 = 150,
+  NORMAL = 100,
+  REGIST80 = 80,
+  REGIST50 = 50,
+  REGIST25 = 25,
+  BLOCK = -1,
+  ABSORB = -2,
+  REFLECT = -3,
+} DamageEffective;
+
+typedef enum {
+  TURNCHAGE = -100,
+} PressTurnChange;
+
+typedef enum {
   RECOVER1 = 1,
   CUREPOISON = 2,
   RECOVER2 = 3,
   ENFA = 4,
+  HYODO = 5,
+  VOLUA = 6,
+  WHIVE = 7,
+  RUSH = 8,
 } Player_skillId;
 
 typedef enum {
@@ -151,11 +171,15 @@ typedef struct enemy {
 skill[1] : MENUONLY or BATTLEONLY or MENUANDBATTLE
 skill[2] : このスキルに関して獲得した熟練度
 skill[3] : 獲得に必要な熟練度*/
-typedef struct player_skill {   //値が1ならば習得済み
+typedef struct player_skill {
   int recover1[4]; //ケディア
   int cure_poison[4]; //毒治療
   int recover2[4]; //ケディアス
   int enfa[4]; //エンファ
+  int hyodo[4]; //ヒョウド
+  int volua[4]; //ボルア
+  int whive[4]; //ウィーブ
+  int rush[4];  //突撃
 } P_skill;
 
 typedef struct save_data_player_skill {
@@ -163,6 +187,10 @@ typedef struct save_data_player_skill {
   int cure_poison[4]; //毒治療
   int recover2[4]; //ケディアス
   int enfa[4]; //エンファ
+  int hyodo[4]; //ヒョウド
+  int volua[4]; //ボルア
+  int whive[4]; //ウィーブ
+  int rush[4];  //突撃
 } Save_data_player_skill;
 
 typedef struct setting_skill {  //setting済みのスキル
@@ -225,6 +253,7 @@ typedef struct area {
   int boss1;
   int event2a;
   int boss2;
+  int boss3;
   int encount; //敵とエンカウントするか否か 0ならばエンカウントしない 1ならばエンカウント
 } Area;
 
@@ -312,6 +341,8 @@ typedef struct save_data_setting_skill {
 
 //rpg_save_load.c
 void check_AutoMapFile();
+
+void load_playersSkill(P_skill **player_skill, Save_data_player_skill *save_data_players);
 
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load);
 
@@ -449,7 +480,7 @@ void unequip(Player ******st, Player ******st2, Player ******st3, Equip ******pE
 
 void display_equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, int input);
 
-void skill_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3, Setting_skill *****setting_skill);
+void skill_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3, Setting_skill *****setting_skill, Setting_skill *****setting_skill2, Setting_skill *****setting_skill3);
 
 void equip_menu(Player *****st, Player *****st2, Player *****st3, Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip);
 
@@ -466,7 +497,19 @@ int is_enemy_alive(Enemy **enemy);
 
 int is_enemyCopy_alive(Enemy *enemy_copy);
 
-int player_attack(Player ****st, Enemy **enemy, int *enemy_deadcount);
+int calculate_evaPer(int eva_base, int eva);  //回避率計算関数(rpg_battle_function.c)
+
+double calculate_criticalPer(int critical_base, int critical);  //クリティカル率計算関数(rpg_battle_function.c)
+
+void is_damaged_by_playerAttack(Player ******st, Enemy ****enemy, int ***enemy_deadcount, int damage);  //playerの通常攻撃で敵が生きるか死ぬかチェック(生きる場合はダメージ計算)(rpg_battle_function.c)
+
+void is_damaged_by_playerAttack_forEnemyCopy(Player ******st, Enemy ***enemy_copy, int ***enemy_deadcount, int damage);
+
+double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, int **enemy_deadcount, int damage);
+
+double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcount);
+
+double player_attack_for_enemyCopy(Player ****st, Enemy *enemy_copy, int *enemy_deadcount);
 
 double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ***enemy, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
 
@@ -598,7 +641,7 @@ void check_skillID(Setting_skill *****setting_skill, int idx);
 
 int battle_player_skill_list(P_skill ****player_skill, Setting_skill ****setting_skill);
 
-double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, Enemy ****enemy, int player_guard, int player_guard2, int player_guard3, int attack_skill_number);
+double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, Enemy ****enemy, int player_guard, int attack_skill_number);
 
 int enemy_skill_target(Player ******st, Player ******st2, Player ******st3);
 
@@ -610,9 +653,21 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
 
 double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, Enemy *enemy_copy1, int player_guard, int player_guard2, int player_guard3, double enemy_turn);
 
-int check_player_poizonRegist(Player ******st);
+void is_damaged_byEnemySkill(Player ********st, int damage);
 
-int check_player_palyzeRegist(Player ******st);
+double check_player_physicalRegist(Player *******st, Enemy *****enemy, int damage, int critical_count, int player_guard);
+
+double check_player_fireResist(Player *******st, Enemy *****enemy, int damage, int player_guard);
+
+double check_player_iceResist(Player *******st, Enemy *****enemy, int damage, int player_guard);
+
+double check_player_elecResist(Player *******st, Enemy *****enemy, int damage, int player_guard);
+
+double check_player_waveResist(Player *******st, Enemy *****enemy, int damage, int player_guard);
+
+double check_player_poizonRegist(Player ******st);
+
+double check_player_palyzeRegist(Player ******st);
 
 //rpg_levelup.c ( check levelup and skills whatever players learned)
 void player_skill_check(Player ******st, P_skill ******player_skill, Setting_skill ******setting_skill);
@@ -630,7 +685,7 @@ void use_items_effect(Player *****st, Player *****st2, Player *****st3, int item
 
 int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****st3);
 
-int item_drop_caluculate(int i, int drop_base, int drop_per);
+int item_drop_caluculate(int drop_base, int drop_per);
 
 void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy **enemy, Items ****items, int encount_pattern);
 

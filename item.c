@@ -439,16 +439,15 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
   return turn_decrease;
 }
 
-int item_drop_caluculate(int i, int drop_base, int drop_per){ //ドロップしたか計算
+int item_drop_caluculate(int drop_base, int drop_per){ //ドロップしたか計算
   int drop_count;
 
   drop_count = 0;
 
-  for ( i = 1; i <= drop_base; i++ ){
-    if ( drop_base == i ){
-      if ( drop_per >= 1 && drop_per <= i ){   //回避率eva_base%
-        drop_count++;
-      }
+  for ( int i = 1; i <= drop_base; i++ ){
+    if ( i == drop_per ){
+      drop_count++;
+      printf("increment\n");
     }
   }
 
@@ -456,48 +455,33 @@ int item_drop_caluculate(int i, int drop_base, int drop_per){ //ドロップし�
 }
 
 void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy **enemy, Items ****items, int encount_pattern){
-  int i, drop_per, drop_count, loop;
+  int drop_per, drop_count, loop;
   double drop_base;
 
   loop = 0;
   drop_count = 0;
   //スライム
   if ( (*enemy) -> enemy_id == SLIME ){
+    drop_base = 10;  //drop最低率は10%
+
+    drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
+    if ( drop_base > 100 ){
+      drop_base = 100;
+    }
+    //printf("before drop_base:%f\n", drop_base);
+    drop_base = round(drop_base);
+    //printf("after drop_base:%f\n", drop_base);
+
     if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
       while ( loop != encount_pattern ){
-        drop_base = 10;  //drop最低率は10%
-
-        drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
-        if ( drop_base > 100 ){
-          drop_base = 100;
-        }
-
-        //printf("before drop_base:%f\n", drop_base);
-        drop_base = round(drop_base);
-        //printf("after drop_base:%f\n", drop_base);
-
         drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
-        i = 1;
-        drop_count += item_drop_caluculate(i,drop_base,drop_per);
-
+        drop_count += item_drop_caluculate(drop_base,drop_per);
         loop++;
       }
     }
     else{
-      drop_base = 10;  //drop最低率は10%
-
-      drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
-      if ( drop_base > 100 ){
-        drop_base = 100;
-      }
-
-      //printf("before drop_base:%f\n", drop_base);
-      drop_base = round(drop_base);
-      //printf("after drop_base:%f\n", drop_base);
-
       drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
-      i = 1;
-      drop_count += item_drop_caluculate(i,drop_base,drop_per);
+      drop_count += item_drop_caluculate(drop_base,drop_per);
     }
 
     //printf("drop_count:%d\n", drop_count);
@@ -507,45 +491,30 @@ void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy **enemy, Ite
       sleep(1);
       (***items) -> medicine += drop_count;
     }
-
   }
   //コボルト
-  else if ( (*enemy) -> enemy_id = KOBALT ){
+  else if ( (*enemy) -> enemy_id == KOBALT ){
+    drop_base = 15;  //drop最低率は15%
+
+    drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
+    if ( drop_base > 100 ){
+      drop_base = 100;
+    }
+
+    //printf("before drop_base:%f\n", drop_base);
+    drop_base = round(drop_base);
+    //printf("after drop_base:%f\n", drop_base);
+
     if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
       while ( loop != encount_pattern ){
-        drop_base = 15;  //drop最低率は15%
-
-        drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
-        if ( drop_base > 100 ){
-          drop_base = 100;
-        }
-
-        //printf("before drop_base:%f\n", drop_base);
-        drop_base = round(drop_base);
-        //printf("after drop_base:%f\n", drop_base);
-
         drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
-        i = 1;
-        drop_count += item_drop_caluculate(i,drop_base,drop_per);
-
+        drop_count += item_drop_caluculate(drop_base,drop_per);
         loop++;
       }
     }
     else{
-      drop_base = 15;  //drop最低率は15%
-
-      drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
-      if ( drop_base > 100 ){
-        drop_base = 100;
-      }
-
-      //printf("before drop_base:%f\n", drop_base);
-      drop_base = round(drop_base);
-      //printf("after drop_base:%f\n", drop_base);
-
       drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
-      i = 1;
-      drop_count += item_drop_caluculate(i,drop_base,drop_per);
+      drop_count += item_drop_caluculate(drop_base,drop_per);
     }
 
     //printf("drop_count:%d\n", drop_count);
@@ -558,41 +527,25 @@ void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy **enemy, Ite
 
   }
   else if ( (*enemy) -> enemy_id == ZOMIBIE ){
+    drop_base = 15;
+
+    drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
+    if ( drop_base > 100 ){
+      drop_base = 100;
+    }
+    //printf("before drop_base:%f\n", drop_base);
+    drop_base = round(drop_base);
+    //printf("after drop_base:%f\n", drop_base);
     if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
       while ( loop != encount_pattern ){
-        drop_base = 15;
-
-        drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
-        if ( drop_base > 100 ){
-          drop_base = 100;
-        }
-
-        //printf("before drop_base:%f\n", drop_base);
-        drop_base = round(drop_base);
-        //printf("after drop_base:%f\n", drop_base);
-
         drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
-        i = 1;
-        drop_count += item_drop_caluculate(i,drop_base,drop_per);
-
+        drop_count += item_drop_caluculate(drop_base,drop_per);
         loop++;
       }
     }
     else{
-      drop_base = 15;
-
-      drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
-      if ( drop_base > 100 ){
-        drop_base = 100;
-      }
-
-      //printf("before drop_base:%f\n", drop_base);
-      drop_base = round(drop_base);
-      //printf("after drop_base:%f\n", drop_base);
-
       drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
-      i = 1;
-      drop_count += item_drop_caluculate(i,drop_base,drop_per);
+      drop_count += item_drop_caluculate(drop_base,drop_per);
     }
 
     //printf("drop_count:%d\n", drop_count);
@@ -604,41 +557,27 @@ void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy **enemy, Ite
     }
   }
   else if ( (*enemy) -> enemy_id == ONMORAKI ){
+    drop_base = 8;
+
+    drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
+    if ( drop_base > 100 ){
+      drop_base = 100;
+    }
+
+    //printf("before drop_base:%f\n", drop_base);
+    drop_base = round(drop_base);
+    //printf("after drop_base:%f\n", drop_base);
     if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
       while ( loop != encount_pattern ){
-        drop_base = 8;
-
-        drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
-        if ( drop_base > 100 ){
-          drop_base = 100;
-        }
-
-        //printf("before drop_base:%f\n", drop_base);
-        drop_base = round(drop_base);
-        //printf("after drop_base:%f\n", drop_base);
-
         drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
-        i = 1;
-        drop_count += item_drop_caluculate(i,drop_base,drop_per);
+        drop_count += item_drop_caluculate(drop_base,drop_per);
 
         loop++;
       }
     }
     else{
-      drop_base = 8;
-
-      drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
-      if ( drop_base > 100 ){
-        drop_base = 100;
-      }
-
-      //printf("before drop_base:%f\n", drop_base);
-      drop_base = round(drop_base);
-      //printf("after drop_base:%f\n", drop_base);
-
       drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
-      i = 1;
-      drop_count += item_drop_caluculate(i,drop_base,drop_per);
+      drop_count += item_drop_caluculate(drop_base,drop_per);
     }
 
     //printf("drop_count:%d\n", drop_count);

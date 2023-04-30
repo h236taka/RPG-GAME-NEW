@@ -520,6 +520,38 @@ void delete_AUtoMapFile(int input){
   }
 }
 
+void load_playersSkill(P_skill **player_skill, Save_data_player_skill *save_data_player_skill){
+
+  for ( int i = 0; i < 4; i++ ){
+    (*player_skill) -> recover1[i] = save_data_player_skill -> recover1[i];
+  }
+
+  for ( int i = 0; i < 4; i++ ){
+    (*player_skill) -> cure_poison[i] = save_data_player_skill -> cure_poison[i];
+  }
+
+  for ( int i = 0; i < 4; i++ ){
+    (*player_skill) -> recover2[i] = save_data_player_skill -> recover2[i];
+  }
+
+  for ( int i = 0; i < 4; i++ ){
+    (*player_skill) -> enfa[i] = save_data_player_skill -> enfa[i];
+  }
+
+  for ( int i = 0; i < 4; i++ ){
+    (*player_skill) -> hyodo[i] = save_data_player_skill -> hyodo[i];
+  }
+
+  for ( int i = 0; i < 4; i++ ){
+    (*player_skill) -> volua[i] = save_data_player_skill -> volua[i];
+  }
+
+  for ( int i = 0; i < 4; i++ ){
+    (*player_skill) -> whive[i] = save_data_player_skill -> whive[i];
+  }
+
+}
+
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load){
 
   int save_count, load_count, input, savedata_num, savedata_lv1, savedata_lv2, savedata_lv3, temp, hours, minutes;
@@ -919,29 +951,9 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
     search -> search_item1 = Save_data_search.search_item1;
     //printf("medicine:%d個\n", save_data_items.medicine);
 
-    for ( int i = 0; i < 4; i++ ){
-      player_skill -> recover1[i] = save_data_player_skill.recover1[i];
-      player_skill2 -> recover1[i] = save_data_player_skill2.recover1[i];
-      player_skill3 -> recover1[i] = save_data_player_skill3.recover1[i];
-    }
-
-    for ( int i = 0; i < 4; i++ ){
-      player_skill -> cure_poison[i] = save_data_player_skill.cure_poison[i];
-      player_skill2 -> cure_poison[i] = save_data_player_skill2.cure_poison[i];
-      player_skill3 -> cure_poison[i] = save_data_player_skill3.cure_poison[i];
-    }
-
-    for ( int i = 0; i < 4; i++ ){
-      player_skill -> recover2[i] = save_data_player_skill.recover2[i];
-      player_skill2 -> recover2[i] = save_data_player_skill2.recover2[i];
-      player_skill3 -> recover2[i] = save_data_player_skill3.recover2[i];
-    }
-
-    for ( int i = 0; i < 4; i++ ){
-      player_skill -> enfa[i] = save_data_player_skill.enfa[i];
-      player_skill2 -> enfa[i] = save_data_player_skill2.enfa[i];
-      player_skill3 -> enfa[i] = save_data_player_skill3.enfa[i];
-    }
+    load_playersSkill(&player_skill,&save_data_player_skill);
+    load_playersSkill(&player_skill2,&save_data_player_skill2);
+    load_playersSkill(&player_skill3,&save_data_player_skill3);
 
     for ( int i = 0; i < 10; i++ ){
       setting_skill -> set_skill[i] = save_data_setting_skill.set_skill[i];

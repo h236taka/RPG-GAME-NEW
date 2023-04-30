@@ -2037,34 +2037,52 @@ void save_area2(int area_data_line, int area_data_len, int automap_area[area_dat
 
   }
 
-  /*for ( j = 0; j < area_data_line; j++ ){
-    printf("   ");
-    for ( i = 0; i < area_data_len; i++ ){
-      if ( automap_area[j][i] == -1 || automap_area[j][i] == 0 ){
-        printf(" ");
-      }
-      else if ( j == (**map) -> y && i == (**map) -> x ){
-        printf("P");
-        //automap_area[j][i] = 'P';
-      }
-      else if ( automap_area[j][i] == 1 ){
-        printf("*");
-      }
-    }
-    printf("\n");
-  }*/
-
   for ( j = 0; j < area_data_line; j++ ){
     for ( i = 0; i < area_data_len; i++ ){
       temp = automap_area[j][i];
-      //printf("temp:%d\n", temp);
-      //printf("%d ", temp);
       fwrite(&temp, sizeof(int), 1, fp);
     }
   }
 
   fclose(fp);
+}
 
+void save_area3(int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
+  int i, j;
+  int temp;
+  int checkNum;
+  FILE *fp;
+
+  if ( saveFile == 1 ){
+    if ( ( fp = fopen( "AutoMapArea3/saveFile1_AutoMapArea3.dat", "wb" ) ) == NULL ){
+      printf("マップデータを記録できませんでした\n");
+      return;
+    }
+  }
+  else if ( saveFile == 2 ){
+    if ( ( fp = fopen( "AutoMapArea3/saveFile2_AutoMapArea3.dat", "wb" ) ) == NULL ){
+      printf("マップデータを記録できませんでした\n");
+      return;
+    }
+  }
+  else if ( saveFile == 3 ){
+    if ( ( fp = fopen( "AutoMapArea3/saveFile3_AutoMapArea3.dat", "wb" ) ) == NULL ){
+      printf("マップデータを記録できませんでした\n");
+      return;
+    }
+  }
+  else{
+
+  }
+
+  for ( j = 0; j < area_data_line; j++ ){
+    for ( i = 0; i < area_data_len; i++ ){
+      temp = automap_area[j][i];
+      fwrite(&temp, sizeof(int), 1, fp);
+    }
+  }
+
+  fclose(fp);
 }
 
 void save_autoMap(Area ***area, int area_data_line, int area_data_len, int automap_area[area_data_line][area_data_len]){
@@ -2074,6 +2092,9 @@ void save_autoMap(Area ***area, int area_data_line, int area_data_len, int autom
 
   if ( (**area) -> dangeonId == 2 ){
     save_area2(area_data_line,area_data_len,automap_area);
+  }
+  else if ( (**area) -> dangeonId == 3 ){
+    save_area3(area_data_line,area_data_len,automap_area);
   }
 
 }

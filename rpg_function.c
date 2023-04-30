@@ -124,6 +124,33 @@ int calculate_FireSkill_price(int input, int money){
   return money;
 }
 
+int calculate_IceSkill_price(int input, int money){
+
+  if ( input == '0' ){
+    money -= 700;
+  }
+
+  return money;
+}
+
+int calculate_ElecSkill_price(int input, int money){
+
+  if ( input == '0' ){
+    money -= 700;
+  }
+
+  return money;
+}
+
+int calculate_WaveSkill_price(int input, int money){
+
+  if ( input == '0' ){
+    money -= 700;
+  }
+
+  return money;
+}
+
 void check_PhysicalSkill_state(P_skill *****player_skill){
 
 
@@ -136,6 +163,57 @@ void check_FireSkill_state(P_skill *****player_skill, int num){
       printf("MASTER★\n");
     }
     else if ( (****player_skill) -> enfa[0] == LEARNING ){
+      printf("習得中\n");
+    }
+    else{
+      printf("未習得\n");
+    }
+
+    return;
+  }
+}
+
+void check_IceSkill_state(P_skill *****player_skill, int num){
+
+  if ( num == 0 ){
+    if ( (****player_skill) -> hyodo[0] == LEARNED || (****player_skill) -> hyodo[0] == SETTING ){
+      printf("MASTER★\n");
+    }
+    else if ( (****player_skill) -> hyodo[0] == LEARNING ){
+      printf("習得中\n");
+    }
+    else{
+      printf("未習得\n");
+    }
+
+    return;
+  }
+}
+
+void check_ElecSkill_state(P_skill *****player_skill, int num){
+
+  if ( num == 0 ){
+    if ( (****player_skill) -> volua[0] == LEARNED || (****player_skill) -> volua[0] == SETTING ){
+      printf("MASTER★\n");
+    }
+    else if ( (****player_skill) -> volua[0] == LEARNING ){
+      printf("習得中\n");
+    }
+    else{
+      printf("未習得\n");
+    }
+
+    return;
+  }
+}
+
+void check_WaveSkill_state(P_skill *****player_skill, int num){
+
+  if ( num == 0 ){
+    if ( (****player_skill) -> whive[0] == LEARNED || (****player_skill) -> whive[0] == SETTING ){
+      printf("MASTER★\n");
+    }
+    else if ( (****player_skill) -> whive[0] == LEARNING ){
       printf("習得中\n");
     }
     else{
@@ -203,6 +281,8 @@ int procedure_getFireSkill(int input, P_skill *****player_skill, int money){
       else{
         printf("ヘルメス「エンファについて学ぶが良い！」\n");
         (****player_skill) -> enfa[0] = LEARNING;
+        (****player_skill) -> enfa[1] = BATTLEONLY;
+        (****player_skill) -> enfa[2] = 0;
         (****player_skill) -> enfa[3] = 2;
         return LEARNING;
       }
@@ -229,6 +309,90 @@ int procedure_getFireSkill(int input, P_skill *****player_skill, int money){
         (****player_skill) -> cure_poison[0] = LEARNING;
         return LEARNING;
       }
+    }
+    else{
+      printf("既にMASTERしています!\n");
+      return LEARNED;
+    }
+  }
+}
+
+int procedure_getIceSkill(int input, P_skill *****player_skill, int money){
+
+  if ( input == '0' ){
+    if ( (****player_skill) -> hyodo[0] == NOT_LEARNING ){
+      if ( money < 700 ){
+        printf("所持金が足りません!\n");
+        return NOT_LEARNING;
+      }
+      else{
+        printf("ヘルメス「ヒョウドについて学ぶが良い！」\n");
+        (****player_skill) -> hyodo[0] = LEARNING;
+        (****player_skill) -> hyodo[1] = BATTLEONLY;
+        (****player_skill) -> hyodo[2] = 0;
+        (****player_skill) -> hyodo[3] = 2;
+        return LEARNING;
+      }
+    }
+    else if ( (****player_skill) -> hyodo[0] == LEARNING ){
+      printf("このスキルは習得中です!\n");
+      return LEARNING;
+    }
+    else{
+      printf("既にMASTERしています!\n");
+      return LEARNED;
+    }
+  }
+}
+
+int procedure_getElecSkill(int input, P_skill *****player_skill, int money){
+
+  if ( input == '0' ){
+    if ( (****player_skill) -> volua[0] == NOT_LEARNING ){
+      if ( money < 700 ){
+        printf("所持金が足りません!\n");
+        return NOT_LEARNING;
+      }
+      else{
+        printf("ヘルメス「ボルアについて学ぶが良い！」\n");
+        (****player_skill) -> volua[0] = LEARNING;
+        (****player_skill) -> volua[1] = BATTLEONLY;
+        (****player_skill) -> volua[2] = 0;
+        (****player_skill) -> volua[3] = 2;
+        return LEARNING;
+      }
+    }
+    else if ( (****player_skill) -> volua[0] == LEARNING ){
+      printf("このスキルは習得中です!\n");
+      return LEARNING;
+    }
+    else{
+      printf("既にMASTERしています!\n");
+      return LEARNED;
+    }
+  }
+}
+
+int procedure_getWaveSkill(int input, P_skill *****player_skill, int money){
+
+  if ( input == '0' ){
+    if ( (****player_skill) -> whive[0] == NOT_LEARNING ){
+      if ( money < 700 ){
+        printf("所持金が足りません!\n");
+        return NOT_LEARNING;
+      }
+      else{
+        printf("ヘルメス「ウィーブについて学ぶが良い！」\n");
+        (****player_skill) -> whive[0] = LEARNING;
+        (****player_skill) -> whive[1] = BATTLEONLY;
+        (****player_skill) -> whive[2] = 0;
+        (****player_skill) -> whive[3] = 2;
+        return LEARNING;
+      }
+    }
+    else if ( (****player_skill) -> whive[0] == LEARNING ){
+      printf("このスキルは習得中です!\n");
+      return LEARNING;
     }
     else{
       printf("既にMASTERしています!\n");
@@ -308,13 +472,16 @@ int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money){
 
 void getSkill_Physical(Player ****st, P_skill ****player_skill, int money){
   int input;
+  int num;
 
   do{
+    num = 0;
     printf("\n");
     printf("所持金:%dG\n", money);
     printf("<<<物理スキル>>>\n");
     printf("0.突撃(消費HP:最大体力の8%% 単体に物理小ダメージ) ");
     check_PhysicalSkill_state(&player_skill);
+    num++;
 
     printf("習得したいスキルを選んでください(終了する場合はcを入力)\n");
     input = _getch();
@@ -356,6 +523,130 @@ int getSkill_Fire(Player ****st, P_skill ****player_skill, int money){
     }
 
   }while( input != 'c' );
+
+}
+
+int getSkill_Ice(Player ****st, P_skill ****player_skill, int money){
+  int input;
+  int num;
+  int isLearned;
+
+  do{
+    num = 0;
+    printf("\n");
+    printf("所持金:%dG\n", money);
+    printf("<<<氷結スキル>>>\n");
+    printf("0.ヒョウド 700G(消費MP:4 単体に氷結小ダメージ) ");
+    check_IceSkill_state(&player_skill,num);
+    num++;
+
+    /*if ( (***player_skill) -> enfa[0] == LEARNED ){
+      printf("1.ヒョウドス 3500G(消費MP:8 敵全体に氷結小ダメージ)\n");
+    }*/
+    check_IceSkill_state(&player_skill,num);
+    num++;
+
+    printf("習得したいスキルを選んでください(終了する場合はcを入力)\n");
+    input = _getch();
+
+    if ( input == 'c' ){
+      return money;
+    }
+
+    isLearned = procedure_getIceSkill(input,&player_skill,money);
+    if ( isLearned == LEARNING ){
+      money = calculate_IceSkill_price(input,money);
+      return money;
+    }
+
+  }while( input != 'c' );
+
+}
+
+int getSkill_Elec(Player ****st, P_skill ****player_skill, int money){
+  int input;
+  int num;
+  int isLearned;
+
+  do{
+    num = 0;
+    printf("\n");
+    printf("所持金:%dG\n", money);
+    printf("<<<電撃スキル>>>\n");
+    printf("0.ボルア 700G(消費MP:4 単体に電撃小ダメージ) ");
+    check_ElecSkill_state(&player_skill,num);
+    num++;
+
+    /*if ( (***player_skill) -> enfa[0] == LEARNED ){
+      printf("1.ヒョウドス 3500G(消費MP:8 敵全体に氷結小ダメージ)\n");
+    }*/
+    check_ElecSkill_state(&player_skill,num);
+    num++;
+
+    printf("習得したいスキルを選んでください(終了する場合はcを入力)\n");
+    input = _getch();
+
+    if ( input == 'c' ){
+      return money;
+    }
+
+    isLearned = procedure_getElecSkill(input,&player_skill,money);
+    if ( isLearned == LEARNING ){
+      money = calculate_ElecSkill_price(input,money);
+      return money;
+    }
+
+  }while( input != 'c' );
+
+}
+
+int getSkill_Wave(Player ****st, P_skill ****player_skill, int money){
+  int input;
+  int num;
+  int isLearned;
+
+  do{
+    num = 0;
+    printf("\n");
+    printf("所持金:%dG\n", money);
+    printf("<<<衝撃スキル>>>\n");
+    printf("0.ウィーブ 700G(消費MP:4 単体に衝撃小ダメージ) ");
+    check_WaveSkill_state(&player_skill,num);
+    num++;
+
+    check_WaveSkill_state(&player_skill,num);
+    num++;
+
+    printf("習得したいスキルを選んでください(終了する場合はcを入力)\n");
+    input = _getch();
+
+    if ( input == 'c' ){
+      return money;
+    }
+
+    isLearned = procedure_getWaveSkill(input,&player_skill,money);
+    if ( isLearned == LEARNING ){
+      money = calculate_WaveSkill_price(input,money);
+      return money;
+    }
+
+  }while( input != 'c' );
+
+}
+
+int getSKill_almighty(Player ****st, P_skill ****player_skill, int money){
+
+  return money;
+}
+
+int getSkill_death(Player ****st, P_skill ****player_skill, int money){
+
+  return money;
+}
+
+int getSkill_expel(Player ****st, P_skill ****player_skill, int money){
+
+  return money;
 }
 
 int getSkill_Recover(Player ****st, P_skill ****player_skill, int money){
@@ -394,6 +685,26 @@ int getSkill_Recover(Player ****st, P_skill ****player_skill, int money){
   }while( input != 'c' );
 }
 
+int getSkill_support(Player ****st, P_skill ****player_skill, int money){
+
+  return money;
+}
+
+int getSkill_statusEffect(Player ****st, P_skill ****player_skill, int money){
+
+  return money;
+}
+
+int getSkill_block(Player ****st, P_skill ****player_skill, int money){
+
+  return money;
+}
+
+int getSkill_autoEffect(Player ****st, P_skill ****player_skill, int money){
+
+  return money;
+}
+
 int getSkillAll(Player ***st, P_skill ***player_skill, int money){
   int input;
 
@@ -424,9 +735,45 @@ int getSkillAll(Player ***st, P_skill ***player_skill, int money){
       money = getSkill_Fire(&st,&player_skill,money);
       return money;
     }
+    else if ( input == '3' ){
+      money = getSkill_Ice(&st,&player_skill,money);
+      return money;
+    }
+    else if ( input == '4' ){
+      money = getSkill_Elec(&st,&player_skill,money);
+      return money;
+    }
+    else if ( input == '5' ){
+      money = getSkill_Wave(&st,&player_skill,money);
+      return money;
+    }
+    else if ( input == '6' ){
+      money = getSKill_almighty(&st,&player_skill,money);
+      return money;
+    }
+    else if ( input == '7' ){
+      money = getSkill_death(&st,&player_skill,money);
+      return money;
+    }
+    else if ( input == '8' ){
+      money = getSkill_expel(&st,&player_skill,money);
+      return money;
+    }
     else if ( input == '9' ){
       money = getSkill_Recover(&st,&player_skill,money);
       return money;
+    }
+    else if ( input == 'a' ){
+      money = getSkill_support(&st,&player_skill,money);
+    }
+    else if ( input == 'b' ){
+      money = getSkill_statusEffect(&st,&player_skill,money);
+    }
+    else if ( input == 'd' ){
+      money = getSkill_block(&st,&player_skill,money);
+    }
+    else if ( input == 'e' ){
+      money = getSkill_autoEffect(&st,&player_skill,money);
     }
 
   } while ( input != 'c' );

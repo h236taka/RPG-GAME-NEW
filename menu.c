@@ -1607,6 +1607,37 @@ int learned_FireSkill_list(P_skill ********player_skill, Setting_skill ********s
   return 0;
 }
 
+int learned_IceSkill_list(P_skill ********player_skill, Setting_skill ********setting_skill){
+  int input;
+
+  do{
+    if ( (*******player_skill) -> hyodo[0] == LEARNED ){
+      printf("0:ヒョウド 消費MP:4 (単体に氷結小ダメージ)\n");
+    }
+    else if ( (*******player_skill) -> hyodo[0] == SETTING ){
+      printf("0:ヒョウド セット済み\n");
+    }
+    else if ( (*******player_skill) -> hyodo[0] == LEARNING ){
+      printf("0:ヒョウド 習得中\n");
+    }
+
+    printf("\n");
+    printf("セットしたいスキルを選んでください(セットが終了したらcを入力してください)\n");
+
+    input = _getch();
+
+    if ( input == '0' && (*******player_skill) -> hyodo[0] == LEARNED ){
+      if ( set_player_skill(&player_skill,&setting_skill,HYODO) == TRUE ){
+        (*******player_skill) -> hyodo[0] = SETTING;
+      }
+
+    }
+
+  }while ( input != 'c' );
+
+  return 0;
+}
+
 void check_set_skillID(Setting_skill ********setting_skill, int idx){
 
   if ( (*******setting_skill) -> set_skill[idx] == RECOVER1 ){
@@ -1616,10 +1647,19 @@ void check_set_skillID(Setting_skill ********setting_skill, int idx){
     printf("%d:キュアポ 消費MP:4 (味方1人のPOISON状態を回復)\n", idx);
   }
   else if ( (*******setting_skill) -> set_skill[idx] == RECOVER2 ){
-
+    printf("%d:ケディアス 消費MP:8 (味方全体のHPを小回復)\n", idx);
   }
   else if ( (*******setting_skill) -> set_skill[idx] == ENFA ){
     printf("%d:エンファ 消費MP:4 (単体に火炎小ダメージ)\n", idx);
+  }
+  else if ( (*******setting_skill) -> set_skill[idx] == HYODO ){
+    printf("%d:ヒョウド 消費MP:4 (単体に氷結小ダメージ)\n", idx);
+  }
+  else if ( (*******setting_skill) -> set_skill[idx] == VOLUA ){
+    printf("%d:ボルア 消費MP:4 (単体に電撃小ダメージ)\n", idx);
+  }
+  else if ( (*******setting_skill) -> set_skill[idx] == WHIVE ){
+    printf("%d:ウィーブ 消費MP:4 (単体に衝撃小ダメージ)\n", idx);
   }
 
 }
@@ -1667,7 +1707,7 @@ void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_sk
       learned_FireSkill_list(&player_skill,&setting_skill);
     }
     else if ( input == '3' ){
-
+      learned_IceSkill_list(&player_skill,&setting_skill);
     }
     else if ( input == '4' ){
 
@@ -2086,7 +2126,7 @@ void skill_menu_list(Player ******st, Player ******st2, Player ******st3, P_skil
 
 }
 
-void skill_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3, Setting_skill *****setting_skill){
+void skill_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****player_skill, P_skill *****player_skill2, P_skill *****player_skill3, Setting_skill *****setting_skill, Setting_skill *****setting_skill2, Setting_skill *****setting_skill3){
   int input;
   int skill_user;
 
@@ -2107,11 +2147,11 @@ void skill_menu(Player *****st, Player *****st2, Player *****st3, P_skill *****p
     }
     else if ( input == '2' ){
       skill_user = PLAYER2;
-      skill_menu_list(&st,&st2,&st3,&player_skill,&setting_skill,skill_user);
+      skill_menu_list(&st,&st2,&st3,&player_skill2,&setting_skill2,skill_user);
     }
     else if ( input == '3' ){
       skill_user = PLAYER3;
-      skill_menu_list(&st,&st2,&st3,&player_skill,&setting_skill,skill_user);
+      skill_menu_list(&st,&st2,&st3,&player_skill3,&setting_skill3,skill_user);
     }
 
   }while ( input != 'c' );
@@ -2320,7 +2360,7 @@ void display_menu(Player ****st, Player ****st2, Player ****st3, P_skill ****pla
       item_menu(&st,&st2,&st3,&items);
     }
     else if ( input == '2' ){
-      skill_menu(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3,&setting_skill);
+      skill_menu(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3,&setting_skill,&setting_skill2,&setting_skill3);
     }
     else if ( input == '3' ){
       equip_menu(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
