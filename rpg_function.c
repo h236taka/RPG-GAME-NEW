@@ -60,6 +60,16 @@ void display_status(Player **st, Player **st2, Player **st3){
   printf("\n");
 }
 
+void display_playerStatusPoint(int point){
+
+  for ( int i = 0; i < point; i++ ){
+    printf("*");
+  }
+
+  printf("\n");
+  
+}
+
 int school_command(){
   int input;
 

@@ -24,7 +24,7 @@ void player_skill_check(Player ******st, P_skill ******player_skill, Setting_ski
     printf("%sはキュアポを習得した!\n", (*****st) -> name);
   }
   else if ( (*****st) -> lv == 6 ){
-    
+
   }
 }
 
@@ -32,6 +32,7 @@ void player_skill_check(Player ******st, P_skill ******player_skill, Setting_ski
 void status_lvup(Player *****st, P_skill *****player_skill, Setting_skill *****setting_skill){
   int hp, mp, status_count;
   int input;
+  int point;
 
   status_count = 0; //statusUPがなされたかcheck
   hp = (rand() % ( 5 - 3 + 1) ) + 3; //Lvup時のHP増加率 3~5
@@ -43,11 +44,21 @@ void status_lvup(Player *****st, P_skill *****player_skill, Setting_skill *****s
 
   do {
     printf("%sの上昇させたい能力を選んで下さい!\n", (****st) -> name);
-    printf("1.力:%d\n", (****st) -> atk);
-    printf("2.魔:%d\n", (****st) -> magic);
-    printf("3.体:%d\n", (****st) -> str);
-    printf("4.速:%d\n", (****st) -> agi);
-    printf("5.運:%d\n", (****st) -> luk);
+    printf("1.力:%d ", (****st) -> atk);
+    point = (****st) -> atk;
+    display_playerStatusPoint(point);
+    printf("2.魔:%d ", (****st) -> magic);
+    point = (****st) -> magic;
+    display_playerStatusPoint(point);
+    printf("3.体:%d ", (****st) -> str);
+    point = (****st) -> str;
+    display_playerStatusPoint(point);
+    printf("4.速:%d ", (****st) -> agi);
+    point = (****st) -> agi;
+    display_playerStatusPoint(point);
+    printf("5.運:%d ", (****st) -> luk);
+    point = (****st) -> luk;
+    display_playerStatusPoint(point);
     printf("1~5の内数字を1つ入力してください!\n");
     input = _getch();
     if ( input == '1' ){

@@ -342,6 +342,10 @@ typedef struct save_data_setting_skill {
 //rpg_save_load.c
 void check_AutoMapFile();
 
+void load_items(Items **items, Save_data_items *save_data_items); //セーブデータからアイテム情報を読み込み
+
+void load_equip(Equip **equip, Save_data_equip *save_data_equip);
+
 void load_playersSkill(P_skill **player_skill, Save_data_player_skill *save_data_players);
 
 void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_skill *player_skill2, P_skill *player_skill3, Setting_skill *setting_skill, Setting_skill *setting_skill2, Setting_skill *setting_skill3, Items *items, Equip *pEquip, Equip *p2Equip, Equip *p3Equip, SearchDangeon *search, int load);
@@ -361,6 +365,8 @@ void display_condition(Player ***st);
 void Debug_Mode(Player *st, Player *st2, Player *st3);
 
 void display_status(Player **st, Player **st2, Player **st3);
+
+void display_playerStatusPoint(int point);  //status画面に各能力を視覚的に表示
 
 int school_command();
 
@@ -445,6 +451,10 @@ void menu_player_effective(Player *******st);
 void menu_player_status(Player ******st);
 
 int menu_item_useselect(Player *******st, Player *******st2, Player *******st3, Items *******items);
+
+void menu_HPRecoverItem_process(Player ********st, int recover_point);
+
+void menu_BadStatusRecoverItem_process(Player ********st, int Badstatus);
 
 void menu_use_items_effect(Player *******st, Player *******st2, Player *******st3, int item_number, int item_target);
 
@@ -680,6 +690,8 @@ void level_up(Player ****st, P_skill ****player_skill, Setting_skill ****setting
 
 //item.c
 int battle_item_useselect(Items *****items, Player *****st, Player *****st2, Player *****st3);
+
+void battle_HPRecoverItem_process(Player ******st, int recover_point);
 
 void use_items_effect(Player *****st, Player *****st2, Player *****st3, int item_number, int item_target);
 

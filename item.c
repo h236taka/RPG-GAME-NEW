@@ -75,6 +75,30 @@ int battle_item_useselect(Items *****items, Player *****st, Player *****st2, Pla
   return item_target;
 }
 
+void battle_HPRecoverItem_process(Player ******st, int recover_point){
+  int beforehp;
+
+  beforehp = (*****st) -> hp;
+  (*****st) -> hp += recover_point;
+  if ( (*****st) -> hp >= (*****st) -> maxhp ){
+    (*****st) -> hp = (*****st) -> maxhp;
+  }
+  printf("%s HP:%d/%d >> HP:%d/%d\n", (*****st) -> name, beforehp, (*****st) -> maxhp, (*****st) -> hp, (*****st) -> maxhp);
+
+}
+
+void battle_BadStatusRecoverItem_process(Player ******st, int Badstatus){
+
+  if ( (*****st) -> badstatus == POISON ){
+    (*****st) -> badstatus = GOOD;
+    printf("%sの状態異常は消えた!\n", (*****st) -> name, (*****st) -> name);
+  }
+  else{
+    printf("無効果!\n");
+  }
+  printf("\n");
+}
+
 //アイテム使用
 void use_items_effect(Player *****st, Player *****st2, Player *****st3, int item_number, int item_target){
   int recover_point, beforehp;
@@ -84,145 +108,66 @@ void use_items_effect(Player *****st, Player *****st2, Player *****st3, int item
     recover_point = 50;
 
     if ( item_target == PLAYER ){
-      beforehp = (****st) -> hp;
-      (****st) -> hp += recover_point;
-      if ( (****st) -> hp >= (****st) -> maxhp ){
-        (****st) -> hp = (****st) -> maxhp;
-      }
-      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st) -> name, beforehp, (****st) -> maxhp, (****st) -> hp, (****st) -> maxhp);
+      battle_HPRecoverItem_process(&st,recover_point);
     }
     else if ( item_target == PLAYER2 ){
-      beforehp = (****st2) -> hp;
-      (****st2) -> hp += recover_point;
-      if ( (****st2) -> hp >= (****st2) -> maxhp ){
-        (****st2) -> hp = (****st2) -> maxhp;
-      }
-      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st2) -> name, beforehp, (****st2) -> maxhp, (****st2) -> hp, (****st2) -> maxhp);
+      battle_HPRecoverItem_process(&st2,recover_point);
     }
     else if ( item_target == PLAYER3 ){
-      beforehp = (****st3) -> hp;
-      (****st3) -> hp += recover_point;
-      if ( (****st3) -> hp >= (****st3) -> maxhp ){
-        (****st3) -> hp = (****st3) -> maxhp;
-      }
-      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st3) -> name, beforehp, (****st3) -> maxhp, (****st3) -> hp, (****st3) -> maxhp);
+      battle_HPRecoverItem_process(&st3,recover_point);
     }
   }
   //魔石
   else if ( item_number == LIFESTONE ){
-
     if ( item_target == PLAYER ){
       recover_point = (****st) -> maxhp * 0.25;
-      beforehp = (****st) -> hp;
-      (****st) -> hp += recover_point;
-      if ( (****st) -> hp >= (****st) -> maxhp ){
-        (****st) -> hp = (****st) -> maxhp;
-      }
-      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st) -> name, beforehp, (****st) -> maxhp, (****st) -> hp, (****st) -> maxhp);
+      battle_HPRecoverItem_process(&st,recover_point);
     }
     else if ( item_target == PLAYER2 ){
       recover_point = (****st2) -> maxhp * 0.25;
-      beforehp = (****st2) -> hp;
-      (****st2) -> hp += recover_point;
-      if ( (****st2) -> hp >= (****st2) -> maxhp ){
-        (****st2) -> hp = (****st2) -> maxhp;
-      }
-      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st2) -> name, beforehp, (****st2) -> maxhp, (****st2) -> hp, (****st2) -> maxhp);
+      battle_HPRecoverItem_process(&st2,recover_point);
     }
     else if ( item_target == PLAYER3 ){
       recover_point = (****st3) -> maxhp * 0.25;
-      beforehp = (****st3) -> hp;
-      (****st3) -> hp += recover_point;
-      if ( (****st3) -> hp >= (****st3) -> maxhp ){
-        (****st3) -> hp = (****st3) -> maxhp;
-      }
-      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st3) -> name, beforehp, (****st3) -> maxhp, (****st3) -> hp, (****st3) -> maxhp);
+      battle_HPRecoverItem_process(&st3,recover_point);
     }
   }
   else if ( item_number == BEAD ){   //宝玉
     if ( item_target == PLAYER ){
       recover_point = (****st) -> maxhp;
-      beforehp = (****st) -> hp;
-      (****st) -> hp = recover_point;
-      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st) -> name, beforehp, (****st) -> maxhp, (****st) -> hp, (****st) -> maxhp);
+      battle_HPRecoverItem_process(&st,recover_point);
     }
     else if ( item_target == PLAYER2 ){
       recover_point = (****st2) -> maxhp;
-      beforehp = (****st2) -> hp;
-      (****st2) -> hp = recover_point;
-      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st2) -> name, beforehp, (****st2) -> maxhp, (****st2) -> hp, (****st2) -> maxhp);
+      battle_HPRecoverItem_process(&st2,recover_point);
     }
     else if ( item_target == PLAYER3 ){
       recover_point = (****st3) -> maxhp;
-      beforehp = (****st3) -> hp;
-      (****st3) -> hp = recover_point;
-      printf("%s HP:%d/%d >> HP:%d/%d\n", (****st3) -> name, beforehp, (****st3) -> maxhp, (****st3) -> hp, (****st3) -> maxhp);
+      battle_HPRecoverItem_process(&st3,recover_point);
     }
   }
   //antipoison
   else if ( item_number == ANTIPOISON ){
     if ( item_target == PLAYER ){
-      if ( (****st) -> badstatus == POISON ){
-        (****st) -> badstatus = GOOD;
-        printf("%s(POISON) >> %s(GOOD)\n", (****st) -> name, (****st) -> name);
-      }
-      else{
-        printf("無効果!\n");
-      }
-      printf("\n");
+      battle_BadStatusRecoverItem_process(&st,POISON);
     }
     else if ( item_target == PLAYER2 ){
-      if ( (****st2) -> badstatus == POISON ){
-        (****st2) -> badstatus = GOOD;
-        printf("%s(POISON) >> %s(GOOD)\n", (****st2) -> name, (****st2) -> name);
-      }
-      else{
-        printf("無効果!\n");
-      }
-      printf("\n");
+      battle_BadStatusRecoverItem_process(&st2,POISON);
     }
     else if ( item_target == PLAYER3 ){
-      if ( (****st3) -> badstatus == POISON ){
-        (****st3) -> badstatus = GOOD;
-        printf("%s(POISON) >> %s(GOOD)\n", (****st3) -> name, (****st3) -> name);
-      }
-      else{
-        printf("無効果!\n");
-      }
-      printf("\n");
+      battle_BadStatusRecoverItem_process(&st3,POISON);
     }
   }
   //antipalyze
   else if ( item_number == ANTIPALYZE ){
     if ( item_target == PLAYER ){
-      if ( (****st) -> badstatus == PALYZE ){
-        (****st) -> badstatus = GOOD;
-        printf("%s(PALYZE) >> %s(GOOD)\n", (****st) -> name, (****st) -> name);
-      }
-      else{
-        printf("無効果!\n");
-      }
-      printf("\n");
+      battle_BadStatusRecoverItem_process(&st,PALYZE);
     }
     else if ( item_target == PLAYER2 ){
-      if ( (****st2) -> badstatus == PALYZE ){
-        (****st2) -> badstatus = GOOD;
-        printf("%s(PALYZE) >> %s(GOOD)\n", (****st2) -> name, (****st2) -> name);
-      }
-      else{
-        printf("無効果!\n");
-      }
-      printf("\n");
+      battle_BadStatusRecoverItem_process(&st2,PALYZE);
     }
     else if ( item_target == PLAYER3 ){
-      if ( (****st3) -> badstatus == PALYZE ){
-        (****st3) -> badstatus = GOOD;
-        printf("%s(POISON) >> %s(PALYZE)\n", (****st3) -> name, (****st3) -> name);
-      }
-      else{
-        printf("無効果!\n");
-      }
-      printf("\n");
+      battle_BadStatusRecoverItem_process(&st3,PALYZE);
     }
   }
 }
@@ -447,7 +392,7 @@ int item_drop_caluculate(int drop_base, int drop_per){ //ドロップしたか�
   for ( int i = 1; i <= drop_base; i++ ){
     if ( i == drop_per ){
       drop_count++;
-      printf("increment\n");
+      //printf("increment\n");
     }
   }
 
@@ -571,7 +516,6 @@ void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy **enemy, Ite
       while ( loop != encount_pattern ){
         drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
         drop_count += item_drop_caluculate(drop_base,drop_per);
-
         loop++;
       }
     }

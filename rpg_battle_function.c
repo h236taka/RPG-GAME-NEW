@@ -184,7 +184,6 @@ double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, in
   double turn_decrease;
 
   if ( (*enemy_copy) -> physical_attack == BLOCK ){  //物理攻撃無効
-    sleep(1);
     printf("%s<<BLOCK!\n", (*enemy_copy) -> name);
     turn_decrease = -2;
     return turn_decrease;
@@ -213,7 +212,6 @@ double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, in
     return turn_decrease;
   }
   else if ( (*enemy_copy) -> physical_attack == 100 ){
-    sleep(1);
     damage = damage;
     turn_decrease = -1;
   }
@@ -226,7 +224,6 @@ double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, in
     turn_decrease = -1;
   }
   else if ( (*enemy_copy) -> physical_attack == 200 ){
-    sleep(1);
     printf("WEAKNESS!!\n");
     damage *= 2;
     turn_decrease = 0.1;
@@ -259,6 +256,7 @@ double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcoun
   double turn_decrease;
 
   printf("%s>>通常攻撃!\n", (***st) -> name);
+  sleep(1);
 
   if ( (***st) -> lv <= 3 ){
     damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - (*enemy) -> str;
@@ -317,7 +315,6 @@ double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcoun
     }
     //is_damaged_by_playerAttack(&st,&enemy,damage);pointerの数が合わないため下に直接ダメージ計算プログラムを記述
     if ( damage >= (*enemy) -> hp ){
-      sleep(1);
       printf("%s<<%dダメージ\n", (*enemy) -> name, damage);
       sleep(1);
       printf("%sは%sを倒した!\n", (***st) -> name, (*enemy) -> name);
@@ -354,6 +351,9 @@ double player_attack_for_enemyCopy(Player ****st, Enemy *enemy_copy, int *enemy_
   int damage_base, damage, i, eva, critical, max_damage, temp;
   double eva_base, critical_base;
   double turn_decrease;
+
+  printf("%s>>通常攻撃!\n", (***st) -> name);
+  sleep(1);
 
   if ( (***st) -> lv <= 3 ){
     damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 15 ) - enemy_copy -> str;
@@ -414,7 +414,6 @@ double player_attack_for_enemyCopy(Player ****st, Enemy *enemy_copy, int *enemy_
       damage = 9999;
     }
     if ( damage >= enemy_copy -> hp ){
-      sleep(1);
       printf("%s<<%dダメージ\n", enemy_copy -> name, damage);
       sleep(1);
       printf("%sは%sを倒した!\n", (***st) -> name, enemy_copy -> name);

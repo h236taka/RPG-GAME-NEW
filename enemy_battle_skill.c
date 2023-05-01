@@ -943,10 +943,15 @@ double check_player_physicalRegist(Player *******st, Enemy *****enemy, int damag
 
   if ( player_guard == 1 ){
     damage /= 1.6;
+    player_guard = 0;
     turn_decrease = -1;
   }
 
   is_damaged_byEnemySkill(&st,damage);
+
+  if ( critical_count == 1 && ( turn_decrease != -2 || turn_decrease != TURNCHAGE ) ){
+    turn_decrease = 0.1;
+  }
 
   return turn_decrease;
 }

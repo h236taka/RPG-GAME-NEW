@@ -520,6 +520,21 @@ void delete_AUtoMapFile(int input){
   }
 }
 
+void load_items(Items **items, Save_data_items *save_data_items){
+
+  (*items) -> medicine = save_data_items -> medicine;
+  (*items) -> lifestone = save_data_items -> lifestone;
+  (*items) -> antipoison = save_data_items -> antipoison;
+  (*items) -> bead = save_data_items -> bead;
+}
+
+void load_equip(Equip **equip, Save_data_equip *save_data_equip){
+
+  (*equip) -> HpRing1 = save_data_equip -> HpRing1;
+  (*equip) -> MpRing1 = save_data_equip -> MpRing1;
+  (*equip) -> isEquip = save_data_equip -> isEquip;
+}
+
 void load_playersSkill(P_skill **player_skill, Save_data_player_skill *save_data_player_skill){
 
   for ( int i = 0; i < 4; i++ ){
@@ -931,22 +946,11 @@ void save_load(Player *st, Player *st2, Player *st3, P_skill *player_skill, P_sk
     st3 -> curse = save_data_players3.curse;
     st3 -> stage_clear = save_data_players3.stage_clear;
 
-    items -> medicine = save_data_items.medicine;
-    items -> lifestone = save_data_items.lifestone;
-    items -> antipoison = save_data_items.antipoison;
-    items -> bead = save_data_items.bead;
+    load_items(&items,&save_data_items);
 
-    pEquip -> HpRing1 = save_data_pEquip.HpRing1;
-    pEquip -> MpRing1 = save_data_pEquip.MpRing1;
-    pEquip -> isEquip = save_data_pEquip.isEquip;
-
-    p2Equip -> HpRing1 = save_data_p2Equip.HpRing1;
-    p2Equip -> MpRing1 = save_data_p2Equip.MpRing1;
-    p2Equip -> isEquip = save_data_p2Equip.isEquip;
-
-    p3Equip -> HpRing1 = save_data_p3Equip.HpRing1;
-    p3Equip -> MpRing1 = save_data_p3Equip.MpRing1;
-    p3Equip -> isEquip = save_data_p3Equip.isEquip;
+    load_equip(&pEquip,&save_data_pEquip);
+    load_equip(&p2Equip,&save_data_p2Equip);
+    load_equip(&p3Equip,&save_data_p3Equip);
 
     search -> search_item1 = Save_data_search.search_item1;
     //printf("medicine:%d個\n", save_data_items.medicine);

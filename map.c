@@ -9,19 +9,6 @@
 
 //マップに関するファイル
 
-/*typedef struct map {
-  int x;   //x座標
-  int y;   //y座標
-  int walk_step;  //歩数
-} Map;
-
-typedef struct area1 {
-  int event1;
-  int event2;
-  int boss;
-  int encount; //敵とエンカウントするか否か 0ならばエンカウントしない 1ならばエンカウント
-} Area1;*/
-
 //battleからmap画面に戻る判定(1なら該当)
 static int battle_to_map;
 

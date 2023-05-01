@@ -15,11 +15,12 @@ extern int tempArray[SIZE];
 int check_enemyDeadCount1(Enemy **enemy){
   int enemy_deadcount;
 
+  enemy_deadcount = 1;
   if ( (*enemy) -> badstatus == DEAD ){
     //nothing
   }
   else{
-    enemy_deadcount = 0;
+    enemy_deadcount--;
   }
 
   return enemy_deadcount;
