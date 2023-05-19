@@ -87,9 +87,21 @@ void battle_HPRecoverItem_process(Player ******st, int recover_point){
 
 }
 
+void battle_MPRecoverItem_process(Player ******st, int recover_point){
+  int beforemp;
+
+  beforemp = (*****st) -> mp;
+  (*****st) -> mp += recover_point;
+  if ( (*****st) -> mp >= (*****st) -> maxmp ){
+    (*****st) -> mp = (*****st) -> maxmp;
+  }
+  printf("%s MP:%d/%d >> MP:%d/%d\n", (*****st) -> name, beforemp, (*****st) -> maxmp, (*****st) -> mp, (*****st) -> maxmp);
+
+}
+
 void battle_BadStatusRecoverItem_process(Player ******st, int Badstatus){
 
-  if ( (*****st) -> badstatus == POISON ){
+  if ( (*****st) -> badstatus == Badstatus ){
     (*****st) -> badstatus = GOOD;
     printf("%sの状態異常は消えた!\n", (*****st) -> name, (*****st) -> name);
   }
@@ -170,6 +182,86 @@ void use_items_effect(Player *****st, Player *****st2, Player *****st3, int item
       battle_BadStatusRecoverItem_process(&st3,PALYZE);
     }
   }
+  else if ( item_number == ANTICHARM ){
+    if ( item_target == PLAYER ){
+      battle_BadStatusRecoverItem_process(&st,CHARM);
+    }
+    else if ( item_target == PLAYER2 ){
+      battle_BadStatusRecoverItem_process(&st2,CHARM);
+    }
+    else if ( item_target == PLAYER3 ){
+      battle_BadStatusRecoverItem_process(&st3,CHARM);
+    }
+  }
+  else if ( item_number == ANTICLOSE ){
+    if ( item_target == PLAYER ){
+      battle_BadStatusRecoverItem_process(&st,CLOSE);
+    }
+    else if ( item_target == PLAYER2 ){
+      battle_BadStatusRecoverItem_process(&st2,CLOSE);
+    }
+    else if ( item_target == PLAYER3 ){
+      battle_BadStatusRecoverItem_process(&st3,CLOSE);
+    }
+  }
+  else if ( item_number == ANTISTONE ){
+    if ( item_target == PLAYER ){
+      battle_BadStatusRecoverItem_process(&st,STONE);
+    }
+    else if ( item_target == PLAYER2 ){
+      battle_BadStatusRecoverItem_process(&st2,STONE);
+    }
+    else if ( item_target == PLAYER3 ){
+      battle_BadStatusRecoverItem_process(&st3,STONE);
+    }
+  }
+  else if ( item_number == ANTIPANIC ){
+    if ( item_target == PLAYER ){
+      battle_BadStatusRecoverItem_process(&st,PANIC);
+    }
+    else if ( item_target == PLAYER2 ){
+      battle_BadStatusRecoverItem_process(&st2,PANIC);
+    }
+    else if ( item_target == PLAYER3 ){
+      battle_BadStatusRecoverItem_process(&st3,PANIC);
+    }
+  }
+  else if ( item_number == ANTISLEEP ){
+    if ( item_target == PLAYER ){
+      battle_BadStatusRecoverItem_process(&st,SLEEP);
+    }
+    else if ( item_target == PLAYER2 ){
+      battle_BadStatusRecoverItem_process(&st2,SLEEP);
+    }
+    else if ( item_target == PLAYER3 ){
+      battle_BadStatusRecoverItem_process(&st3,SLEEP);
+    }
+  }
+  else if ( item_number == ANTICURSE ){
+    if ( item_target == PLAYER ){
+      battle_BadStatusRecoverItem_process(&st,CURSE);
+    }
+    else if ( item_target == PLAYER2 ){
+      battle_BadStatusRecoverItem_process(&st2,CURSE);
+    }
+    else if ( item_target == PLAYER3 ){
+      battle_BadStatusRecoverItem_process(&st3,CURSE);
+    }
+  }
+  else if ( item_number == MINDAMIN ){
+    if ( item_target == PLAYER ){
+      recover_point = (****st) -> maxmp * 0.20;
+      battle_MPRecoverItem_process(&st,recover_point);
+    }
+    else if ( item_target == PLAYER2 ){
+      recover_point = (****st2) -> maxmp * 0.20;
+      battle_MPRecoverItem_process(&st2,recover_point);
+    }
+    else if ( item_target == PLAYER3 ){
+      recover_point = (****st3) -> maxmp * 0.20;
+      battle_MPRecoverItem_process(&st3,recover_point);
+    }
+  }
 }
 
 int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****st3){
@@ -190,7 +282,7 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       items_count++;
     }
     if ( (***items) -> lifestone > 0 ){
-      printf("2.魔石%d個(味方１人のHPを最大体力の25%%回復)\n", (***items) -> lifestone);
+      printf("2.魔石%d個(味方１人のHPを最大HPの25%%回復)\n", (***items) -> lifestone);
       printf("\n");
       items_count++;
     }
@@ -205,7 +297,42 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       items_count++;
     }
     if ( (***items) -> antipalyze > 0 ){
-      printf("4.アンタイパライズ%d個(味方1人のPALYZEを回復)\n", (***items) -> antipalyze);
+      printf("5.アンタイパライズ%d個(味方1人のPALYZEを回復)\n", (***items) -> antipalyze);
+      printf("\n");
+      items_count++;
+    }
+    if ( (***items) -> anticharm > 0 ){
+      printf("6.アンタイチャーム%d個(味方1人のCHARMを回復)\n", (***items) -> anticharm);
+      printf("\n");
+      items_count++;
+    }
+    if ( (***items) -> anticlose > 0 ){
+      printf("7.アンタイクローズ%d個(味方1人のCLOSEを回復)\n", (***items) -> anticlose);
+      printf("\n");
+      items_count++;
+    }
+    if ( (***items) -> antistone > 0 ){
+      printf("8.アンタイストーン%d個(味方1人のSTONEを回復)\n", (***items) -> antistone);
+      printf("\n");
+      items_count++;
+    }
+    if ( (***items) -> antipanic > 0 ){
+      printf("9.アンタイパニック%d個(味方1人のPANICを回復)\n", (***items) -> antipanic);
+      printf("\n");
+      items_count++;
+    }
+    if ( (***items) -> antisleep > 0 ){
+      printf("a.アンタイスリープ%d個(味方1人のSLEEPを回復)\n", (***items) -> antisleep);
+      printf("\n");
+      items_count++;
+    }
+    if ( (***items) -> anticurse > 0 ){
+      printf("b.アンタイカース%d個(味方1人のCURSEを回復)\n", (***items) -> anticurse);
+      printf("\n");
+      items_count++;
+    }
+    if ( (***items) -> mindamin > 0 ){
+      printf("d.マインダミン%d個(味方１人のMPを最大MPの20%%回復)\n", (***items) -> mindamin);
       printf("\n");
       items_count++;
     }
@@ -368,6 +495,216 @@ int battle_item_use(Items ****items, Player ****st, Player ****st2, Player ****s
       //item_target = 3
       else if ( item_target == PLAYER3 ){
         (***items) -> antipalyze--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+    }
+    else if ( command == '6' && (***items) -> anticharm > 0 ){
+      item_number = ANTICHARM;
+      item_target = battle_item_useselect(&items,&st,&st2,&st3);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
+
+      if ( item_target == NOTARGET ){
+        //nothing
+        turn_decrease = 0.0;
+      }
+      else if ( item_target == PLAYER ){
+        (***items) -> anticharm--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      else if ( item_target == PLAYER2 ){
+        (***items) -> anticharm--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      //item_target = 3
+      else if ( item_target == PLAYER3 ){
+        (***items) -> anticharm--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+    }
+    else if ( command == '7' && (***items) -> anticlose > 0 ){
+      item_number = ANTICLOSE;
+      item_target = battle_item_useselect(&items,&st,&st2,&st3);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
+
+      if ( item_target == NOTARGET ){
+        //nothing
+        turn_decrease = 0.0;
+      }
+      else if ( item_target == PLAYER ){
+        (***items) -> anticlose--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      else if ( item_target == PLAYER2 ){
+        (***items) -> anticlose--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      //item_target = 3
+      else if ( item_target == PLAYER3 ){
+        (***items) -> anticlose--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+    }
+    else if ( command == '8' && (***items) -> antistone > 0 ){
+      item_number = ANTISTONE;
+      item_target = battle_item_useselect(&items,&st,&st2,&st3);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
+
+      if ( item_target == NOTARGET ){
+        //nothing
+        turn_decrease = 0.0;
+      }
+      else if ( item_target == PLAYER ){
+        (***items) -> antistone--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      else if ( item_target == PLAYER2 ){
+        (***items) -> antistone--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      //item_target = 3
+      else if ( item_target == PLAYER3 ){
+        (***items) -> antistone--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+    }
+    else if ( command == '9' && (***items) -> antipanic > 0 ){
+      item_number = ANTIPANIC;
+      item_target = battle_item_useselect(&items,&st,&st2,&st3);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
+
+      if ( item_target == NOTARGET ){
+        //nothing
+        turn_decrease = 0.0;
+      }
+      else if ( item_target == PLAYER ){
+        (***items) -> antipanic--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      else if ( item_target == PLAYER2 ){
+        (***items) -> antipanic--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      //item_target = 3
+      else if ( item_target == PLAYER3 ){
+        (***items) -> antipanic--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+    }
+    else if ( command == 'a' && (***items) -> antisleep > 0 ){
+      item_number = ANTISLEEP;
+      item_target = battle_item_useselect(&items,&st,&st2,&st3);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
+
+      if ( item_target == NOTARGET ){
+        //nothing
+        turn_decrease = 0.0;
+      }
+      else if ( item_target == PLAYER ){
+        (***items) -> antisleep--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      else if ( item_target == PLAYER2 ){
+        (***items) -> antisleep--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      //item_target = 3
+      else if ( item_target == PLAYER3 ){
+        (***items) -> antisleep--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+    }
+    else if ( command == 'b' && (***items) -> anticurse > 0 ){
+      item_number = ANTICURSE;
+      item_target = battle_item_useselect(&items,&st,&st2,&st3);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
+
+      if ( item_target == NOTARGET ){
+        //nothing
+        turn_decrease = 0.0;
+      }
+      else if ( item_target == PLAYER ){
+        (***items) -> anticurse--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      else if ( item_target == PLAYER2 ){
+        (***items) -> anticurse--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      //item_target = 3
+      else if ( item_target == PLAYER3 ){
+        (***items) -> anticurse--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+    }
+    else if ( command == 'd' && (***items) -> mindamin > 0 ){
+      item_number = MINDAMIN;
+      item_target = battle_item_useselect(&items,&st,&st2,&st3);
+      //printf("item_number:%d\n", item_number);
+      //printf("item_target:%d\n", item_target);
+
+      if ( item_target == NOTARGET ){
+        //nothing
+        turn_decrease = 0.0;
+      }
+      else if ( item_target == PLAYER ){
+        (***items) -> mindamin--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      else if ( item_target == PLAYER2 ){
+        (***items) -> mindamin--;
+        use_items_effect(&st,&st2,&st3,item_number,item_target);
+        turn_decrease = -1;
+        loop_count++;
+      }
+      //item_target = 3
+      else if ( item_target == PLAYER3 ){
+        (***items) -> mindamin--;
         use_items_effect(&st,&st2,&st3,item_number,item_target);
         turn_decrease = -1;
         loop_count++;

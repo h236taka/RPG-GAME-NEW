@@ -80,6 +80,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
   int skill_command;
   int skill_target, skill_user;
   double player_turn, enemy_turn, turn_decrease, enemy_turn_temp;
+  int backAttack;
 
   if ( enemy -> boss_count == 0 ){
     printf("<<<<<<NORMAL BATTLE>>>>>>\n");
@@ -92,6 +93,10 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
     }
     printf("\n");
     sleep(1);
+    backAttack = FALSE;
+    if ( is_backAttack(&st,&st2,&st3) == TRUE ){
+      backAttack = TRUE;
+    }
   }
   else if ( enemy -> boss_count == 2 ){
     printf("<<<<<<MID BOSS BATTLE>>>>>>\n");
@@ -137,37 +142,43 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
   do {
     skill_reaction = 1;
     //printf("enemy_deadcount:%d\n", enemy_deadcount);
-    printf("                 <<<<<<<PLAYER TURN>>>>>>>\n");
-    printf("\n");
-    //戦闘画面のレイアウト
-    encount_pattern7_layout(&enemy,&enemy1,&enemy2,&enemy3,encount_pattern);
-    printf("\n");
+    if ( backAttack == FALSE ){
+      printf("                 <<<<<<<PLAYER TURN>>>>>>>\n");
+      printf("\n");
+      //戦闘画面のレイアウト
+      encount_pattern7_layout(&enemy,&enemy1,&enemy2,&enemy3,encount_pattern);
+      printf("\n");
 
-    printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+      printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
 
-    printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
 
-    //HPをグラフィックに表現
-    hp_graphycal_display(&st,&st2,&st3);
-    //MPをグラフィックに表現
-    mp_graphycal_display(&st,&st2,&st3);
+      //HPをグラフィックに表現
+      hp_graphycal_display(&st,&st2,&st3);
+      //MPをグラフィックに表現
+      mp_graphycal_display(&st,&st2,&st3);
 
-    //partyの状態異常ステータスを表示
-    battle_display_condition_count = 0;
-    battle_display_condition(&st, battle_display_condition_count);
+      //partyの状態異常ステータスを表示
+      battle_display_condition_count = 0;
+      battle_display_condition(&st, battle_display_condition_count);
 
-    battle_display_condition_count++;
-    battle_display_condition(&st2, battle_display_condition_count);
+      battle_display_condition_count++;
+      battle_display_condition(&st2, battle_display_condition_count);
 
-    battle_display_condition_count++;
-    battle_display_condition(&st3, battle_display_condition_count);
-    battle_display_condition_count = 0;
-    printf("\n");
-    printf("\n");
+      battle_display_condition_count++;
+      battle_display_condition(&st3, battle_display_condition_count);
+      battle_display_condition_count = 0;
+      printf("\n");
+      printf("\n");
+    }
     //player_turnの処理
     //主人公のターン
     player_turn = 3;
     do{
+      if ( backAttack == TRUE ){
+        backAttack = FALSE;
+        break;
+      }
       do{
         move_finish = 0;  //各playerがplayer_turnが減少する行動を行ったら1になる
         player_guard = 0; //主人公のガードを使用に関する判定

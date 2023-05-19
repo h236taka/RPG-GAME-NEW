@@ -67,7 +67,7 @@ void display_playerStatusPoint(int point){
   }
 
   printf("\n");
-  
+
 }
 
 int school_command(){
@@ -91,21 +91,26 @@ void full_recover(Player **st, Player **st2, Player **st3){
 
   (*st) -> hp = (*st) -> maxhp;
   (*st) -> mp = (*st) -> maxmp;
+
   (*st2) -> hp = (*st2) -> maxhp;
   (*st2) -> mp = (*st2) -> maxmp;
+
   (*st3) -> hp = (*st3) -> maxhp;
   (*st3) -> mp = (*st3) -> maxmp;
 }
 
 void infirmary_full_recover(Player ***st, Player ***st2, Player ***st3){
+
   (**st) -> badstatus = GOOD;
   (**st2) -> badstatus = GOOD;
   (**st3) -> badstatus = GOOD;
 
   (**st) -> hp = (**st) -> maxhp;
   (**st) -> mp = (**st) -> maxmp;
+
   (**st2) -> hp = (**st2) -> maxhp;
   (**st2) -> mp = (**st2) -> maxmp;
+
   (**st3) -> hp = (**st3) -> maxhp;
   (**st3) -> mp = (**st3) -> maxmp;
 }
@@ -946,14 +951,32 @@ void buy_goods(Player ****st, Items ****items, int goods_number,  int price){
 
   (***st) -> gold -= sum;
 
-  if ( goods_number == 1 ){
+  if ( goods_number == MEDICINE ){
     (***items) -> medicine += count;
   }
-  else if ( goods_number == 2 ){
+  else if ( goods_number == ANTIPOISON ){
     (***items) -> antipoison += count;
   }
-  else if ( goods_number == 3 ){
+  else if ( goods_number == ANTIPALYZE ){
     (***items) -> antipalyze += count;
+  }
+  else if ( goods_number == ANTICHARM ){
+    (***items) -> anticharm += count;
+  }
+  else if ( goods_number == ANTICLOSE ){
+    (***items) -> anticlose += count;
+  }
+  else if ( goods_number == ANTISTONE ){
+    (***items) -> antistone += count;
+  }
+  else if ( goods_number == ANTIPANIC ){
+    (***items) -> antipanic += count;
+  }
+  else if ( goods_number == ANTISLEEP ){
+    (***items) -> antisleep += count;
+  }
+  else if ( goods_number == ANTICURSE ){
+    (***items) -> anticurse += count;
   }
 
 }
@@ -970,22 +993,60 @@ void goods_shop(Player ***st, Items ***items){
     printf("1.傷薬:100G(味方１人のHPを50回復)\n");
     printf("2.アンタイポイズン:150G(味方1人のPOISONを回復)\n");
     printf("3.アンタイパライズ:150G(味方1人のPALYZEを回復)\n");
-    printf("c.購入を止める\n");
+    if ( (**st) -> stage_clear >= 2 ){
+      printf("4.アンタイチャーム:200G(味方1人のCHARMを回復)\n");
+      printf("5.アンタイクローズ:150G(味方1人のCLOSEを回復)\n");
+      printf("6.アンタイストーン:250G(味方1人のSTONEを回復)\n");
+      printf("7.アンタイパニック:200G(味方1人のPANICを回復)\n");
+      printf("8.アンタイスリープ:200G(味方1人のSLEEPを回復)\n");
+      printf("9.アンタイカース:250G(味方1人のCURSEを回復)\n");
+      printf("c.購入を止める\n");
+    }
     input = _getch();
 
     if ( input == '1' ){
-      goods_number = 1;
+      goods_number = MEDICINE;
       price = 100;
       buy_goods(&st,&items,goods_number, price);
     }
     else if ( input == '2' ){
-      goods_number = 2;
+      goods_number = ANTIPOISON;
       price = 150;
       buy_goods(&st,&items,goods_number, price);
     }
     else if ( input == '3' ){
-      goods_number = 3;
+      goods_number = ANTIPALYZE;
       price = 150;
+      buy_goods(&st,&items,goods_number, price);
+    }
+    else if ( input == '4' && (**st) -> stage_clear >= 2 ){
+      goods_number = ANTICHARM;
+      price = 200;
+      buy_goods(&st,&items,goods_number, price);
+    }
+    else if ( input == '5' && (**st) -> stage_clear >= 2 ){
+      goods_number = ANTICLOSE;
+      price = 150;
+      buy_goods(&st,&items,goods_number, price);
+    }
+    else if ( input == '6' && (**st) -> stage_clear >= 2 ){
+      goods_number = ANTISTONE;
+      price = 250;
+      buy_goods(&st,&items,goods_number, price);
+    }
+    else if ( input == '7' && (**st) -> stage_clear >= 2 ){
+      goods_number = ANTIPANIC;
+      price = 200;
+      buy_goods(&st,&items,goods_number, price);
+    }
+    else if ( input == '8' && (**st) -> stage_clear >= 2 ){
+      goods_number = ANTISLEEP;
+      price = 200;
+      buy_goods(&st,&items,goods_number, price);
+    }
+    else if ( input == '9' && (**st) -> stage_clear >= 2 ){
+      goods_number = ANTICURSE;
+      price = 250;
       buy_goods(&st,&items,goods_number, price);
     }
 
@@ -1017,6 +1078,7 @@ void buy_equips(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3
     if ( (***st) -> gold < sum ){
       printf("\n");
       printf("所持金が足りません...\n");
+      printf("\n");
       return;
     }
   }
@@ -1027,22 +1089,50 @@ void buy_equips(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3
 
   (***st) -> gold -= sum;
 
-  if ( equip_number == 1 ){
+  if ( equip_number == HPRING1 ){
     (***pEquip) -> HpRing1 += count;
     (***p2Equip) -> HpRing1 += count;
     (***p3Equip) -> HpRing1 += count;
   }
-  else if ( equip_number == 2 ){
+  else if ( equip_number == MPRING1 ){
     (***pEquip) -> MpRing1 += count;
     (***p2Equip) -> MpRing1 += count;
     (***p3Equip) -> MpRing1 += count;
   }
-
+  else if ( equip_number == HPRING2 ){
+    (***pEquip) -> HpRing2 += count;
+    (***p2Equip) -> HpRing2 += count;
+    (***p3Equip) -> HpRing2 += count;
+  }
+  else if ( equip_number == POWEREARRINGS ){
+    (***pEquip) -> HpRing2 += count;
+    (***p2Equip) -> HpRing2 += count;
+    (***p3Equip) -> HpRing2 += count;
+  }
+  else if ( equip_number == MAGICEARRINGS ){
+    (***pEquip) -> HpRing2 += count;
+    (***p2Equip) -> HpRing2 += count;
+    (***p3Equip) -> HpRing2 += count;
+  }
+  else if ( equip_number == STRENGTHEARRINGS ){
+    (***pEquip) -> HpRing2 += count;
+    (***p2Equip) -> HpRing2 += count;
+    (***p3Equip) -> HpRing2 += count;
+  }
+  else if ( equip_number == AGILITYEARRINGS ){
+    (***pEquip) -> HpRing2 += count;
+    (***p2Equip) -> HpRing2 += count;
+    (***p3Equip) -> HpRing2 += count;
+  }
+  else if ( equip_number == LUCKYEARRINGS ){
+    (***pEquip) -> HpRing2 += count;
+    (***p2Equip) -> HpRing2 += count;
+    (***p3Equip) -> HpRing2 += count;
+  }
 
 }
 
 void equip_shop(Player ***st, Player ***st2, Player ***st3, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip){
-
   int input;
   int equip_number, price;
 
@@ -1051,23 +1141,60 @@ void equip_shop(Player ***st, Player ***st2, Player ***st3, Equip ***pEquip, Equ
     printf("\n");
     printf("---SHOP---\n");
     printf("何を購入しますか?(所持金: %dG)\n", (**st) -> gold);
-    printf("1.HPリング1: 500G(味方1人の最大HPを5%増加)\n");
+    printf("1.HPリング1: 500G(味方1人の最大HPを5%%増加)\n");
+    printf("2.MPリング1: 800G(味方1人の最大MPを5%%増加)\n");
     if ( (**st) -> stage_clear >= 2 ){
-      printf("2.MPリング1: 800G(味方1人の最大MPを5%増加)\n");
+      printf("3.HPリング2: 1000G(味方1人の最大HPを10%%増加)\n");
+      printf("4.パワーピアス: 1000G(味方1人の力を1ポイント増加)\n");
+      printf("5.マジックピアス: 1000G(味方1人の魔を1ポイント増加)\n");
+      printf("6.ストレングスピアス: 1000G(味方1人の体を1ポイント増加)\n");
+      printf("7.スピードピアス: 1000G(味方1人の速を1ポイント増加)\n");
+      printf("8.ラックピアス: 1000G(味方1人の運を1ポイント増加)\n");
     }
     printf("c.購入を止める\n");
 
     input = _getch();
     if ( input == '1' ){
-      equip_number = 1;
+      equip_number = HPRING1;
       price = 500;
       buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
     }
-    else if ( input == '2' && (**st) -> stage_clear >= 2 ){
-      equip_number = 2;
+    else if ( input == '2' ){
+      equip_number = MPRING1;
       price = 800;
       buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
     }
+    else if ( input == '3' ){
+      equip_number = HPRING2;
+      price = 1000;
+      buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
+    }
+    else if ( input == '4' ){
+      equip_number = POWEREARRINGS;
+      price = 1000;
+      buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
+    }
+    else if ( input == '5' ){
+      equip_number = MAGICEARRINGS;
+      price = 1000;
+      buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
+    }
+    else if ( input == '6' ){
+      equip_number = STRENGTHEARRINGS;
+      price = 1000;
+      buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
+    }
+    else if ( input == '7' ){
+      equip_number = AGILITYEARRINGS;
+      price = 1000;
+      buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
+    }
+    else if ( input == '8' ){
+      equip_number = LUCKYEARRINGS;
+      price = 1000;
+      buy_equips(&st,&pEquip,&p2Equip,&p3Equip,equip_number,price);
+    }
+
 
     printf("\n");
   } while ( input != 'c' );

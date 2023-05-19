@@ -121,6 +121,29 @@ void player_badstatus_recover(Player ****st){
 
 }
 
+int is_backAttack(Player ****st, Player ****st2, Player ****st3){
+  int backAttackPer;
+  int backAttackBase;
+
+  backAttackBase = 30 - ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1);
+  if ( backAttackBase <= 0 ){
+    backAttackBase = 1;
+  }
+  backAttackBase = 100;
+
+  backAttackPer = (rand() % ( 100 - 1 + 1 ) + 1);
+
+  for ( int i = 0; i < backAttackBase; i++ ){
+    if ( i == backAttackPer ){
+      printf("\a");
+      printf("敵の先制攻撃!\n");
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
 //敵１種類の戦闘関数
 void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_skill, P_skill ***player_skill2, P_skill ***player_skill3, Setting_skill ***setting_skill, Setting_skill ***setting_skill2, Setting_skill ***setting_skill3, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip, Enemy *enemy, int encount_pattern){  //構造体のポインタを引数にまたポインタ指定（ダブルポインタ)
 
@@ -132,6 +155,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   int skill_target, skill_user;
   double player_turn, enemy_turn, turn_decrease, enemy_turn_temp;
   int enemy_deadcount;
+  int backAttack;
 
   Enemy enemy_copy1;
   Enemy enemy_copy2;
@@ -166,6 +190,13 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     }
     printf("\n");
     sleep(1);
+
+    //バックアタックかどうかチェック(敵の先制攻撃か)
+    backAttack = FALSE;
+    if ( is_backAttack(&st,&st2,&st3) == TRUE ){
+      backAttack = TRUE;
+      //printf("OK\n");
+    }
   }
   else if ( enemy -> boss_count == 2 ){
     printf("------MID BOSS BATTLE------\n");
@@ -227,53 +258,62 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   use_skill_count = 0; //skillの使用に関する判定
   do {
     skill_reaction = 1;
-    //printf("enemy_deadcount:%d\n", enemy_deadcount);
-    printf("                 <<<<<<<PLAYER TURN>>>>>>>\n");
-    printf("\n");
-    //戦闘画面のレイアウト
-    if ( encount_pattern == 1 ){
-      encount_pattern1_layout(&enemy,encount_pattern);
-    }
-    else if ( encount_pattern == 2 ){
-      encount_pattern2_layout(&enemy,&enemy_copy1,encount_pattern);
-    }
-    else if ( encount_pattern == 3 ){
-      encount_pattern3_layout(&enemy, &enemy_copy1, &enemy_copy2, encount_pattern);
-    }
-    else if ( encount_pattern == 4 ){
-      encount_pattern4_layout(&enemy, &enemy_copy1, &enemy_copy2, &enemy_copy3, encount_pattern);
+    if ( backAttack == FALSE ){
+      printf("                 <<<<<<<PLAYER TURN>>>>>>>\n");
+      printf("\n");
+      //戦闘画面のレイアウト
+      if ( encount_pattern == 1 ){
+        encount_pattern1_layout(&enemy,encount_pattern);
+      }
+      else if ( encount_pattern == 2 ){
+        encount_pattern2_layout(&enemy,&enemy_copy1,encount_pattern);
+      }
+      else if ( encount_pattern == 3 ){
+        encount_pattern3_layout(&enemy, &enemy_copy1, &enemy_copy2, encount_pattern);
+      }
+      else if ( encount_pattern == 4 ){
+        encount_pattern4_layout(&enemy, &enemy_copy1, &enemy_copy2, &enemy_copy3, encount_pattern);
+      }
+      else{
+        printf("EncountPatternが存在しません\n");
+        return;
+      }
+      printf("\n");
+
+      printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
+
+      printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
+
+      //HPをグラフィックに表現
+      hp_graphycal_display(&st,&st2,&st3);
+      //MPをグラフィックに表現
+      mp_graphycal_display(&st,&st2,&st3);
+
+      //partyの状態異常ステータスを表示
+      battle_display_condition_count = 0;
+      battle_display_condition(&st, battle_display_condition_count);
+
+      battle_display_condition_count++;
+      battle_display_condition(&st2, battle_display_condition_count);
+
+      battle_display_condition_count++;
+      battle_display_condition(&st3, battle_display_condition_count);
+      battle_display_condition_count = 0;
+      printf("\n");
+      printf("\n");
     }
     else{
-      printf("EncountPatternが存在しません\n");
-      return;
+      //printf("                 <<<<<<<ENEMY TURN>>>>>>>\n");
     }
-    printf("\n");
-
-    printf("       %2s                  %2s                 %2s\n", (**st) -> name, (**st2) -> name, (**st3) -> name);
-
-    printf(" HP:%d/%d MP:%d/%d       HP:%d/%d MP:%d/%d        HP:%d/%d MP:%d/%d\n", (**st) -> hp, (**st) -> maxhp, (**st) -> mp, (**st) -> maxmp, (**st2) -> hp, (**st2) -> maxhp, (**st2) -> mp, (**st2) -> maxmp, (**st3) -> hp, (**st3) -> maxhp, (**st3) -> mp, (**st3) -> maxmp);
-
-    //HPをグラフィックに表現
-    hp_graphycal_display(&st,&st2,&st3);
-    //MPをグラフィックに表現
-    mp_graphycal_display(&st,&st2,&st3);
-
-    //partyの状態異常ステータスを表示
-    battle_display_condition_count = 0;
-    battle_display_condition(&st, battle_display_condition_count);
-
-    battle_display_condition_count++;
-    battle_display_condition(&st2, battle_display_condition_count);
-
-    battle_display_condition_count++;
-    battle_display_condition(&st3, battle_display_condition_count);
-    battle_display_condition_count = 0;
-    printf("\n");
     printf("\n");
     //player_turnの処理
     //主人公のターン
     player_turn = 3;
     do{
+      if ( backAttack == TRUE ){
+        backAttack = FALSE;
+        break;
+      }
       do{
         move_finish = 0;  //各playerがplayer_turnが減少する行動を行ったら1になる
         player_guard = 0; //主人公のガードを使用に関する判定

@@ -720,6 +720,19 @@ void menu_HPRecoverItem_process(Player ********st, int recover_point){
 
 }
 
+void menu_MPRecoverItem_process(Player ********st, int recover_point){
+  int beforemp;
+
+  beforemp = (*******st) -> mp;
+  (*******st) -> mp += recover_point;
+  if ( (*******st) -> mp >= (*******st) -> maxmp ){
+    (*******st) -> mp = (*******st) -> maxmp;
+  }
+  printf("%s MP:%d/%d >> MP:%d/%d\n", (*******st) -> name, beforemp, (*******st) -> maxmp, (*******st) -> mp, (*******st) -> maxmp);
+  printf("\n");
+
+}
+
 void menu_BadStatusRecoverItem_process(Player ********st, int Badstatus){
 
   if ( (*******st) -> badstatus == Badstatus ){
@@ -798,6 +811,86 @@ void menu_use_items_effect(Player *******st, Player *******st2, Player *******st
     }
     else if ( item_target == PLAYER3 ){
       menu_BadStatusRecoverItem_process(&st3,PALYZE);
+    }
+  }
+  else if ( item_number == ANTICHARM ){
+    if ( item_target == PLAYER ){
+      menu_BadStatusRecoverItem_process(&st,CHARM);
+    }
+    else if ( item_target == PLAYER2 ){
+      menu_BadStatusRecoverItem_process(&st2,CHARM);
+    }
+    else if ( item_target == PLAYER3 ){
+      menu_BadStatusRecoverItem_process(&st3,CHARM);
+    }
+  }
+  else if ( item_number == ANTICLOSE ){
+    if ( item_target == PLAYER ){
+      menu_BadStatusRecoverItem_process(&st,CLOSE);
+    }
+    else if ( item_target == PLAYER2 ){
+      menu_BadStatusRecoverItem_process(&st2,CLOSE);
+    }
+    else if ( item_target == PLAYER3 ){
+      menu_BadStatusRecoverItem_process(&st3,CLOSE);
+    }
+  }
+  else if ( item_number == ANTISTONE ){
+    if ( item_target == PLAYER ){
+      menu_BadStatusRecoverItem_process(&st,STONE);
+    }
+    else if ( item_target == PLAYER2 ){
+      menu_BadStatusRecoverItem_process(&st2,STONE);
+    }
+    else if ( item_target == PLAYER3 ){
+      menu_BadStatusRecoverItem_process(&st3,STONE);
+    }
+  }
+  else if ( item_number == ANTIPANIC ){
+    if ( item_target == PLAYER ){
+      menu_BadStatusRecoverItem_process(&st,PANIC);
+    }
+    else if ( item_target == PLAYER2 ){
+      menu_BadStatusRecoverItem_process(&st2,PANIC);
+    }
+    else if ( item_target == PLAYER3 ){
+      menu_BadStatusRecoverItem_process(&st3,PANIC);
+    }
+  }
+  else if ( item_number == ANTISLEEP ){
+    if ( item_target == PLAYER ){
+      menu_BadStatusRecoverItem_process(&st,SLEEP);
+    }
+    else if ( item_target == PLAYER2 ){
+      menu_BadStatusRecoverItem_process(&st2,SLEEP);
+    }
+    else if ( item_target == PLAYER3 ){
+      menu_BadStatusRecoverItem_process(&st3,SLEEP);
+    }
+  }
+  else if ( item_number == ANTICURSE ){
+    if ( item_target == PLAYER ){
+      menu_BadStatusRecoverItem_process(&st,CURSE);
+    }
+    else if ( item_target == PLAYER2 ){
+      menu_BadStatusRecoverItem_process(&st2,CURSE);
+    }
+    else if ( item_target == PLAYER3 ){
+      menu_BadStatusRecoverItem_process(&st3,CURSE);
+    }
+  }
+  else if ( item_number == MINDAMIN ){
+    if ( item_target == PLAYER ){
+      recover_point = (******st) -> maxmp * 0.20;
+      menu_MPRecoverItem_process(&st,recover_point);
+    }
+    else if ( item_target == PLAYER2 ){
+      recover_point = (******st2) -> maxmp * 0.20;
+      menu_MPRecoverItem_process(&st2,recover_point);
+    }
+    else if ( item_target == PLAYER3 ){
+      recover_point = (******st3) -> maxmp * 0.20;
+      menu_MPRecoverItem_process(&st3,recover_point);
     }
   }
 }
@@ -955,18 +1048,228 @@ void menu_item_use(Player ******st, Player ******st2, Player ******st3, Items **
       return;
     }
   }
+  else if ( command == '6' ){
+    item_number = ANTICHARM;
+    item_target = menu_item_useselect(&st,&st2,&st3,&items);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
+
+    if ( item_target == NOTARGET ){
+      //nothing
+      return;
+    }
+    else if ( item_target == PLAYER ){
+      (*****items) -> anticharm--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    else if ( item_target == PLAYER2 ){
+      (*****items) -> anticharm--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    //item_target = 3
+    else if ( item_target == PLAYER3 ){
+      (*****items) -> anticharm--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+  }
+  else if ( command == '7' ){
+    item_number = ANTICLOSE;
+    item_target = menu_item_useselect(&st,&st2,&st3,&items);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
+
+    if ( item_target == NOTARGET ){
+      //nothing
+      return;
+    }
+    else if ( item_target == PLAYER ){
+      (*****items) -> anticlose--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    else if ( item_target == PLAYER2 ){
+      (*****items) -> anticlose--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    //item_target = 3
+    else if ( item_target == PLAYER3 ){
+      (*****items) -> anticlose--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+  }
+  else if ( command == '8' ){
+    item_number = ANTISTONE;
+    item_target = menu_item_useselect(&st,&st2,&st3,&items);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
+
+    if ( item_target == NOTARGET ){
+      //nothing
+      return;
+    }
+    else if ( item_target == PLAYER ){
+      (*****items) -> antistone--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    else if ( item_target == PLAYER2 ){
+      (*****items) -> antistone--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    //item_target = 3
+    else if ( item_target == PLAYER3 ){
+      (*****items) -> antistone--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+  }
+  else if ( command == '9' ){
+    item_number = ANTIPANIC;
+    item_target = menu_item_useselect(&st,&st2,&st3,&items);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
+
+    if ( item_target == NOTARGET ){
+      //nothing
+      return;
+    }
+    else if ( item_target == PLAYER ){
+      (*****items) -> antipanic--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    else if ( item_target == PLAYER2 ){
+      (*****items) -> antipanic--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    //item_target = 3
+    else if ( item_target == PLAYER3 ){
+      (*****items) -> antipanic--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+  }
+  else if ( command == 'a' ){
+    item_number = ANTISLEEP;
+    item_target = menu_item_useselect(&st,&st2,&st3,&items);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
+
+    if ( item_target == NOTARGET ){
+      //nothing
+      return;
+    }
+    else if ( item_target == PLAYER ){
+      (*****items) -> antisleep--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    else if ( item_target == PLAYER2 ){
+      (*****items) -> antisleep--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    //item_target = 3
+    else if ( item_target == PLAYER3 ){
+      (*****items) -> antisleep--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+  }
+  else if ( command == 'b' ){
+    item_number = ANTICURSE;
+    item_target = menu_item_useselect(&st,&st2,&st3,&items);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
+
+    if ( item_target == NOTARGET ){
+      //nothing
+      printf("\n");
+    }
+    else if ( item_target == PLAYER ){
+      (*****items) -> anticurse--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    else if ( item_target == PLAYER2 ){
+      (*****items) -> anticurse--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    //item_target = 3
+    else if ( item_target == PLAYER3 ){
+      (*****items) -> anticurse--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+  }
+  else if ( command == 'd' ){
+    item_number = MINDAMIN;
+    item_target = menu_item_useselect(&st,&st2,&st3,&items);
+    //printf("item_number:%d\n", item_number);
+    //printf("item_target:%d\n", item_target);
+
+    if ( item_target == NOTARGET ){
+      //nothing
+      return;
+    }
+    else if ( item_target == PLAYER ){
+      (*****items) -> mindamin--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    else if ( item_target == PLAYER2 ){
+      (*****items) -> mindamin--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+    //item_target = 3
+    else if ( item_target == PLAYER3 ){
+      (*****items) -> mindamin--;
+      menu_use_items_effect(&st,&st2,&st3,item_number,item_target);
+      printf("\n");
+      return;
+    }
+  }
 }
 
 void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip){
 
   if ( input == '1' ){
-    if ( command == '1' ){
+    if ( command == HPRING1 ){
       (******pEquip) -> HpRing1--;
       (******p2Equip) -> HpRing1--;
       (******p3Equip) -> HpRing1--;
       (******pEquip) -> isEquip = 1;
     }
-    else if ( command == '2' ){
+    else if ( command == MPRING1 ){
       (******pEquip) -> MpRing1--;
       (******p2Equip) -> MpRing1--;
       (******p3Equip) -> MpRing1--;
@@ -974,13 +1277,13 @@ void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Eq
     }
   }
   else if ( input == '2' ){
-    if ( command == '1' ){
+    if ( command == HPRING1 ){
       (******pEquip) -> HpRing1--;
       (******p2Equip) -> HpRing1--;
       (******p3Equip) -> HpRing1--;
       (******p2Equip) -> isEquip = 1;
     }
-    else if ( command == '2' ){
+    else if ( command == MPRING1 ){
       (******pEquip) -> MpRing1--;
       (******p2Equip) -> MpRing1--;
       (******p3Equip) -> MpRing1--;
@@ -988,13 +1291,13 @@ void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Eq
     }
   }
   else if ( input == '3' ){
-    if ( command == '1' ){
+    if ( command == HPRING1 ){
       (******pEquip) -> HpRing1--;
       (******p2Equip) -> HpRing1--;
       (******p3Equip) -> HpRing1--;
       (******p3Equip) -> isEquip = 1;
     }
-    else if ( command == '2' ){
+    else if ( command == MPRING1 ){
       (******pEquip) -> MpRing1--;
       (******p2Equip) -> MpRing1--;
       (******p3Equip) -> MpRing1--;
@@ -1010,9 +1313,30 @@ void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Eq
 int equip_command_check(int command, Equip *******pEquip){  //pEquipもp2Equipもp3Equipも装備品の個数は連携しているので、pEquipのみでOK
 
   if ( command == '1' && (******pEquip) -> HpRing1 == 0 ){
-    command = 'e';
+    command = '0';
   }
-  if ( command == '2' && (******pEquip) -> MpRing1 == 0 ){
+  else if ( command == '2' && (******pEquip) -> MpRing1 == 0 ){
+    command = '0';
+  }
+  else if ( command == '3' && (******pEquip) -> HpRing2 == 0 ){
+    command = '0';
+  }
+  else if ( command == '4' && (******pEquip) -> MpRing2 == 0 ){
+    command = '0';
+  }
+  else if ( command == '5' && (******pEquip) -> PowerEarrings == 0 ){
+    command = '0';
+  }
+  else if ( command == '6' && (******pEquip) -> MagicEarrings == 0 ){
+    command = '0';
+  }
+  else if ( command == '7' && (******pEquip) -> StrengthEarrings == 0 ){
+    command = '0';
+  }
+  else if ( command == '8' && (******pEquip) -> AgilityEarrings == 0 ){
+    command = '0';
+  }
+  else if ( command == '9' && (******pEquip) -> LuckyEarrings == 0 ){
     command = 'e';
   }
 
@@ -1035,55 +1359,163 @@ void before_equip_plus(int input, Equip *******pEquip, Equip *******p2Equip, Equ
 
   if ( input == '1' ){
     if ( pEquip_temp != 0 ){
-      if ( pEquip_temp == 1 ){
+      if ( pEquip_temp == HPRING1 ){
         (******pEquip) -> HpRing1++;
         (******p2Equip) -> HpRing1++;
         (******p3Equip) -> HpRing1++;
       }
-      else if ( pEquip_temp == 2 ){
+      else if ( pEquip_temp == MPRING1 ){
         (******pEquip) -> MpRing1++;
         (******p2Equip) -> MpRing1++;
         (******p3Equip) -> MpRing1++;
       }
+      else if ( pEquip_temp == HPRING2 ){
+        (******pEquip) -> HpRing2++;
+        (******p2Equip) -> HpRing2++;
+        (******p3Equip) -> HpRing2++;
+      }
+      else if ( pEquip_temp == MPRING2 ){
+        (******pEquip) -> MpRing2++;
+        (******p2Equip) -> MpRing2++;
+        (******p3Equip) -> MpRing2++;
+      }
+      else if ( pEquip_temp == POWEREARRINGS ){
+        (******pEquip) -> PowerEarrings++;
+        (******p2Equip) -> PowerEarrings++;
+        (******p3Equip) -> PowerEarrings++;
+      }
+      else if ( pEquip_temp == MAGICEARRINGS ){
+        (******pEquip) -> MagicEarrings++;
+        (******p2Equip) -> MagicEarrings++;
+        (******p3Equip) -> MagicEarrings++;
+      }
+      else if ( pEquip_temp == STRENGTHEARRINGS ){
+        (******pEquip) -> StrengthEarrings++;
+        (******p2Equip) -> StrengthEarrings++;
+        (******p3Equip) -> StrengthEarrings++;
+      }
+      else if ( pEquip_temp == AGILITYEARRINGS ){
+        (******pEquip) -> AgilityEarrings++;
+        (******p2Equip) -> AgilityEarrings++;
+        (******p3Equip) -> AgilityEarrings++;
+      }
+      else if ( pEquip_temp == LUCKYEARRINGS ){
+        (******pEquip) -> LuckyEarrings++;
+        (******p2Equip) -> LuckyEarrings++;
+        (******p3Equip) -> LuckyEarrings++;
+      }
       return;
     }
     else{
+      //nothing
       return;
     }
   }
   else if ( input == '2' ){
     if ( p2Equip_temp != 0 ){
-      if ( p2Equip_temp == 1 ){
+      if ( p2Equip_temp == HPRING1 ){
         (******pEquip) -> HpRing1++;
         (******p2Equip) -> HpRing1++;
         (******p3Equip) -> HpRing1++;
       }
-      else if ( p3Equip_temp == 2 ){
+      else if ( p2Equip_temp == MPRING1 ){
         (******pEquip) -> MpRing1++;
         (******p2Equip) -> MpRing1++;
         (******p3Equip) -> MpRing1++;
       }
+      else if ( p2Equip_temp == HPRING2 ){
+        (******pEquip) -> HpRing2++;
+        (******p2Equip) -> HpRing2++;
+        (******p3Equip) -> HpRing2++;
+      }
+      else if ( p2Equip_temp == MPRING2 ){
+        (******pEquip) -> MpRing2++;
+        (******p2Equip) -> MpRing2++;
+        (******p3Equip) -> MpRing2++;
+      }
+      else if ( p2Equip_temp == POWEREARRINGS ){
+        (******pEquip) -> PowerEarrings++;
+        (******p2Equip) -> PowerEarrings++;
+        (******p3Equip) -> PowerEarrings++;
+      }
+      else if ( p2Equip_temp == MAGICEARRINGS ){
+        (******pEquip) -> MagicEarrings++;
+        (******p2Equip) -> MagicEarrings++;
+        (******p3Equip) -> MagicEarrings++;
+      }
+      else if ( p2Equip_temp == STRENGTHEARRINGS ){
+        (******pEquip) -> StrengthEarrings++;
+        (******p2Equip) -> StrengthEarrings++;
+        (******p3Equip) -> StrengthEarrings++;
+      }
+      else if ( p2Equip_temp == AGILITYEARRINGS ){
+        (******pEquip) -> AgilityEarrings++;
+        (******p2Equip) -> AgilityEarrings++;
+        (******p3Equip) -> AgilityEarrings++;
+      }
+      else if ( p2Equip_temp == LUCKYEARRINGS ){
+        (******pEquip) -> LuckyEarrings++;
+        (******p2Equip) -> LuckyEarrings++;
+        (******p3Equip) -> LuckyEarrings++;
+      }
       return;
     }
     else{
+      //nothing
       return;
     }
   }
   else if ( input == '3' ){
     if ( p3Equip_temp != 0 ){
-      if ( p3Equip_temp == 1 ){
+      if ( p3Equip_temp == HPRING1 ){
         (******pEquip) -> HpRing1++;
         (******p2Equip) -> HpRing1++;
         (******p3Equip) -> HpRing1++;
       }
-      else if ( p3Equip_temp == 2 ){
+      else if ( p3Equip_temp == MPRING1 ){
         (******pEquip) -> MpRing1++;
         (******p2Equip) -> MpRing1++;
         (******p3Equip) -> MpRing1++;
       }
+      else if ( p3Equip_temp == HPRING2 ){
+        (******pEquip) -> HpRing2++;
+        (******p2Equip) -> HpRing2++;
+        (******p3Equip) -> HpRing2++;
+      }
+      else if ( p3Equip_temp == MPRING2 ){
+        (******pEquip) -> MpRing2++;
+        (******p2Equip) -> MpRing2++;
+        (******p3Equip) -> MpRing2++;
+      }
+      else if ( p3Equip_temp == POWEREARRINGS ){
+        (******pEquip) -> PowerEarrings++;
+        (******p2Equip) -> PowerEarrings++;
+        (******p3Equip) -> PowerEarrings++;
+      }
+      else if ( p3Equip_temp == MAGICEARRINGS ){
+        (******pEquip) -> MagicEarrings++;
+        (******p2Equip) -> MagicEarrings++;
+        (******p3Equip) -> MagicEarrings++;
+      }
+      else if ( p3Equip_temp == STRENGTHEARRINGS ){
+        (******pEquip) -> StrengthEarrings++;
+        (******p2Equip) -> StrengthEarrings++;
+        (******p3Equip) -> StrengthEarrings++;
+      }
+      else if ( p3Equip_temp == AGILITYEARRINGS ){
+        (******pEquip) -> AgilityEarrings++;
+        (******p2Equip) -> AgilityEarrings++;
+        (******p3Equip) -> AgilityEarrings++;
+      }
+      else if ( p3Equip_temp == LUCKYEARRINGS ){
+        (******pEquip) -> LuckyEarrings++;
+        (******p2Equip) -> LuckyEarrings++;
+        (******p3Equip) -> LuckyEarrings++;
+      }
       return;
     }
     else{
+      //nothing
       return;
     }
   }
@@ -1092,8 +1524,49 @@ void before_equip_plus(int input, Equip *******pEquip, Equip *******p2Equip, Equ
   }
 }
 
-void equip_effect(Player *******st, int input, Equip *******pEquip, Equip *******p2Equip, Equip *******p3Equip){
+void reflect_equipEffect(Player ********st, Equip ********pEquip, int equipInfo){
   int hpTemp, mpTemp;
+
+  if ( equipInfo == 0 ){
+    if ( (*******pEquip) -> isEquip == 1 ){
+      hpTemp = (*******st) -> maxhp;
+      (*******st) -> maxhp += (int)(hpTemp * 0.05);
+    }
+    else if ( (*******pEquip) -> isEquip == 2 ){
+      mpTemp = (*******st) -> maxmp;
+      (*******st) -> maxmp += (int)(mpTemp * 0.05);
+    }
+  }
+  else if ( equipInfo == HPRING1 ){
+    if ( (*******pEquip) -> isEquip == 0 ){
+      hpTemp = (*******st) -> maxhp;
+      (*******st) -> maxhp -= (int)(hpTemp * 0.05);
+    }
+    else if ( (*******pEquip) -> isEquip == MPRING1 ){
+      hpTemp = (*******st) -> maxhp;
+      (*******st) -> maxhp -= (int)(hpTemp * 0.05);
+      mpTemp = (*******st) -> maxmp;
+      (*******st) -> maxmp += (int)(mpTemp * 0.05);
+    }
+  }
+  else if ( equipInfo == MPRING1 ){
+    if ( (*******pEquip) -> isEquip == 0 ){
+      mpTemp = (*******st) -> maxmp;
+      (*******st) -> maxmp -= (int)(mpTemp * 0.05);
+    }
+    else if ( (*******pEquip) -> isEquip == HPRING1 ){
+      mpTemp = (*******st) -> maxmp;
+      (*******st) -> maxmp -= (int)(mpTemp * 0.05);
+      hpTemp = (*******st) -> maxhp;
+      (*******st) -> maxhp += (int)(hpTemp * 0.05);
+    }
+  }
+
+
+}
+
+void equip_effect(Player *******st, Equip *******pEquip, int input){
+  int equipInfo;
 
   /*if ( pEquip_temp == (******pEquip) -> isEquip ){
     return;
@@ -1105,117 +1578,29 @@ void equip_effect(Player *******st, int input, Equip *******pEquip, Equip ******
     return;
   }*/
 
-if ( input == '1' ){  //player1
-  if ( pEquip_temp == 0 ){
-    if ( (******pEquip) -> isEquip == 1 ){
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp += (int)(hpTemp * 0.05);
-    }
-    else if ( (******pEquip) -> isEquip == 2 ){
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp += (int)(mpTemp * 0.05);
-    }
+  if ( input == '1' ){
+    //pEquip_tempをチェック
+    equipInfo = pEquip_temp;
   }
-  else if ( pEquip_temp == 1 ){
-    if ( (******pEquip) -> isEquip == 0 ){
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp -= (int)(hpTemp * 0.05);
-    }
-    else if ( (******pEquip) -> isEquip == 2 ){
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp -= (int)(hpTemp * 0.05);
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp += (int)(mpTemp * 0.05);
-    }
+  else if ( input == '2' ){
+    equipInfo = p2Equip_temp;
   }
-  else if ( pEquip_temp == 2 ){
-    if ( (******pEquip) -> isEquip == 0 ){
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp -= (int)(mpTemp * 0.05);
-    }
-    else if ( (******pEquip) -> isEquip == 1 ){
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp -= (int)(mpTemp * 0.05);
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp += (int)(hpTemp * 0.05);
-    }
+  else if ( input == '3' ){
+    equipInfo = p3Equip_temp;
   }
-}
-else if ( input == '2' ){  //player2
-  if ( p2Equip_temp == 0 ){
-    if ( (******p2Equip) -> isEquip == 1 ){
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp += (int)(hpTemp * 0.05);
-    }
-    else if ( (******pEquip) -> isEquip == 2 ){
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp += (int)(mpTemp * 0.05);
-    }
+  else{
+    return;
   }
-  else if ( p2Equip_temp == 1 ){
-    if ( (******p2Equip) -> isEquip == 0 ){
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp -= (int)(hpTemp * 0.05);
-    }
-    else if ( (******p2Equip) -> isEquip == 2 ){
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp -= (int)(hpTemp * 0.05);
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp += (int)(mpTemp * 0.05);
-    }
+
+  if ( equipInfo == 0 ){
+    reflect_equipEffect(&st,&pEquip,equipInfo);
   }
-  else if ( p2Equip_temp == 2 ){
-    if ( (******p2Equip) -> isEquip == 0 ){
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp -= (int)(mpTemp * 0.05);
-    }
-    else if ( (******p2Equip) -> isEquip == 1 ){
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp -= (int)(mpTemp * 0.05);
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp += (int)(hpTemp * 0.05);
-    }
+  else if ( equipInfo == HPRING1 ){
+    reflect_equipEffect(&st,&pEquip,equipInfo);
   }
-}
-else if ( input == '3' ){  //player3
-  if ( p3Equip_temp == 0 ){
-    if ( (******p3Equip) -> isEquip == 1 ){
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp += (int)(hpTemp * 0.05);
-    }
-    else if ( (******pEquip) -> isEquip == 2 ){
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp += (int)(mpTemp * 0.05);
-    }
+  else if ( equipInfo == MPRING1 ){
+    reflect_equipEffect(&st,&pEquip,equipInfo);
   }
-  else if ( p3Equip_temp == 1 ){
-    if ( (******p3Equip) -> isEquip == 0 ){
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp -= (int)(hpTemp * 0.05);
-    }
-    else if ( (******p3Equip) -> isEquip == 2 ){
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp -= (int)(hpTemp * 0.05);
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp += (int)(mpTemp * 0.05);
-    }
-  }
-  else if ( p3Equip_temp == 2 ){
-    if ( (******p3Equip) -> isEquip == 0 ){
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp -= (int)(mpTemp * 0.05);
-    }
-    else if ( (******p3Equip) -> isEquip == 1 ){
-      mpTemp = (******st) -> maxmp;
-      (******st) -> maxmp -= (int)(mpTemp * 0.05);
-      hpTemp = (******st) -> maxhp;
-      (******st) -> maxhp += (int)(hpTemp * 0.05);
-    }
-  }
-}
-else{
-  return;
-}
 
 }
 
@@ -1224,11 +1609,32 @@ void display_isEquip(Equip *******pEquip){
   if ( (******pEquip) -> isEquip == 0 ){
     printf("装備無し\n");
   }
-  else if ( (******pEquip) -> isEquip == 1 ){
+  else if ( (******pEquip) -> isEquip == HPRING1 ){
     printf("HPリング1\n");
   }
-  else if ( (******pEquip) -> isEquip == 2 ){
+  else if ( (******pEquip) -> isEquip == MPRING1 ){
     printf("MPリング1\n");
+  }
+  else if ( (******pEquip) -> isEquip == HPRING2 ){
+    printf("HPリング2\n");
+  }
+  else if ( (******pEquip) -> isEquip == MPRING2 ){
+    printf("MPリング2\n");
+  }
+  else if ( (******pEquip) -> isEquip == POWEREARRINGS ){
+    printf("パワーピアス\n");
+  }
+  else if ( (******pEquip) -> isEquip == MAGICEARRINGS ){
+    printf("マジックピアス\n");
+  }
+  else if ( (******pEquip) -> isEquip == STRENGTHEARRINGS ){
+    printf("ストレングスピアス\n");
+  }
+  else if ( (******pEquip) -> isEquip == AGILITYEARRINGS ){
+    printf("スピードピアス\n");
+  }
+  else if ( (******pEquip) -> isEquip == LUCKYEARRINGS ){
+    printf("ラックピアス\n");
   }
 
 }
@@ -1238,11 +1644,32 @@ void display_menu_isEquip(Equip ******pEquip){
   if ( (*****pEquip) -> isEquip == 0 ){
     printf("装備無し\n");
   }
-  else if ( (*****pEquip) -> isEquip == 1 ){
+  else if ( (*****pEquip) -> isEquip == HPRING1 ){
     printf("HPリング1\n");
   }
-  else if ( (*****pEquip) -> isEquip == 2 ){
+  else if ( (*****pEquip) -> isEquip == MPRING1 ){
     printf("MPリング1\n");
+  }
+  else if ( (*****pEquip) -> isEquip == HPRING2 ){
+    printf("HPリング2\n");
+  }
+  else if ( (*****pEquip) -> isEquip == MPRING2 ){
+    printf("MPリング2\n");
+  }
+  else if ( (*****pEquip) -> isEquip == POWEREARRINGS ){
+    printf("パワーピアス\n");
+  }
+  else if ( (*****pEquip) -> isEquip == MAGICEARRINGS ){
+    printf("マジックピアス\n");
+  }
+  else if ( (*****pEquip) -> isEquip == STRENGTHEARRINGS ){
+    printf("ストレングスピアス\n");
+  }
+  else if ( (*****pEquip) -> isEquip == AGILITYEARRINGS ){
+    printf("スピードピアス\n");
+  }
+  else if ( (*****pEquip) -> isEquip == LUCKYEARRINGS ){
+    printf("ラックピアス\n");
   }
 
 }
@@ -1284,15 +1711,18 @@ void unequip(Player ******st, Player ******st2, Player ******st3, Equip ******pE
       before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
       if ( input == '1' ){
         (*****pEquip) -> isEquip = 0;
-        equip_effect(&st,input,&pEquip,&p2Equip,&p3Equip);
+        equip_effect(&st,&pEquip,input);
+        pEquip_temp = 0;
       }
       else if ( input == '2' ){
         (*****p2Equip) -> isEquip = 0;
-        equip_effect(&st2,input,&pEquip,&p2Equip,&p3Equip);
+        equip_effect(&st2,&p2Equip,input);
+        p2Equip_temp = 0;
       }
       else if ( input == '3' ){
         (*****p3Equip) -> isEquip = 0;
-        equip_effect(&st3,input,&pEquip,&p2Equip,&p3Equip);
+        equip_effect(&st3,&p3Equip,input);
+        p3Equip_temp = 0;
       }
     }
 
@@ -1347,6 +1777,36 @@ void display_equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equ
       printf("2.MPリング1(味方1人の最大MPを5%%増加) %d個\n", (*****pEquip) -> MpRing1);
       equip_count = 1;
     }
+    if ( (*****pEquip) -> HpRing2 > 0 ){
+      printf("3.HPリング2(味方1人の最大HPを10%%増加) %d個\n", (*****pEquip) -> HpRing2);
+      equip_count = 1;
+    }
+    if ( (*****pEquip) -> MpRing2 > 0 ){
+      printf("4.MPリング2(味方1人の最大MPを10%%増加) %d個\n", (*****pEquip) -> MpRing2);
+      equip_count = 1;
+    }
+    if ( (*****pEquip) -> PowerEarrings > 0 ){
+      printf("5.パワーピアス(味方1人の力を1ポイント増加) %d個\n", (*****pEquip) -> PowerEarrings);
+      equip_count = 1;
+    }
+    if ( (*****pEquip) -> MagicEarrings > 0 ){
+      printf("6.マジックピアス(味方1人の魔を1ポイント増加) %d個\n", (*****pEquip) -> MagicEarrings);
+      equip_count = 1;
+    }
+    if ( (*****pEquip) -> StrengthEarrings > 0 ){
+      printf("7.ストレングスピアス(味方1人の体を1ポイント増加) %d個\n", (*****pEquip) -> StrengthEarrings);
+      equip_count = 1;
+    }
+    if ( (*****pEquip) -> AgilityEarrings > 0 ){
+      printf("8.スピードピアス(味方1人の速を1ポイント増加) %d個\n", (*****pEquip) -> AgilityEarrings);
+      equip_count = 1;
+    }
+    if ( (*****pEquip) -> LuckyEarrings > 0 ){
+      printf("9.ラックピアス(味方1人の運を1ポイント増加) %d個\n", (*****pEquip) -> LuckyEarrings);
+      equip_count = 1;
+    }
+
+
 
     if ( equip_count == 0 && (*****pEquip) -> isEquip == 0 && (*****p2Equip) -> isEquip == 0 && (*****p3Equip) -> isEquip == 0 ){
       printf("装備品を持っていません!\n");
@@ -1368,15 +1828,130 @@ void display_equip_change(Player ******st, Equip ******pEquip, Equip ******p2Equ
     if ( command == '1' ){
       isEquip_check(&pEquip,&p2Equip,&p3Equip);
       before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
-      equip_change(command,input,&pEquip,&p2Equip,&p3Equip);
-      equip_effect(&st,input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(HPRING1,input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        equip_effect(&st,&pEquip,input);
+      }
+      else if ( input == '2' ){
+        equip_effect(&st,&p2Equip,input);
+      }
+      else if ( input == '3' ){
+        equip_effect(&st,&p3Equip,input);
+      }
     }
     else if ( command == '2' ){
       isEquip_check(&pEquip,&p2Equip,&p3Equip);
       before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
-      equip_change(command,input,&pEquip,&p2Equip,&p3Equip);
-      equip_effect(&st,input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(MPRING1,input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        equip_effect(&st,&pEquip,input);
+      }
+      else if ( input == '2' ){
+        equip_effect(&st,&p2Equip,input);
+      }
+      else if ( input == '3' ){
+        equip_effect(&st,&p3Equip,input);
+      }
     }
+    else if ( command == '3' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(HPRING2,input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        equip_effect(&st,&pEquip,input);
+      }
+      else if ( input == '2' ){
+        equip_effect(&st,&p2Equip,input);
+      }
+      else if ( input == '3' ){
+        equip_effect(&st,&p3Equip,input);
+      }
+    }
+    else if ( command == '4' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(MPRING2,input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        equip_effect(&st,&pEquip,input);
+      }
+      else if ( input == '2' ){
+        equip_effect(&st,&p2Equip,input);
+      }
+      else if ( input == '3' ){
+        equip_effect(&st,&p3Equip,input);
+      }
+    }
+    else if ( command == '5' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(POWEREARRINGS,input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        equip_effect(&st,&pEquip,input);
+      }
+      else if ( input == '2' ){
+        equip_effect(&st,&p2Equip,input);
+      }
+      else if ( input == '3' ){
+        equip_effect(&st,&p3Equip,input);
+      }
+    }
+    else if ( command == '6' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(MAGICEARRINGS,input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        equip_effect(&st,&pEquip,input);
+      }
+      else if ( input == '2' ){
+        equip_effect(&st,&p2Equip,input);
+      }
+      else if ( input == '3' ){
+        equip_effect(&st,&p3Equip,input);
+      }
+    }
+    else if ( command == '7' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(STRENGTHEARRINGS,input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        equip_effect(&st,&pEquip,input);
+      }
+      else if ( input == '2' ){
+        equip_effect(&st,&p2Equip,input);
+      }
+      else if ( input == '3' ){
+        equip_effect(&st,&p3Equip,input);
+      }
+    }
+    else if ( command == '8' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(AGILITYEARRINGS,input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        equip_effect(&st,&pEquip,input);
+      }
+      else if ( input == '2' ){
+        equip_effect(&st,&p2Equip,input);
+      }
+      else if ( input == '3' ){
+        equip_effect(&st,&p3Equip,input);
+      }
+    }
+    else if ( command == '9' ){
+      isEquip_check(&pEquip,&p2Equip,&p3Equip);
+      before_equip_plus(input,&pEquip,&p2Equip,&p3Equip);
+      equip_change(LUCKYEARRINGS,input,&pEquip,&p2Equip,&p3Equip);
+      if ( input == '1' ){
+        equip_effect(&st,&pEquip,input);
+      }
+      else if ( input == '2' ){
+        equip_effect(&st,&p2Equip,input);
+      }
+      else if ( input == '3' ){
+        equip_effect(&st,&p3Equip,input);
+      }
+    }
+
 
     loop++;
   } while ( command != 'c' );
@@ -1747,7 +2322,7 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
       items_count = 1;
     }
     if ( (****items) -> lifestone > 0 ){
-      printf("2.魔石%d個(味方１人のHPを最大体力の25%%回復)\n", (****items) -> lifestone);
+      printf("2.魔石%d個(味方１人のHPを最大HPの25%%回復)\n", (****items) -> lifestone);
       items_count = 1;
     }
     if ( (****items) -> bead > 0 ){
@@ -1761,6 +2336,41 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
     if ( (****items) -> antipalyze > 0 ){
       printf("5.アンタイパライズ%d個(味方1人のPALYZEを回復)\n", (****items) -> antipalyze);
       items_count = 1;
+    }
+    if ( (****items) -> anticharm > 0 ){
+      printf("6.アンタイチャーム%d個(味方1人のCHARMを回復)\n", (****items) -> anticharm);
+      printf("\n");
+      items_count++;
+    }
+    if ( (****items) -> anticlose > 0 ){
+      printf("7.アンタイクローズ%d個(味方1人のCLOSEを回復)\n", (****items) -> anticlose);
+      printf("\n");
+      items_count++;
+    }
+    if ( (****items) -> antistone > 0 ){
+      printf("8.アンタイストーン%d個(味方1人のSTONEを回復)\n", (****items) -> antistone);
+      printf("\n");
+      items_count++;
+    }
+    if ( (****items) -> antipanic > 0 ){
+      printf("9.アンタイパニック%d個(味方1人のPANICを回復)\n", (****items) -> antipanic);
+      printf("\n");
+      items_count++;
+    }
+    if ( (****items) -> antisleep > 0 ){
+      printf("a.アンタイスリープ%d個(味方1人のSLEEPを回復)\n", (****items) -> antisleep);
+      printf("\n");
+      items_count++;
+    }
+    if ( (****items) -> anticurse > 0 ){
+      printf("b.アンタイカース%d個(味方1人のCURSEを回復)\n", (****items) -> anticurse);
+      printf("\n");
+      items_count++;
+    }
+    if ( (****items) -> mindamin > 0 ){
+      printf("d.マインダミン%d個(味方１人のMPを最大MPの20%%回復)\n", (****items) -> mindamin);
+      printf("\n");
+      items_count++;
     }
 
     if ( items_count == 0 ){
@@ -1785,6 +2395,27 @@ void item_menu(Player *****st, Player *****st2, Player *****st3, Items *****item
       menu_item_use(&st,&st2,&st3,&items,command);
     }
     else if ( command == '5' && (****items) -> antipalyze > 0 ){
+      menu_item_use(&st,&st2,&st3,&items,command);
+    }
+    else if ( command == '6' && (****items) -> anticharm > 0 ){
+      printf("MENU画面では使用出来ません!\n");
+    }
+    else if ( command == '7' && (****items) -> anticlose > 0 ){
+      printf("MENU画面では使用出来ません!\n");
+    }
+    else if ( command == '8' && (****items) -> antistone > 0 ){
+      printf("MENU画面では使用出来ません!\n");
+    }
+    else if ( command == '9' && (****items) -> antipanic > 0 ){
+      printf("MENU画面では使用出来ません!\n");
+    }
+    else if ( command == 'a' && (****items) -> antisleep > 0 ){
+      printf("MENU画面では使用出来ません!\n");
+    }
+    else if ( command == 'b' && (****items) -> anticurse > 0 ){
+      printf("MENU画面では使用出来ません!\n");
+    }
+    else if ( command == 'd' && (****items) -> mindamin > 0 ){
       menu_item_use(&st,&st2,&st3,&items,command);
     }
     else if ( command == '' ){

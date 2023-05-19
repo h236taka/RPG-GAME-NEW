@@ -157,9 +157,19 @@ void level_up(Player ****st, P_skill ****player_skill, Setting_skill ****setting
         exp_function = 10;
         break;
       }
-      else{
+      else if ( (***st) -> lv <= 15 ){
         exp_function *= 1.4;
       }
+      else if ( (***st) -> lv <= 20 ){
+        exp_function *= 1.15;
+      }
+      else if ( (***st) -> lv <= 30 ){
+        exp_function *= 1.13;
+      }
+      else{
+        exp_function *= 1.05;
+      }
+
     }
 
     //printf("exp_function:%d\n", exp_function);
