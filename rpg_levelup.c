@@ -23,8 +23,10 @@ void player_skill_check(Player ******st, P_skill ******player_skill, Setting_ski
     (*****setting_skill) -> set_skill[1] = CUREPOISON;
     printf("%sはキュアポを習得した!\n", (*****st) -> name);
   }
-  else if ( (*****st) -> lv == 6 ){
-
+  else if ( (*****st) -> lv == 5 ){
+    (*****player_skill) -> analyze[0] = LEARNED;                        //skillget!
+    (*****player_skill) -> analyze[1] = BATTLEONLY;
+    printf("%sはアナライズを習得した!\n", (*****st) -> name);
   }
 }
 

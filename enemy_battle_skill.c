@@ -1262,14 +1262,25 @@ double check_player_poizonRegist(Player ******st){
 
   if ( (*****st) -> poison == 100 ){
     (*****st) -> badstatus = POISON;
-    printf("%sはPOISONになった\n", (*****st) -> name);
+    printf("%s<<POISON\n", (*****st) -> name);
+    turn_decrease = -1;
+  }
+  else if ( (*****st) -> poison == 75 ){
+    badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+    if ( badstatus_per != 4 ){
+      (*****st) -> badstatus = POISON;
+      printf("%s<<POISON\n", (*****st) -> name);
+    }
+    else{
+      printf("%s<<MISS!!\n", (*****st) -> name);
+    }
     turn_decrease = -1;
   }
   else if ( (*****st) -> poison == 50 ){
     badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
     if ( badstatus_per == 1 ){
       (*****st) -> badstatus = POISON;
-      printf("%sはPOISONになった\n", (*****st) -> name);
+      printf("%s<<POISON\n", (*****st) -> name);
     }
     else{
       printf("%s<<MISS!!\n", (*****st) -> name);
@@ -1280,7 +1291,7 @@ double check_player_poizonRegist(Player ******st){
     badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
     if ( badstatus_per == 4 ){
       (*****st) -> badstatus = POISON;
-      printf("%sはPOISONになった\n", (*****st) -> name);
+      printf("%s<<POISON\n", (*****st) -> name);
     }
     else{
       printf("%s<<MISS!!\n", (*****st) -> name);
@@ -1289,7 +1300,7 @@ double check_player_poizonRegist(Player ******st){
   }
   else if ( (*****st) -> poison == 200 ){
     printf("WEAKNESS!!\n");
-    printf("%sはPOISONになった\n", (*****st) -> name);
+    printf("%s<<POISON\n", (*****st) -> name);
     turn_decrease = 0.1;
   }
   else if ( (*****st) -> poison == -1 ){  //block
@@ -1317,14 +1328,25 @@ double check_player_palyzeRegist(Player ******st){
 
   if ( (*****st) -> palyze == 100 ){
     (*****st) -> badstatus = PALYZE;
-    printf("%sはPALYZEになった\n", (*****st) -> name);
+    printf("%s<<PALYZE\n", (*****st) -> name);
+    turn_decrease = -1;
+  }
+  else if ( (*****st) -> palyze == 75 ){
+    badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
+    if ( badstatus_per != 4 ){
+      (*****st) -> badstatus = PALYZE;
+      printf("%s<<PALYZE\n", (*****st) -> name);
+    }
+    else{
+      printf("%s<<MISS!!\n", (*****st) -> name);
+    }
     turn_decrease = -1;
   }
   else if ( (*****st) -> palyze == 50 ){
     badstatus_per = (rand() % ( 2 - 1 + 1) ) + 1;
     if ( badstatus_per == 1 ){
       (*****st) -> badstatus = PALYZE;
-      printf("%sはPALYZEになった\n", (*****st) -> name);
+      printf("%s<<PALYZE\n", (*****st) -> name);
     }
     else{
       printf("%s<<MISS!!\n", (*****st) -> name);
@@ -1335,7 +1357,7 @@ double check_player_palyzeRegist(Player ******st){
     badstatus_per = (rand() % ( 4 - 1 + 1) ) + 1;
     if ( badstatus_per == 4 ){
       (*****st) -> badstatus = PALYZE;
-      printf("%sはPALYZEになった\n", (*****st) -> name);
+      printf("%s<<PALYZE\n", (*****st) -> name);
     }
     else{
       printf("%s<<MISS!!\n", (*****st) -> name);
@@ -1344,7 +1366,7 @@ double check_player_palyzeRegist(Player ******st){
   }
   else if ( (*****st) -> palyze == 200 ){
     printf("WEAKNESS!!\n");
-    printf("%sはPALYZEになった\n", (*****st) -> name);
+    printf("%s<<PALYZE\n", (*****st) -> name);
     turn_decrease = 0.1;
   }
   else if ( (*****st) -> palyze == -1 ){  //block

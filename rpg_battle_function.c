@@ -134,13 +134,13 @@ double check_enemy_normalAttackResist(Player *****st, Enemy ***enemy, int **enem
     if ( (****st) -> hp <= 0 ){
       (****st) -> hp = 0;
       (****st) -> badstatus = DEAD;
-      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+      printf("%s<<DEAD\n", (****st) -> name);
     }
     turn_decrease = TURNCHAGE;
     return turn_decrease;
   }
   else if ( (**enemy) -> physical_attack == 100 ){
-    sleep(1);
+    //sleep(1);
     damage = damage;
     turn_decrease = -1;
   }
@@ -153,7 +153,7 @@ double check_enemy_normalAttackResist(Player *****st, Enemy ***enemy, int **enem
     turn_decrease = -1;
   }
   else if ( (**enemy) -> physical_attack == 200 ){
-    sleep(1);
+    //sleep(1);
     printf("WEAKNESS!!\n");
     damage *= 2;
     turn_decrease = 0.1;
@@ -163,13 +163,13 @@ double check_enemy_normalAttackResist(Player *****st, Enemy ***enemy, int **enem
     turn_decrease = -1;
   }
   else if ( (**enemy) -> physical_attack == 50 ){  //物理攻撃半減
-    sleep(1);
+    //sleep(1);
     printf("RESIST!\n");
     damage *= 0.5;
     turn_decrease = -1;
   }
   else if ( (**enemy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-    sleep(1);
+    //sleep(1);
     printf("RESIST!\n");
     damage *= 0.25;
     turn_decrease = -1;
@@ -206,7 +206,7 @@ double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, in
     if ( (****st) -> hp <= 0 ){
       (****st) -> hp = 0;
       (****st) -> badstatus = DEAD;
-      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+      printf("%s<<DEAD\n", (****st) -> name);
     }
     turn_decrease = TURNCHAGE;
     return turn_decrease;
@@ -233,13 +233,13 @@ double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, in
     turn_decrease = -1;
   }
   else if ( (*enemy_copy) -> physical_attack == 50 ){  //物理攻撃半減
-    sleep(1);
+    //sleep(1);
     printf("RESIST!\n");
     damage *= 0.5;
     turn_decrease = -1;
   }
   else if ( (*enemy_copy) -> physical_attack == 25 ){  //物理攻撃ダメージ25%
-    sleep(1);
+    //sleep(1);
     printf("RESIST!\n");
     damage *= 0.25;
     turn_decrease = -1;
@@ -627,7 +627,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ***e
       if ( (**enemy) -> hp <= 0 ){
         (**enemy) -> hp = 0;
         (**enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (**enemy) -> name);
+        printf("%s<<DEAD\n", (**enemy) -> name);
       }
       turn_decrease = -2;
       enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -683,7 +683,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ***e
       if ( (**enemy) -> hp <= 0 ){
         (**enemy) -> hp = 0;
         (**enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (**enemy) -> name);
+        printf("%s<<DEAD\n", (**enemy) -> name);
       }
       turn_decrease = -2;
       enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -739,7 +739,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ***e
       if ( (**enemy) -> hp <= 0 ){
         (**enemy) -> hp = 0;
         (**enemy) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (**enemy) -> name);
+        printf("%s<<DEAD\n", (**enemy) -> name);
       }
       turn_decrease = -2;
       enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -967,7 +967,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ***e
         sleep(1);
         printf("%s<<%dダメージ\n", (****st) -> name, damage);
         sleep(1);
-        printf("%sは死んでしまった!\n", (****st) -> name);
+        printf("%s<<DEAD\n", (****st) -> name);
         (****st) -> hp = 0;
         (****st) -> badstatus = DEAD;
       }
@@ -985,7 +985,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ***e
         sleep(1);
         printf("%s<<%dダメージ\n", (****st2) -> name, damage);
         sleep(1);
-        printf("%sは死んでしまった!\n", (****st2) -> name);
+        printf("%s<<DEAD\n", (****st2) -> name);
         (****st2) -> hp = 0;
         (****st2) -> badstatus = DEAD;
       }
@@ -1003,7 +1003,7 @@ double enemy_attack(Player *****st, Player *****st2, Player *****st3, Enemy ***e
         sleep(1);
         printf("%s<<%dダメージ\n", (****st3) -> name, damage);
         sleep(1);
-        printf("%sは死んでしまった!\n", (****st3) -> name);
+        printf("%s<<DEAD\n", (****st3) -> name);
         (****st3) -> hp = 0;
         (****st3) -> badstatus = DEAD;
       }
@@ -1076,7 +1076,7 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
       if ( (*enemy_copy1) -> hp <= 0 ){
         (*enemy_copy1) -> hp = 0;
         (*enemy_copy1) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*enemy_copy1) -> name);
+        printf("%s<<DEAD\n", (*enemy_copy1) -> name);
       }
       turn_decrease = -2;
       enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -1123,7 +1123,7 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
       if ( (*enemy_copy1) -> hp <= 0 ){
         (*enemy_copy1) -> hp = 0;
         (*enemy_copy1) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*enemy_copy1) -> name);
+        printf("%s<<DEAD\n", (*enemy_copy1) -> name);
       }
       turn_decrease = -2;
       enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -1170,7 +1170,7 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
       if ( (*enemy_copy1) -> hp <= 0 ){
         (*enemy_copy1) -> hp = 0;
         (*enemy_copy1) -> badstatus = DEAD;
-        printf("%sは倒れた\n", (*enemy_copy1) -> name);
+        printf("%s<<DEAD\n", (*enemy_copy1) -> name);
       }
       turn_decrease = -2;
       enemy_turn = calculate_enemy_turn(enemy_turn, turn_decrease);
@@ -1395,7 +1395,7 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
         sleep(1);
         printf("%s<<%dダメージ\n", (****st) -> name, damage);
         sleep(1);
-        printf("%sは死んでしまった!\n", (****st) -> name);
+        printf("%s<<DEAD\n", (****st) -> name);
         (****st) -> hp = 0;
         (****st) -> badstatus = DEAD;
       }
@@ -1413,7 +1413,7 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
         sleep(1);
         printf("%s<<%dダメージ\n", (****st2) -> name, damage);
         sleep(1);
-        printf("%sは死んでしまった!\n", (****st2) -> name);
+        printf("%s<<DEAD\n", (****st2) -> name);
         (****st2) -> hp = 0;
         (****st2) -> badstatus = DEAD;
       }
@@ -1431,7 +1431,7 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
         sleep(1);
         printf("%s<<%dダメージ\n", (****st3) -> name, damage);
         sleep(1);
-        printf("%sは死んでしまった!\n", (****st3) -> name);
+        printf("%s<<DEAD\n", (****st3) -> name);
         (****st3) -> hp = 0;
         (****st3) -> badstatus = DEAD;
       }
@@ -1478,7 +1478,7 @@ void poison_effect(Player ****st){
   (***st) -> hp -= poison_damage;
   if ( (***st) -> hp <= 0 ){
     printf("%sは毒により%dダメージを受けた!\n", (***st) -> name, poison_damage);
-    printf("%sは死んでしまった!\n");
+    printf("%s<<DEAD\n");
     (***st) -> badstatus = DEAD;
   }
   else{
@@ -1543,12 +1543,12 @@ int battle_escape(Player ****st){
 
   escape_count = 0;
   if ( escape_count == 0 ){  //逃走試行回数
-    escape_base = 35 + ( (***st) -> agi * 0.2 + (***st) -> luk * 0.2);   //逃走確率の最小値35% + 逃走を選択したキャラの速と運の値
+    escape_base = 30 + ( (***st) -> agi * 0.2 + (***st) -> luk * 0.2);   //逃走確率の最小値30% + 逃走を選択したキャラの速と運の値
     escape_base = round(escape_base);
     //printf("escape_base = %f\n", escape_base);
     escape = (rand() % ( 100 - 1 + 1 ) + 1);
     //printf("escape number = %d\n", escape);
-    for ( i = 35; i <= escape_base; i++ ){
+    for ( i = 30; i <= escape_base; i++ ){
       if ( escape_base == i ){
         if ( escape >= 1 && escape <= i ){
           printf("逃走成功!!\n");

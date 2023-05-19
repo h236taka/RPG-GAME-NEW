@@ -808,7 +808,7 @@ void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy **enemy, Ite
     }
 
   }
-  else if ( (*enemy) -> enemy_id == ZOMIBIE ){
+  else if ( (*enemy) -> enemy_id == ZOMBIE ){
     drop_base = 15;
 
     drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );

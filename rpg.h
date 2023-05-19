@@ -100,6 +100,7 @@ typedef enum {
   VOLUA = 6,
   WHIVE = 7,
   RUSH = 8,
+  ANALYZE = 9,
 } Player_skillId;
 
 typedef enum {
@@ -143,7 +144,7 @@ typedef enum {
   GOBLIN = 3,
   ZOMBIEDOG = 4,
   GHOUL = 5,
-  ZOMIBIE = 6,
+  ZOMBIE = 6,
   GOBLINNORMAL = 7,
   ONMORAKI = 8,
   GREMLIN = 9,
@@ -199,6 +200,7 @@ typedef struct player_skill {
   int volua[4]; //ボルア
   int whive[4]; //ウィーブ
   int rush[4];  //突撃
+  int analyze[4]; //アナライズ
 } P_skill;
 
 typedef struct save_data_player_skill {
@@ -210,6 +212,7 @@ typedef struct save_data_player_skill {
   int volua[4]; //ボルア
   int whive[4]; //ウィーブ
   int rush[4];  //突撃
+  int analyze[4]; //アナライズ
 } Save_data_player_skill;
 
 typedef struct setting_skill {  //setting済みのスキル
@@ -674,6 +677,10 @@ void encount_pattern7_layout(Enemy **enemy, Enemy **enemy1, Enemy **enemy2, Enem
 //battle_skill.c ( about players and enemies skills function and to decide enemies move pattern)
 int check_playerMP(Player *****st, int skillMP);
 
+void analyze_enemyCopy_skill(Enemy **enemy_copy);
+
+void analyze_enemy_skill(Enemy ***enemy);
+
 int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user);
 
 int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy **enemy, int use_skill_count);
@@ -703,6 +710,8 @@ void check_skillID(Setting_skill *****setting_skill, int idx);
 int battle_player_skill_list(P_skill ****player_skill, Setting_skill ****setting_skill);
 
 double check_enemy_fireResist(Player *****st, Enemy ***enemy, int damage);
+
+double check_enemyCopy_fireResist(Player *****st, Enemy **enemy_copy, int damage);
 
 double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, Enemy ****enemy, int player_guard, int attack_skill_number);
 

@@ -129,7 +129,7 @@ int is_backAttack(Player ****st, Player ****st2, Player ****st3){
   if ( backAttackBase <= 0 ){
     backAttackBase = 1;
   }
-  backAttackBase = 100;
+  //backAttackBase = 100;
 
   backAttackPer = (rand() % ( 100 - 1 + 1 ) + 1);
 

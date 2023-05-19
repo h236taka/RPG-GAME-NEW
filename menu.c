@@ -1527,39 +1527,73 @@ void before_equip_plus(int input, Equip *******pEquip, Equip *******p2Equip, Equ
 void reflect_equipEffect(Player ********st, Equip ********pEquip, int equipInfo){
   int hpTemp, mpTemp;
 
+  //装備の能力を解除
   if ( equipInfo == 0 ){
-    if ( (*******pEquip) -> isEquip == 1 ){
-      hpTemp = (*******st) -> maxhp;
-      (*******st) -> maxhp += (int)(hpTemp * 0.05);
-    }
-    else if ( (*******pEquip) -> isEquip == 2 ){
-      mpTemp = (*******st) -> maxmp;
-      (*******st) -> maxmp += (int)(mpTemp * 0.05);
-    }
+
   }
   else if ( equipInfo == HPRING1 ){
-    if ( (*******pEquip) -> isEquip == 0 ){
-      hpTemp = (*******st) -> maxhp;
-      (*******st) -> maxhp -= (int)(hpTemp * 0.05);
-    }
-    else if ( (*******pEquip) -> isEquip == MPRING1 ){
-      hpTemp = (*******st) -> maxhp;
-      (*******st) -> maxhp -= (int)(hpTemp * 0.05);
-      mpTemp = (*******st) -> maxmp;
-      (*******st) -> maxmp += (int)(mpTemp * 0.05);
-    }
+    hpTemp = (*******st) -> maxhp;
+    (*******st) -> maxhp -= (int)(hpTemp * 0.05);
   }
   else if ( equipInfo == MPRING1 ){
-    if ( (*******pEquip) -> isEquip == 0 ){
-      mpTemp = (*******st) -> maxmp;
-      (*******st) -> maxmp -= (int)(mpTemp * 0.05);
-    }
-    else if ( (*******pEquip) -> isEquip == HPRING1 ){
-      mpTemp = (*******st) -> maxmp;
-      (*******st) -> maxmp -= (int)(mpTemp * 0.05);
-      hpTemp = (*******st) -> maxhp;
-      (*******st) -> maxhp += (int)(hpTemp * 0.05);
-    }
+    mpTemp = (*******st) -> maxmp;
+    (*******st) -> maxmp -= (int)(mpTemp * 0.05);
+  }
+  else if ( equipInfo == HPRING2 ){
+    hpTemp = (*******st) -> maxhp;
+    (*******st) -> maxhp -= (int)(hpTemp * 0.10);
+  }
+  else if ( equipInfo == MPRING2 ){
+    mpTemp = (*******st) -> maxmp;
+    (*******st) -> maxmp -= (int)(hpTemp * 0.10);
+  }
+  else if ( equipInfo == POWEREARRINGS ){
+    (*******st) -> atk--;
+  }
+  else if ( equipInfo == MAGICEARRINGS ){
+    (*******st) -> magic--;
+  }
+  else if ( equipInfo == STRENGTHEARRINGS ){
+    (*******st) -> str--;
+  }
+  else if ( equipInfo == AGILITYEARRINGS ){
+    (*******st) -> agi--;
+  }
+  else if ( equipInfo == LUCKYEARRINGS ){
+    (*******st) -> luk--;
+  }
+
+  //装備の能力を付与
+  if ( (*******pEquip) -> isEquip == HPRING1 ){
+    hpTemp = (*******st) -> maxhp;
+    (*******st) -> maxhp += (int)(hpTemp * 0.05);
+  }
+  else if ( (*******pEquip) -> isEquip == MPRING1 ){
+    mpTemp = (*******st) -> maxmp;
+    (*******st) -> maxmp += (int)(mpTemp * 0.05);
+  }
+  else if ( (*******pEquip) -> isEquip == HPRING2 ){
+    hpTemp = (*******st) -> maxhp;
+    (*******st) -> maxhp += (int)(hpTemp * 0.10);
+  }
+  else if ( (*******pEquip) -> isEquip == MPRING2 ){
+    mpTemp = (*******st) -> maxmp;
+    (*******st) -> maxmp += (int)(mpTemp * 0.10);
+  }
+  else if ( (*******pEquip) -> isEquip == POWEREARRINGS ){
+    (*******st) -> atk++;
+  }
+  else if ( (*******pEquip) -> isEquip == MAGICEARRINGS ){
+    (*******st) -> magic++;
+  }
+  else if ( (*******pEquip) -> isEquip == STRENGTHEARRINGS ){
+    (*******st) -> str++;
+  }
+  else if ( (*******pEquip) -> isEquip == AGILITYEARRINGS ){
+    (*******st) -> agi++;
+  }
+  else if ( (*******pEquip) -> isEquip == LUCKYEARRINGS ){
+    (*******st) -> luk++;
   }
 
 
@@ -2166,6 +2200,37 @@ int learned_IceSkill_list(P_skill ********player_skill, Setting_skill ********se
   return 0;
 }
 
+int learned_SupportSkill_list(P_skill ********player_skill, Setting_skill ********setting_skill){
+  int input;
+
+  do{
+    if ( (*******player_skill) -> analyze[0] == LEARNED ){
+      printf("0:アナライズ 消費MP:3 (敵単体のステータスを表示)\n");
+    }
+    else if ( (*******player_skill) -> analyze[0] == SETTING ){
+      printf("0:アナライズ セット済み\n");
+    }
+    else if ( (*******player_skill) -> analyze[0] == LEARNING ){
+      printf("0:アナライズ 習得中\n");
+    }
+
+    printf("\n");
+    printf("セットしたいスキルを選んでください(セットが終了したらcを入力してください)\n");
+
+    input = _getch();
+
+    if ( input == '0' && (*******player_skill) -> analyze[0] == LEARNED ){
+      if ( set_player_skill(&player_skill,&setting_skill,ANALYZE) == TRUE ){
+        (*******player_skill) -> analyze[0] = SETTING;
+      }
+
+    }
+
+  }while ( input != 'c' );
+
+  return 0;
+}
+
 void check_set_skillID(Setting_skill ********setting_skill, int idx){
 
   if ( (*******setting_skill) -> set_skill[idx] == RECOVER1 ){
@@ -2188,6 +2253,9 @@ void check_set_skillID(Setting_skill ********setting_skill, int idx){
   }
   else if ( (*******setting_skill) -> set_skill[idx] == WHIVE ){
     printf("%d:ウィーブ 消費MP:4 (単体に衝撃小ダメージ)\n", idx);
+  }
+  else if ( (*******setting_skill) -> set_skill[idx] == ANALYZE ){
+    printf("%d:アナライズ 消費MP:3 (敵単体のステータスを表示)\n", idx);
   }
 
 }
@@ -2256,7 +2324,7 @@ void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_sk
 
     }
     else if ( input == 'a' ){
-
+      learned_SupportSkill_list(&player_skill,&setting_skill);
     }
     else if ( input == 'b' ){
 
@@ -2439,6 +2507,12 @@ void check_skillMenuId(Setting_skill *******setting_skill, int idx){
   }
   else if ( (******setting_skill) -> set_skill[idx] == ENFA ){
     printf("%d:エンファ 消費MP:4 (単体に火炎小ダメージ)\n", idx);
+  }
+  else if ( (******setting_skill) -> set_skill[idx] == HYODO ){
+    printf("%d:ヒョウド 消費MP:4 (単体に氷結小ダメージ)\n", idx);
+  }
+  else if ( (******setting_skill) -> set_skill[idx] == ENFA ){
+    printf("%d:アナライズ 消費MP:3 (敵単体のステータスを表示)\n", idx);
   }
 }
 
