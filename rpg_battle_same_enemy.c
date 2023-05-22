@@ -157,6 +157,28 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   int enemy_deadcount;
   int backAttack;
 
+  //敵が回復スキルを使用した時の変数
+  int enemyrecovertarget;
+  int isEnemyUsedRecoverSkill;
+
+  //player側の補助魔法の状況
+  int playerAttackSupportSkill = DEFAULT;
+  int playerMagicSupportSkill = DEFAULT;
+  int playerDefendSupportSkill = DEFAULT;
+  int playerEvaSupportSkill = DEFAULT;
+
+  //enemy側の補助魔法の状況
+  int enemyAttackSupportSkill = DEFAULT;
+  int enemyMagicSupportSkill = DEFAULT;
+  int enemyDefendSupportSkill = DEFAULT;
+  int enemyEvaSupportSkill = DEFAULT;
+
+  //経過ターン数
+  int BattleTurn = 1;
+
+  //逃走回数
+  int escape_number = 0;
+
   Enemy enemy_copy1;
   Enemy enemy_copy2;
   Enemy enemy_copy3;

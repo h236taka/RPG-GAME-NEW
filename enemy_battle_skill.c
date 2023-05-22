@@ -722,7 +722,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
 
   int enemy_move;
 
-  if ( (*enemy) -> enemy_id == 3 || (*enemy) -> enemy_id == 7 ){  //bossゴブリン
+  if ( (*enemy) -> enemy_id == GOBLIN || (*enemy) -> enemy_id == GOBLINNORMAL ){  //bossゴブリン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
     if ( enemy_move >= 1 && enemy_move <= 40 ){ //40
       enemy_turn = use_enemy_skill(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip,&enemy,player_guard,player_guard2,player_guard3,enemy_turn);
@@ -732,7 +732,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
     }
   }
   //グール
-  else if ( (*enemy) -> enemy_id == 5 ){
+  else if ( (*enemy) -> enemy_id == GHOUL ){
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 40 ){  //毒攻撃を使用する行動
@@ -742,7 +742,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( (*enemy) -> enemy_id == 6 ){  //ゾンビ
+  else if ( (*enemy) -> enemy_id == ZOMBIE ){  //ゾンビ
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 35 ){  //麻痺攻撃を使用する行動
@@ -752,7 +752,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( (*enemy) -> enemy_id == 8 ){  //オンモラキ
+  else if ( (*enemy) -> enemy_id == ONMORAKI ){  //オンモラキ
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
     //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
@@ -763,7 +763,7 @@ double enemy_attack_pattern(Player ****st, Player ****st2, Player ****st3, Equip
       enemy_turn = enemy_attack(&st, &st2, &st3, &enemy, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( (*enemy) -> enemy_id == 9 ){  //グレムリン
+  else if ( (*enemy) -> enemy_id == GREMLIN ){  //グレムリン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1;
 
     if ( enemy_move >= 1 && enemy_move <= 88 ){  //skill
@@ -800,7 +800,7 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
 
   int enemy_move;
 
-  if ( enemy_copy1 -> enemy_id == 5 ){    //skill(POISON)を持つ敵の攻撃パターン
+  if ( enemy_copy1 -> enemy_id == GHOUL ){    //skill(POISON)を持つ敵の攻撃パターン
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 35 ){  //毒攻撃を使用する行動
@@ -810,7 +810,7 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
       enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( enemy_copy1 -> enemy_id == 6 ){
+  else if ( enemy_copy1 -> enemy_id == ZOMBIE ){
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 30 ){  //毒攻撃を使用する行動
@@ -820,7 +820,7 @@ double enemy_copy_attack_pattern(Player ****st, Player ****st2, Player ****st3, 
       enemy_turn = enemy_copy_attack(&st, &st2, &st3, &enemy_copy1, player_guard, player_guard2, player_guard3, enemy_turn);
     }
   }
-  else if ( enemy_copy1 -> enemy_id == 7 ){
+  else if ( enemy_copy1 -> enemy_id == GOBLINNORMAL ){
     enemy_move = (rand() % ( 100 - 1 + 1) ) + 1; //敵の攻撃パターン生成(1~100)
     //printf("%d\n", enemy_move);
     if ( enemy_move >= 1 && enemy_move <= 45 ){

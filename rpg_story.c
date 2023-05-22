@@ -457,7 +457,9 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     sleep(1);
     printf("\n");
     printf("%sはどうしますか?\n", st -> name);
-    input = school_command();
+    //items -> isGetRareDrop = ON;
+    //items -> onmorakiPiece = 1;
+    input = school_command(&items);
 
     if ( input == '1' ){
       goTo_infirmary(&st,&st2,&st3,&items);
@@ -477,6 +479,9 @@ void game_story2(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     else if ( input == '6' ){
       st -> stage_clear = 1.1;
       save_inSchool(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip,&search);
+    }
+    else if ( input == '7' && items -> isGetRareDrop == ON ){
+      goTo_DissectingRoom(&st,&items,&pEquip,&p2Equip,&p3Equip);
     }
 
   } while ( area -> boss2 == 0 );
@@ -525,7 +530,7 @@ void game_story3(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
     sleep(1);
     printf("\n");
     printf("%sはどうしますか?\n", st -> name);
-    input = school_command();
+    input = school_command(&items);
 
     if ( input == '1' ){
       goTo_infirmary(&st,&st2,&st3,&items);
@@ -553,7 +558,6 @@ void game_story3(Player *st, Player *st2, Player * st3, P_skill *player_skill, P
       exit(EXIT_SUCCESS);
     }
     else if ( input == '6' ){
-      st -> stage_clear = 1.1;
       save_inSchool(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip,&search);
     }
   } while ( area -> boss3 == 0 );

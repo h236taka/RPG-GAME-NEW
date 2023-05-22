@@ -70,7 +70,7 @@ void display_playerStatusPoint(int point){
 
 }
 
-int school_command(){
+int school_command(Items **items){
   int input;
 
   printf("1.保健室へ行く\n");
@@ -79,6 +79,10 @@ int school_command(){
   printf("4.ダンジョンへ行く\n");
   printf("5.ゲームをセーブせずに終了する\n");
   printf("6.セーブする\n");
+  if ( (*items) -> isGetRareDrop == ON ){
+    printf("7.解剖室へ行く\n");
+  }
+
   input = _getch();
 
   return input;
@@ -1198,4 +1202,106 @@ void equip_shop(Player ***st, Player ***st2, Player ***st3, Equip ***pEquip, Equ
 
     printf("\n");
   } while ( input != 'c' );
+}
+
+int check_rareItems_number(Equip *****pEquip, int item_number){
+
+  if ( item_number == ONMORAKIEYE ){
+    if ( (****pEquip) -> OnmorakiEye > 99 ){
+      printf("このアイテムはこれ以上所持出来ません...\n");
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+int synthesize_rareItems(Player ****st, Items ****items, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, int price, int item_number){
+
+  if ( price > (***st) -> gold ){
+    printf("所持金が足りません...\n");
+    printf("\n");
+    return FALSE;
+  }
+
+  if ( check_rareItems_number(&pEquip,item_number) == FALSE ){
+    printf("\n");
+    return FALSE;
+  }
+
+  (***st) -> gold -= price;
+
+  printf("アイテムを合成中です...\n");
+  sleep(2);
+
+  return TRUE;
+}
+
+void provide_element(Player ***st, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip){
+  int input;
+  int price;
+  int item_number;
+
+  do{
+    if ( (**items) -> onmorakiPiece > 0 ){
+      printf("1.オンモラキアイ:1000G(オンモラキの破片:1個) 所持数:%d個\n", (**items) -> onmorakiPiece);
+    }
+
+    printf("合成したいアイテムを選択してください!(キャンセルする場合はcを入力してください)\n");
+    input = _getch();
+
+    if ( input == '1' && (**items) -> onmorakiPiece > 0 ){
+      price = 1000;
+      item_number = ONMORAKIEYE;
+      if ( synthesize_rareItems(&st,&items,&pEquip,&p2Equip,&p3Equip,price,item_number) == TRUE ){
+        (**pEquip) -> OnmorakiEye++;
+        (**p2Equip) -> OnmorakiEye++;
+        (**p3Equip) -> OnmorakiEye++;
+        printf("%sはオンモラキアイを手に入れた!\n", (**st) -> name);
+      }
+    }
+
+  }while( input != 'c' );
+
+}
+
+void goTo_DissectingRoom(Player **st, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip){
+  int input;
+
+  if ( (*items) -> isEverVisitDissectingRoom == OFF ){
+    printf("\n");
+    sleep(1);
+    printf("???「ようこそ、解剖室へ・・・\n");
+    sleep(2);
+    printf("???「私は、生物教師の池田です」\n");
+    sleep(2);
+    printf("池田「君たちがここにやってきたということは、貴重な素材を持っているということだね」\n");
+    sleep(2);
+    printf("池田「私は生物の解剖を研究しているのだが、今は悪魔の素材に興味があってね」\n");
+    sleep(2);
+    printf("池田「もし、悪魔の素材があれば、私に持ってきてほしい」\n");
+    sleep(2);
+    printf("池田「持ってきてくれたら、代わりに素材から貴重なものを作ってあげよう」\n");
+    sleep(1);
+    (*items) -> isEverVisitDissectingRoom = ON;
+  }
+
+  do{
+    printf("\n");
+    printf("池田「さて、どうする?」\n");
+    printf("1.素材を渡す\n");
+    printf("2.素材を売る\n");
+    printf("c.部屋を売る\n");
+
+    input = _getch();
+
+    if ( input == '1' ){
+      provide_element(&st,&items,&pEquip,&p2Equip,&p3Equip);
+    }
+    else if ( input == '2' ){
+
+    }
+
+  }while( input != 'c' );
+
 }

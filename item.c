@@ -867,7 +867,39 @@ void item_drop(Player ****st, Player ****st2, Player ****st3, Enemy **enemy, Ite
       printf("DROP ITEM:宝玉×%d\n", drop_count);
       sleep(1);
       (***items) -> bead += drop_count;
+      return;
     }
+
+    //レアドロップ判定
+    drop_base = 1;
+    drop_base = drop_base + ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1 );
+    if ( drop_base > 100 ){
+      drop_base = 100;
+    }
+    drop_base = round(drop_base);
+
+    loop = 0;
+    drop_count = 0;
+    if ( encount_pattern == 1 || encount_pattern == 2 || encount_pattern == 3 || encount_pattern == 4 ){
+      while ( loop != encount_pattern ){
+        drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
+        drop_count += item_drop_caluculate(drop_base,drop_per);
+        loop++;
+      }
+    }
+    else{
+      drop_per = (rand() % ( 100 - 1 + 1 ) + 1);  //アイテムドロップ率の乱数
+      drop_count += item_drop_caluculate(drop_base,drop_per);
+    }
+
+    if ( drop_count != 0 ){
+      printf("DROP ITEM:オンモラキの破片×%d\n", drop_count);
+      sleep(1);
+      (***items) -> onmorakiPiece += drop_count;
+      (***items) -> isGetRareDrop = ON;
+      return;
+    }
+
   }
 
 }

@@ -82,6 +82,28 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
   double player_turn, enemy_turn, turn_decrease, enemy_turn_temp;
   int backAttack;
 
+  //敵が回復スキルを使用した時の変数
+  int enemyrecovertarget;
+  int isEnemyUsedRecoverSkill;
+
+  //player側の補助魔法の状況
+  int playerAttackSupportSkill = DEFAULT;
+  int playerMagicSupportSkill = DEFAULT;
+  int playerDefendSupportSkill = DEFAULT;
+  int playerEvaSupportSkill = DEFAULT;
+
+  //enemy側の補助魔法の状況
+  int enemyAttackSupportSkill = DEFAULT;
+  int enemyMagicSupportSkill = DEFAULT;
+  int enemyDefendSupportSkill = DEFAULT;
+  int enemyEvaSupportSkill = DEFAULT;
+
+  //経過ターン数
+  int BattleTurn = 1;
+
+  //逃走回数
+  int escape_number = 0;
+
   if ( enemy -> boss_count == 0 ){
     printf("<<<<<<NORMAL BATTLE>>>>>>\n");
     printf("\a");

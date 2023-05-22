@@ -43,6 +43,11 @@ typedef enum {
 } Checkbool;
 
 typedef enum {
+  ON = 1,
+  OFF = 0,
+} Flag;
+
+typedef enum {
   NOT_LEARNING = 0,
   SETTING = 1,
   LEARNED = 2,
@@ -74,6 +79,27 @@ typedef enum {
   ENEMY3 = 10, //左から3番目
   ENEMY4 = 11, //右端の敵
 } PlayerAndEnemy;
+
+typedef enum {
+  RECOVERTARGET = 1,  //enemy
+  RECOVERTARGET1 = 2, //enemy1
+  RECOVERTARGET2 = 3, //enemy2
+  RECOVERTARGET3 = 4, //enemy3
+  RECOVERSKILLTRUE = 100,
+  RECOVERSKILLFALSE = -1,
+} EnemyRecoverTarget;
+
+typedef enum {
+  DEFAULT = 0,
+  PLUS1 = 1,
+  PLUS2 = 2,
+  PLUS3 = 3,
+  PLUS4 = 4,
+  MINUS1 = -1,
+  MINUS2 = -2,
+  MINUS3 = -3,
+  MINUS4 = -4,
+} SupportSkillSituation;
 
 typedef enum {
   WEAKNESS = 200,
@@ -121,6 +147,7 @@ typedef enum {
   STRENGTHEARRINGS = 7,
   AGILITYEARRINGS = 8,
   LUCKYEARRINGS = 9,
+  ONMORAKIEYE = 10,
 } Equip_list;
 
 typedef enum {
@@ -148,6 +175,7 @@ typedef enum {
   GOBLINNORMAL = 7,
   ONMORAKI = 8,
   GREMLIN = 9,
+  PIXIE = 10,
 } EnemyId;
 
 
@@ -337,6 +365,9 @@ typedef struct items {
   int antisleep;
   int anticurse;
   int mindamin;
+  int onmorakiPiece;  //オンモラキのレアドロップ
+  int isGetRareDrop;  //レアドロップを入手したかどうか
+  int isEverVisitDissectingRoom; //解剖室へ初めて行ったか
 } Items;
 
 typedef struct equip {
@@ -349,6 +380,7 @@ typedef struct equip {
   int StrengthEarrings;  //味方1人の体を1増加 No.7
   int AgilityEarrings;  //味方1人の速を1増加 No.8
   int LuckyEarrings;  //味方1人の運を1増加 No.9
+  int OnmorakiEye;  //味方1人の火炎魔法の威力を1.2倍、魔を1増加 No.10
   int isEquip;  //味方が何か装備しているか(0:装備していない),している場合はその番号を代入
 } Equip;
 
@@ -365,6 +397,9 @@ typedef struct save_data_items {
   int antisleep;
   int anticurse;
   int mindamin;
+  int onmorakiPiece;  //オンモラキのレアドロップ
+  int isGetRareDrop;  //レアドロップを入手したかどうか
+  int isEverVisitDissectingRoom; //解剖室へ初めて行ったか
 } Save_data_items;
 
 typedef struct save_data_equip {
@@ -377,6 +412,7 @@ typedef struct save_data_equip {
   int StrengthEarrings;  //味方1人の体を1増加 No.7
   int AgilityEarrings;  //味方1人の速を1増加 No.8
   int LuckyEarrings;  //味方1人の運を1増加 No.9
+  int OnmorakiEye;  //味方1人の火炎魔法の威力を1.2倍、魔を1増加 No.10
   int isEquip;  //味方が何か装備しているか(0:装備していない),している場合はその番号を代入
 } Save_data_equip;
 
@@ -418,7 +454,7 @@ void display_status(Player **st, Player **st2, Player **st3);
 
 void display_playerStatusPoint(int point);  //status画面に各能力を視覚的に表示
 
-int school_command();
+int school_command(Items **items);
 
 int calculate_RecoverSkill_price(int input, int money);
 
@@ -453,6 +489,12 @@ void goods_shop(Player ***st, Items ***items);
 void buy_equips(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, int equip_number, int price);
 
 void equip_shop(Player ***st, Player ***st2, Player ***st3, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip);
+
+int synthesize_rareItems(Player ****st, Items ****items, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, int price, int item_number);
+
+void provide_element(Player ***st, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip);
+
+void goTo_DissectingRoom(Player **st, Items **items, Equip **pEquip, Equip **p2Equip, Equip **p3Equip);
 
 void prologue(void);
 
