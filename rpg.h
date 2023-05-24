@@ -490,6 +490,8 @@ void buy_equips(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3
 
 void equip_shop(Player ***st, Player ***st2, Player ***st3, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip);
 
+void sell_equip(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip);
+
 int synthesize_rareItems(Player ****st, Items ****items, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, int price, int item_number);
 
 void provide_element(Player ***st, Items ***items, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip);
@@ -623,7 +625,7 @@ double enemy_copy_attack(Player *****st, Player *****st2, Player *****st3, Enemy
 
 void enemy_data_copy(Enemy **enemy, Enemy *enemy_copy);
 
-int battle_escape(Player ****st);
+int battle_escape(Player ****st, int *escape_number);
 
 void poison_effect(Player ****st);
 

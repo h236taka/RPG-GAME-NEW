@@ -1130,10 +1130,13 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           display_2dmap(area_data_number, direction, &map);
         }
         else{
-          printf("ドン!\n");
+          printf("壁にぶつかった!\n");
           is_move = 0;
           map -> y++;    //移動出来ないのでyの値を元に戻す
+          //direction = 1;
+          area_data_number = area_data[map -> y][map -> x];
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number,direction,&map);
         }
       }
       else if ( input == 0x50 ){  //下キー
@@ -1232,10 +1235,13 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           display_2dmap(area_data_number, direction, &map);
         }
         else{
-          printf("ドン!\n");
+          printf("壁にぶつかった!\n");
           is_move = 0;
           map -> y--;   //移動出来ないのでyの値を元に戻す
+          //direction = 2;
+          area_data_number = area_data[map -> y][map -> x];
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number,direction,&map);
         }
       }
       else if ( input == 0x4b ){  //左キー
@@ -1348,9 +1354,12 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           display_2dmap(area_data_number, direction, &map);
         }
         else{
-          printf("ドン!\n");
+          printf("壁にぶつかった!\n");
           map -> x++;
+          //direction = 3;
+          area_data_number = area_data[map -> y][map -> x];
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
         }
       }
       else if ( input == 0x4d ){   //右キー
@@ -1462,10 +1471,14 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           display_2dmap(area_data_number, direction, &map);
         }
         else{
-          printf("ドン!\n");
+          printf("壁にぶつかった!\n");
           map -> x--;
           is_move = 0;
+          //direction = 4;
+          area_data_number = area_data[map -> y][map -> x];
+          //printf("area_data_number:%d\n", area_data_number);
           printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+          display_2dmap(area_data_number, direction, &map);
         }
       }
       else{

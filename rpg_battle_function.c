@@ -277,6 +277,7 @@ double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcoun
     }
   }
 
+
   //printf("before eva_base = %f\n", eva_base);
   eva_base = round(eva_base);
   //printf("after eva_base = %f\n", eva_base);
@@ -1537,31 +1538,33 @@ void enemy_data_copy(Enemy **enemy, Enemy *enemy_copy){
 //encount_pattern = 9; 敵４体(同じ敵３体と違う敵１体)
 //encount_pattern = 10; 敵３体(同じ敵２体と違う敵１体)
 
-int battle_escape(Player ****st){
-  int escape, escape_count, i;
+int battle_escape(Player ****st, int *escape_number){
+  int escape, i;
   double escape_base;
+  int escape_min; //逃走確率の最小値
 
-  escape_count = 0;
-  if ( escape_count == 0 ){  //逃走試行回数
-    escape_base = 30 + ( (***st) -> agi * 0.2 + (***st) -> luk * 0.2);   //逃走確率の最小値30% + 逃走を選択したキャラの速と運の値
-    escape_base = round(escape_base);
-    //printf("escape_base = %f\n", escape_base);
-    escape = (rand() % ( 100 - 1 + 1 ) + 1);
-    //printf("escape number = %d\n", escape);
-    for ( i = 30; i <= escape_base; i++ ){
-      if ( escape_base == i ){
-        if ( escape >= 1 && escape <= i ){
-          printf("逃走成功!!\n");
-          printf("%s達は戦闘から逃走した!\n", (***st) -> name);
-          return 1;
-        }
-        else{
-          printf("逃走失敗\n");
-          return -1;
-        }
-      }
+  escape_min = 30 + 15 * (*escape_number);
+  //printf("escape_min:%d\n", escape_min);
+  escape_base = escape_min + ( (***st) -> agi * 0.2 + (***st) -> luk * 0.2);   //逃走確率の最小値30% + 逃走を選択したキャラの速と運の値
+  escape_base = round(escape_base);
+  if ( escape_base > 100 ){
+    escape_base = 100;
+  }
+  //printf("escape_base = %f\n", escape_base);
+  escape = (rand() % ( 100 - 1 + 1 ) + 1);
+  //printf("escape number = %d\n", escape);
+  for ( i = 1; i <= escape_base; i++ ){
+    if ( i == escape ){
+      printf("逃走成功!!\n");
+      printf("%s達は戦闘から逃走した!\n", (***st) -> name);
+      return 1;
     }
   }
+
+  //for文を抜けた場合逃走失敗
+  printf("逃走失敗\n");
+  *escape_number += 1;
+  return -1;
 
 }
 

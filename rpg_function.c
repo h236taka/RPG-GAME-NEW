@@ -843,12 +843,15 @@ void goTo_artRoom(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip
     printf("---美術室---\n");
     printf("1.装備を購入する\n");
     printf("2.装備を売却する\n");
-    printf("3.美術室を出る\n");
+    printf("c.美術室を出る\n");
     printf("h.話を聞く\n");
     input = _getch();
 
     if ( input == '1' ){
       equip_shop(&st,&st2,&st3,&pEquip,&p2Equip,&p3Equip);
+    }
+    else if ( input == '2' ){
+      sell_equip(&st,&pEquip,&p2Equip,&p3Equip);
     }
     else if ( input == 'h' ){
       printf("岡本先生「ここでは、私が作った装備品を販売するよ」\n");
@@ -859,7 +862,7 @@ void goTo_artRoom(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip
       sleep(1);
     }
 
-  } while ( input != '3' );
+  } while ( input != 'c' );
 }
 
 void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3){
@@ -876,7 +879,7 @@ void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, 
     printf("\n");
     printf("---化学準備室---\n");
     printf("1.スキルの知識を得る\n");
-    printf("2.化学準備室を出る\n");
+    printf("c.化学準備室を出る\n");
     printf("h.話を聞く\n");
     input = _getch();
 
@@ -920,7 +923,7 @@ void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, 
       sleep(1);
     }
 
-  } while ( input != '2' );
+  } while ( input != 'c' );
 }
 
 void buy_goods(Player ****st, Items ****items, int goods_number,  int price){
@@ -1202,6 +1205,162 @@ void equip_shop(Player ***st, Player ***st2, Player ***st3, Equip ***pEquip, Equ
 
     printf("\n");
   } while ( input != 'c' );
+}
+
+void procedure_sell_equip(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, int input, int number){
+
+  if ( input == HPRING1 ){
+    if ( (***pEquip) -> HpRing1 < number ){
+      printf("所持数より売却したい数がオーバーしています...\n");
+      return;
+    }
+
+    (***pEquip) -> HpRing1 -= number;
+    (***p2Equip) -> HpRing1 -= number;
+    (***p3Equip) -> HpRing1 -= number;
+
+    (***st) -> gold += 250 * number;
+  }
+  else if ( input == MPRING1 ){
+    if ( (***pEquip) -> MpRing1 < number ){
+      printf("所持数より売却したい数がオーバーしています...\n");
+      return;
+    }
+
+    (***pEquip) -> MpRing1 -= number;
+    (***p2Equip) -> MpRing1 -= number;
+    (***p3Equip) -> MpRing1 -= number;
+
+    (***st) -> gold += 400 * number;
+  }
+  else if ( input == HPRING2 ){
+    if ( (***pEquip) -> HpRing2 < number ){
+      printf("所持数より売却したい数がオーバーしています...\n");
+      return;
+    }
+
+    (***pEquip) -> HpRing2 -= number;
+    (***p2Equip) -> HpRing2 -= number;
+    (***p3Equip) -> HpRing2 -= number;
+
+    (***st) -> gold += 500 * number;
+  }
+  else if ( input == MPRING2 ){
+    //発売未定
+  }
+  else if ( input == POWEREARRINGS ){
+    if ( (***pEquip) -> PowerEarrings < number ){
+      printf("所持数より売却したい数がオーバーしています...\n");
+      return;
+    }
+
+    (***pEquip) -> PowerEarrings -= number;
+    (***p2Equip) -> PowerEarrings -= number;
+    (***p3Equip) -> PowerEarrings -= number;
+
+    (***st) -> gold += 500 * number;
+  }
+  else if ( input == MAGICEARRINGS ){
+    if ( (***pEquip) -> MagicEarrings < number ){
+      printf("所持数より売却したい数がオーバーしています...\n");
+      return;
+    }
+
+    (***pEquip) -> MagicEarrings -= number;
+    (***p2Equip) -> MagicEarrings -= number;
+    (***p3Equip) -> MagicEarrings -= number;
+
+    (***st) -> gold += 500 * number;
+  }
+  else if ( input == STRENGTHEARRINGS ){
+    if ( (***pEquip) -> StrengthEarrings < number ){
+      printf("所持数より売却したい数がオーバーしています...\n");
+      return;
+    }
+
+    (***pEquip) -> StrengthEarrings -= number;
+    (***p2Equip) -> StrengthEarrings -= number;
+    (***p3Equip) -> StrengthEarrings -= number;
+
+    (***st) -> gold += 500 * number;
+  }
+  else if ( input == AGILITYEARRINGS ){
+    if ( (***pEquip) -> AgilityEarrings < number ){
+      printf("所持数より売却したい数がオーバーしています...\n");
+      return;
+    }
+
+    (***pEquip) -> AgilityEarrings -= number;
+    (***p2Equip) -> AgilityEarrings -= number;
+    (***p3Equip) -> AgilityEarrings -= number;
+
+    (***st) -> gold += 500 * number;
+  }
+  else if ( input == LUCKYEARRINGS ){
+    if ( (***pEquip) -> LuckyEarrings < number ){
+      printf("所持数より売却したい数がオーバーしています...\n");
+      return;
+    }
+
+    (***pEquip) -> LuckyEarrings -= number;
+    (***p2Equip) -> LuckyEarrings -= number;
+    (***p3Equip) -> LuckyEarrings -= number;
+
+    (***st) -> gold += 500 * number;
+  }
+
+}
+
+void sell_equip(Player ***st, Equip ***pEquip, Equip ***p2Equip, Equip ***p3Equip){
+  int input;
+  int number;
+
+  do{
+    printf("何を売却しますか?\n");
+    if ( (**pEquip) -> HpRing1 > 0 ){
+      printf("1.HPリング1:%d個\n", (**pEquip) -> HpRing1);
+    }
+    if ( (**pEquip) -> MpRing1 > 0 ){
+      printf("2.MPリング1:%d個\n", (**pEquip) -> MpRing1);
+    }
+    if ( (**pEquip) -> HpRing2 > 0 ){
+      printf("3.HPリング2:%d個\n", (**pEquip) -> HpRing2);
+    }
+    if ( (**pEquip) -> MpRing2 > 0 ){
+      printf("4.MPリング2:%d個\n", (**pEquip) -> MpRing2);
+    }
+    if ( (**pEquip) -> PowerEarrings > 0 ){
+      printf("5.パワーピアス:%d個\n", (**pEquip) -> PowerEarrings);
+    }
+    if ( (**pEquip) -> MagicEarrings > 0 ){
+      printf("6.マジックピアス:%d個\n", (**pEquip) -> MagicEarrings);
+    }
+    if ( (**pEquip) -> StrengthEarrings > 0 ){
+      printf("7.ストレングスピアス:%d個\n", (**pEquip) -> StrengthEarrings);
+    }
+    if ( (**pEquip) -> AgilityEarrings > 0 ){
+      printf("8.スピードピアス:%d個\n", (**pEquip) -> AgilityEarrings);
+    }
+    if ( (**pEquip) -> LuckyEarrings > 0 ){
+      printf("9.ラッキーピアス:%d個\n", (**pEquip) -> LuckyEarrings);
+    }
+    if ( (**pEquip) -> OnmorakiEye > 0 ){
+      printf("10.オンモラキアイ:%d個\n", (**pEquip) -> OnmorakiEye);
+    }
+
+    printf("売却したいアイテムのナンバーを入力してください(入力確定はエンターを入力し、キャンセルする場合は0を入力)\n");
+    scanf("%d", &input);
+    if ( input == 0 ){
+      return;
+    }
+
+    printf("\n");
+    printf("売却したい個数を入力してください(入力確定はエンターを入力し、キャンセルする場合は0を入力)\n");
+    scanf("%d", &number);
+
+    procedure_sell_equip(&st,&pEquip,&p2Equip,&p3Equip,input,number);
+
+  }while( input != 0 || number != 0 );
 }
 
 int check_rareItems_number(Equip *****pEquip, int item_number){

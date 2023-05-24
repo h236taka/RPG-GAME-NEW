@@ -98,6 +98,14 @@ void skillEffect_RECOVERBADSTATUS_forBattle(Player *****st, Player *****st2, Pla
 
 void analyze_enemyCopy_skill(Enemy **enemy_copy){
 
+  printf("%sのステータスを表示します...\n", (*enemy_copy) -> name);
+  sleep(1);
+  if ( (*enemy_copy) -> boss_count != 0 ){
+    printf("ステータスをアナライズ出来ませんでした...\n");
+    printf("\n");
+    return;
+  }
+
   printf("%s LV:%d\n", (*enemy_copy) -> name, (*enemy_copy) -> lv);
   printf("HP:%d/%d MP:%d/%d\n", (*enemy_copy) -> hp, (*enemy_copy) -> maxhp, (*enemy_copy) -> mp, (*enemy_copy) -> maxmp);
   printf("力:%d\n", (*enemy_copy) -> atk);
@@ -122,11 +130,288 @@ void analyze_enemyCopy_skill(Enemy **enemy_copy){
     else if ( (*enemy_copy) -> enemy_id == ONMORAKI ){
       printf("エンファ\n");
     }
-
   }
+
+  //耐性表示
+  if ( (*enemy_copy) -> physical_attack == 200 ){
+    printf("物理弱点 ");
+  }
+  else if ( (*enemy_copy) -> physical_attack == 25 || (*enemy_copy) -> physical_attack == 50 || (*enemy_copy) -> physical_attack == 75 ){
+    printf("物理耐性 ");
+  }
+  else if ( (*enemy_copy) -> physical_attack == -1 ){
+    printf("物理無効 ");
+  }
+  else if ( (*enemy_copy) -> physical_attack == -2 ){
+    printf("物理吸収 ");
+  }
+  else if ( (*enemy_copy) -> physical_attack == -3 ){
+    printf("物理反射 ");
+  }
+
+  if ( (*enemy_copy) -> gun_attack == 200 ){
+    printf("銃撃弱点 ");
+  }
+  else if ( (*enemy_copy) -> gun_attack == 25 || (*enemy_copy) -> gun_attack == 50 || (*enemy_copy) -> gun_attack == 75 ){
+    printf("銃撃耐性 ");
+  }
+  else if ( (*enemy_copy) -> gun_attack == -1 ){
+    printf("銃撃無効 ");
+  }
+  else if ( (*enemy_copy) -> gun_attack == -2 ){
+    printf("銃撃吸収 ");
+  }
+  else if ( (*enemy_copy) -> gun_attack == -3 ){
+    printf("銃撃反射 ");
+  }
+
+  if ( (*enemy_copy) -> fire == 200 ){
+    printf("火炎弱点 ");
+  }
+  else if ( (*enemy_copy) -> fire == 25 || (*enemy_copy) -> fire == 50 || (*enemy_copy) -> fire == 75 ){
+    printf("火炎耐性 ");
+  }
+  else if ( (*enemy_copy) -> fire == -1 ){
+    printf("火炎無効 ");
+  }
+  else if ( (*enemy_copy) -> fire == -2 ){
+    printf("火炎吸収 ");
+  }
+  else if ( (*enemy_copy) -> fire == -3 ){
+    printf("火炎反射 ");
+  }
+
+  if ( (*enemy_copy) -> ice == 200 ){
+    printf("氷結弱点 ");
+  }
+  else if ( (*enemy_copy) -> ice == 25 || (*enemy_copy) -> ice == 50 || (*enemy_copy) -> ice == 75 ){
+    printf("氷結耐性 ");
+  }
+  else if ( (*enemy_copy) -> ice == -1 ){
+    printf("氷結無効 ");
+  }
+  else if ( (*enemy_copy) -> ice == -2 ){
+    printf("氷結吸収 ");
+  }
+  else if ( (*enemy_copy) -> ice == -3 ){
+    printf("氷結反射 ");
+  }
+
+  if ( (*enemy_copy) -> elec == 200 ){
+    printf("電撃弱点 ");
+  }
+  else if ( (*enemy_copy) -> elec == 25 || (*enemy_copy) -> elec == 50 || (*enemy_copy) -> elec == 75 ){
+    printf("電撃耐性 ");
+  }
+  else if ( (*enemy_copy) -> elec == -1 ){
+    printf("電撃無効 ");
+  }
+  else if ( (*enemy_copy) -> elec == -2 ){
+    printf("電撃吸収 ");
+  }
+  else if ( (*enemy_copy) -> elec == -3 ){
+    printf("電撃反射 ");
+  }
+
+  if ( (*enemy_copy) -> wave == 200 ){
+    printf("衝撃弱点 ");
+  }
+  else if ( (*enemy_copy) -> wave == 25 || (*enemy_copy) -> wave == 50 || (*enemy_copy) -> wave == 75 ){
+    printf("衝撃耐性 ");
+  }
+  else if ( (*enemy_copy) -> wave == -1 ){
+    printf("衝撃無効 ");
+  }
+  else if ( (*enemy_copy) -> wave == -2 ){
+    printf("衝撃吸収 ");
+  }
+  else if ( (*enemy_copy) -> wave == -3 ){
+    printf("衝撃反射 ");
+  }
+
+  if ( (*enemy_copy) -> almighty == 25 || (*enemy_copy) -> almighty == 50 || (*enemy_copy) -> almighty == 75 ){
+    printf("万能耐性 ");
+  }
+
+  if ( (*enemy_copy) -> death == 200 ){
+    printf("呪殺弱点 ");
+  }
+  else if ( (*enemy_copy) -> death == 25 || (*enemy_copy) -> death == 50 || (*enemy_copy) -> death == 75 ){
+    printf("呪殺耐性 ");
+  }
+  else if ( (*enemy_copy) -> death == -1 ){
+    printf("呪殺無効 ");
+  }
+  else if ( (*enemy_copy) -> death == -2 ){
+    printf("呪殺吸収 ");
+  }
+  else if ( (*enemy_copy) -> death == -3 ){
+    printf("呪殺反射 ");
+  }
+
+  if ( (*enemy_copy) -> expel == 200 ){
+    printf("破魔弱点 ");
+  }
+  else if ( (*enemy_copy) -> expel == 25 || (*enemy_copy) -> expel == 50 || (*enemy_copy) -> expel == 75 ){
+    printf("破魔耐性 ");
+  }
+  else if ( (*enemy_copy) -> expel == -1 ){
+    printf("破魔無効 ");
+  }
+  else if ( (*enemy_copy) -> expel == -2 ){
+    printf("破魔吸収 ");
+  }
+  else if ( (*enemy_copy) -> expel == -3 ){
+    printf("破魔反射 ");
+  }
+
+  if ( (*enemy_copy) -> poison == -1 && (*enemy_copy) -> palyze == -1 && (*enemy_copy) -> charm == -1 && (*enemy_copy) -> close == -1 && (*enemy_copy) -> stone == -1 && (*enemy_copy) -> panic == -1 && (*enemy_copy) -> sleep == -1 && (*enemy_copy) -> curse == -1 ){
+    printf("バットステータス無効\n");
+    return;
+  }
+
+  if ( (*enemy_copy) -> poison == 200 ){
+    printf("毒弱点 ");
+  }
+  else if ( (*enemy_copy) -> poison == 25 || (*enemy_copy) -> poison == 50 || (*enemy_copy) -> poison == 75 ){
+    printf("毒耐性 ");
+  }
+  else if ( (*enemy_copy) -> poison == -1 ){
+    printf("毒無効 ");
+  }
+  else if ( (*enemy_copy) -> poison == -2 ){
+    printf("毒吸収 ");
+  }
+  else if ( (*enemy_copy) -> poison == -3 ){
+    printf("毒反射 ");
+  }
+
+  if ( (*enemy_copy) -> palyze == 200 ){
+    printf("麻痺弱点 ");
+  }
+  else if ( (*enemy_copy) -> palyze == 25 || (*enemy_copy) -> palyze == 50 || (*enemy_copy) -> palyze == 75 ){
+    printf("麻痺耐性 ");
+  }
+  else if ( (*enemy_copy) -> palyze == -1 ){
+    printf("麻痺無効 ");
+  }
+  else if ( (*enemy_copy) -> palyze == -2 ){
+    printf("麻痺吸収 ");
+  }
+  else if ( (*enemy_copy) -> palyze == -3 ){
+    printf("麻痺反射 ");
+  }
+
+  if ( (*enemy_copy) -> charm == 200 ){
+    printf("魅了弱点 ");
+  }
+  else if ( (*enemy_copy) -> charm == 25 || (*enemy_copy) -> charm == 50 || (*enemy_copy) -> charm == 75 ){
+    printf("魅了耐性 ");
+  }
+  else if ( (*enemy_copy) -> charm == -1 ){
+    printf("魅了無効 ");
+  }
+  else if ( (*enemy_copy) -> charm == -2 ){
+    printf("魅了吸収 ");
+  }
+  else if ( (*enemy_copy) -> charm == -3 ){
+    printf("魅了反射 ");
+  }
+
+  if ( (*enemy_copy) -> close == 200 ){
+    printf("魔封弱点 ");
+  }
+  else if ( (*enemy_copy) -> close == 25 || (*enemy_copy) -> close == 50 || (*enemy_copy) -> close == 75 ){
+    printf("魔封耐性 ");
+  }
+  else if ( (*enemy_copy) -> close == -1 ){
+    printf("魔封無効 ");
+  }
+  else if ( (*enemy_copy) -> close == -2 ){
+    printf("魔封吸収 ");
+  }
+  else if ( (*enemy_copy) -> close == -3 ){
+    printf("魔封反射 ");
+  }
+
+  if ( (*enemy_copy) -> stone == 200 ){
+    printf("石化弱点 ");
+  }
+  else if ( (*enemy_copy) -> stone == 25 || (*enemy_copy) -> stone == 50 || (*enemy_copy) -> stone == 75 ){
+    printf("石化耐性 ");
+  }
+  else if ( (*enemy_copy) -> stone == -1 ){
+    printf("石化無効 ");
+  }
+  else if ( (*enemy_copy) -> stone == -2 ){
+    printf("石化吸収 ");
+  }
+  else if ( (*enemy_copy) -> stone == -3 ){
+    printf("石化反射 ");
+  }
+
+  if ( (*enemy_copy) -> panic == 200 ){
+    printf("混乱弱点 ");
+  }
+  else if ( (*enemy_copy) -> panic == 25 || (*enemy_copy) -> panic == 50 || (*enemy_copy) -> panic == 75 ){
+    printf("混乱耐性 ");
+  }
+  else if ( (*enemy_copy) -> panic == -1 ){
+    printf("混乱無効 ");
+  }
+  else if ( (*enemy_copy) -> panic == -2 ){
+    printf("混乱吸収 ");
+  }
+  else if ( (*enemy_copy) -> panic == -3 ){
+    printf("混乱反射 ");
+  }
+
+  if ( (*enemy_copy) -> sleep == 200 ){
+    printf("睡眠弱点 ");
+  }
+  else if ( (*enemy_copy) -> sleep == 25 || (*enemy_copy) -> sleep == 50 || (*enemy_copy) -> sleep == 75 ){
+    printf("睡眠耐性 ");
+  }
+  else if ( (*enemy_copy) -> sleep == -1 ){
+    printf("睡眠無効 ");
+  }
+  else if ( (*enemy_copy) -> sleep == -2 ){
+    printf("睡眠吸収 ");
+  }
+  else if ( (*enemy_copy) -> sleep == -3 ){
+    printf("睡眠反射 ");
+  }
+
+  if ( (*enemy_copy) -> curse == 200 ){
+    printf("呪い弱点 ");
+  }
+  else if ( (*enemy_copy) -> curse == 25 || (*enemy_copy) -> curse == 50 || (*enemy_copy) -> curse == 75 ){
+    printf("呪い耐性 ");
+  }
+  else if ( (*enemy_copy) -> curse == -1 ){
+    printf("呪い無効 ");
+  }
+  else if ( (*enemy_copy) -> curse == -2 ){
+    printf("呪い吸収 ");
+  }
+  else if ( (*enemy_copy) -> curse == -3 ){
+    printf("呪い反射 ");
+  }
+
+  printf("\n");
+  printf("\n");
+
 }
 
 void analyze_enemy_skill(Enemy ***enemy){
+
+  printf("%sのステータスを表示します...\n", (**enemy) -> name);
+  sleep(1);
+  if ( (**enemy) -> boss_count != 0 ){
+    printf("ステータスをアナライズ出来ませんでした...\n");
+    printf("\n");
+    return;
+  }
 
   printf("%s LV:%d\n", (**enemy) -> name, (**enemy) -> lv);
   printf("HP:%d/%d MP:%d/%d\n", (**enemy) -> hp, (**enemy) -> maxhp, (**enemy) -> mp, (**enemy) -> maxmp);
@@ -154,6 +439,276 @@ void analyze_enemy_skill(Enemy ***enemy){
     }
 
   }
+
+  //耐性表示
+  if ( (**enemy) -> physical_attack == 200 ){
+    printf("物理弱点 ");
+  }
+  else if ( (**enemy) -> physical_attack == 25 || (**enemy) -> physical_attack == 50 || (**enemy) -> physical_attack == 75 ){
+    printf("物理耐性 ");
+  }
+  else if ( (**enemy) -> physical_attack == -1 ){
+    printf("物理無効 ");
+  }
+  else if ( (**enemy) -> physical_attack == -2 ){
+    printf("物理吸収 ");
+  }
+  else if ( (**enemy) -> physical_attack == -3 ){
+    printf("物理反射 ");
+  }
+
+  if ( (**enemy) -> gun_attack == 200 ){
+    printf("銃撃弱点 ");
+  }
+  else if ( (**enemy) -> gun_attack == 25 || (**enemy) -> gun_attack == 50 || (**enemy) -> gun_attack == 75 ){
+    printf("銃撃耐性 ");
+  }
+  else if ( (**enemy) -> gun_attack == -1 ){
+    printf("銃撃無効 ");
+  }
+  else if ( (**enemy) -> gun_attack == -2 ){
+    printf("銃撃吸収 ");
+  }
+  else if ( (**enemy) -> gun_attack == -3 ){
+    printf("銃撃反射 ");
+  }
+
+  if ( (**enemy) -> fire == 200 ){
+    printf("火炎弱点 ");
+  }
+  else if ( (**enemy) -> fire == 25 || (**enemy) -> fire == 50 || (**enemy) -> fire == 75 ){
+    printf("火炎耐性 ");
+  }
+  else if ( (**enemy) -> fire == -1 ){
+    printf("火炎無効 ");
+  }
+  else if ( (**enemy) -> fire == -2 ){
+    printf("火炎吸収 ");
+  }
+  else if ( (**enemy) -> fire == -3 ){
+    printf("火炎反射 ");
+  }
+
+  if ( (**enemy) -> ice == 200 ){
+    printf("氷結弱点 ");
+  }
+  else if ( (**enemy) -> ice == 25 || (**enemy) -> ice == 50 || (**enemy) -> ice == 75 ){
+    printf("氷結耐性 ");
+  }
+  else if ( (**enemy) -> ice == -1 ){
+    printf("氷結無効 ");
+  }
+  else if ( (**enemy) -> ice == -2 ){
+    printf("氷結吸収 ");
+  }
+  else if ( (**enemy) -> ice == -3 ){
+    printf("氷結反射 ");
+  }
+
+  if ( (**enemy) -> elec == 200 ){
+    printf("電撃弱点 ");
+  }
+  else if ( (**enemy) -> elec == 25 || (**enemy) -> elec == 50 || (**enemy) -> elec == 75 ){
+    printf("電撃耐性 ");
+  }
+  else if ( (**enemy) -> elec == -1 ){
+    printf("電撃無効 ");
+  }
+  else if ( (**enemy) -> elec == -2 ){
+    printf("電撃吸収 ");
+  }
+  else if ( (**enemy) -> elec == -3 ){
+    printf("電撃反射 ");
+  }
+
+  if ( (**enemy) -> wave == 200 ){
+    printf("衝撃弱点 ");
+  }
+  else if ( (**enemy) -> wave == 25 || (**enemy) -> wave == 50 || (**enemy) -> wave == 75 ){
+    printf("衝撃耐性 ");
+  }
+  else if ( (**enemy) -> wave == -1 ){
+    printf("衝撃無効 ");
+  }
+  else if ( (**enemy) -> wave == -2 ){
+    printf("衝撃吸収 ");
+  }
+  else if ( (**enemy) -> wave == -3 ){
+    printf("衝撃反射 ");
+  }
+
+  if ( (**enemy) -> almighty == 25 || (**enemy) -> almighty == 50 || (**enemy) -> almighty == 75 ){
+    printf("万能耐性 ");
+  }
+
+  if ( (**enemy) -> death == 200 ){
+    printf("呪殺弱点 ");
+  }
+  else if ( (**enemy) -> death == 25 || (**enemy) -> death == 50 || (**enemy) -> death == 75 ){
+    printf("呪殺耐性 ");
+  }
+  else if ( (**enemy) -> death == -1 ){
+    printf("呪殺無効 ");
+  }
+  else if ( (**enemy) -> death == -2 ){
+    printf("呪殺吸収 ");
+  }
+  else if ( (**enemy) -> death == -3 ){
+    printf("呪殺反射 ");
+  }
+
+  if ( (**enemy) -> expel == 200 ){
+    printf("破魔弱点 ");
+  }
+  else if ( (**enemy) -> expel == 25 || (**enemy) -> expel == 50 || (**enemy) -> expel == 75 ){
+    printf("破魔耐性 ");
+  }
+  else if ( (**enemy) -> expel == -1 ){
+    printf("破魔無効 ");
+  }
+  else if ( (**enemy) -> expel == -2 ){
+    printf("破魔吸収 ");
+  }
+  else if ( (**enemy) -> expel == -3 ){
+    printf("破魔反射 ");
+  }
+
+  if ( (**enemy) -> poison == -1 && (**enemy) -> palyze == -1 && (**enemy) -> charm == -1 && (**enemy) -> close == -1 && (**enemy) -> stone == -1 && (**enemy) -> panic == -1 && (**enemy) -> sleep == -1 && (**enemy) -> curse == -1 ){
+    printf("バットステータス無効\n");
+    return;
+  }
+
+  if ( (**enemy) -> poison == 200 ){
+    printf("毒弱点 ");
+  }
+  else if ( (**enemy) -> poison == 25 || (**enemy) -> poison == 50 || (**enemy) -> poison == 75 ){
+    printf("毒耐性 ");
+  }
+  else if ( (**enemy) -> poison == -1 ){
+    printf("毒無効 ");
+  }
+  else if ( (**enemy) -> poison == -2 ){
+    printf("毒吸収 ");
+  }
+  else if ( (**enemy) -> poison == -3 ){
+    printf("毒反射 ");
+  }
+
+  if ( (**enemy) -> palyze == 200 ){
+    printf("麻痺弱点 ");
+  }
+  else if ( (**enemy) -> palyze == 25 || (**enemy) -> palyze == 50 || (**enemy) -> palyze == 75 ){
+    printf("麻痺耐性 ");
+  }
+  else if ( (**enemy) -> palyze == -1 ){
+    printf("麻痺無効 ");
+  }
+  else if ( (**enemy) -> palyze == -2 ){
+    printf("麻痺吸収 ");
+  }
+  else if ( (**enemy) -> palyze == -3 ){
+    printf("麻痺反射 ");
+  }
+
+  if ( (**enemy) -> charm == 200 ){
+    printf("魅了弱点 ");
+  }
+  else if ( (**enemy) -> charm == 25 || (**enemy) -> charm == 50 || (**enemy) -> charm == 75 ){
+    printf("魅了耐性 ");
+  }
+  else if ( (**enemy) -> charm == -1 ){
+    printf("魅了無効 ");
+  }
+  else if ( (**enemy) -> charm == -2 ){
+    printf("魅了吸収 ");
+  }
+  else if ( (**enemy) -> charm == -3 ){
+    printf("魅了反射 ");
+  }
+
+  if ( (**enemy) -> close == 200 ){
+    printf("魔封弱点 ");
+  }
+  else if ( (**enemy) -> close == 25 || (**enemy) -> close == 50 || (**enemy) -> close == 75 ){
+    printf("魔封耐性 ");
+  }
+  else if ( (**enemy) -> close == -1 ){
+    printf("魔封無効 ");
+  }
+  else if ( (**enemy) -> close == -2 ){
+    printf("魔封吸収 ");
+  }
+  else if ( (**enemy) -> close == -3 ){
+    printf("魔封反射 ");
+  }
+
+  if ( (**enemy) -> stone == 200 ){
+    printf("石化弱点 ");
+  }
+  else if ( (**enemy) -> stone == 25 || (**enemy) -> stone == 50 || (**enemy) -> stone == 75 ){
+    printf("石化耐性 ");
+  }
+  else if ( (**enemy) -> stone == -1 ){
+    printf("石化無効 ");
+  }
+  else if ( (**enemy) -> stone == -2 ){
+    printf("石化吸収 ");
+  }
+  else if ( (**enemy) -> stone == -3 ){
+    printf("石化反射 ");
+  }
+
+  if ( (**enemy) -> panic == 200 ){
+    printf("混乱弱点 ");
+  }
+  else if ( (**enemy) -> panic == 25 || (**enemy) -> panic == 50 || (**enemy) -> panic == 75 ){
+    printf("混乱耐性 ");
+  }
+  else if ( (**enemy) -> panic == -1 ){
+    printf("混乱無効 ");
+  }
+  else if ( (**enemy) -> panic == -2 ){
+    printf("混乱吸収 ");
+  }
+  else if ( (**enemy) -> panic == -3 ){
+    printf("混乱反射 ");
+  }
+
+  if ( (**enemy) -> sleep == 200 ){
+    printf("睡眠弱点 ");
+  }
+  else if ( (**enemy) -> sleep == 25 || (**enemy) -> sleep == 50 || (**enemy) -> sleep == 75 ){
+    printf("睡眠耐性 ");
+  }
+  else if ( (**enemy) -> sleep == -1 ){
+    printf("睡眠無効 ");
+  }
+  else if ( (**enemy) -> sleep == -2 ){
+    printf("睡眠吸収 ");
+  }
+  else if ( (**enemy) -> sleep == -3 ){
+    printf("睡眠反射 ");
+  }
+
+  if ( (**enemy) -> curse == 200 ){
+    printf("呪い弱点 ");
+  }
+  else if ( (**enemy) -> curse == 25 || (**enemy) -> curse == 50 || (**enemy) -> curse == 75 ){
+    printf("呪い耐性 ");
+  }
+  else if ( (**enemy) -> curse == -1 ){
+    printf("呪い無効 ");
+  }
+  else if ( (**enemy) -> curse == -2 ){
+    printf("呪い吸収 ");
+  }
+  else if ( (**enemy) -> curse == -3 ){
+    printf("呪い反射 ");
+  }
+
+  printf("\n");
+  printf("\n");
+
 }
 
 int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill ****player_skill, int use_skill_count, int skill_target, int skill_user){
@@ -250,11 +805,6 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy **enemy
     eva_count = 0;
     magic_power = 10;
 
-    //回避率計算
-    /*if ( turn_decrease == -2 ){
-      return turn_decrease;
-    }*/
-
     damage_base = ( magic_power * (***st) -> magic ) / ( (*enemy) -> magic * 2 );
     if ( damage_base < 0 ){
       damage_base = 1;
@@ -262,20 +812,13 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy **enemy
     max_damage = damage_base * 1.3;
     damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
 
-
     turn_decrease = check_enemy_fireResist(&st,&enemy,damage);
   }
   else if ( use_skill_count == ANALYZE ){
     if ( check_playerMP(&st,3) != TRUE ){
       return -1;
     }
-    printf("%sのステータスを表示します...\n", (*enemy) -> name);
-    if ( (*enemy) -> boss_count != 0 ){
-      printf("ステータスをアナライズ出来ませんでした...\n");
-    }
-    else{
-      analyze_enemy_skill(&enemy);
-    }
+    analyze_enemy_skill(&enemy);
     turn_decrease = -1;
   }
 
@@ -300,11 +843,6 @@ int player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *en
 
     eva_count = 0;
     magic_power = 10;
-
-    //回避率計算
-    /*if ( turn_decrease == -2 ){
-      return turn_decrease;
-    }*/
 
     damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 2 );
     if ( damage_base < 0 ){

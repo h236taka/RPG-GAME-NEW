@@ -913,7 +913,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
             if ( enemy -> boss_count == 0 ){
               printf("逃走中・・・\n");
               sleep(2);
-              if ( battle_escape(&st) == 1 ){
+              if ( battle_escape(&st,&escape_number) == 1 ){
                 enemy_full_recover7(&enemy,&enemy1,&enemy2,&enemy3);
                 return;
               }
@@ -1701,7 +1701,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
             if ( enemy -> boss_count == 0 ){
               printf("逃走中・・・\n");
               sleep(2);
-              if ( battle_escape(&st2) == 1 ){
+              if ( battle_escape(&st2,&escape_number) == 1 ){
                 enemy_full_recover7(&enemy,&enemy1,&enemy2,&enemy3);
                 return;
               }
@@ -2487,7 +2487,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
             if ( enemy -> boss_count == 0 ){
               printf("逃走中・・・\n");
               sleep(2);
-              if ( battle_escape(&st3) == 1 ){
+              if ( battle_escape(&st3,&escape_number) == 1 ){
                 enemy_full_recover7(&enemy,&enemy1,&enemy2,&enemy3);
                 return;
               }
