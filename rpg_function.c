@@ -128,7 +128,7 @@ int calculate_RecoverSkill_price(int input, int money){
     money -= 500;
   }
   else if ( input == '2' ){
-    money -= 4000;
+    money -= 8000;
   }
 
   return money;
@@ -466,7 +466,7 @@ int procedure_getRecoverSkill(int input, P_skill *****player_skill, int money){
   }
   else if ( input == '2' ){
     if ( (****player_skill) -> recover2[0] == NOT_LEARNING ){
-      if ( money < 4000 ){
+      if ( money < 8000 ){
         printf("所持金が足りません!\n");
         return NOT_LEARNING;
       }
@@ -684,7 +684,7 @@ int getSkill_Recover(Player ****st, P_skill ****player_skill, int money){
     printf("1.キュアポ 500G(消費MP:4 単体のPOISONを回復) ");
     check_RecoverSkill_state(&player_skill,num);
     num++;
-    printf("2.ケディアス 4000G(消費MP:8 全体のHPを小回復)");
+    printf("2.ケディアス 8000G(消費MP:8 全体のHPを小回復)");
     check_RecoverSkill_state(&player_skill,num);
     num++;
 

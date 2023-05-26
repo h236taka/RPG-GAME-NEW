@@ -333,6 +333,7 @@ double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcoun
         *enemy_deadcount++;
       }
     }
+    
     return turn_decrease;
   }
 

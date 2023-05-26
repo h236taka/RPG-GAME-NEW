@@ -1267,13 +1267,25 @@ void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Eq
       (******pEquip) -> HpRing1--;
       (******p2Equip) -> HpRing1--;
       (******p3Equip) -> HpRing1--;
-      (******pEquip) -> isEquip = 1;
+      (******pEquip) -> isEquip = HPRING1;
     }
     else if ( command == MPRING1 ){
       (******pEquip) -> MpRing1--;
       (******p2Equip) -> MpRing1--;
       (******p3Equip) -> MpRing1--;
-      (******pEquip) -> isEquip = 2;
+      (******pEquip) -> isEquip = MPRING1;
+    }
+    else if ( command == HPRING2 ){
+      (******pEquip) -> HpRing2--;
+      (******p2Equip) -> HpRing2--;
+      (******p3Equip) -> HpRing2--;
+      (******pEquip) -> isEquip = HPRING2;
+    }
+    else if ( command == MPRING2 ){
+      (******pEquip) -> MpRing2--;
+      (******p2Equip) -> MpRing2--;
+      (******p3Equip) -> MpRing2--;
+      (******pEquip) -> isEquip = MPRING2;
     }
   }
   else if ( input == '2' ){
@@ -1281,13 +1293,25 @@ void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Eq
       (******pEquip) -> HpRing1--;
       (******p2Equip) -> HpRing1--;
       (******p3Equip) -> HpRing1--;
-      (******p2Equip) -> isEquip = 1;
+      (******p2Equip) -> isEquip = HPRING1;
     }
     else if ( command == MPRING1 ){
       (******pEquip) -> MpRing1--;
       (******p2Equip) -> MpRing1--;
       (******p3Equip) -> MpRing1--;
-      (******p2Equip) -> isEquip = 2;
+      (******p2Equip) -> isEquip = MPRING1;
+    }
+    else if ( command == HPRING2 ){
+      (******pEquip) -> HpRing2--;
+      (******p2Equip) -> HpRing2--;
+      (******p3Equip) -> HpRing2--;
+      (******pEquip) -> isEquip = HPRING2;
+    }
+    else if ( command == MPRING2 ){
+      (******pEquip) -> MpRing2--;
+      (******p2Equip) -> MpRing2--;
+      (******p3Equip) -> MpRing2--;
+      (******pEquip) -> isEquip = MPRING2;
     }
   }
   else if ( input == '3' ){
@@ -1295,13 +1319,25 @@ void equip_change(int command, int input, Equip *******pEquip, Equip *******p2Eq
       (******pEquip) -> HpRing1--;
       (******p2Equip) -> HpRing1--;
       (******p3Equip) -> HpRing1--;
-      (******p3Equip) -> isEquip = 1;
+      (******p3Equip) -> isEquip = HPRING1;
     }
     else if ( command == MPRING1 ){
       (******pEquip) -> MpRing1--;
       (******p2Equip) -> MpRing1--;
       (******p3Equip) -> MpRing1--;
-      (******p3Equip) -> isEquip = 2;
+      (******p3Equip) -> isEquip = MPRING1;
+    }
+    else if ( command == HPRING2 ){
+      (******pEquip) -> HpRing2--;
+      (******p2Equip) -> HpRing2--;
+      (******p3Equip) -> HpRing2--;
+      (******pEquip) -> isEquip = HPRING2;
+    }
+    else if ( command == MPRING2 ){
+      (******pEquip) -> MpRing2--;
+      (******p2Equip) -> MpRing2--;
+      (******p3Equip) -> MpRing2--;
+      (******pEquip) -> isEquip = MPRING2;
     }
   }
   else{
@@ -2014,7 +2050,19 @@ void change_set_player_skill_list(Setting_skill ***********setting_skill, int id
     printf("%d:ケディアス\n", idx);
   }
   else if ( (**********setting_skill) -> set_skill[idx] == ENFA ){
-    printf("%dエンファ\n", idx);
+    printf("%d:エンファ\n", idx);
+  }
+  else if ( (**********setting_skill) -> set_skill[idx] == HYODO ){
+    printf("%d:ヒョウド\n", idx);
+  }
+  else if ( (**********setting_skill) -> set_skill[idx] == VOLUA ){
+    printf("%d:ボルア\n", idx);
+  }
+  else if ( (**********setting_skill) -> set_skill[idx] == WHIVE ){
+    printf("%d:ウィーブ\n", idx);
+  }
+  else if ( (**********setting_skill) -> set_skill[idx] == ANALYZE ){
+    printf("%d:アナライズ\n", idx);
   }
 
 }
@@ -2200,6 +2248,68 @@ int learned_IceSkill_list(P_skill ********player_skill, Setting_skill ********se
   return 0;
 }
 
+int learned_ElecSkill_list(P_skill ********player_skill, Setting_skill ********setting_skill){
+  int input;
+
+  do{
+    if ( (*******player_skill) -> volua[0] == LEARNED ){
+      printf("0:ボルア 消費MP:4 (単体に電撃小ダメージ)\n");
+    }
+    else if ( (*******player_skill) -> volua[0] == SETTING ){
+      printf("0:ボルア セット済み\n");
+    }
+    else if ( (*******player_skill) -> volua[0] == LEARNING ){
+      printf("0:ボルア 習得中\n");
+    }
+
+    printf("\n");
+    printf("セットしたいスキルを選んでください(セットが終了したらcを入力してください)\n");
+
+    input = _getch();
+
+    if ( input == '0' && (*******player_skill) -> volua[0] == LEARNED ){
+      if ( set_player_skill(&player_skill,&setting_skill,VOLUA) == TRUE ){
+        (*******player_skill) -> volua[0] = SETTING;
+      }
+
+    }
+
+  }while ( input != 'c' );
+
+  return 0;
+}
+
+int learned_WaveSkill_list(P_skill ********player_skill, Setting_skill ********setting_skill){
+  int input;
+
+  do{
+    if ( (*******player_skill) -> whive[0] == LEARNED ){
+      printf("0:ウィーブ 消費MP:4 (単体に衝撃小ダメージ)\n");
+    }
+    else if ( (*******player_skill) -> whive[0] == SETTING ){
+      printf("0:ウィーブ セット済み\n");
+    }
+    else if ( (*******player_skill) -> whive[0] == LEARNING ){
+      printf("0:ウィーブ 習得中\n");
+    }
+
+    printf("\n");
+    printf("セットしたいスキルを選んでください(セットが終了したらcを入力してください)\n");
+
+    input = _getch();
+
+    if ( input == '0' && (*******player_skill) -> whive[0] == LEARNED ){
+      if ( set_player_skill(&player_skill,&setting_skill,WHIVE) == TRUE ){
+        (*******player_skill) -> whive[0] = SETTING;
+      }
+
+    }
+
+  }while ( input != 'c' );
+
+  return 0;
+}
+
 int learned_SupportSkill_list(P_skill ********player_skill, Setting_skill ********setting_skill){
   int input;
 
@@ -2306,10 +2416,10 @@ void set_skill_list(P_skill *******player_skill, Setting_skill *******setting_sk
       learned_IceSkill_list(&player_skill,&setting_skill);
     }
     else if ( input == '4' ){
-
+      learned_ElecSkill_list(&player_skill,&setting_skill);
     }
     else if ( input == '5' ){
-
+      learned_WaveSkill_list(&player_skill,&setting_skill);
     }
     else if ( input == '6' ){
 

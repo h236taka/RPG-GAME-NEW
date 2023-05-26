@@ -125,7 +125,7 @@ int is_backAttack(Player ****st, Player ****st2, Player ****st3){
   int backAttackPer;
   int backAttackBase;
 
-  backAttackBase = 30 - ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1);
+  backAttackBase = 25 - ( (***st) -> luk * 0.1 + (***st2) -> luk * 0.1 + (***st3) -> luk * 0.1);
   if ( backAttackBase <= 0 ){
     backAttackBase = 1;
   }
@@ -133,7 +133,7 @@ int is_backAttack(Player ****st, Player ****st2, Player ****st3){
 
   backAttackPer = (rand() % ( 100 - 1 + 1 ) + 1);
 
-  for ( int i = 0; i < backAttackBase; i++ ){
+  for ( int i = 1; i <= backAttackBase; i++ ){
     if ( i == backAttackPer ){
       printf("\a");
       printf("敵の先制攻撃!\n");

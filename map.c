@@ -50,6 +50,34 @@ void display_3dmap(int area_data_number, int direction, Map ***map){
       printf(" |／______________________＼| \n");
       printf("\n");
     }
+    else if ( direction == 3 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                     ／ | \n");
+      printf(" |  ＼                 ／   | \n");
+      printf(" |    ＼_____________／     | \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |_____________|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
+    else if ( direction == 4 ){
+      printf(" ---------------------------- \n");
+      printf(" |＼                     ／ | \n");
+      printf(" |  ＼                 ／   | \n");
+      printf(" |    ＼_____________／     | \n");
+      printf(" |   　|             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |             |      | \n");
+      printf(" |     |_____________|      | \n");
+      printf(" |    ／              ＼    | \n");
+      printf(" |  ／                  ＼  | \n");
+      printf(" |／______________________＼| \n");
+      printf("\n");
+    }
   }
   else if ( area_data_number == 0 ){
     printf(" ---------------------------- \n");
@@ -959,6 +987,14 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     printf("battle_to_map:%d\n", battle_to_map);
     battle_to_map = 0;
     area_data_number = area_data[map -> y][map -> x];
+    check_dangeonId(&area);
+
+    if ( (**area) -> encount == 1 ){
+      printf("ENEMY ENCOUNT --YES--\n");
+    }
+    else{
+      printf("ENEMY ENCOUNT --NO--\n");
+    }
     display_2dmap(area_data_number, direction, &map);
   }
 
@@ -966,6 +1002,14 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
   if ( event_to_map == 1 ){
     event_to_map = 0;
     area_data_number = area_data[map -> y][map -> x];
+    check_dangeonId(&area);
+
+    if ( (**area) -> encount == 1 ){
+      printf("ENEMY ENCOUNT --YES--\n");
+    }
+    else{
+      printf("ENEMY ENCOUNT --NO--\n");
+    }
     display_2dmap(area_data_number, direction, &map);
   }
 
@@ -982,6 +1026,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     }
 
     if ( dummy == 's' ){  //search
+      //printf("s:%d\n", dummy);
       printf("%sは足元を調べた...\n", (**st) -> name);
       search_id = search_dangeon(&area, &map, &search, area_data_line, area_data_len, area_data);
       sleep(2);
@@ -992,25 +1037,43 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         direction = 1;
       }
       area_data_number = area_data[map -> y][map -> x];
+      check_dangeonId(&area);
+
+      if ( (**area) -> encount == 1 ){
+        printf("ENEMY ENCOUNT --YES--\n");
+      }
+      else{
+        printf("ENEMY ENCOUNT --NO--\n");
+      }
       display_2dmap(area_data_number, direction, &map);
     }
 
     if ( dummy == 'm' ){  //menu
+      //printf("m:%d\n", dummy);
       display_menu(&st,&st2,&st3,&player_skill,&player_skill2,&player_skill3,&setting_skill,&setting_skill2,&setting_skill3,&items,&pEquip,&p2Equip,&p3Equip,&map,&area,area_data_line,area_data_len,automap_area);
       if ( first_move_count == 0 ){
         direction = 1;
       }
       area_data_number = area_data[map -> y][map -> x];
+      check_dangeonId(&area);
+
+      if ( (**area) -> encount == 1 ){
+        printf("ENEMY ENCOUNT --YES--\n");
+      }
+      else{
+        printf("ENEMY ENCOUNT --NO--\n");
+      }
       display_2dmap(area_data_number, direction, &map);
     }
 
-    if( dummy == 0 || dummy == 224 ){
-      is_move = 1;
+    if ( dummy == 0 || dummy == 224 ){     //0 -> 0x00, 224 -> 0xE0
+      is_move = OFF;
       input = _getch();
 
       if ( input == 0x48 ){   //上キー入力
         first_move_count++;
         map -> y--;
+        is_move = ON;
 
         area_data_number = area_data[map -> y][map -> x];
         if ( area_data_number == 0 ){
@@ -1142,6 +1205,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
       else if ( input == 0x50 ){  //下キー
         first_move_count++;
         map -> y++;
+        is_move = ON;
         area_data_number = area_data[map -> y][map -> x];
         //printf("area_data_number:%d\n", area_data_number);
         if ( area_data_number == 0 || area_data_number == 1 || area_data_number == 100 || area_data_number == 101 ){
@@ -1247,6 +1311,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
       else if ( input == 0x4b ){  //左キー
         first_move_count++;
         map -> x--;
+        is_move = ON;
         area_data_number = area_data[map -> y][map -> x];
         if ( area_data_number == 0 ){
           printf("Move:West\n");
@@ -1365,6 +1430,7 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
       else if ( input == 0x4d ){   //右キー
         first_move_count++;
         map -> x++;
+        is_move = ON;
         area_data_number = area_data[map -> y][map -> x];
         if ( area_data_number == 0 ){
           printf("Move:East\n");
@@ -1481,14 +1547,19 @@ void player_move(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
           display_2dmap(area_data_number, direction, &map);
         }
       }
-      else{
-        printf("マップ画面に関係のないコマンドが入力されました\n");
-        system("pause");
-      }
+    }
+    else if ( dummy == 'm' || dummy == 's' ){
+
+    }
+    else{
+      is_move = OFF;
+      area_data_number = area_data[map -> y][map -> x];
+      printf("x座標:%d y座標:%d\n", map -> x, map -> y);
+      display_2dmap(area_data_number, direction, &map);
     }
 
     if ( is_move = 1 ){
-      if ( map -> walk_step >= 1 && (**area) -> encount == 1 ){
+      if ( map -> walk_step >= 1 && (**area) -> encount == ON ){
         battle_mode = enemy_encount(&map);
       }
     }
@@ -1549,7 +1620,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   automap_area1[map.y][map.x] = 1;
   map.walk_step = 0;
 
-  (*area) -> encount = 0;
+  (*area) -> encount = OFF;
 
   /*printf("---1F廊下---\n");
   sleep(1);
@@ -1642,11 +1713,11 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   //encount_pattern = 8; 敵４体(敵２体を１グループとして２グループ)
   //encount_pattern = 9; 敵４体(同じ敵３体と違う敵１体)
   //encount_pattern = 10; 敵３体(同じ敵２体と違う敵１体)
-  clear_count = 0;
+  clear_count = OFF;
   do{
     player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);  //playerの移動に関する関数
     //event処理
-    if ( map.x == 1 && map.y == 12 && (*area) -> event1a == 0 ){
+    if ( map.x == 1 && map.y == 12 && (*area) -> event1a == OFF ){
       printf("突然目の前に敵が現れた!\n");
       encount_pattern = 2;
       slime.boss_count = 2;  //通常の敵を強制戦闘用に変更
@@ -1666,7 +1737,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
-    if ( map.x == 1 && map.y == 9 && (*area) -> event1b == 0 ){
+    if ( map.x == 1 && map.y == 9 && (*area) -> event1b == OFF ){
       printf("突然目の前に敵が現れた!\n");
       encount_pattern = 3;
       slime.boss_count = 2;  //通常の敵を強制戦闘用に変更
@@ -1681,7 +1752,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
-    if ( map.x == 1 && map.y == 5 && (*area) -> event1c == 0 ){
+    if ( map.x == 1 && map.y == 5 && (*area) -> event1c == OFF ){
       printf("突然目の前に敵が現れた!\n");
       encount_pattern = 1;
       kobalt.boss_count = 2;  //通常の敵を強制戦闘用に変更
@@ -1696,7 +1767,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
-    if ( map.x == 1 && map.y == 1 && (*area) -> event1d == 0 ){
+    if ( map.x == 1 && map.y == 1 && (*area) -> event1d == OFF ){
       printf("この先から強力な気配を感じる・・・\n");
       sleep(1);
       printf("%s「この先にヤバそうな悪魔がいるから気を付けよう！」\n", (*st2) -> name);
@@ -1707,14 +1778,14 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area1);
 
     }
-    if ( map.x == 1 && map.y == 0 && (*area) -> boss1 == 0 ){
+    if ( map.x == 1 && map.y == 0 && (*area) -> boss1 == OFF ){
       printf("BOSSが現れた!\n");
 
       encount_pattern = 1;
 
       game_battle(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2,&setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &goblin, encount_pattern);
 
-      (*area) -> boss1 = 1;
+      (*area) -> boss1 = ON;
       printf("BOSSを倒した!\n");
       sleep(1);
       printf("足元に何か落ちている...\n");
@@ -1727,7 +1798,7 @@ void area1_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       clear_count = 1;
     }
 
-  }while ( clear_count == 0 );
+  }while ( clear_count == OFF );
 
   printf("ダンジョンから出た!\n");
 
@@ -1878,13 +1949,13 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
   automap_area2[map.y][map.x] = 1;
   map.walk_step = 0;
 
-  (*area) -> encount = 1;
+  (*area) -> encount = ON;
 
   (*area) -> dangeonId = 2; //図書館
 
   printf("---1F図書館---\n");
 
-  if ( (*area) -> encount == 1 ){
+  if ( (*area) -> encount == ON ){
     printf("ENEMY ENCOUNT --YES--\n");
   }
   else{
@@ -1953,16 +2024,6 @@ void area2_map(Area **area, Player **st, Player **st2, Player **st3, P_skill **p
       save_autoMap(&area,area_data_line,area_data_len,automap_area2);
 
       return;
-    }
-    else if ( map.x == 0 && map.y == 11 ){  //map.x 0 map.y 11
-      printf("目の前が光に包まれた...\n");
-      sleep(1);
-      printf("%sはワープした!\n", (*st) -> name);
-      map.x = 4;
-      map.y = 25;
-      event_to_map = 1;
-
-      player_move(&st, &st2, &st3, &player_skill, &player_skill2, &player_skill3, &setting_skill, &setting_skill2, &setting_skill3, &items, &pEquip, &p2Equip, &p3Equip, &search, &map, &area, area_data_line, area_data_len, area_data, automap_area2);
     }
     else{
       //敵とエンカウント

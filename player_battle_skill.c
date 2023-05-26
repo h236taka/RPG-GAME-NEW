@@ -821,6 +821,72 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy **enemy
     analyze_enemy_skill(&enemy);
     turn_decrease = -1;
   }
+  else if ( use_skill_count == HYODO ){
+    if ( check_playerMP(&st,4) != TRUE ){
+      return -1;
+    }
+
+    printf("%s>>ヒョウド\n", (***st) -> name);
+    sleep(1);
+    printf("%sは小さな氷塊を飛ばした!\n", (***st) -> name);
+    sleep(1);
+
+    eva_count = 0;
+    magic_power = 10;
+
+    damage_base = ( magic_power * (***st) -> magic ) / ( (*enemy) -> magic * 2 );
+    if ( damage_base < 0 ){
+      damage_base = 1;
+    }
+    max_damage = damage_base * 1.3;
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+
+    turn_decrease = check_enemy_iceResist(&st,&enemy,damage);
+  }
+  else if ( use_skill_count == VOLUA ){
+    if ( check_playerMP(&st,4) != TRUE ){
+      return -1;
+    }
+
+    printf("%s>>ボルア\n", (***st) -> name);
+    sleep(1);
+    printf("%sは小さな稲妻を飛ばした!\n", (***st) -> name);
+    sleep(1);
+
+    eva_count = 0;
+    magic_power = 10;
+
+    damage_base = ( magic_power * (***st) -> magic ) / ( (*enemy) -> magic * 2 );
+    if ( damage_base < 0 ){
+      damage_base = 1;
+    }
+    max_damage = damage_base * 1.3;
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+
+    turn_decrease = check_enemy_elecResist(&st,&enemy,damage);
+  }
+  else if ( use_skill_count == WHIVE ){
+    if ( check_playerMP(&st,4) != TRUE ){
+      return -1;
+    }
+
+    printf("%s>>ウィーブ\n", (***st) -> name);
+    sleep(1);
+    printf("%sは小さな衝撃波を放った!\n", (***st) -> name);
+    sleep(1);
+
+    eva_count = 0;
+    magic_power = 10;
+
+    damage_base = ( magic_power * (***st) -> magic ) / ( (*enemy) -> magic * 2 );
+    if ( damage_base < 0 ){
+      damage_base = 1;
+    }
+    max_damage = damage_base * 1.3;
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+
+    turn_decrease = check_enemy_waveResist(&st,&enemy,damage);
+  }
 
   return turn_decrease;
 }
@@ -864,6 +930,69 @@ int player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *en
       analyze_enemyCopy_skill(&enemy_copy);
     }
     turn_decrease = -1;
+  }
+  else if ( use_skill_count == HYODO ){
+    if ( check_playerMP(&st,4) != TRUE ){
+      return -1;
+    }
+
+    printf("%s>>ヒョウド\n", (***st) -> name);
+    sleep(1);
+    printf("%sは小さな氷塊を飛ばした!\n", (***st) -> name);
+    sleep(1);
+
+    eva_count = 0;
+    magic_power = 10;
+
+    damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 2 );
+    if ( damage_base < 0 ){
+      damage_base = 1;
+    }
+    max_damage = damage_base * 1.3;
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+    turn_decrease = check_enemyCopy_iceResist(&st,&enemy_copy,damage);
+  }
+  else if ( use_skill_count == VOLUA ){
+    if ( check_playerMP(&st,4) != TRUE ){
+      return -1;
+    }
+
+    printf("%s>>ボルア\n", (***st) -> name);
+    sleep(1);
+    printf("%sは小さな稲妻を飛ばした!\n", (***st) -> name);
+    sleep(1);
+
+    eva_count = 0;
+    magic_power = 10;
+
+    damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 2 );
+    if ( damage_base < 0 ){
+      damage_base = 1;
+    }
+    max_damage = damage_base * 1.3;
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+    turn_decrease = check_enemyCopy_elecResist(&st,&enemy_copy,damage);
+  }
+  else if ( use_skill_count == WHIVE ){
+    if ( check_playerMP(&st,4) != TRUE ){
+      return -1;
+    }
+
+    printf("%s>>ウィーブ\n", (***st) -> name);
+    sleep(1);
+    printf("%sは小さな衝撃波を放った!\n", (***st) -> name);
+    sleep(1);
+
+    eva_count = 0;
+    magic_power = 10;
+
+    damage_base = ( magic_power * (***st) -> magic ) / ( enemy_copy -> magic * 2 );
+    if ( damage_base < 0 ){
+      damage_base = 1;
+    }
+    max_damage = damage_base * 1.3;
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+    turn_decrease = check_enemyCopy_waveResist(&st,&enemy_copy,damage);
   }
 
   return turn_decrease;
@@ -1864,6 +1993,10 @@ double check_enemy_fireResist(Player *****st, Enemy ***enemy, int damage){
     damage *= 0.8;
     turn_decrease = -1;
   }
+  else if ( (**enemy) -> fire == 75 ){
+    damage *= 0.75;
+    turn_decrease = -1;
+  }
   else if ( (**enemy) -> fire == 50 ){  //火炎攻撃半減
     sleep(1);
     printf("RESIST!\n");
@@ -1871,6 +2004,273 @@ double check_enemy_fireResist(Player *****st, Enemy ***enemy, int damage){
     turn_decrease = -1;
   }
   else if ( (**enemy) -> fire == 25 ){  //火炎攻撃ダメージ25%
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.25;
+    turn_decrease = -1;
+  }
+
+  if ( damage >= (**enemy) -> hp ){
+    sleep(1);
+    printf("%s<<%dダメージ\n", (**enemy) -> name, damage);
+    sleep(1);
+    printf("%sは%sを倒した!\n",(****st) -> name, (**enemy) -> name);
+    (**enemy) -> hp = 0;
+    (**enemy) -> badstatus = DEAD;
+  }
+  else{
+    printf("%s<<%dダメージ\n", (**enemy) -> name, damage);
+    (**enemy) -> hp -= damage;
+    if ( (**enemy) -> hp <= 0 ){
+      (**enemy) -> hp = 0;
+      (**enemy) -> badstatus = DEAD;
+    }
+  }
+
+  return turn_decrease;
+}
+
+double check_enemy_iceResist(Player *****st, Enemy ***enemy, int damage){
+  double turn_decrease;
+
+  if ( (**enemy) -> ice == BLOCK ){
+    sleep(1);
+    printf("%s<<BLOCK!\n", (**enemy) -> name);
+    turn_decrease = -2;
+  }
+  else if ( (**enemy) -> ice == ABSORB ){
+    (**enemy) -> hp += damage;
+    if ( (**enemy) -> hp > (**enemy) -> maxhp ){
+      (**enemy) -> hp = (**enemy) -> maxhp;
+    }
+    printf("Absorb!\n");
+    sleep(1);
+    printf("%s<<%dダメージ吸収\n", (**enemy) -> name, damage);
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (**enemy) -> ice == REFLECT ){
+    (****st) -> hp -= damage;
+    printf("Reflect!\n");
+    sleep(1);
+    printf("%s<<%dダメージ\n", (****st) -> name, damage);
+    if ( (****st) -> hp <= 0 ){
+      (****st) -> hp = 0;
+      (****st) -> badstatus = DEAD;
+      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+    }
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (**enemy) -> ice == 100 ){
+    damage = damage;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> ice == 120 ){
+    damage *= 1.2;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> ice == 150 ){
+    damage *= 1.5;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> ice == 200 ){
+    sleep(1);
+    printf("WEAKNESS!!\n");
+    damage *= 1.7;
+    turn_decrease = 0.1;
+  }
+  else if ( (**enemy) -> ice == 80 ){
+    damage *= 0.8;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> ice == 75 ){
+    damage *= 0.75;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> ice == 50 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.5;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> ice == 25 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.25;
+    turn_decrease = -1;
+  }
+
+  if ( damage >= (**enemy) -> hp ){
+    sleep(1);
+    printf("%s<<%dダメージ\n", (**enemy) -> name, damage);
+    sleep(1);
+    printf("%sは%sを倒した!\n",(****st) -> name, (**enemy) -> name);
+    (**enemy) -> hp = 0;
+    (**enemy) -> badstatus = DEAD;
+  }
+  else{
+    printf("%s<<%dダメージ\n", (**enemy) -> name, damage);
+    (**enemy) -> hp -= damage;
+    if ( (**enemy) -> hp <= 0 ){
+      (**enemy) -> hp = 0;
+      (**enemy) -> badstatus = DEAD;
+    }
+  }
+
+  return turn_decrease;
+}
+
+double check_enemy_elecResist(Player *****st, Enemy ***enemy, int damage){
+  double turn_decrease;
+
+  if ( (**enemy) -> elec == BLOCK ){
+    sleep(1);
+    printf("%s<<BLOCK!\n", (**enemy) -> name);
+    turn_decrease = -2;
+  }
+  else if ( (**enemy) -> elec == ABSORB ){
+    (**enemy) -> hp += damage;
+    if ( (**enemy) -> hp > (**enemy) -> maxhp ){
+      (**enemy) -> hp = (**enemy) -> maxhp;
+    }
+    printf("Absorb!\n");
+    sleep(1);
+    printf("%s<<%dダメージ吸収\n", (**enemy) -> name, damage);
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (**enemy) -> elec == REFLECT ){
+    (****st) -> hp -= damage;
+    printf("Reflect!\n");
+    sleep(1);
+    printf("%s<<%dダメージ\n", (****st) -> name, damage);
+    if ( (****st) -> hp <= 0 ){
+      (****st) -> hp = 0;
+      (****st) -> badstatus = DEAD;
+      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+    }
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (**enemy) -> elec == 100 ){
+    damage = damage;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> elec == 120 ){
+    damage *= 1.2;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> elec == 150 ){
+    damage *= 1.5;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> elec == 200 ){
+    sleep(1);
+    printf("WEAKNESS!!\n");
+    damage *= 1.7;
+    turn_decrease = 0.1;
+  }
+  else if ( (**enemy) -> elec == 80 ){
+    damage *= 0.8;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> elec == 75 ){
+    damage *= 0.75;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> elec == 50 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.5;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> elec == 25 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.25;
+    turn_decrease = -1;
+  }
+
+  if ( damage >= (**enemy) -> hp ){
+    sleep(1);
+    printf("%s<<%dダメージ\n", (**enemy) -> name, damage);
+    sleep(1);
+    printf("%sは%sを倒した!\n",(****st) -> name, (**enemy) -> name);
+    (**enemy) -> hp = 0;
+    (**enemy) -> badstatus = DEAD;
+  }
+  else{
+    printf("%s<<%dダメージ\n", (**enemy) -> name, damage);
+    (**enemy) -> hp -= damage;
+    if ( (**enemy) -> hp <= 0 ){
+      (**enemy) -> hp = 0;
+      (**enemy) -> badstatus = DEAD;
+    }
+  }
+
+  return turn_decrease;
+}
+
+double check_enemy_waveResist(Player *****st, Enemy ***enemy, int damage){
+  double turn_decrease;
+
+  if ( (**enemy) -> wave == BLOCK ){
+    sleep(1);
+    printf("%s<<BLOCK!\n", (**enemy) -> name);
+    turn_decrease = -2;
+  }
+  else if ( (**enemy) -> wave == ABSORB ){
+    (**enemy) -> hp += damage;
+    if ( (**enemy) -> hp > (**enemy) -> maxhp ){
+      (**enemy) -> hp = (**enemy) -> maxhp;
+    }
+    printf("Absorb!\n");
+    sleep(1);
+    printf("%s<<%dダメージ吸収\n", (**enemy) -> name, damage);
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (**enemy) -> wave == REFLECT ){
+    (****st) -> hp -= damage;
+    printf("Reflect!\n");
+    sleep(1);
+    printf("%s<<%dダメージ\n", (****st) -> name, damage);
+    if ( (****st) -> hp <= 0 ){
+      (****st) -> hp = 0;
+      (****st) -> badstatus = DEAD;
+      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+    }
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (**enemy) -> wave == 100 ){
+    damage = damage;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> wave == 120 ){
+    damage *= 1.2;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> wave == 150 ){
+    damage *= 1.5;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> wave == 200 ){
+    sleep(1);
+    printf("WEAKNESS!!\n");
+    damage *= 1.7;
+    turn_decrease = 0.1;
+  }
+  else if ( (**enemy) -> wave == 80 ){
+    damage *= 0.8;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> wave == 75 ){
+    damage *= 0.75;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> wave == 50 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.5;
+    turn_decrease = -1;
+  }
+  else if ( (**enemy) -> wave == 25 ){
     sleep(1);
     printf("RESIST!\n");
     damage *= 0.25;
@@ -1956,6 +2356,261 @@ double check_enemyCopy_fireResist(Player *****st, Enemy **enemy_copy, int damage
     turn_decrease = -1;
   }
   else if ( (*enemy_copy) -> fire == 25 ){  //火炎攻撃ダメージ25%
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.25;
+    turn_decrease = -1;
+  }
+
+  if ( damage >= (*enemy_copy) -> hp ){
+    sleep(1);
+    printf("%s<<%dダメージ\n", (*enemy_copy) -> name, damage);
+    sleep(1);
+    printf("%sは%sを倒した!\n",(****st) -> name, (*enemy_copy) -> name);
+    (*enemy_copy) -> hp = 0;
+    (*enemy_copy) -> badstatus = DEAD;
+  }
+  else{
+    printf("%s<<%dダメージ\n", (*enemy_copy) -> name, damage);
+    (*enemy_copy) -> hp -= damage;
+    if ( (*enemy_copy) -> hp <= 0 ){
+      (*enemy_copy) -> hp = 0;
+      (*enemy_copy) -> badstatus = DEAD;
+    }
+  }
+
+  return turn_decrease;
+}
+
+double check_enemyCopy_iceResist(Player *****st, Enemy **enemy_copy, int damage){
+  double turn_decrease;
+
+  if ( (*enemy_copy) -> ice == BLOCK ){
+    sleep(1);
+    printf("%s<<BLOCK!\n", (*enemy_copy) -> name);
+    turn_decrease = -2;
+  }
+  else if ( (*enemy_copy) -> ice == ABSORB ){
+    (*enemy_copy) -> hp += damage;
+    if ( (*enemy_copy) -> hp > (*enemy_copy) -> maxhp ){
+      (*enemy_copy) -> hp = (*enemy_copy) -> maxhp;
+    }
+    printf("Absorb!\n");
+    sleep(1);
+    printf("%s<<%dダメージ吸収\n", (*enemy_copy) -> name, damage);
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (*enemy_copy) -> ice == REFLECT ){
+    (****st) -> hp -= damage;
+    printf("Reflect!\n");
+    sleep(1);
+    printf("%s<<%dダメージ\n", (****st) -> name, damage);
+    if ( (****st) -> hp <= 0 ){
+      (****st) -> hp = 0;
+      (****st) -> badstatus = DEAD;
+      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+    }
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (*enemy_copy) -> ice == 100 ){
+    damage = damage;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> ice == 120 ){
+    damage *= 1.2;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> ice == 150 ){
+    damage *= 1.5;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> ice == 200 ){
+    sleep(1);
+    printf("WEAKNESS!!\n");
+    damage *= 1.7;
+    turn_decrease = 0.1;
+  }
+  else if ( (*enemy_copy) -> ice == 80 ){
+    damage *= 0.8;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> ice == 50 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.5;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> ice == 25 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.25;
+    turn_decrease = -1;
+  }
+
+  if ( damage >= (*enemy_copy) -> hp ){
+    sleep(1);
+    printf("%s<<%dダメージ\n", (*enemy_copy) -> name, damage);
+    sleep(1);
+    printf("%sは%sを倒した!\n",(****st) -> name, (*enemy_copy) -> name);
+    (*enemy_copy) -> hp = 0;
+    (*enemy_copy) -> badstatus = DEAD;
+  }
+  else{
+    printf("%s<<%dダメージ\n", (*enemy_copy) -> name, damage);
+    (*enemy_copy) -> hp -= damage;
+    if ( (*enemy_copy) -> hp <= 0 ){
+      (*enemy_copy) -> hp = 0;
+      (*enemy_copy) -> badstatus = DEAD;
+    }
+  }
+
+  return turn_decrease;
+}
+
+double check_enemyCopy_elecResist(Player *****st, Enemy **enemy_copy, int damage){
+  double turn_decrease;
+
+  if ( (*enemy_copy) -> elec == BLOCK ){
+    sleep(1);
+    printf("%s<<BLOCK!\n", (*enemy_copy) -> name);
+    turn_decrease = -2;
+  }
+  else if ( (*enemy_copy) -> elec == ABSORB ){
+    (*enemy_copy) -> hp += damage;
+    if ( (*enemy_copy) -> hp > (*enemy_copy) -> maxhp ){
+      (*enemy_copy) -> hp = (*enemy_copy) -> maxhp;
+    }
+    printf("Absorb!\n");
+    sleep(1);
+    printf("%s<<%dダメージ吸収\n", (*enemy_copy) -> name, damage);
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (*enemy_copy) -> elec == REFLECT ){
+    (****st) -> hp -= damage;
+    printf("Reflect!\n");
+    sleep(1);
+    printf("%s<<%dダメージ\n", (****st) -> name, damage);
+    if ( (****st) -> hp <= 0 ){
+      (****st) -> hp = 0;
+      (****st) -> badstatus = DEAD;
+      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+    }
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (*enemy_copy) -> elec == 100 ){
+    damage = damage;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> elec == 120 ){
+    damage *= 1.2;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> elec == 150 ){
+    damage *= 1.5;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> elec == 200 ){
+    sleep(1);
+    printf("WEAKNESS!!\n");
+    damage *= 1.7;
+    turn_decrease = 0.1;
+  }
+  else if ( (*enemy_copy) -> elec == 80 ){
+    damage *= 0.8;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> elec == 50 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.5;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> elec == 25 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.25;
+    turn_decrease = -1;
+  }
+
+  if ( damage >= (*enemy_copy) -> hp ){
+    sleep(1);
+    printf("%s<<%dダメージ\n", (*enemy_copy) -> name, damage);
+    sleep(1);
+    printf("%sは%sを倒した!\n",(****st) -> name, (*enemy_copy) -> name);
+    (*enemy_copy) -> hp = 0;
+    (*enemy_copy) -> badstatus = DEAD;
+  }
+  else{
+    printf("%s<<%dダメージ\n", (*enemy_copy) -> name, damage);
+    (*enemy_copy) -> hp -= damage;
+    if ( (*enemy_copy) -> hp <= 0 ){
+      (*enemy_copy) -> hp = 0;
+      (*enemy_copy) -> badstatus = DEAD;
+    }
+  }
+
+  return turn_decrease;
+}
+
+double check_enemyCopy_waveResist(Player *****st, Enemy **enemy_copy, int damage){
+  double turn_decrease;
+
+  if ( (*enemy_copy) -> wave == BLOCK ){
+    sleep(1);
+    printf("%s<<BLOCK!\n", (*enemy_copy) -> name);
+    turn_decrease = -2;
+  }
+  else if ( (*enemy_copy) -> wave == ABSORB ){
+    (*enemy_copy) -> hp += damage;
+    if ( (*enemy_copy) -> hp > (*enemy_copy) -> maxhp ){
+      (*enemy_copy) -> hp = (*enemy_copy) -> maxhp;
+    }
+    printf("Absorb!\n");
+    sleep(1);
+    printf("%s<<%dダメージ吸収\n", (*enemy_copy) -> name, damage);
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (*enemy_copy) -> wave == REFLECT ){
+    (****st) -> hp -= damage;
+    printf("Reflect!\n");
+    sleep(1);
+    printf("%s<<%dダメージ\n", (****st) -> name, damage);
+    if ( (****st) -> hp <= 0 ){
+      (****st) -> hp = 0;
+      (****st) -> badstatus = DEAD;
+      printf("%sは反射ダメージで倒れた\n", (****st) -> name);
+    }
+    turn_decrease = TURNCHAGE;
+  }
+  else if ( (*enemy_copy) -> wave == 100 ){
+    damage = damage;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> wave == 120 ){
+    damage *= 1.2;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> wave == 150 ){
+    damage *= 1.5;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> wave == 200 ){
+    sleep(1);
+    printf("WEAKNESS!!\n");
+    damage *= 1.7;
+    turn_decrease = 0.1;
+  }
+  else if ( (*enemy_copy) -> wave == 80 ){
+    damage *= 0.8;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> wave == 50 ){
+    sleep(1);
+    printf("RESIST!\n");
+    damage *= 0.5;
+    turn_decrease = -1;
+  }
+  else if ( (*enemy_copy) -> wave == 25 ){
     sleep(1);
     printf("RESIST!\n");
     damage *= 0.25;

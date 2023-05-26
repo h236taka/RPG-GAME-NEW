@@ -138,6 +138,7 @@ typedef enum {
 } Enemy_skillId;
 
 typedef enum {
+  NOEQUIP = 0,
   HPRING1 = 1,
   MPRING1 = 2,
   HPRING2 = 3,
@@ -755,7 +756,19 @@ int battle_player_skill_list(P_skill ****player_skill, Setting_skill ****setting
 
 double check_enemy_fireResist(Player *****st, Enemy ***enemy, int damage);
 
+double check_enemy_iceResist(Player *****st, Enemy ***enemy, int damage);
+
+double check_enemy_elecResist(Player *****st, Enemy ***enemy, int damage);
+
+double check_enemy_waveResist(Player *****st, Enemy ***enemy, int damage);
+
 double check_enemyCopy_fireResist(Player *****st, Enemy **enemy_copy, int damage);
+
+double check_enemyCopy_iceResist(Player *****st, Enemy **enemy_copy, int damage);
+
+double check_enemyCopy_elecResist(Player *****st, Enemy **enemy_copy, int damage);
+
+double check_enemyCopy_waveResist(Player *****st, Enemy **enemy_copy, int damage);
 
 double enemy_attack_skill(Player ******st, Equip ******pEquip, Equip ******p2Equip, Equip ******p3Equip, Enemy ****enemy, int player_guard, int attack_skill_number);
 
