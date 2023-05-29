@@ -203,7 +203,7 @@ double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, in
     printf("REFLECT!\n");
     sleep(1);
     printf("%s<<%dダメージ反射\n", (****st) -> name, damage);
-    if ( (****st) -> hp <= 0 ){
+    if ( (****st) -> hp <= damage ){
       (****st) -> hp = 0;
       (****st) -> badstatus = DEAD;
       printf("%s<<DEAD\n", (****st) -> name);
@@ -250,6 +250,63 @@ double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, in
   return turn_decrease;
 }
 
+int player_panicMove(Player *****st){
+  int panicPer;
+  int gold;
+
+  panicPer = (rand() % ( 100 - 1 + 1 ) + 1);
+
+  if ( panicPer >= 1 && panicPer <= 20 ){
+    gold = (****st) -> gold * 0.10;
+    printf("%sは混乱している...\n");
+    sleep(1);
+    printf("%sは所持金をばらまいた!\n");
+    printf("%s>>%dG\n", (****st) -> name, gold);
+    return FALSE;
+  }
+  else if ( panicPer <= 45 ){
+    printf("%sは混乱している...\n", (****st) -> name);
+    sleep(1);
+    printf("%sは訳が分からず戸惑っている!\n", (****st) -> name);
+    return FALSE;
+  }
+  else if ( panicPer <= 60 ){
+    printf("%sは混乱している...\n", (****st) -> name);
+    sleep(1);
+    printf("%sは敵に話しかけた!\n", (****st) -> name);
+    sleep(1);
+    printf("敵には会話が通じなかった...\n");
+    return FALSE;
+  }
+  else{
+    //攻撃可能!
+    return TRUE;
+  }
+
+}
+
+void player_curseMove(Player *****st, int damage){
+  int curseDamage;
+
+  printf("%sは呪われている...\n", (****st) -> name);
+  sleep(1);
+  printf("%sは呪いによるダメージを受けた!\n", (****st) -> name);
+  sleep(1);
+
+  curseDamage = damage * 0.20;
+
+  if ( curseDamage >= (****st) -> hp ){
+    (****st) -> hp = 0;
+    (****st) -> badstatus = DEAD;
+    printf("%s<<DEAD\n", (****st) -> name);
+    printf("\n");
+  }
+  else{
+    printf("%s<<%dダメージ\n", (****st) -> name, curseDamage);
+    printf("\n");
+  }
+}
+
 double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcount){
   int damage_base, damage, i, eva, critical, max_damage, temp;
   double eva_base, critical_base;
@@ -264,6 +321,12 @@ double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcoun
   else{
     damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 16 ) - (*enemy) -> str;
   }
+
+  //毒状態では与ダメージが75%に減少
+  if ( (***st) -> badstatus == POISON ){
+    damage_base *= 0.75;
+  }
+
   if ( damage_base < 0 ){
     damage_base = 1;
   }
@@ -276,7 +339,12 @@ double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcoun
       eva_base = 100;
     }
   }
-
+  else if ( (***st) -> badstatus == PANIC ){  //混乱状態
+    if ( player_panicMove(&st) == FALSE ){
+      turn_decrease = -1;
+      return turn_decrease;
+    }
+  }
 
   //printf("before eva_base = %f\n", eva_base);
   eva_base = round(eva_base);
@@ -333,7 +401,7 @@ double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcoun
         *enemy_deadcount++;
       }
     }
-    
+
     return turn_decrease;
   }
 
@@ -345,6 +413,10 @@ double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcoun
   }
   //敵の耐性判断
   turn_decrease = check_enemy_normalAttackResist(&st,&enemy,&enemy_deadcount,damage);
+
+  if ( (***st) -> badstatus == CURSE ){
+    player_curseMove(&st,damage);
+  }
 
   return turn_decrease;
 }
@@ -363,6 +435,12 @@ double player_attack_for_enemyCopy(Player ****st, Enemy *enemy_copy, int *enemy_
   else{
     damage_base = ( ( ( (***st) -> lv + (***st) -> atk ) * 32 ) / 16 ) - enemy_copy -> str;
   }
+
+  //毒状態では与ダメージが75%に減少
+  if ( (***st) -> badstatus == POISON ){
+    damage_base *= 0.75;
+  }
+
   if ( damage_base < 0 ){
     damage_base = 1;
   }
@@ -373,6 +451,12 @@ double player_attack_for_enemyCopy(Player ****st, Enemy *enemy_copy, int *enemy_
     eva_base += 50;
     if ( eva_base > 100 ){
       eva_base = 100;
+    }
+  }
+  else if ( (***st) -> badstatus == PANIC ){  //混乱状態
+    if ( player_panicMove(&st) == FALSE ){
+      turn_decrease = -1;
+      return turn_decrease;
     }
   }
 
@@ -444,6 +528,10 @@ double player_attack_for_enemyCopy(Player ****st, Enemy *enemy_copy, int *enemy_
   }
   //敵の耐性判断
   turn_decrease = check_enemyCopy_normalAttackResist(&st,&enemy_copy,&enemy_deadcount,damage);
+
+  if ( (***st) -> badstatus == CURSE ){
+    player_curseMove(&st,damage);
+  }
 
   return turn_decrease;
 }

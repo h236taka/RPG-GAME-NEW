@@ -221,6 +221,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     }
   }
   else if ( enemy -> boss_count == 2 ){
+    backAttack = FALSE;
     printf("------MID BOSS BATTLE------\n");
     printf("\a");
     sleep(1);
@@ -251,6 +252,7 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
     sleep(1);
   }
   else{
+    backAttack = FALSE;
     printf("<<<<<<<BOSS BATTLE>>>>>>>\n");
     sleep(1);
     printf("\a");
@@ -342,6 +344,15 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
         if ( (**st) -> badstatus == DEAD ){
           printf("%sは死んでいて行動できない!\n", (**st) -> name);
           printf("\n");
+          sleep(1);
+          move_finish++;
+          turn_decrease = -1;
+          player_turn = calculate_player_turn(player_turn, turn_decrease);
+        }
+        else if ( (**st) -> badstatus == STONE ){
+          printf("%sは石化しているため行動できない!\n", (**st) -> name);
+          printf("\n");
+          sleep(1);
           move_finish++;
           turn_decrease = -1;
           player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -448,6 +459,12 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
           }
           else if ( command == '2' ){ //skillコマンド
+            if ( (**st) -> badstatus == CLOSE ){
+              printf("%sはCLOSEでスキルが使用出来ない!\n", (**st) -> name);
+              printf("\n");
+              skill_count = 0;
+              skill_target = NOTARGET;
+            }
             skill_count = battle_player_skill_list(&player_skill,&setting_skill);
 
             if ( skill_count != 0 ){
@@ -1790,9 +1807,18 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
         if ( (**st2) -> badstatus == DEAD ){
           printf("%sは死んでいて行動できない!\n", (**st2) -> name);
+          sleep(1);
           turn_decrease = -1;
           player_turn = calculate_player_turn(player_turn, turn_decrease);
           move_finish++;
+        }
+        else if ( (**st2) -> badstatus == STONE ){
+          printf("%sは石化しているため行動できない!\n", (**st2) -> name);
+          printf("\n");
+          sleep(1);
+          move_finish++;
+          turn_decrease = -1;
+          player_turn = calculate_player_turn(player_turn, turn_decrease);
         }
         else{
           //printf("%f\n", player_turn);
@@ -1899,6 +1925,12 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
           }
           else if ( command == '2' ){ //skillコマンド
+            if ( (**st2) -> badstatus == CLOSE ){
+              printf("%sはCLOSEでスキルが使用出来ない!\n", (**st2) -> name);
+              printf("\n");
+              skill_count = 0;
+              skill_target = NOTARGET;
+            }
             skill_count = battle_player_skill_list(&player_skill2,&setting_skill2);
 
             if ( skill_count != 0 ){
@@ -3233,9 +3265,19 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
 
         if ( (**st3) -> badstatus == DEAD ){
           printf("%sは死んでいて行動できない!\n", (**st3) -> name);
+          printf("\n");
+          sleep(1);
           turn_decrease = -1;
           player_turn = calculate_player_turn(player_turn, turn_decrease);
           move_finish++;
+        }
+        else if ( (**st3) -> badstatus == STONE ){
+          printf("%sは石化しているため行動できない!\n", (**st3) -> name);
+          printf("\n");
+          sleep(1);
+          move_finish++;
+          turn_decrease = -1;
+          player_turn = calculate_player_turn(player_turn, turn_decrease);
         }
         else{
           //printf("%f\n", player_turn);
@@ -3343,6 +3385,12 @@ void game_battle(Player ***st, Player ***st2, Player ***st3, P_skill ***player_s
             }
           }
           else if ( command == '2' ){ //skillコマンド
+            if ( (**st3) -> badstatus == CLOSE ){
+              printf("%sはCLOSEでスキルが使用出来ない!\n", (**st3) -> name);
+              printf("\n");
+              skill_count = 0;
+              skill_target = NOTARGET;
+            }
             skill_count = battle_player_skill_list(&player_skill3,&setting_skill3);
 
             if ( skill_count != 0 ){

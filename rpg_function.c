@@ -810,7 +810,7 @@ void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items){
     printf("---保健室---\n");
     printf("1.回復する\n");
     printf("2.道具を買う\n");
-    printf("3.保健室を出る\n");
+    printf("c.保健室を出る\n");
     printf("h.話を聞く\n");
     input = _getch();
 
@@ -828,7 +828,7 @@ void goTo_infirmary(Player **st, Player **st2, Player **st3, Items **items){
       printf("香山先生「治療に関しては無料でしてあげるけど、アイテムは有料だから覚えといて」\n");
       sleep(1);
     }
-  } while ( input != '3' );
+  } while ( input != 'c' );
 
 }
 
@@ -926,6 +926,66 @@ void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, 
   } while ( input != 'c' );
 }
 
+int check_number_of_item_possession(Items *****items, int goods_number, int count){
+
+  if ( goods_number == MEDICINE ){
+    if ( (****items) -> medicine > 99 ||  (****items) -> medicine + count > 99 ){
+      printf("アイテムの最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( goods_number == ANTIPOISON ){
+    if ( (****items) -> antipoison > 99 || (****items) -> antipoison + count > 99 ){
+      printf("アイテムの最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( goods_number == ANTIPALYZE ){
+    if ( (****items) -> antipalyze > 99 || (****items) -> antipalyze + count > 99 ){
+      printf("アイテムの最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( goods_number == ANTICHARM ){
+    if ( (****items) -> anticharm > 99 || (****items) -> anticharm + count > 99 ){
+      printf("アイテムの最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( goods_number == ANTICLOSE ){
+    if ( (****items) -> anticlose > 99 || (****items) -> anticlose + count > 99 ){
+      printf("アイテムの最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( goods_number == ANTISTONE ){
+    if ( (****items) -> antistone > 99 || (****items) -> antistone + count > 99 ){
+      printf("アイテムの最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( goods_number == ANTIPANIC ){
+    if ( (****items) -> antipanic > 99 || (****items) -> antipanic + count > 99 ){
+      printf("アイテムの最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( goods_number == ANTISLEEP ){
+    if ( (****items) -> antisleep > 99 || (****items) -> antisleep + count > 99 ){
+      printf("アイテムの最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( goods_number == ANTICURSE ){
+    if ( (****items) -> anticurse > 99 || (****items) -> anticurse + count > 99 ){
+      printf("アイテムの最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
 void buy_goods(Player ****st, Items ****items, int goods_number,  int price){
   int sum, count;
   int input;
@@ -950,6 +1010,11 @@ void buy_goods(Player ****st, Items ****items, int goods_number,  int price){
       printf("所持金が足りません...\n");
       return;
     }
+  }
+  (***items) -> medicine = 99;
+
+  if ( check_number_of_item_possession(&items,goods_number,count) == FALSE ){
+    return;
   }
 
   printf("\n");
@@ -1062,6 +1127,66 @@ void goods_shop(Player ***st, Items ***items){
 
 }
 
+int check_number_of_equip_possession(Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip, int equip_number, int count){
+
+  if ( equip_number == HPRING1 ){
+    if ( (****pEquip) -> HpRing1 > 99 || (****pEquip) -> HpRing1 + count > 99 ){
+      printf("装備品の最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( equip_number == MPRING1 ){
+    if ( (****pEquip) -> MpRing1 > 99 || (****pEquip) -> MpRing1 + count > 99 ){
+      printf("装備品の最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( equip_number == HPRING2 ){
+    if ( (****pEquip) -> HpRing2 > 99 || (****pEquip) -> HpRing2 + count > 99 ){
+      printf("装備品の最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( equip_number == MPRING2 ){
+    if ( (****pEquip) -> MpRing2 > 99 || (****pEquip) -> MpRing2 + count > 99 ){
+      printf("装備品の最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( equip_number == POWEREARRINGS ){
+    if ( (****pEquip) -> PowerEarrings > 99 || (****pEquip) -> PowerEarrings + count > 99 ){
+      printf("装備品の最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( equip_number == MAGICEARRINGS ){
+    if ( (****pEquip) -> MagicEarrings > 99 || (****pEquip) -> MagicEarrings + count > 99 ){
+      printf("装備品の最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( equip_number == STRENGTHEARRINGS ){
+    if ( (****pEquip) -> StrengthEarrings > 99 || (****pEquip) -> StrengthEarrings + count > 99 ){
+      printf("装備品の最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( equip_number == AGILITYEARRINGS ){
+    if ( (****pEquip) -> AgilityEarrings > 99 || (****pEquip) -> AgilityEarrings + count > 99 ){
+      printf("装備品の最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+  else if ( equip_number == LUCKYEARRINGS ){
+    if ( (****pEquip) -> LuckyEarrings > 99 || (****pEquip) -> LuckyEarrings + count > 99 ){
+      printf("装備品の最大所持数は99個です!\n");
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
 void buy_equips(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, int equip_number, int price){
 
   int sum, count;
@@ -1088,6 +1213,10 @@ void buy_equips(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3
       printf("\n");
       return;
     }
+  }
+
+  if ( check_number_of_equip_possession(&pEquip,&p2Equip,&p3Equip,equip_number,count) == FALSE ){
+    return;
   }
 
   printf("\n");

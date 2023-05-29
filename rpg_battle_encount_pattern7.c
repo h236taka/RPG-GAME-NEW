@@ -121,6 +121,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
     }
   }
   else if ( enemy -> boss_count == 2 ){
+    backAttack = FALSE;
     printf("<<<<<<MID BOSS BATTLE>>>>>>\n");
     printf("\a");
     sleep(1);
@@ -134,6 +135,7 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
     sleep(1);
   }
   else{
+    backAttack = FALSE;
     printf("<<<<<<<BOSS BATTLE>>>>>>>\n");
     sleep(1);
     printf("\a");
@@ -206,6 +208,16 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
         player_guard = 0; //主人公のガードを使用に関する判定
         if ( (**st) -> badstatus == DEAD ){
           printf("%sは死んでいて行動できない!\n", (**st) -> name);
+          printf("\n");
+          sleep(1);
+          move_finish++;
+          turn_decrease = -1;
+          player_turn = calculate_player_turn(player_turn, turn_decrease);
+        }
+        else if ( (**st) -> badstatus == STONE ){
+          printf("%sは石化しているため行動できない!\n", (**st) -> name);
+          printf("\n");
+          sleep(1);
           move_finish++;
           turn_decrease = -1;
           player_turn = calculate_player_turn(player_turn, turn_decrease);
@@ -996,9 +1008,19 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
         if ( (**st2) -> badstatus == DEAD ){
           printf("%sは死んでいて行動できない!\n", (**st2) -> name);
+          printf("\n");
+          sleep(1);
           turn_decrease = -1;
           player_turn = calculate_player_turn(player_turn, turn_decrease);
           move_finish++;
+        }
+        else if ( (**st2) -> badstatus == STONE ){
+          printf("%sは石化しているため行動できない!\n", (**st2) -> name);
+          printf("\n");
+          sleep(1);
+          move_finish++;
+          turn_decrease = -1;
+          player_turn = calculate_player_turn(player_turn, turn_decrease);
         }
         else{
           //printf("%f\n", player_turn);
@@ -1781,9 +1803,19 @@ void game_battle_encount_pattern7(Player ***st, Player ***st2, Player ***st3, P_
 
         if ( (**st3) -> badstatus == DEAD ){
           printf("%sは死んでいて行動できない!\n", (**st3) -> name);
+          printf("\n");
+          sleep(1);
           turn_decrease = -1;
           player_turn = calculate_player_turn(player_turn, turn_decrease);
           move_finish++;
+        }
+        else if ( (**st3) -> badstatus == STONE ){
+          printf("%sは石化しているため行動できない!\n", (**st3) -> name);
+          printf("\n");
+          sleep(1);
+          move_finish++;
+          turn_decrease = -1;
+          player_turn = calculate_player_turn(player_turn, turn_decrease);
         }
         else{
           //printf("%f\n", player_turn);

@@ -21,6 +21,18 @@ int check_playerMP(Player *****st, int skillMP){
 
 }
 
+int check_playerHP(Player *****st, int skillHP){
+
+  if ( (****st) -> hp < skillHP ){
+    printf("HP不足!\n");
+    return FALSE;
+  }
+  else{
+    (****st) -> hp -= skillHP;
+    return TRUE;
+  }
+}
+
 void skillEffect_RECOVER_forBattle(Player *****st, Player *****st2, Player *****st3, int skill_target, int recover_point){
   int beforehp;
 
@@ -789,7 +801,7 @@ int player_skill_forParty(Player ****st, Player ****st2, Player ****st3, P_skill
 int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy **enemy, int use_skill_count){
   int turn_decrease;
   int eva_count, eva_base;
-  int magic_power;
+  int magic_power, physical_power;
   int damage_base, max_damage, temp, damage;
 
   if ( use_skill_count == ENFA ){
@@ -887,6 +899,28 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy **enemy
 
     turn_decrease = check_enemy_waveResist(&st,&enemy,damage);
   }
+  else if ( use_skill_count == RUSH ){
+    if ( check_playerHP(&st,(***st) -> maxhp * 0.08 ) != TRUE ){
+      return -1;
+    }
+
+    printf("%s>>突撃\n", (***st) -> name);
+    sleep(1);
+    printf("%sは%sに突撃した!\n", (***st) -> name, (*enemy) -> name);
+    sleep(1);
+
+    eva_count = 0;
+    physical_power = 41;
+
+    damage_base = ( ( (***st) -> atk + (***st) -> lv ) * physical_power / 15 ) - (*enemy) -> str;
+    if ( damage_base < 0 ){
+      damage_base = 1;
+    }
+    max_damage = damage_base * 1.3;
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+
+    //turn_decrease = check_enemy_physicalResist(&st,&enemy,damage);
+  }
 
   return turn_decrease;
 }
@@ -894,7 +928,7 @@ int player_skill_forEnemy(Player ****st, P_skill ****player_skill, Enemy **enemy
 int player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *enemy_copy, int use_skill_count){
   int turn_decrease;
   int eva_count, eva_base;
-  int magic_power;
+  int magic_power, physical_power;
   int damage_base, max_damage, temp, damage;
 
   if ( use_skill_count == ENFA ){
@@ -993,6 +1027,28 @@ int player_skill_forEnemyCopy(Player ****st, P_skill ****player_skill, Enemy *en
     max_damage = damage_base * 1.3;
     damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
     turn_decrease = check_enemyCopy_waveResist(&st,&enemy_copy,damage);
+  }
+  else if ( use_skill_count == RUSH ){
+    if ( check_playerHP(&st,(***st) -> maxhp * 0.08 ) != TRUE ){
+      return -1;
+    }
+
+    printf("%s>>突撃\n", (***st) -> name);
+    sleep(1);
+    printf("%sは%sに突撃した!\n", (***st) -> name, enemy_copy -> name);
+    sleep(1);
+
+    eva_count = 0;
+    physical_power = 41;
+
+    damage_base = ( ( (***st) -> atk + (***st) -> lv ) * physical_power / 15 ) - enemy_copy -> str;
+    if ( damage_base < 0 ){
+      damage_base = 1;
+    }
+    max_damage = damage_base * 1.3;
+    damage = (rand() % ( max_damage - damage_base + 1 )) + damage_base;
+
+    //turn_decrease = check_enemy_physicalResist(&st,&enemy,damage);
   }
 
   return turn_decrease;

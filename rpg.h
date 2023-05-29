@@ -483,9 +483,13 @@ void goTo_artRoom(Player **st, Player **st2, Player **st3, Equip **pEquip, Equip
 
 void goTo_labo(Player **st, Player **st2, Player **st3, P_skill **player_skill, P_skill **player_skill2, P_skill **player_skill3);
 
+int check_number_of_item_possession(Items *****items, int goods_number, int count);
+
 void buy_goods(Player ****st, Items ****items, int goods_number, int price);
 
 void goods_shop(Player ***st, Items ***items);
+
+int check_number_of_equip_possession(Equip *****pEquip, Equip *****p2Equip, Equip *****p3Equip, int equip_number, int count);
 
 void buy_equips(Player ****st, Equip ****pEquip, Equip ****p2Equip, Equip ****p3Equip, int equip_number, int price);
 
@@ -615,6 +619,10 @@ void is_damaged_by_playerAttack(Player ******st, Enemy ****enemy, int ***enemy_d
 void is_damaged_by_playerAttack_forEnemyCopy(Player ******st, Enemy ***enemy_copy, int ***enemy_deadcount, int damage);
 
 double check_enemyCopy_normalAttackResist(Player *****st, Enemy **enemy_copy, int **enemy_deadcount, int damage);
+
+int player_panicMove(Player *****st);
+
+void player_curseMove(Player *****st, int damage);
 
 double player_attack_for_enemy(Player ****st, Enemy **enemy, int *enemy_deadcount);
 
